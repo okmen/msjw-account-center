@@ -22,6 +22,31 @@ import cn.sdk.serialization.ISerializeManager;
 public class IAccountCachedImpl implements IAccountCached{
 	protected Logger log = Logger.getLogger(this.getClass());
 	
+	/**
+	 * 用户id
+	 */
+	@Value("${userid}")
+    private String userid;
+	/**
+	 * 用户密码
+	 */
+    @Value("${userpwd}")
+    private String userpwd;
+    /**
+     * 请求地址
+     */
+    @Value("${url}")
+    private String url;
+    /**
+     * 方法
+     */
+    @Value("${method}")
+    private String method;
+    /**
+     * 秘钥
+     */
+    @Value("${key}")
+    private String key;
     
     @Value("${refreshTokenTime}")
     private int refreshTokenTime;
@@ -136,4 +161,28 @@ public class IAccountCachedImpl implements IAccountCached{
         }
     }
 
+
+	public String getUserid() {
+		return userid;
+	}
+
+
+	public String getUserpwd() {
+		return userpwd;
+	}
+
+
+	public String getUrl() {
+		return url;
+	}
+
+
+	public String getMethod() {
+		return method;
+	}
+
+
+	public String getKey() {
+		return key;
+	}
 }

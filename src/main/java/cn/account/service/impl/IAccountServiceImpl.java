@@ -1,32 +1,42 @@
 package cn.account.service.impl;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cn.account.bean.DeviceBean;
-import cn.account.bean.Token;
-import cn.account.bean.UserOpenidBean;
-import cn.account.bean.UserRegInfo;
+import com.alibaba.fastjson.JSONObject;
+
 import cn.account.bean.WechatUserInfoBean;
+import cn.account.bean.vo.AuthenticationBasicInformationVo;
+import cn.account.bean.vo.BindTheVehicleVo;
+import cn.account.bean.vo.DriverLicenseInformationSheetVo;
+import cn.account.bean.vo.DrivingLicenseVo;
+import cn.account.bean.vo.ElectronicDriverLicenseVo;
+import cn.account.bean.vo.IdentityVerificationAuditResultsVo;
+import cn.account.bean.vo.LoginReturnBeanVo;
+import cn.account.bean.vo.MotorVehicleInformationSheetVo;
+import cn.account.bean.vo.MyDriverLicenseVo;
+import cn.account.bean.vo.queryclassservice.CertificationProgressQueryVo;
+import cn.account.bean.vo.queryclassservice.DriverLicenseBusinessVo;
+import cn.account.bean.vo.queryclassservice.MakeAnAppointmentVo;
+import cn.account.bean.vo.queryclassservice.MotorVehicleBusinessVo;
 import cn.account.cached.impl.IAccountCachedImpl;
-import cn.account.config.IConfig;
 import cn.account.dao.IAccountDao;
-import cn.account.orm.DeviceORM;
-import cn.account.orm.UsernameORM;
 import cn.account.service.IAccountService;
-import cn.account.utils.RandomUtils;
-import cn.account.utils.TokenGenerater;
-import cn.sdk.util.StringUtil;
-
-import com.alibaba.dubbo.common.utils.StringUtils;
-
+import cn.sdk.webservice.DESCorder;
+import cn.sdk.webservice.WebServiceClient;
+import cn.sdk.webservice.Xml2Json;
+/**
+ * 个人中心
+ * @author Mbenben
+ *
+ */
 @Service("accountService")
+@SuppressWarnings(value="all")
 public class IAccountServiceImpl implements IAccountService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -34,12 +44,12 @@ public class IAccountServiceImpl implements IAccountService {
 	private IAccountDao accountDao;
 
 	@Autowired
-	private IAccountCachedImpl accountCache;
+	private IAccountCachedImpl iAccountCached;
 	
 	
 	@Override
 	public int insertWechatUserInfo(WechatUserInfoBean wechatUserInfo) {
-		int result = 0;
+		int result = 0;	
 		
 		try {
 			result = accountDao.insertWechatUserInfo(wechatUserInfo);
@@ -81,6 +91,156 @@ public class IAccountServiceImpl implements IAccountService {
             throw e;
         }
         return list;
+	}
+
+	/**
+	 * 登录
+	 * @return
+	 * @throws Exception 
+	 */
+	@Override
+	public LoginReturnBeanVo login(String loginName,String password) throws Exception {
+		loginName = "15920071829";
+		password = "168321";
+		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><USERNAME>"+loginName+"</USERNAME><PWD>"+password+"</PWD><YHLY>WX_XCX</YHLY><SFZMHM></SFZMHM><XM></XM></REQUEST>";
+		
+		String interfaceNumber = "xxcj03";
+		
+		String respStr = WebServiceClient.getInstance().requestWebService(iAccountCached.getUrl(), iAccountCached.getMethod(), 
+				interfaceNumber,xml,iAccountCached.getUserid(),iAccountCached.getUserpwd(),iAccountCached.getKey());
+		
+        
+        
+		AuthenticationBasicInformationVo authenticationBasicInformation = new AuthenticationBasicInformationVo();
+    	authenticationBasicInformation.setMobilephone("13666666666");
+    	authenticationBasicInformation.setMyAvatar("http://gaoboy.com/tpl/polo/Public/images/my_wechat_qrcode.jpg");
+    	authenticationBasicInformation.setIdentityCard("431225199122222112");
+    	authenticationBasicInformation.setMyNumberPlate("粤B868686");
+    	authenticationBasicInformation.setTrueName("张小龙");
+    	
+    	
+    	IdentityVerificationAuditResultsVo identityVerificationAuditResults = new IdentityVerificationAuditResultsVo();
+    	identityVerificationAuditResults.setAuthenticationType(1);
+    	identityVerificationAuditResults.setStatus(3);
+    	identityVerificationAuditResults.setRetirementResult("身份证正面不清晰");
+    	identityVerificationAuditResults.setReviewDate("2017-1-3 19:00:01");
+    	
+    	LoginReturnBeanVo loginReturnBean = new LoginReturnBeanVo();
+    	loginReturnBean.setAuthenticationBasicInformation(authenticationBasicInformation);
+    	loginReturnBean.setIdentityVerificationAuditResults(identityVerificationAuditResults);
+		return loginReturnBean;
+	}
+	/**
+	 * 获取机动车信息单
+	 * @param identityCard 身份证号
+	 * @return
+	 */
+	@Override
+	public MotorVehicleInformationSheetVo getMotorVehicleInformationSheet(String identityCard) {
+		
+		return null;
+	}
+	/**
+     * 提交机动车信息单
+     * @param userName 姓名
+     * @param identityCard 身份证号
+     * @param mobilephone 联系电话 
+     * @param provinceAbbreviation 车牌核发省简称 例如：粤
+     * @param numberPlateNumber 号牌号码 例如：B701NR
+     * @param plateType 车辆类型 例如:小型汽车
+     */
+	@Override
+	public void commitMotorVehicleInformationSheet(String userName, String identityCard, String mobilephone,
+			String provinceAbbreviation, String numberPlateNumber, String plateType) {
+		
+	}
+	/**
+	 * 获取驾驶证信息单
+	 * @param identityCard 身份证号
+	 * @return
+	 */
+	@Override
+	public DriverLicenseInformationSheetVo getDriverLicenseInformationSheet(String identityCard) {
+		
+		return null;
+	}
+	/**
+	 * 提交驾驶证信息单
+	 * @param userName 姓名
+	 * @param identityCard 身份证号
+	 * @param mobilephone 联系电话
+	 * @return
+	 */
+	@Override
+	public DriverLicenseInformationSheetVo commitDriverLicenseInformationSheet(String userName, String identityCard,
+			String mobilephone) {
+		
+		return null;
+	}
+
+
+	@Override
+	public MakeAnAppointmentVo getMakeAnAppointment(int businessType, String reservationNumber, String identityCard) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void bookingCancellation(int businessType, String reservationNumber, String identityCard) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public CertificationProgressQueryVo getCertificationProgressQuery(int businessType, String identityCard,
+			String serialNumber, String agencyCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<DriverLicenseBusinessVo> getDriverLicenseBusiness(String identityCard) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<MotorVehicleBusinessVo> getMotorVehicleBusiness(String identityCard) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ElectronicDriverLicenseVo getElectronicDriverLicense(String driverLicenseNumber, String userName,
+			String mobileNumber) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public DrivingLicenseVo getDrivingLicense(String numberPlatenumber, String plateType, String mobileNumber) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public MyDriverLicenseVo getMyDriverLicense(String identityCard) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<BindTheVehicleVo> getBndTheVehicles(String identityCard) {
+		// TODO Auto-generated method stub
+		return null;
 	};
 
 	
@@ -114,7 +274,7 @@ public class IAccountServiceImpl implements IAccountService {
 //        Token token = accountCache.getToken(userId + "");
 //        String accessToken = token.getAccessToken();
 //        if (StringUtils.isBlank(accessToken)) {
-//            logger.error("getAccessTokenByUserId,userId=" + userId + ",accessToken is null");
+//            logger.error("getAccessTf'fokenByUserId,userId=" + userId + ",accessToken is null");
 //        }
 //        return accessToken;
 //    }
