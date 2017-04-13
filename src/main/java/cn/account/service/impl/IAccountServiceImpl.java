@@ -106,7 +106,7 @@ public class IAccountServiceImpl implements IAccountService {
 		
 		String interfaceNumber = "xxcj03";
 		
-		String respStr = WebServiceClient.getInstance().requestWebService(iAccountCached.getUrl(), iAccountCached.getMethod(), 
+		JSONObject respStr = WebServiceClient.getInstance().requestWebService(iAccountCached.getUrl(), iAccountCached.getMethod(), 
 				interfaceNumber,xml,iAccountCached.getUserid(),iAccountCached.getUserpwd(),iAccountCached.getKey());
 		
         
