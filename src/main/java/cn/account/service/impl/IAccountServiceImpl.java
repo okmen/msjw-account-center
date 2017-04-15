@@ -19,7 +19,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBody
 
 
 import com.alibaba.fastjson.JSON;
-
+import com.alibaba.fastjson.JSONObject;
 
 import cn.account.bean.DeviceBean;
 import cn.account.bean.Token;
@@ -124,8 +124,6 @@ public class IAccountServiceImpl implements IAccountService {
 	 * @throws Exception 
 	 */
 	@Override
-	public LoginReturnBeanVo login(String loginName,String password,String sourceOfCertification) throws Exception {
-		LoginReturnBeanVo loginReturnBean = new LoginReturnBeanVo();
 	public LoginReturnBeanVo login(String loginName,String password,String sourceOfCertification) throws Exception {
 		LoginReturnBeanVo loginReturnBean = new LoginReturnBeanVo();
 		
