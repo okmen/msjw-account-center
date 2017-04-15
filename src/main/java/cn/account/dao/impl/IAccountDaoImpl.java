@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import cn.account.bean.UserBind;
 import cn.account.bean.UserOpenidBean;
 import cn.account.bean.UserRegInfo;
 import cn.account.bean.WechatUserInfoBean;
@@ -78,6 +79,11 @@ public class IAccountDaoImpl implements IAccountDao {
         return userMapper.updateBindOpenidStatus(userOpenidBean);
     }
 
+    @Override
+	public int unbindVehicle(UserBind userBind) {
+    	 return userMapper.unbindVehicle(userBind);
+	}
+    
     @Override
     public Long getUserIdByOpenid(String openid) {
         return userMapper.getUserIdByOpenid(openid);

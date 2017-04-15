@@ -1,6 +1,7 @@
 package cn.account.dao;
 import java.util.List;
 
+import cn.account.bean.UserBind;
 import cn.account.bean.UserOpenidBean;
 import cn.account.bean.UserRegInfo;
 import cn.account.bean.WechatUserInfoBean;
@@ -67,6 +68,13 @@ public interface IAccountDao {
 	 * @return long
 	 */
 	public long updateBindOpenidStatus(UserOpenidBean userOpenidBean);
+	
+	/**
+	 * @author liuminkang
+	 * @param userBind
+	 * @return
+	 */
+	public int unbindVehicle(UserBind userBind);
 	
 	/**
 	 * 通过openid拿到userId

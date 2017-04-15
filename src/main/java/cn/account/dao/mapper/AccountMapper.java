@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import cn.account.bean.UserBind;
 import cn.account.bean.UserOpenidBean;
 import cn.account.bean.UserRegInfo;
 import cn.account.bean.WechatUserInfoBean;
@@ -44,6 +45,8 @@ public interface AccountMapper {
     public long addBindOpenid(UserOpenidBean userOpenidBean);
     
     public long updateBindOpenidStatus(UserOpenidBean userOpenidBean);
+    
+    public int unbindVehicle(UserBind userBind);
     
     public Long getUserIdByOpenid(String openid);
     

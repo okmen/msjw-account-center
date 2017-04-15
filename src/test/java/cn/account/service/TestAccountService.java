@@ -29,7 +29,8 @@ import cn.account.bean.WechatUserInfoBean;
 import cn.account.service.IAccountService;
 import cn.sdk.util.AESNewUtils;
 import cn.sdk.util.DESUtils;
-//import cn.sdk.util.DynamicHttpclientCall;
+
+
 import cn.sdk.util.HttpClientUtil;
 
 import com.alibaba.fastjson.JSON;
