@@ -29,7 +29,8 @@ import cn.account.bean.WechatUserInfoBean;
 import cn.account.service.IAccountService;
 import cn.sdk.util.AESNewUtils;
 import cn.sdk.util.DESUtils;
-import cn.sdk.util.DynamicHttpclientCall;
+
+
 import cn.sdk.util.HttpClientUtil;
 
 import com.alibaba.fastjson.JSON;
@@ -55,35 +56,35 @@ public class TestAccountService {
 
 	@Test
 	public void testxxxxx() {
-		DynamicHttpclientCall dynamicHttpclientCall = new DynamicHttpclientCall("http://szjjapi.chudaokeji.com/yywfcl/services/yywfcl?WSDL",
-				"GetAPACShippingPackage", "http://szjjapi.chudaokeji.com/yywfcl/services/yywfcl?WSDL");
-
-		Map<String, String> patameterMap = new HashMap<String, String>();
-
-		patameterMap.put("TrackCode", "123");
-		patameterMap.put("Version", "123");
-		patameterMap.put("APIDevUserID", "123");
-		patameterMap.put("APIPassword", "123");
-		patameterMap.put("APISellerUserID", "123");
-		patameterMap.put("MessageID", "123");
-		patameterMap.put("TrackCode", "123");
-
-		String soapRequestData = dynamicHttpclientCall.buildRequestData(patameterMap);
-		System.out.println(soapRequestData);
-
-		int statusCode;
-		try {
-			statusCode = dynamicHttpclientCall.invoke(patameterMap);
-			if (statusCode == 200) {
-				System.out.println("调用成功！");
-				System.out.println(dynamicHttpclientCall.soapResponseData);
-			} else {
-				System.out.println("调用失败！错误码：" + statusCode);
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		DynamicHttpclientCall dynamicHttpclientCall = new DynamicHttpclientCall("http://szjjapi.chudaokeji.com/yywfcl/services/yywfcl?WSDL",
+//				"GetAPACShippingPackage", "http://szjjapi.chudaokeji.com/yywfcl/services/yywfcl?WSDL");
+//
+//		Map<String, String> patameterMap = new HashMap<String, String>();
+//
+//		patameterMap.put("TrackCode", "123");
+//		patameterMap.put("Version", "123");
+//		patameterMap.put("APIDevUserID", "123");
+//		patameterMap.put("APIPassword", "123");
+//		patameterMap.put("APISellerUserID", "123");
+//		patameterMap.put("MessageID", "123");
+//		patameterMap.put("TrackCode", "123");
+//
+//		String soapRequestData = dynamicHttpclientCall.buildRequestData(patameterMap);
+//		System.out.println(soapRequestData);
+//
+//		int statusCode;
+//		try {
+//			statusCode = dynamicHttpclientCall.invoke(patameterMap);
+//			if (statusCode == 200) {
+//				System.out.println("调用成功！");
+//				System.out.println(dynamicHttpclientCall.soapResponseData);
+//			} else {
+//				System.out.println("调用失败！错误码：" + statusCode);
+//			}
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 
 

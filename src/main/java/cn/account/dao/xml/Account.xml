@@ -117,6 +117,11 @@
 		UPDATE cm_user_openid SET status=#{status},unbind_time=#{unBindTime} WHERE user_id=#{userId} 
 	</update>
 	
+	<!-- 取消绑定微信 -->
+	<update id="unbindVehicle" parameterType="cn.account.bean.UserBind" >
+		UPDATE t_user_bind SET `is_bind`=1,unbind_date=sysdate() where id_card =#{idCard} and open_id =#{openId}
+	</update>
+	
 	<!-- 通过openid拿到userId -->
 	<select id="getUserIdByOpenid" parameterType="String" resultType="java.lang.Long">
 		SELECT user_id FROM cm_user_openid WHERE openid=#{openid} AND status=1 limit 1

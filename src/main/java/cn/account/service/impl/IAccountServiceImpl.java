@@ -1,16 +1,34 @@
 package cn.account.service.impl;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+
+import org.apache.commons.lang3.StringUtils;
+import org.junit.Test;
+import org.omg.IOP.Encoding;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;
+
+
+import com.alibaba.fastjson.JSON;
+
+
+import cn.account.bean.DeviceBean;
+import cn.account.bean.Token;
+import cn.account.bean.UserBind;
+import cn.account.bean.UserOpenidBean;
+import cn.account.bean.UserRegInfo;
 import cn.account.bean.WechatUserInfoBean;
 import cn.account.bean.vo.AuthenticationBasicInformationVo;
+import cn.account.bean.vo.BindCarVo;
 import cn.account.bean.vo.BindTheVehicleVo;
 import cn.account.bean.vo.DriverLicenseInformationSheetVo;
 import cn.account.bean.vo.DrivingLicenseVo;
@@ -18,6 +36,8 @@ import cn.account.bean.vo.ElectronicDriverLicenseVo;
 import cn.account.bean.vo.LoginReturnBeanVo;
 import cn.account.bean.vo.MotorVehicleInformationSheetVo;
 import cn.account.bean.vo.MyDriverLicenseVo;
+import cn.account.bean.vo.RegisterVo;
+import cn.account.bean.vo.UserBasicVo;
 import cn.account.bean.vo.queryclassservice.CertificationProgressQueryVo;
 import cn.account.bean.vo.queryclassservice.DriverLicenseBusinessVo;
 import cn.account.bean.vo.queryclassservice.MakeAnAppointmentVo;
@@ -26,6 +46,14 @@ import cn.account.cached.impl.IAccountCachedImpl;
 import cn.account.dao.IAccountDao;
 import cn.account.service.IAccountService;
 import cn.account.utils.TransferThirdParty;
+import cn.account.utils.TransferThirdParty;
+
+
+import cn.sdk.util.Base64;
+import cn.sdk.webservice.DESCorder;
+import cn.sdk.webservice.WebServiceClient;
+import cn.sdk.webservice.Xml2Json;
+
 /**
  * 个人中心
  * @author Mbenben
@@ -34,6 +62,7 @@ import cn.account.utils.TransferThirdParty;
 @Service("accountService")
 @SuppressWarnings(value="all")
 public class IAccountServiceImpl implements IAccountService {
+	
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
@@ -97,6 +126,8 @@ public class IAccountServiceImpl implements IAccountService {
 	@Override
 	public LoginReturnBeanVo login(String loginName,String password,String sourceOfCertification) throws Exception {
 		LoginReturnBeanVo loginReturnBean = new LoginReturnBeanVo();
+	public LoginReturnBeanVo login(String loginName,String password,String sourceOfCertification) throws Exception {
+		LoginReturnBeanVo loginReturnBean = new LoginReturnBeanVo();
 		
 		String url = iAccountCached.getUrl(); //webservice请求url
 		String method = iAccountCached.getMethod(); //webservice请求方法名称
@@ -136,7 +167,7 @@ public class IAccountServiceImpl implements IAccountService {
 		}
     	loginReturnBean.setAuthenticationBasicInformation(authenticationBasicInformationVo);
     	//登录信息入库
-		return loginReturnBean;
+    	return loginReturnBean;
 	}
 	/**
 	 * 认证基本信息查询接口
@@ -336,7 +367,172 @@ public class IAccountServiceImpl implements IAccountService {
 		return motorVehicleInformationSheetVo;
 	};
 
+	@Override
+	public int unbindVehicle(UserBind userBind) {
+		int cancelSuccess = 0;
+	      if(userBind == null) {
+	          logger.error("unbindVehicle接收参数有误");
+	          return cancelSuccess;
+	      }
+	      try {
+	          cancelSuccess = accountDao.unbindVehicle(userBind);
+	      } catch (Exception e) {
+	          logger.error("更新绑定状态失败，cancelSuccess = " + cancelSuccess);
+	          throw e;
+	      }
+	      return cancelSuccess;
+	}
+
+
+	@Override
+	public JSONObject addVehicle(BindCarVo bindCarVo) throws Exception{
+		
+		String xml = null;
+		
+		if(bindCarVo.getBindType()==0){//绑定他人车
+			xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><LOGIN_NAME>"+bindCarVo.getUserIdCard()+"</LOGIN_NAME><YHLY>"+bindCarVo.getUserSource()+"</YHLY><HPHM>"+bindCarVo.getLicensePlateNumber()+"</HPHM>"
+		            +"<HPZL>"+bindCarVo.getLicensePlateType()+"</HPZL><SFJC>"+bindCarVo.getProvinceAbbreviation()+" </SFJC><CJH4>"+bindCarVo.getFrameNumber()+"</CJH4><CZXM>"+bindCarVo.getOwnerName()+"</CZXM>"
+                    +"<CZSFZMHM>"+bindCarVo.getOwnerIdCard()+"</CZSFZMHM><SFBR>0</SFBR><LRIP>"+bindCarVo.getInputIP()+"</LRIP>"
+                    +"<BIND_DEPARTMENT>"+bindCarVo.getCertifiedSource()+"</BIND_DEPARTMENT><CZSFZMHMTPA>"+bindCarVo.getIdCardImgPositive()+"</CZSFZMHMTPA>"
+                    +"<CZSFZMHMTP>"+bindCarVo.getIdCardImgHandHeld()+"</CZSFZMHMTP></REQUEST>";
+		}else if(bindCarVo.getBindType()==1){//绑定个人车
+			xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><LOGIN_NAME>"+bindCarVo.getUserIdCard()+"</LOGIN_NAME><YHLY>"+bindCarVo.getUserSource()+"</YHLY><HPHM>"+bindCarVo.getLicensePlateNumber()+"</HPHM>"
+		            +"<HPZL>"+bindCarVo.getLicensePlateType()+"</HPZL><SFJC>"+bindCarVo.getProvinceAbbreviation()+" </SFJC><CJH4></CJH4><CZXM></CZXM>"
+                    +"<CZSFZMHM></CZSFZMHM><SFBR>1</SFBR><LRIP>"+bindCarVo.getInputIP()+"</LRIP>"
+                    +"<BIND_DEPARTMENT>"+bindCarVo.getCertifiedSource()+"</BIND_DEPARTMENT><CZSFZMHMTPA></CZSFZMHMTPA><CZSFZMHMTP></CZSFZMHMTP></REQUEST>";
+		}
+		String interfaceNumber = "xxcj10";
+		JSONObject json = WebServiceClient.getInstance().requestWebService("http://123.56.180.216:19002/xxfbpt/services/xxfbptservice","xxptSchuding", 
+		interfaceNumber,xml,"WX02","WX02@168","94D863D9BE7FB032E6A19430CC892610");
+		
+		return json;
+	}
+
+
+	@Override
+	public JSONObject updateUser(UserBasicVo userBasicVo)throws Exception {
+		
+		
+		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>< REQUEST><USERNAME>"+userBasicVo.getIdentityCard()+"</ USERNAME><NICKNAME></NICKNAME>"
+				+ "<TXDZ>"+userBasicVo.getMailingAddress()+"</TXDZ><PHOTO9>"+userBasicVo.getIdCardImgPositive()+"</PHOTO9><PHOTO6>"+userBasicVo.getIdCardImgHandHeld()+"</PHOTO6>"
+						+ "<SFZYXQ>"+userBasicVo.getIdCardValidityDate()+"</SFZYXQ><YHLY>"+userBasicVo.getUserSource()+"</YHLY></REQUEST>";
+		String interfaceNumber = "xxcj05";
+		
+		JSONObject json = WebServiceClient.getInstance().requestWebService("http://123.56.180.216:19002/xxfbpt/services/xxfbptservice","xxptSchuding", 
+				interfaceNumber,xml,"WX02","WX02@168","94D863D9BE7FB032E6A19430CC892610");
 	
+		return null;
+	}
+
+
+	@Override
+	public JSONObject updateMobile(UserBasicVo userBasicVo)throws Exception {		
+		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><LOGIN_USER>"+userBasicVo.getIdentityCard()+"</LOGIN_USER><LXDH>"+userBasicVo.getOldMobile()+"</LXDH>"
+				+ "<NEWLXDH>"+userBasicVo.getNewMobile()+"</NEWLXDH><RZJS>"+userBasicVo.getUserSource()+"</RZJS></REQUEST>";
+		String interfaceNumber = "xxcj17";
+		JSONObject json = WebServiceClient.getInstance().requestWebService("http://123.56.180.216:19002/xxfbpt/services/xxfbptservice","xxptSchuding", 
+				interfaceNumber,xml,"WX02","WX02@168","94D863D9BE7FB032E6A19430CC892610");
+				
+				return json;
+	}
+	
+	@Override
+	public JSONObject updatePwd(UserBasicVo userBasicVo)throws Exception {
+		
+		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><USERNAME>"+userBasicVo.getIdentityCard()+"</USERNAME><OLDPWD>"+userBasicVo.getOldPwd()+"</OLDPWD>"
+				+ "<NEWPWD>"+userBasicVo.getNewPwd()+"</NEWPWD><YHLY>"+userBasicVo.getUserSource()+"</YHLY></REQUEST>";
+		String interfaceNumber = "xxcj04";
+		JSONObject json = WebServiceClient.getInstance().requestWebService("http://123.56.180.216:19002/xxfbpt/services/xxfbptservice","xxptSchuding", 
+				interfaceNumber,xml,"WX02","WX02@168","94D863D9BE7FB032E6A19430CC892610");	
+		return json;
+	}
+	
+	
+	@Override
+	public JSONObject readilyShoot(String illegalTime, String illegalSections, String img, String situationStatement,
+			String whistleblower, String identityCard, String mobilephone) throws Exception {
+		
+		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><request><ssrxm>"+whistleblower+"</ssrxm><lxdh>"+mobilephone+"</lxdh><lxdz>申诉人联系地址</lxdz><ssch>申诉车号</ssch>"
+				+ "<ssnr>"+situationStatement+"</ssnr><jkbh>交款编号</jkbh><sslx>1</sslx><wfsj>"+illegalTime+"</wfsj><wfdd>"+illegalSections+"</wfdd><zfdw>执法单位(采集部门)</zfdw><zjtp>"+img+"</zjtp>"
+				+ "<ssly>C</ssly><sfzmhm>"+identityCard+"</sfzmhm><xjyhid></xjyhid></request>";
+		String interfaceNumber = "HM1003";
+		JSONObject json = WebServiceClient.getInstance().requestWebService("http://123.56.180.216:19002/xxfbpt/services/xxfbptservice","xxptSchuding", 
+					interfaceNumber,xml,"WX02","WX02@168","94D863D9BE7FB032E6A19430CC892610");
+		return json;
+	}
+
+	
+	@Override
+	public JSONObject iAmTheOwner(RegisterVo registerVo) throws Exception{
+		
+		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+registerVo.getUserIdCard()+"</SFZMHM><LXDH>"+registerVo.getMobilephone()+"</LXDH><LXDZ>"+registerVo.getLinkAddress()+"</LXDZ><HPHM>"+registerVo.getLicensePlateNumber()+"</HPHM>"
+				+ "<HPZL>"+registerVo.getLicensePlateType()+"</HPZL><RZLX>1</RZLX><RZLY>C</RZLY><JSRSZD>"+registerVo.getDriverLicenseIssuedAddress()+"</JSRSZD><SFJC>"+registerVo.getProvinceAbbreviation()+"</SFJC>"
+				+ "<RZJS>"+registerVo.getCertifiedType()+"</RZJS><LRR>"+registerVo.getCallAccount()+"</LRR><PHOTO6>"+registerVo.getIdCardImgPositive()+"</PHOTO6><PHOTO9>"+registerVo.getIdCardImgHandHeld()+"</PHOTO9></REQUEST>";
+		String interfaceNumber = "xxcj15";
+		JSONObject json = WebServiceClient.getInstance().requestWebService("http://123.56.180.216:19002/xxfbpt/services/xxfbptservice","xxptSchuding", 
+					interfaceNumber,xml,"WX02","WX02@168","94D863D9BE7FB032E6A19430CC892610");
+		return json;
+	}
+	
+	
+	
+	@Override
+	public JSONObject iamALongtimeUser(String licensePlateType, String provinceAbbreviation, String licensePlateNumber,
+			String ownerName, String ownerIdCard, String userIdCard, String linkAddress, String mobilephone,
+			String driverLicenseIssuedAddress, String idCardImgPositive,
+			String idCardImgHandHeld) throws Exception {			
+		String xml="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+userIdCard+"</SFZMHM><LXDH>"+mobilephone+"</LXDH><LXDZ>"+linkAddress+"</LXDZ>"
+				+ "<HPHM>"+licensePlateNumber+"</HPHM><HPZL>"+licensePlateType+"</HPZL><CZXM>"+ownerName+"</CZXM><CZSFZMMC>"+ownerName+"</CZSFZMMC><CZSFZMHM>"+ownerIdCard+"</CZSFZMHM>"
+				+ "<CZLXDH>15878451232</CZLXDH><RZLX>2</RZLX><RZLY>C</RZLY><RZJS>1</RZJS>"
+				+ "<LRR>WX02_TEST</LRR><JSRSZD>"+driverLicenseIssuedAddress+"</JSRSZD><SFJC>"+provinceAbbreviation+"</SFJC><PHOTO6>"+idCardImgHandHeld+"</PHOTO6>"
+				+ "<PHOTO9>"+idCardImgPositive+"</PHOTO9><PHOTO16>车主身份证正面</PHOTO16><PHOTO18>车主手持身份证</PHOTO18></REQUEST>";
+		
+		
+		String interfaceNumber = "xxcj15";
+		JSONObject json = WebServiceClient.getInstance().requestWebService("http://123.56.180.216:19002/xxfbpt/services/xxfbptservice","xxptSchuding", 
+					interfaceNumber,xml,"WX02","WX02@168","94D863D9BE7FB032E6A19430CC892610");
+		return json;
+	}
+	
+	
+	
+	@Override
+	public JSONObject haveDriverLicenseNotCar(String identityCard, String linkAddress, String mobilephone,
+			String driverLicenseIssuedAddress, String idCardImgPositive,
+			String idCardImgHandHeld) throws Exception {
+		String xml="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+identityCard+"</SFZMHM><LXDH>"+mobilephone+"</LXDH><LXDZ>"+linkAddress+"</LXDZ>"
+				+ "<RZLX>3</RZLX><RZLY>C</RZLY><RZJS>1</RZJS><LRR>WX02_TEST</LRR>"
+				+ "<JSRSZD>"+driverLicenseIssuedAddress+"</JSRSZD ><PHOTO6>"+idCardImgHandHeld+"</PHOTO6><PHOTO9>"+idCardImgPositive+"</PHOTO9></REQUEST>";
+		String interfaceNumber = "xxcj15";
+		JSONObject json = WebServiceClient.getInstance().requestWebService("http://123.56.180.216:19002/xxfbpt/services/xxfbptservice","xxptSchuding", 
+					interfaceNumber,xml,"WX02","WX02@168","94D863D9BE7FB032E6A19430CC892610");
+		return json;
+	}
+	
+	
+	
+	
+	
+	@Override
+	public JSONObject isPedestrianNotDriver(String identityCard, String mobilephone,
+	    String idCardImgPositive, String idCardImgHandHeld)throws Exception {
+		//图片路径加密
+		byte[] idCardImgPositives= idCardImgPositive.getBytes();
+		idCardImgPositive =	Base64.encode(idCardImgPositives);	
+		
+		byte[] idCardImgHandHelds = idCardImgPositive.getBytes();
+		idCardImgPositive =	Base64.encode(idCardImgPositives);
+		
+		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+identityCard+"</SFZMHM><LXDH>18873583624</LXDH>"
+				+ "<RZLX>4</RZLX><RZLY>C</RZLY><PHOTO6>"+idCardImgHandHeld+"</PHOTO6>"
+				+ "<PHOTO9>"+idCardImgPositive+"</PHOTO9></REQUEST>";
+		String interfaceNumber = "xxcjzrr";
+			JSONObject json = WebServiceClient.getInstance().requestWebService("http://123.56.180.216:19002/xxfbpt/services/xxfbptservice","xxptSchuding", 
+					interfaceNumber,xml,"WX02","WX02@168","94D863D9BE7FB032E6A19430CC892610");
+			System.out.println(json);
+		return json;
+	}
+
 //	@Override
 //	public UserRegInfo addNewUser(UserRegInfo userRegInfo) {
 //		long addSuccess = 0;
