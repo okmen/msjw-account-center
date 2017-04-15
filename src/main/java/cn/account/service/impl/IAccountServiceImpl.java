@@ -99,31 +99,6 @@ public class IAccountServiceImpl implements IAccountService {
 	@Override
 	public LoginReturnBeanVo login(String loginName,String password,String sourceOfCertification) throws Exception {
 		LoginReturnBeanVo loginReturnBean = new LoginReturnBeanVo();
-		
-/*<<<<<<< ad95a4873119dfc7fadb5fe2a7b79cd5fd6f1ca5
-		JSONObject respStr = WebServiceClient.getInstance().requestWebService(iAccountCached.getUrl(), iAccountCached.getMethod(), 
-				interfaceNumber,xml,iAccountCached.getUserid(),iAccountCached.getUserpwd(),iAccountCached.getKey());
-		
-        
-        
-		AuthenticationBasicInformationVo authenticationBasicInformation = new AuthenticationBasicInformationVo();
-    	authenticationBasicInformation.setMobilephone("13666666666");
-    	authenticationBasicInformation.setMyAvatar("http://gaoboy.com/tpl/polo/Public/images/my_wechat_qrcode.jpg");
-    	authenticationBasicInformation.setIdentityCard("431225199122222112");
-    	authenticationBasicInformation.setMyNumberPlate("粤B868686");
-    	authenticationBasicInformation.setTrueName("张小龙");
-    	
-    	
-    	IdentityVerificationAuditResultsVo identityVerificationAuditResults = new IdentityVerificationAuditResultsVo();
-    	identityVerificationAuditResults.setAuthenticationType(1);
-    	identityVerificationAuditResults.setStatus(3);
-    	identityVerificationAuditResults.setRetirementResult("身份证正面不清晰");
-    	identityVerificationAuditResults.setReviewDate("2017-1-3 19:00:01");
-    	
-    	LoginReturnBeanVo loginReturnBean = new LoginReturnBeanVo();
-    	loginReturnBean.setAuthenticationBasicInformation(authenticationBasicInformation);
-    	loginReturnBean.setIdentityVerificationAuditResults(identityVerificationAuditResults);
-=======*/
 		String url = iAccountCached.getUrl(); //webservice请求url
 		String method = iAccountCached.getMethod(); //webservice请求方法名称
 		String userId = iAccountCached.getUserid(); //webservice登录账号
@@ -162,7 +137,6 @@ public class IAccountServiceImpl implements IAccountService {
 		}
     	loginReturnBean.setAuthenticationBasicInformation(authenticationBasicInformationVo);
     	//登录信息入库
-//>>>>>>> 添加 第三方接口
 		return loginReturnBean;
 	}
 	/**
