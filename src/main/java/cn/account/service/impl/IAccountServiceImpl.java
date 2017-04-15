@@ -1,33 +1,17 @@
 package cn.account.service.impl;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
-import org.omg.IOP.Encoding;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;
-
-
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
-
-
-import cn.account.bean.DeviceBean;
-import cn.account.bean.Token;
 import cn.account.bean.UserBind;
-import cn.account.bean.UserOpenidBean;
-import cn.account.bean.UserRegInfo;
 import cn.account.bean.WechatUserInfoBean;
 import cn.account.bean.vo.AuthenticationBasicInformationVo;
 import cn.account.bean.vo.BindCarVo;
@@ -47,14 +31,9 @@ import cn.account.bean.vo.queryclassservice.MotorVehicleBusinessVo;
 import cn.account.cached.impl.IAccountCachedImpl;
 import cn.account.dao.IAccountDao;
 import cn.account.service.IAccountService;
-
 import cn.account.utils.TransferThirdParty;
-
-
 import cn.sdk.util.Base64;
-import cn.sdk.webservice.DESCorder;
 import cn.sdk.webservice.WebServiceClient;
-import cn.sdk.webservice.Xml2Json;
 
 /**
  * 个人中心
@@ -72,6 +51,7 @@ public class IAccountServiceImpl implements IAccountService {
 
 	@Autowired
 	private IAccountCachedImpl iAccountCached;
+	
 	
 	@Override
 	public int insertWechatUserInfo(WechatUserInfoBean wechatUserInfo) {
@@ -127,6 +107,7 @@ public class IAccountServiceImpl implements IAccountService {
 	@Override
 	public LoginReturnBeanVo login(String loginName,String password,String sourceOfCertification) throws Exception {
 		LoginReturnBeanVo loginReturnBean = new LoginReturnBeanVo();
+		
 		String url = iAccountCached.getUrl(); //webservice请求url
 		String method = iAccountCached.getMethod(); //webservice请求方法名称
 		String userId = iAccountCached.getUserid(); //webservice登录账号
@@ -165,7 +146,6 @@ public class IAccountServiceImpl implements IAccountService {
 		}
     	loginReturnBean.setAuthenticationBasicInformation(authenticationBasicInformationVo);
     	//登录信息入库
-    	
     	return loginReturnBean;
 	}
 	/**
@@ -195,6 +175,25 @@ public class IAccountServiceImpl implements IAccountService {
 		
 		return null;
 	}
+	/**
+	 * 
+	 * @param applyType
+	 * @param identityCard
+	 * @param sourceOfCertification
+	 * @return
+	 * @throws Exception 
+	 */
+	public Map<String, Object> queryMachineInformationSheet(String applyType, String identityCard,String sourceOfCertification) throws Exception{
+		
+		String url = iAccountCached.getUrl(); //webservice请求url
+		String method = iAccountCached.getMethod(); //webservice请求方法名称
+		String userId = iAccountCached.getUserid(); //webservice登录账号
+		String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+		String key = iAccountCached.getKey(); //秘钥
+		Map<String, Object> map = TransferThirdParty.queryMachineInformationSheet(applyType, identityCard, sourceOfCertification, url, method, userId, userPwd, key);
+		return map;
+	}
+	
 	/**
      * 提交机动车信息单
      * @param userName 姓名
