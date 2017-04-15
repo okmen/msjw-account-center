@@ -1,14 +1,15 @@
 package cn.account.service.impl;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.alibaba.fastjson.JSONObject;
+import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;
 
 import cn.account.bean.WechatUserInfoBean;
 import cn.account.bean.vo.AuthenticationBasicInformationVo;
@@ -16,7 +17,6 @@ import cn.account.bean.vo.BindTheVehicleVo;
 import cn.account.bean.vo.DriverLicenseInformationSheetVo;
 import cn.account.bean.vo.DrivingLicenseVo;
 import cn.account.bean.vo.ElectronicDriverLicenseVo;
-import cn.account.bean.vo.IdentityVerificationAuditResultsVo;
 import cn.account.bean.vo.LoginReturnBeanVo;
 import cn.account.bean.vo.MotorVehicleInformationSheetVo;
 import cn.account.bean.vo.MyDriverLicenseVo;
@@ -27,9 +27,7 @@ import cn.account.bean.vo.queryclassservice.MotorVehicleBusinessVo;
 import cn.account.cached.impl.IAccountCachedImpl;
 import cn.account.dao.IAccountDao;
 import cn.account.service.IAccountService;
-import cn.sdk.webservice.DESCorder;
-import cn.sdk.webservice.WebServiceClient;
-import cn.sdk.webservice.Xml2Json;
+import cn.account.utils.TransferThirdParty;
 /**
  * 个人中心
  * @author Mbenben
@@ -38,6 +36,7 @@ import cn.sdk.webservice.Xml2Json;
 @Service("accountService")
 @SuppressWarnings(value="all")
 public class IAccountServiceImpl implements IAccountService {
+	
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
@@ -45,7 +44,6 @@ public class IAccountServiceImpl implements IAccountService {
 
 	@Autowired
 	private IAccountCachedImpl iAccountCached;
-	
 	
 	@Override
 	public int insertWechatUserInfo(WechatUserInfoBean wechatUserInfo) {
@@ -99,13 +97,10 @@ public class IAccountServiceImpl implements IAccountService {
 	 * @throws Exception 
 	 */
 	@Override
-	public LoginReturnBeanVo login(String loginName,String password) throws Exception {
-		loginName = "15920071829";
-		password = "168321";
-		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><USERNAME>"+loginName+"</USERNAME><PWD>"+password+"</PWD><YHLY>WX_XCX</YHLY><SFZMHM></SFZMHM><XM></XM></REQUEST>";
+	public LoginReturnBeanVo login(String loginName,String password,String sourceOfCertification) throws Exception {
+		LoginReturnBeanVo loginReturnBean = new LoginReturnBeanVo();
 		
-		String interfaceNumber = "xxcj03";
-		
+/*<<<<<<< ad95a4873119dfc7fadb5fe2a7b79cd5fd6f1ca5
 		JSONObject respStr = WebServiceClient.getInstance().requestWebService(iAccountCached.getUrl(), iAccountCached.getMethod(), 
 				interfaceNumber,xml,iAccountCached.getUserid(),iAccountCached.getUserpwd(),iAccountCached.getKey());
 		
@@ -128,7 +123,64 @@ public class IAccountServiceImpl implements IAccountService {
     	LoginReturnBeanVo loginReturnBean = new LoginReturnBeanVo();
     	loginReturnBean.setAuthenticationBasicInformation(authenticationBasicInformation);
     	loginReturnBean.setIdentityVerificationAuditResults(identityVerificationAuditResults);
+=======*/
+		String url = iAccountCached.getUrl(); //webservice请求url
+		String method = iAccountCached.getMethod(); //webservice请求方法名称
+		String userId = iAccountCached.getUserid(); //webservice登录账号
+		String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+		String key = iAccountCached.getKey(); //秘钥
+		String identityCard = "";
+		String mobilephone = "";
+		AuthenticationBasicInformationVo authenticationBasicInformationVo = null;
+		//用户登录接口
+		Map<String, String> map = TransferThirdParty.login(loginName, password, url, method, userId, userPwd, key);
+		String code = map.get("code");
+		String msg = map.get("msg");
+		//已绑定机动车查询接口
+		List<BindTheVehicleVo> bindTheVehicleVos = null;
+		if(null != map && "0000".equals(map.get("code"))){
+			//认证基本信息查询接口
+			authenticationBasicInformationVo = TransferThirdParty.authenticationBasicInformationQuery(loginName,sourceOfCertification, url, method,userId,userPwd,key);
+			identityCard = authenticationBasicInformationVo.getIdentityCard();
+			mobilephone = authenticationBasicInformationVo.getMobilephone();
+			//我绑定的车辆信息
+			bindTheVehicleVos = TransferThirdParty.bindsTheMotorVehicleQuery(mobilephone,identityCard, sourceOfCertification, url, method, userId, userPwd, key);
+			if(null != bindTheVehicleVos && bindTheVehicleVos.size() > 0){
+				for(BindTheVehicleVo bindTheVehicleVo : bindTheVehicleVos){
+					String isMyself = bindTheVehicleVo.getIsMyself();
+					if("本人".equals(isMyself)){
+						authenticationBasicInformationVo.setMyNumberPlate(bindTheVehicleVo.getNumberPlateNumber());
+					}
+				}
+			}
+			loginReturnBean.setCode(code);
+			loginReturnBean.setMsg(msg);
+		}else {
+			//登录失败
+			loginReturnBean.setCode(code);
+			loginReturnBean.setMsg(msg);
+		}
+    	loginReturnBean.setAuthenticationBasicInformation(authenticationBasicInformationVo);
+    	//登录信息入库
+//>>>>>>> 添加 第三方接口
 		return loginReturnBean;
+	}
+	/**
+	 * 认证基本信息查询接口
+	 * @param idCard 身份证
+	 * @param sourceOfCertification 认证来源
+	 * @return
+	 * @throws Exception
+	 */
+	public AuthenticationBasicInformationVo authenticationBasicInformationQuery(String idCard,String sourceOfCertification) throws Exception{
+		String url = iAccountCached.getUrl(); //webservice请求url
+		String method = iAccountCached.getMethod(); //webservice请求方法名称
+		String userId = iAccountCached.getUserid(); //webservice登录账号
+		String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+		String key = iAccountCached.getKey(); //秘钥
+		
+		AuthenticationBasicInformationVo authenticationBasicInformationVo = TransferThirdParty.authenticationBasicInformationQuery(idCard,sourceOfCertification, url, method,userId,userPwd,key);
+		return authenticationBasicInformationVo;
 	}
 	/**
 	 * 获取机动车信息单
@@ -148,11 +200,20 @@ public class IAccountServiceImpl implements IAccountService {
      * @param provinceAbbreviation 车牌核发省简称 例如：粤
      * @param numberPlateNumber 号牌号码 例如：B701NR
      * @param plateType 车辆类型 例如:小型汽车
+     * @param sourceOfCertification 认证来源 微信-C
+	 * @throws Exception 
      */
 	@Override
-	public void commitMotorVehicleInformationSheet(String userName, String identityCard, String mobilephone,
-			String provinceAbbreviation, String numberPlateNumber, String plateType) {
-		
+	public Map<String, String> commitMotorVehicleInformationSheet(String userName, String identityCard, String mobilephone,
+			String provinceAbbreviation, String numberPlateNumber, String plateType,String sourceOfCertification) throws Exception {
+		String url = iAccountCached.getUrl(); //webservice请求url
+		String method = iAccountCached.getMethod(); //webservice请求方法名称
+		String userId = iAccountCached.getUserid(); //webservice登录账号
+		String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+		String key = iAccountCached.getKey(); //秘钥
+		Map<String, String> map = TransferThirdParty.commitAAingleApplicationForMotorVehicleInformation(userName, identityCard, mobilephone,
+				numberPlateNumber, plateType, sourceOfCertification, url, method, userId, userPwd, key);
+		return map;
 	}
 	/**
 	 * 获取驾驶证信息单
@@ -165,17 +226,24 @@ public class IAccountServiceImpl implements IAccountService {
 		return null;
 	}
 	/**
-	 * 提交驾驶证信息单
+	 * 提交 代表驾驶人信息单/无车证明申请/驾驶人安全事故信用表
+	 * @param applyType 申请类型（1代表驾驶人信息单；2代表机动车信息单 3代表无车证明申请；4代表驾驶人安全事故信用表）
 	 * @param userName 姓名
 	 * @param identityCard 身份证号
 	 * @param mobilephone 联系电话
 	 * @return
+	 * @throws Exception 
 	 */
 	@Override
-	public DriverLicenseInformationSheetVo commitDriverLicenseInformationSheet(String userName, String identityCard,
-			String mobilephone) {
+	public Map<String, String> commitDriverLicenseInformationSheet(String applyType, String userName, String identityCard,String mobilephone,String sourceOfCertification) throws Exception {
+		String url = iAccountCached.getUrl(); //webservice请求url
+		String method = iAccountCached.getMethod(); //webservice请求方法名称
+		String userId = iAccountCached.getUserid(); //webservice登录账号
+		String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+		String key = iAccountCached.getKey(); //秘钥
+		Map<String, String> map = TransferThirdParty.commitDriverInformationSinglePrintApplicationInterface(applyType, userName, identityCard, mobilephone, sourceOfCertification, url, method, userId, userPwd, key);
 		
-		return null;
+		return map;
 	}
 
 
@@ -216,31 +284,83 @@ public class IAccountServiceImpl implements IAccountService {
 
 
 	@Override
-	public ElectronicDriverLicenseVo getElectronicDriverLicense(String driverLicenseNumber, String userName,
-			String mobileNumber) {
-		// TODO Auto-generated method stub
-		return null;
+	public ElectronicDriverLicenseVo getElectronicDriverLicense(String driverLicenseNumber, String userName,String mobileNumber,String sourceOfCertification) throws Exception {
+		 String url = iAccountCached.getUrl(); //webservice请求url
+		 String method = iAccountCached.getMethod(); //webservice请求方法名称
+		 String userId = iAccountCached.getUserid(); //webservice登录账号
+		 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+		 String key = iAccountCached.getKey(); //秘钥
+		ElectronicDriverLicenseVo electronicDriverLicenseVo = TransferThirdParty.getElectronicDriverLicense(driverLicenseNumber, userName, mobileNumber, 
+				sourceOfCertification, url, method, userId, userPwd, key);
+		return electronicDriverLicenseVo;
 	}
 
 
 	@Override
-	public DrivingLicenseVo getDrivingLicense(String numberPlatenumber, String plateType, String mobileNumber) {
-		// TODO Auto-generated method stub
-		return null;
+	public DrivingLicenseVo getDrivingLicense(String numberPlatenumber, String plateType, String mobileNumber,String sourceOfCertification)throws Exception {
+		 String url = iAccountCached.getUrl(); //webservice请求url
+		 String method = iAccountCached.getMethod(); //webservice请求方法名称
+		 String userId = iAccountCached.getUserid(); //webservice登录账号
+		 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+		 String key = iAccountCached.getKey(); //秘钥
+		 DrivingLicenseVo drivingLicenseVo = TransferThirdParty.getDrivingLicense(numberPlatenumber, plateType, mobileNumber, sourceOfCertification, url, method, userId, userPwd, key);
+		return drivingLicenseVo;
 	}
 
 
 	@Override
-	public MyDriverLicenseVo getMyDriverLicense(String identityCard) {
-		// TODO Auto-generated method stub
-		return null;
+	public MyDriverLicenseVo getMyDriverLicense(String identityCard,String sourceOfCertification) throws Exception {
+		String url = iAccountCached.getUrl(); //webservice请求url
+		 String method = iAccountCached.getMethod(); //webservice请求方法名称
+		 String userId = iAccountCached.getUserid(); //webservice登录账号
+		 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+		 String key = iAccountCached.getKey(); //秘钥
+		 MyDriverLicenseVo myDriverLicenseVo = TransferThirdParty.getMyDriverLicense(identityCard, sourceOfCertification, url, method, userId, userPwd, key);
+		
+		return myDriverLicenseVo;
 	}
 
 
 	@Override
-	public List<BindTheVehicleVo> getBndTheVehicles(String identityCard) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<BindTheVehicleVo> getBndTheVehicles(String identityCard,String mobilephone,String sourceOfCertification) throws Exception {
+		 String url = iAccountCached.getUrl(); //webservice请求url
+		 String method = iAccountCached.getMethod(); //webservice请求方法名称
+		 String userId = iAccountCached.getUserid(); //webservice登录账号
+		 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+		 String key = iAccountCached.getKey(); //秘钥
+		 List<BindTheVehicleVo> bindTheVehicleVos = TransferThirdParty.bindsTheMotorVehicleQuery(mobilephone, identityCard, sourceOfCertification, url, method, userId, userPwd, key);
+		return bindTheVehicleVos;
+	}
+	@Override
+	public MotorVehicleInformationSheetVo getMotorVehicleInformationSheet(String identityCard,String sourceOfCertification) throws Exception {
+		 String url = iAccountCached.getUrl(); //webservice请求url
+		 String method = iAccountCached.getMethod(); //webservice请求方法名称
+		 String userId = iAccountCached.getUserid(); //webservice登录账号
+		 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+		 String key = iAccountCached.getKey(); //秘钥
+		 //获取 认证基本信息
+		 AuthenticationBasicInformationVo authenticationBasicInformationVo = TransferThirdParty.authenticationBasicInformationQuery(identityCard, sourceOfCertification, url, method, userId, userPwd, key);
+		 //获取驾驶证信息
+		 List<BindTheVehicleVo> bindTheVehicleVos = TransferThirdParty.bindsTheMotorVehicleQuery(authenticationBasicInformationVo.getMobilephone(), identityCard, sourceOfCertification, url, method, userId, userPwd, key);
+		 //车牌号码
+		 List<String> numberPlateNumbers = new ArrayList<String>();
+		
+		 for(BindTheVehicleVo bindTheVehicleVo : bindTheVehicleVos){
+			 String numberPlateNumber = bindTheVehicleVo.getNumberPlateNumber();
+			 if(StringUtils.isNotBlank(numberPlateNumber)){
+				 numberPlateNumber = numberPlateNumber.substring(1, numberPlateNumber.length());
+			 }
+			 numberPlateNumbers.add(numberPlateNumber);
+		 }
+		 MotorVehicleInformationSheetVo motorVehicleInformationSheetVo = new MotorVehicleInformationSheetVo();
+		 motorVehicleInformationSheetVo.setIdentityCard(authenticationBasicInformationVo.getIdentityCard());
+		 motorVehicleInformationSheetVo.setMobilephone(authenticationBasicInformationVo.getMobilephone());
+		 motorVehicleInformationSheetVo.setUserName(authenticationBasicInformationVo.getTrueName());
+		
+		 motorVehicleInformationSheetVo.setNumberPlateNumbers(numberPlateNumbers);
+		 //车辆类型(客户端写死 例如 key-value)
+		 //motorVehicleInformationSheetVo.setPlateTypes(plateTypes);
+		return motorVehicleInformationSheetVo;
 	};
 
 	
