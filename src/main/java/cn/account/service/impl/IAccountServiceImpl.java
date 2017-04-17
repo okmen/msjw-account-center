@@ -34,7 +34,6 @@ import cn.account.cached.impl.IAccountCachedImpl;
 import cn.account.dao.IAccountDao;
 import cn.account.dao.IUserValidateCodeDao;
 import cn.account.service.IAccountService;
-import cn.account.utils.RandomUtils;
 import cn.account.utils.TransferThirdParty;
 import cn.sdk.util.Base64;
 import cn.sdk.util.RandomUtil;
@@ -434,9 +433,7 @@ public class IAccountServiceImpl implements IAccountService {
 		return null;
 	}
 	@Override
-	public void sendSMSVerificatioCode(String mobilephone) {
-		//生成验证码，六位数
-		String valideteCode = RandomUtils.createValidateCode();
+	public void sendSMSVerificatioCode(String mobilephone,String valideteCode) {
 		//插入数据库
 		UserValidateCodePo userValidateCodePo = new UserValidateCodePo();
 		userValidateCodePo.setGenDate(new Date());
