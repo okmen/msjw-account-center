@@ -47,6 +47,28 @@ public interface AccountMapper {
     public long updateBindOpenidStatus(UserOpenidBean userOpenidBean);
     
     public int unbindVehicle(UserBind userBind);
+    /**
+     * 登录绑定
+     * @param userBind
+     * @return
+     */
+    public int addLoginInfo(UserBind userBind);
+    /**
+	 * 根据身份证。第三方登录id、客户端类型查询绑定
+	 * @param idCard 身份证
+	 * @param openId 第三方登录id
+	 * @param clientType 客户端类型
+	 * @return
+	 */
+	public UserBind getLoginInfo(@Param("idCard")String idCard,@Param("openId")String openId,@Param("clientType")String clientType);
+	/**
+	 * 修改登录绑定isBind = 0
+	 * @param identityCard 身份证
+	 * @param openId 第三方登录id
+	 * @param clientType 客户端类型
+	 * @return
+	 */
+	public int updateUserBind(@Param("idCard")String idCard,@Param("openId")String openId,@Param("clientType")String clientType);
     
     public Long getUserIdByOpenid(String openid);
     

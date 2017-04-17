@@ -1,5 +1,6 @@
 package cn.account.service.impl;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import cn.account.bean.UserBind;
 import cn.account.bean.WechatUserInfoBean;
+import cn.account.bean.po.UserValidateCodePo;
 import cn.account.bean.vo.AuthenticationBasicInformationVo;
 import cn.account.bean.vo.BindCarVo;
 import cn.account.bean.vo.BindTheVehicleVo;
@@ -30,9 +32,12 @@ import cn.account.bean.vo.queryclassservice.MakeAnAppointmentVo;
 import cn.account.bean.vo.queryclassservice.MotorVehicleBusinessVo;
 import cn.account.cached.impl.IAccountCachedImpl;
 import cn.account.dao.IAccountDao;
+import cn.account.dao.IUserValidateCodeDao;
 import cn.account.service.IAccountService;
+import cn.account.utils.RandomUtils;
 import cn.account.utils.TransferThirdParty;
 import cn.sdk.util.Base64;
+import cn.sdk.util.RandomUtil;
 import cn.sdk.webservice.WebServiceClient;
 
 /**
@@ -51,6 +56,9 @@ public class IAccountServiceImpl implements IAccountService {
 
 	@Autowired
 	private IAccountCachedImpl iAccountCached;
+	
+	@Autowired
+	private IUserValidateCodeDao userValidateCodeDao;
 	
 	
 	@Override
@@ -105,7 +113,7 @@ public class IAccountServiceImpl implements IAccountService {
 	 * @throws Exception 
 	 */
 	@Override
-	public LoginReturnBeanVo login(String loginName,String password,String sourceOfCertification) throws Exception {
+	public LoginReturnBeanVo login(String loginName,String password,String sourceOfCertification,String openId,String loginClient) throws Exception {
 		LoginReturnBeanVo loginReturnBean = new LoginReturnBeanVo();
 		
 		String url = iAccountCached.getUrl(); //webservice请求url
@@ -139,6 +147,21 @@ public class IAccountServiceImpl implements IAccountService {
 			}
 			loginReturnBean.setCode(code);
 			loginReturnBean.setMsg(msg);
+			
+			//登录成功绑定，已经绑定就改下状态为isBind=1,没有则绑定
+			UserBind userBind = accountDao.getLoginInfo(identityCard, openId, loginClient);
+			if(null == userBind){
+				userBind = new UserBind();
+				userBind.setClientType(loginClient);
+				userBind.setBindDate(new Date());
+				userBind.setIdCard(identityCard);
+				userBind.setMobileNumber(mobilephone);
+				userBind.setIsBind(0);
+				userBind.setOpenId(openId);
+				accountDao.addLoginInfo(userBind);
+			}else{
+				accountDao.updateUserBind(identityCard,openId,loginClient);
+			}
 		}else {
 			//登录失败
 			loginReturnBean.setCode(code);
@@ -364,6 +387,87 @@ public class IAccountServiceImpl implements IAccountService {
 		 //motorVehicleInformationSheetVo.setPlateTypes(plateTypes);
 		return motorVehicleInformationSheetVo;
 	};
+	
+	@Override
+	public Object getMyBusiness(Integer businessType, Integer businessStatus, String identityCard,String sourceOfCertification) throws Exception {
+		 String url = iAccountCached.getUrl(); //webservice请求url
+		 String method = iAccountCached.getMethod(); //webservice请求方法名称
+		 String userId = iAccountCached.getUserid(); //webservice登录账号
+		 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+		 String key = iAccountCached.getKey(); //秘钥
+		 
+		 TransferThirdParty.getDriverLicenseToReplenishBusinessInquiriesInterface(identityCard, sourceOfCertification, url, method, userId, userPwd, key);
+		//业务类型	 0-全部
+		if(0 == businessType){
+			
+			//业务状态 0-全部、1-办理中、2-已完结
+			if(0 == businessStatus){
+				
+			}else if(1 == businessStatus){
+				
+			}else if(2 == businessStatus) {
+				
+			}
+		}
+		//业务类型 	1-机动车业务
+		if(1 == businessType){
+			//业务状态 0-全部、1-办理中、2-已完结
+			if(0 == businessStatus){
+				
+			}else if(1 == businessStatus){
+				
+			}else if(2 == businessStatus) {
+				
+			}
+		}
+		//业务类型	2-驾驶证业务
+		if(2 == businessType){
+			//业务状态 0-全部、1-办理中、2-已完结
+			if(0 == businessStatus){
+				
+			}else if(1 == businessStatus){
+				
+			}else if(2 == businessStatus) {
+				
+			}
+		}
+		return null;
+	}
+	@Override
+	public void sendSMSVerificatioCode(String mobilephone) {
+		//生成验证码，六位数
+		String valideteCode = RandomUtils.createValidateCode();
+		//插入数据库
+		UserValidateCodePo userValidateCodePo = new UserValidateCodePo();
+		userValidateCodePo.setGenDate(new Date());
+		userValidateCodePo.setMobilephone(mobilephone);
+		userValidateCodePo.setValidateCode(valideteCode);
+		
+		int result = userValidateCodeDao.addUserValidateCode(userValidateCodePo);
+		if(1 == result){
+			//插入redis,为5分钟有效期
+			iAccountCached.insertUserValidateCode(mobilephone, valideteCode);
+		}
+	}
+
+
+	@Override
+	public int verificatioCode(String mobilephone, String validateCode) {
+		// 0-验证成功，1-验证失败，2-验证码失效
+		int result = 0;
+		//取redis验证码
+		String code= iAccountCached.getUserValidateCode(mobilephone);
+		if(StringUtils.isNotBlank(code)){
+			if(validateCode.equals(code)){
+				result = 0;
+			}else{
+				result = 1;
+			}
+		}else{
+			result = 2;
+		}
+		return result;
+	}
 
 	@Override
 	public int unbindVehicle(UserBind userBind) {
@@ -530,6 +634,12 @@ public class IAccountServiceImpl implements IAccountService {
 			System.out.println(json);
 		return json;
 	}
+
+
+	
+
+
+	
 
 //	@Override
 //	public UserRegInfo addNewUser(UserRegInfo userRegInfo) {

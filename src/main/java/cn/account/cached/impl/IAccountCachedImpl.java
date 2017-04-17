@@ -12,6 +12,7 @@ import cn.account.bean.Token;
 import cn.account.bean.UserRegInfo;
 import cn.account.bean.WechatUserInfoBean;
 import cn.account.cached.IAccountCached;
+import cn.account.cached.ICacheKey;
 import cn.account.config.IConfig;
 import cn.sdk.cache.ICacheManger;
 import cn.sdk.serialization.ISerializeManager;
@@ -160,7 +161,16 @@ public class IAccountCachedImpl implements IAccountCached{
             return null;
         }
     }
+    @Override
+	public void insertUserValidateCode(String mobilephone, String validateCode) {
+    	cacheManger.set(mobilephone, validateCode, ICacheKey.USER_VALIDATE_CODE);
+	}
 
+
+	@Override
+	public String getUserValidateCode(String mobilephone) {
+		return cacheManger.get(mobilephone);
+	}
 
 	public String getUserid() {
 		return userid;
@@ -185,4 +195,5 @@ public class IAccountCachedImpl implements IAccountCached{
 	public String getKey() {
 		return key;
 	}
+
 }

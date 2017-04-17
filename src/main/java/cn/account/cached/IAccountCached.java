@@ -65,4 +65,17 @@ public interface IAccountCached extends ICacheKey {
      * @return
      */
     public String getAccessTokenFromEncypt(String encyptAccessToken);
+    
+    /**
+     * 添加用户验证码到redis
+     * @param mobilephone
+     * @param validateCode
+     */
+    public void insertUserValidateCode(String mobilephone,String validateCode);
+    /**
+     * 根据手机号从redis取验证码
+     * @param mobilephone
+     * @return
+     */
+    public String getUserValidateCode(String mobilephone);
 }

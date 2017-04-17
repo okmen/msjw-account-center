@@ -114,10 +114,8 @@ public class TestAccountService {
 	 */
 	@Test
 	public void testAllWechatUserInfoBeanList() {
-		WechatUserInfoBean result = null;
-		List<WechatUserInfoBean> list = accountService.getAllWechatUserInfoBeanList();
-		System.out.println(list.size());
-		Assert.assertTrue(list != null);
+		String mobilephone = "13888888888";
+		accountService.sendSMSVerificatioCode(mobilephone);
 	}
 
 	// // 获取用户信息

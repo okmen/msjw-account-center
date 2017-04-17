@@ -121,4 +121,21 @@ public class IAccountDaoImpl implements IAccountDao {
         return userMapper.updateDevice(deviceORM);
     }
 
+	@Override
+	public int addLoginInfo(UserBind userBind) {
+		return userMapper.addLoginInfo(userBind);
+	}
+
+	@Override
+	public UserBind getLoginInfo(String identityCard, String openId, String clientType) {
+		return userMapper.getLoginInfo(identityCard, openId, clientType);
+	}
+
+	@Override
+	public int updateUserBind(String identityCard, String openId, String clientType) {
+		return userMapper.updateUserBind(identityCard, openId, clientType);
+	}
+
+	
+
 }

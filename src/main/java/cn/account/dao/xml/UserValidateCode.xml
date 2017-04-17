@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.account.dao.mapper.UserValidateCodeMapper">
+	
+    <resultMap type="cn.account.bean.po.UserValidateCodePo" id="userValidateCodePo">
+		<result property="id" column="id" />
+		<result property="mobilephone" column="mobilephone" />
+		<result property="validateCode" column="validate_code" />
+		<result property="genDate" column="gen_date" />
+	</resultMap>
+
+	<sql id="common">
+		id,mobilephone,validate_code,gen_date
+	</sql>
+	
+	
+	<!-- 添加验证 -->
+	<insert id="addUserValidateCode" parameterType="cn.account.bean.po.UserValidateCodePo" useGeneratedKeys="true" keyProperty="id" >
+		insert into t_user_validate_code (
+			mobilephone,validate_code,gen_date
+		)
+		values(
+			#{mobilephone}, #{validateCode}, #{genDate}
+		)
+	</insert>
+	
+	<!-- 查询验证码-->
+	<select id="getUserValidateCodeByMobilephone" resultType="cn.account.bean.po.UserValidateCodePo">
+		select <include refid="common" /> from t_user_validate_code where 1=1 and mobilephone = #{mobilephone} order by gen_date desc
+	</select>
+	
+</mapper>

@@ -82,7 +82,27 @@ public interface IAccountDao {
 	 * @return userId
 	 */
 	public Long getUserIdByOpenid(String openid);
-	
+	/**
+	 * 登录绑定
+	 * @param userBind
+	 */
+	public int addLoginInfo(UserBind userBind);
+	/**
+	 * 根据身份证。第三方登录id、客户端类型查询绑定
+	 * @param identityCard 身份证
+	 * @param openId 第三方登录id
+	 * @param clientType 客户端类型
+	 * @return
+	 */
+	public UserBind getLoginInfo(String identityCard,String openId,String clientType);
+	/**
+	 * 修改登录绑定isBind = 0
+	 * @param identityCard 身份证
+	 * @param openId 第三方登录id
+	 * @param clientType 客户端类型
+	 * @return
+	 */
+	public int updateUserBind(String identityCard,String openId,String clientType);
 	
     /**
      * 通过userId拿到openid

@@ -90,16 +90,27 @@
 		SELECT username FROM `cm_user` WHERE user_id = (SELECT MAX(user_id) FROM
 		cm_user);
 	</select>
-
-	<insert id="addNewUser" parameterType="UserRegInfo" useGeneratedKeys="true" keyProperty="id" >
-		insert into cm_user (
-		username, nickname, mobilephone, costgrade,
-		hair_type, status, password, img, add_time, area, couponmoney
-		)values(
-		#{username}, #{nickname}, #{mobilePhone}, #{costGrade}, #{hairType},
-		#{status}, #{password}, #{img}, #{creatOn}, #{area}, #{couponMoney}
+	
+	<!-- 登录绑定 -->
+	<insert id="addLoginInfo" parameterType="cn.account.bean.UserBind" useGeneratedKeys="true" keyProperty="id" >
+		insert into t_user_bind (
+			open_id,id_card,mobile_number,bind_date,unbind_date,is_bind,client_type
+		)
+		values(
+			#{openId}, #{idCard}, #{mobileNumber}, #{bindDate}, #{unbindDate},
+			#{isBind}, #{clientType}
 		)
 	</insert>
+	
+	<!-- 登录绑定查询 -->
+	<select id="getLoginInfo" resultType="cn.account.bean.UserBind">
+		select * from t_user_bind where id_card = #{idCard} and open_id = #{openId} and client_type = #{clientType}
+	</select>
+	
+	<!-- 修改登录绑定 -->
+	<update id="updateUserBind">
+		update t_user_bind set is_bind = 0 where id_card = #{idCard} and open_id = #{openId} and client_type = #{clientType}
+	</update>
 	
 	<insert id="createUsername" parameterType="cn.account.orm.UsernameORM" useGeneratedKeys="true"
 		keyColumn="id" keyProperty="id">
@@ -121,6 +132,7 @@
 	<update id="unbindVehicle" parameterType="cn.account.bean.UserBind" >
 		UPDATE t_user_bind SET `is_bind`=1,unbind_date=sysdate() where id_card =#{idCard} and open_id =#{openId}
 	</update>
+	
 	
 	<!-- 通过openid拿到userId -->
 	<select id="getUserIdByOpenid" parameterType="String" resultType="java.lang.Long">
