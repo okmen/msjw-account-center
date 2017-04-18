@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ObjectUtils.Null;
 import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.fastjson.JSONArray;
@@ -419,6 +420,7 @@ public class TransferThirdParty {
 			//失败
 			map.put("code", code);
 			map.put("msg", msg);
+			map.put("data", null);
 		}
 		return map;
 	}

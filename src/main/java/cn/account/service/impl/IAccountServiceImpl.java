@@ -19,10 +19,14 @@ import cn.account.bean.vo.AuthenticationBasicInformationVo;
 import cn.account.bean.vo.BindCarVo;
 import cn.account.bean.vo.BindTheVehicleVo;
 import cn.account.bean.vo.DriverLicenseInformationSheetVo;
+import cn.account.bean.vo.DriverLicenseToSupplementThePermitBusinessVo;
 import cn.account.bean.vo.DrivingLicenseVo;
 import cn.account.bean.vo.ElectronicDriverLicenseVo;
+import cn.account.bean.vo.InformationSheetVo;
 import cn.account.bean.vo.LoginReturnBeanVo;
+import cn.account.bean.vo.MotorVehicleBusiness;
 import cn.account.bean.vo.MotorVehicleInformationSheetVo;
+import cn.account.bean.vo.MyBusinessVo;
 import cn.account.bean.vo.MyDriverLicenseVo;
 import cn.account.bean.vo.RegisterVo;
 import cn.account.bean.vo.UserBasicVo;
@@ -386,19 +390,211 @@ public class IAccountServiceImpl implements IAccountService {
 		 //motorVehicleInformationSheetVo.setPlateTypes(plateTypes);
 		return motorVehicleInformationSheetVo;
 	};
+	/**
+	 * 驾驶证业务，包括(驾驶证业务查询、驾驶人信息单、驾驶人安全事故信用表)
+	 * @return
+	 */
+	private List<MyBusinessVo> getMyBusinessVos11(List<DriverLicenseToSupplementThePermitBusinessVo> driverLicenseToSupplementThePermitBusinessVos){
+		List<MyBusinessVo> myBusinessVos11 = new ArrayList<MyBusinessVo>(); //驾驶证业务，包括(驾驶证业务查询、驾驶人信息单、驾驶人安全事故信用表)
+		for(DriverLicenseToSupplementThePermitBusinessVo driverLicenseToSupplementThePermitBusinessVo : driverLicenseToSupplementThePermitBusinessVos){
+			 MyBusinessVo myBusinessVo = new MyBusinessVo();
+			 myBusinessVo.setApplicationTime(driverLicenseToSupplementThePermitBusinessVo.getWSLRSJ());//申请时间
+			 // B：补证 H换证
+			 if("B".equals(driverLicenseToSupplementThePermitBusinessVo.getHBLX())){
+				 myBusinessVo.setBusinessTitle("驾驶证补证");//业务名称
+			 }
+			 if("Z".equals(driverLicenseToSupplementThePermitBusinessVo.getHBLX())){
+				 myBusinessVo.setBusinessTitle("驾驶证转入");//业务名称
+			 }
+			 myBusinessVo.setIdentityCard(driverLicenseToSupplementThePermitBusinessVo.getSFZMHM()); //身份证
+			//myBusinessVo.setPlateType(plateType);//号牌种类例如 蓝牌
+			 myBusinessVo.setReceptionTime(driverLicenseToSupplementThePermitBusinessVo.getWSLRSJ()); //受理时间
+			 if("0".equals(driverLicenseToSupplementThePermitBusinessVo.getZHCLZT())){
+				 //0待初审  -->办理中
+				 myBusinessVo.setStatus(1); //0-全部，1-办理中，2-已完结
+				 myBusinessVo.setStatusStr("待初审");
+			 }
+			 if("1".equals(driverLicenseToSupplementThePermitBusinessVo.getZHCLZT())){
+				 //1初审通过，待制证  -->办理中
+				 myBusinessVo.setStatus(1); //0-全部，1-办理中，2-已完结
+				 myBusinessVo.setStatusStr("初审通过，待制证");
+			 }
+			 if("2".equals(driverLicenseToSupplementThePermitBusinessVo.getZHCLZT())){
+				 //2车管已制证  -->办理中
+				 myBusinessVo.setStatus(2); //0-全部，1-办理中，2-已完结
+				 myBusinessVo.setStatusStr("车管已制证");
+			 }
+			 if("3".equals(driverLicenseToSupplementThePermitBusinessVo.getZHCLZT())){
+				 //3待初审  -->办理中
+				 myBusinessVo.setStatus(1); //0-全部，1-办理中，2-已完结
+				 myBusinessVo.setStatusStr("待初审");
+			 }
+			 if("TB".equals(driverLicenseToSupplementThePermitBusinessVo.getZHCLZT())){
+				 //TB退办  -->办理中
+				 myBusinessVo.setStatus(2); //0-全部，1-办理中，2-已完结
+				 myBusinessVo.setStatusStr("退办");
+			 }
+			 myBusinessVo.setUserName(driverLicenseToSupplementThePermitBusinessVo.getXM());//姓名
+			//myBusinessVo.setVehicleNumber(vehicleNumber);//车辆号码 例如 粤B701NR
+			 myBusinessVos11.add(myBusinessVo);
+		 }
+		return myBusinessVos11;
+	}
+	/**
+	 * //机动车业务，包括(机动车业务查询、机动车信息单、无车证明申请)
+	 * @return
+	 */
+	private List<MyBusinessVo> getMyBusinessVos22(List<MotorVehicleBusiness> motorVehicleBusinesses){
+		List<MyBusinessVo> myBusinessVos22 = new ArrayList<MyBusinessVo>(); //机动车业务，包括(机动车业务查询、机动车信息单、无车证明申请)
+		for(MotorVehicleBusiness motorVehicleBusiness : motorVehicleBusinesses){
+			MyBusinessVo myBusinessVo = new MyBusinessVo();
+			 myBusinessVo.setVehicleNumber(motorVehicleBusiness.getHPHM());
+			 //YWLX=1换  YWLX=5 补 
+			 if("1".equals(motorVehicleBusiness.getYWLX())){
+				 myBusinessVo.setBusinessTitle("换领机动车行驶证");//业务名称
+			 }
+			 if("5".equals(motorVehicleBusiness.getYWLX())){
+				 myBusinessVo.setBusinessTitle("补领机动车行驶证");//业务名称
+			 }
+			 if("0".equals(motorVehicleBusiness.getZHCLZT())){
+				 //0待初审  -->办理中
+				 myBusinessVo.setStatus(1); //0-全部，1-办理中，2-已完结
+				 myBusinessVo.setStatusStr("待初审");
+			 }
+			 if("1".equals(motorVehicleBusiness.getZHCLZT())){
+				 //1初审通过，待制证  -->办理中
+				 myBusinessVo.setStatus(1); //0-全部，1-办理中，2-已完结
+				 myBusinessVo.setStatusStr("初审通过，待制证");
+			 }
+			 if("2".equals(motorVehicleBusiness.getZHCLZT())){
+				 //2车管已制证  -->办理中
+				 myBusinessVo.setStatus(2); //0-全部，1-办理中，2-已完结
+				 myBusinessVo.setStatusStr("车管已制证");
+			 }
+			 if("3".equals(motorVehicleBusiness.getZHCLZT())){
+				 //3待初审  -->办理中
+				 myBusinessVo.setStatus(1); //0-全部，1-办理中，2-已完结
+				 myBusinessVo.setStatusStr("待初审");
+			 }
+			 if("TB".equals(motorVehicleBusiness.getZHCLZT())){
+				 //TB退办  -->办理中
+				 myBusinessVo.setStatus(2); //0-全部，1-办理中，2-已完结
+				 myBusinessVo.setStatusStr("退办");
+			 }
+			 myBusinessVos22.add(myBusinessVo);
+		 }
+		return myBusinessVos22;
+	}
+	/**
+	 * 机动车信息单--机动车业务
+	 * @return
+	 */
+	private void getQueryMachineInformationSheet2(Map<String, Object> map, List<MyBusinessVo> myBusinessVos22){
+		List<InformationSheetVo> informationSheetVos = (List<InformationSheetVo>) map.get("data");
+		List<MyBusinessVo> myBusinessVos = new ArrayList<MyBusinessVo>();
+		for(InformationSheetVo informationSheetVo : informationSheetVos){
+			MyBusinessVo myBusinessVo = new MyBusinessVo();
+			myBusinessVo.setBusinessTitle("机动车信息单");
+			myBusinessVo.setUserName(informationSheetVo.getName());
+			myBusinessVo.setIdentityCard(informationSheetVo.getIdCard());
+			myBusinessVo.setApplicationTime(informationSheetVo.getApplicationTime());
+			myBusinessVo.setVehicleNumber(informationSheetVo.getNumberPlate());
+			myBusinessVo.setPlateType(informationSheetVo.getPlateType());
+			myBusinessVos.add(myBusinessVo);
+		}
+		myBusinessVos22.addAll(myBusinessVos);
+	}
+	/**
+	 * 无车证明申请--机动车业务
+	 * @return
+	 */
+	private void getQueryMachineInformationSheet3(Map<String, Object> map, List<MyBusinessVo> myBusinessVos22){
+		List<InformationSheetVo> informationSheetVos = (List<InformationSheetVo>) map.get("data");
+		List<MyBusinessVo> myBusinessVos = new ArrayList<MyBusinessVo>();
+		for(InformationSheetVo informationSheetVo : informationSheetVos){
+			MyBusinessVo myBusinessVo = new MyBusinessVo();
+			myBusinessVo.setBusinessTitle("无车证明申请");
+			myBusinessVo.setUserName(informationSheetVo.getName());
+			myBusinessVo.setIdentityCard(informationSheetVo.getIdCard());
+			myBusinessVo.setApplicationTime(informationSheetVo.getApplicationTime());
+			myBusinessVos.add(myBusinessVo);
+		}
+		myBusinessVos22.addAll(myBusinessVos);
+	}
+	/**
+	 * 驾驶人信息单--驾驶证业务
+	 * @return
+	 */
+	private void getQueryMachineInformationSheet1(Map<String, Object> map, List<MyBusinessVo> myBusinessVos11){
+		List<InformationSheetVo> informationSheetVos = (List<InformationSheetVo>) map.get("data");
+		List<MyBusinessVo> myBusinessVos = new ArrayList<MyBusinessVo>();
+		for(InformationSheetVo informationSheetVo : informationSheetVos){
+			MyBusinessVo myBusinessVo = new MyBusinessVo();
+			myBusinessVo.setBusinessTitle("驾驶人信息单");
+			myBusinessVo.setUserName(informationSheetVo.getName());
+			myBusinessVo.setIdentityCard(informationSheetVo.getIdCard());
+			myBusinessVo.setApplicationTime(informationSheetVo.getApplicationTime());
+			myBusinessVos.add(myBusinessVo);
+		}
+		myBusinessVos11.addAll(myBusinessVos);
+	}
+	/**
+	 * 驾驶人安全事故信用表--驾驶证业务
+	 * @return
+	 */
+	private void getQueryMachineInformationSheet4(Map<String, Object> map, List<MyBusinessVo> myBusinessVos11){
+		List<InformationSheetVo> informationSheetVos = (List<InformationSheetVo>) map.get("data");
+		List<MyBusinessVo> myBusinessVos = new ArrayList<MyBusinessVo>();
+		for(InformationSheetVo informationSheetVo : informationSheetVos){
+			MyBusinessVo myBusinessVo = new MyBusinessVo();
+			myBusinessVo.setBusinessTitle("驾驶人安全事故信用表");
+			myBusinessVo.setUserName(informationSheetVo.getName());
+			myBusinessVo.setIdentityCard(informationSheetVo.getIdCard());
+			myBusinessVo.setApplicationTime(informationSheetVo.getApplicationTime());
+			myBusinessVos.add(myBusinessVo);
+		}
+		myBusinessVos11.addAll(myBusinessVos);
+	}
 	
 	@Override
-	public Object getMyBusiness(Integer businessType, Integer businessStatus, String identityCard,String sourceOfCertification) throws Exception {
+	public List<MyBusinessVo> getMyBusiness(Integer businessType, Integer businessStatus, String identityCard,String sourceOfCertification) throws Exception {
 		 String url = iAccountCached.getUrl(); //webservice请求url
 		 String method = iAccountCached.getMethod(); //webservice请求方法名称
 		 String userId = iAccountCached.getUserid(); //webservice登录账号
 		 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
 		 String key = iAccountCached.getKey(); //秘钥
+		 List<MyBusinessVo> myBusinessVos11 = new ArrayList<MyBusinessVo>(); //驾驶证业务，包括(驾驶证业务查询、驾驶人信息单、驾驶人安全事故信用表)
+		 List<MyBusinessVo> myBusinessVos22 = new ArrayList<MyBusinessVo>(); //机动车业务，包括(机动车业务查询、机动车信息单、无车证明申请)
 		 
-		 TransferThirdParty.getDriverLicenseToReplenishBusinessInquiriesInterface(identityCard, sourceOfCertification, url, method, userId, userPwd, key);
+		 
+		 
+		 /****/
+		 //驾驶证业务查询
+		 List<DriverLicenseToSupplementThePermitBusinessVo> driverLicenseToSupplementThePermitBusinessVos = (List<DriverLicenseToSupplementThePermitBusinessVo>) TransferThirdParty.getDriverLicenseToReplenishBusinessInquiriesInterface(identityCard, sourceOfCertification, url, method, userId, userPwd, key);
+		 myBusinessVos11 = getMyBusinessVos11(driverLicenseToSupplementThePermitBusinessVos);
+		 
+		 //机动车业务查询接口
+		 List<MotorVehicleBusiness> motorVehicleBusinesses = (List<MotorVehicleBusiness>) TransferThirdParty.getMotorVehicleBusiness(identityCard, sourceOfCertification, url, method, userId, userPwd, key);
+		 myBusinessVos22 = getMyBusinessVos22(motorVehicleBusinesses);
+		 
+		 //4中类型信息单查询接口	申请类型(1、驾驶人信息单；2、机动车信息单；3、无车证明申请；4、驾驶人安全事故信用表)
+		 //驾驶人信息单
+		 Map<String, Object> map1 = TransferThirdParty.queryMachineInformationSheet("1", identityCard, sourceOfCertification, url, method, userId, userPwd, key);
+		 //机动车信息单
+		 Map<String, Object> map2 = TransferThirdParty.queryMachineInformationSheet("2", identityCard, sourceOfCertification, url, method, userId, userPwd, key);
+		 //无车证明申请
+		 Map<String, Object> map3 = TransferThirdParty.queryMachineInformationSheet("3", identityCard, sourceOfCertification, url, method, userId, userPwd, key);
+		 //驾驶人安全事故信用表
+		 Map<String, Object> map4 = TransferThirdParty.queryMachineInformationSheet("4", identityCard, sourceOfCertification, url, method, userId, userPwd, key);
+		 getQueryMachineInformationSheet1(map1,myBusinessVos11);
+		 getQueryMachineInformationSheet4(map4,myBusinessVos11);
+		 
+		 getQueryMachineInformationSheet2(map1,myBusinessVos22);
+		 getQueryMachineInformationSheet3(map4,myBusinessVos22);
+		 
+		 
 		//业务类型	 0-全部
 		if(0 == businessType){
-			
 			//业务状态 0-全部、1-办理中、2-已完结
 			if(0 == businessStatus){
 				
@@ -430,7 +626,7 @@ public class IAccountServiceImpl implements IAccountService {
 				
 			}
 		}
-		return null;
+		return myBusinessVos11;
 	}
 	@Override
 	public void sendSMSVerificatioCode(String mobilephone,String valideteCode) {

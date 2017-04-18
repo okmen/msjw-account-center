@@ -115,7 +115,7 @@ public class TestAccountService {
 	@Test
 	public void testAllWechatUserInfoBeanList() {
 		String mobilephone = "13888888888";
-		accountService.sendSMSVerificatioCode(mobilephone);
+		accountService.sendSMSVerificatioCode(mobilephone, "123456");
 	}
 
 	// // 获取用户信息
