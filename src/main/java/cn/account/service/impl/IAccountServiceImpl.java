@@ -399,6 +399,7 @@ public class IAccountServiceImpl implements IAccountService {
 		for(DriverLicenseToSupplementThePermitBusinessVo driverLicenseToSupplementThePermitBusinessVo : driverLicenseToSupplementThePermitBusinessVos){
 			 MyBusinessVo myBusinessVo = new MyBusinessVo();
 			 myBusinessVo.setApplicationTime(driverLicenseToSupplementThePermitBusinessVo.getWSLRSJ());//申请时间
+			 myBusinessVo.setDetailedBusiness(6);
 			 // B：补证 H换证
 			 if("B".equals(driverLicenseToSupplementThePermitBusinessVo.getHBLX())){
 				 myBusinessVo.setBusinessTitle("驾驶证补证");//业务名称
@@ -449,6 +450,7 @@ public class IAccountServiceImpl implements IAccountService {
 		for(MotorVehicleBusiness motorVehicleBusiness : motorVehicleBusinesses){
 			MyBusinessVo myBusinessVo = new MyBusinessVo();
 			 myBusinessVo.setVehicleNumber(motorVehicleBusiness.getHPHM());
+			 myBusinessVo.setDetailedBusiness(5);
 			 //YWLX=1换  YWLX=5 补 
 			 if("1".equals(motorVehicleBusiness.getYWLX())){
 				 myBusinessVo.setBusinessTitle("换领机动车行驶证");//业务名称
@@ -498,8 +500,23 @@ public class IAccountServiceImpl implements IAccountService {
 			myBusinessVo.setUserName(informationSheetVo.getName());
 			myBusinessVo.setIdentityCard(informationSheetVo.getIdCard());
 			myBusinessVo.setApplicationTime(informationSheetVo.getApplicationTime());
+			// 状态代码  0-待审核 1-审核通过，信息单查询结果图片尚未同步出来，请耐心等待 2-审核通过，信息单查询结果图片已同步，可选择电脑打印或手机图片保存
+			if("0".equals(informationSheetVo.getStatusCode())){
+				myBusinessVo.setStatus(1);
+				myBusinessVo.setStatusStr("待审核");
+			}
+			if("1".equals(informationSheetVo.getStatusCode())){
+				myBusinessVo.setStatus(1);
+				myBusinessVo.setStatusStr("审核通过 ");
+			}
+			if("2".equals(informationSheetVo.getStatusCode())){
+				myBusinessVo.setStatus(2);
+				myBusinessVo.setStatusStr("已制证");
+			}
 			myBusinessVo.setVehicleNumber(informationSheetVo.getNumberPlate());
 			myBusinessVo.setPlateType(informationSheetVo.getPlateType());
+			//具体业务 1、驾驶人信息单；2、机动车信息单；3、无车证明申请；4、驾驶人安全事故信用表；5、机动车行驶证；6、驾驶证
+			myBusinessVo.setDetailedBusiness(2);
 			myBusinessVos.add(myBusinessVo);
 		}
 		myBusinessVos22.addAll(myBusinessVos);
@@ -516,7 +533,22 @@ public class IAccountServiceImpl implements IAccountService {
 			myBusinessVo.setBusinessTitle("无车证明申请");
 			myBusinessVo.setUserName(informationSheetVo.getName());
 			myBusinessVo.setIdentityCard(informationSheetVo.getIdCard());
+			// 状态代码  0-待审核 1-审核通过，信息单查询结果图片尚未同步出来，请耐心等待 2-审核通过，信息单查询结果图片已同步，可选择电脑打印或手机图片保存
+			if("0".equals(informationSheetVo.getStatusCode())){
+				myBusinessVo.setStatus(1);
+				myBusinessVo.setStatusStr("待审核");
+			}
+			if("1".equals(informationSheetVo.getStatusCode())){
+				myBusinessVo.setStatus(1);
+				myBusinessVo.setStatusStr("审核通过");
+			}
+			if("2".equals(informationSheetVo.getStatusCode())){
+				myBusinessVo.setStatus(2);
+				myBusinessVo.setStatusStr("已制证");
+			}
 			myBusinessVo.setApplicationTime(informationSheetVo.getApplicationTime());
+			//具体业务 1、驾驶人信息单；2、机动车信息单；3、无车证明申请；4、驾驶人安全事故信用表；5、机动车行驶证；6、驾驶证
+			myBusinessVo.setDetailedBusiness(3);
 			myBusinessVos.add(myBusinessVo);
 		}
 		myBusinessVos22.addAll(myBusinessVos);
@@ -533,7 +565,22 @@ public class IAccountServiceImpl implements IAccountService {
 			myBusinessVo.setBusinessTitle("驾驶人信息单");
 			myBusinessVo.setUserName(informationSheetVo.getName());
 			myBusinessVo.setIdentityCard(informationSheetVo.getIdCard());
+			// 状态代码  0-待审核 1-审核通过，信息单查询结果图片尚未同步出来，请耐心等待 2-审核通过，信息单查询结果图片已同步，可选择电脑打印或手机图片保存
+			if("0".equals(informationSheetVo.getStatusCode())){
+				myBusinessVo.setStatus(1);
+				myBusinessVo.setStatusStr("待审核");
+			}
+			if("1".equals(informationSheetVo.getStatusCode())){
+				myBusinessVo.setStatus(1);
+				myBusinessVo.setStatusStr("审核通过");
+			}
+			if("2".equals(informationSheetVo.getStatusCode())){
+				myBusinessVo.setStatus(2);
+				myBusinessVo.setStatusStr("审核通过");
+			}
 			myBusinessVo.setApplicationTime(informationSheetVo.getApplicationTime());
+			//具体业务 1、驾驶人信息单；2、机动车信息单；3、无车证明申请；4、驾驶人安全事故信用表；5、机动车行驶证；6、驾驶证
+			myBusinessVo.setDetailedBusiness(1);
 			myBusinessVos.add(myBusinessVo);
 		}
 		myBusinessVos11.addAll(myBusinessVos);
@@ -550,7 +597,22 @@ public class IAccountServiceImpl implements IAccountService {
 			myBusinessVo.setBusinessTitle("驾驶人安全事故信用表");
 			myBusinessVo.setUserName(informationSheetVo.getName());
 			myBusinessVo.setIdentityCard(informationSheetVo.getIdCard());
+			// 状态代码  0-待审核 1-审核通过，信息单查询结果图片尚未同步出来，请耐心等待 2-审核通过，信息单查询结果图片已同步，可选择电脑打印或手机图片保存
+			if("0".equals(informationSheetVo.getStatusCode())){
+				myBusinessVo.setStatus(1);
+				myBusinessVo.setStatusStr("待审核");
+			}
+			if("1".equals(informationSheetVo.getStatusCode())){
+				myBusinessVo.setStatus(1);
+				myBusinessVo.setStatusStr("审核通过");
+			}
+			if("2".equals(informationSheetVo.getStatusCode())){
+				myBusinessVo.setStatus(2);
+				myBusinessVo.setStatusStr("审核通过");
+			}
 			myBusinessVo.setApplicationTime(informationSheetVo.getApplicationTime());
+			//具体业务 1、驾驶人信息单；2、机动车信息单；3、无车证明申请；4、驾驶人安全事故信用表；5、机动车行驶证；6、驾驶证
+			myBusinessVo.setDetailedBusiness(4);
 			myBusinessVos.add(myBusinessVo);
 		}
 		myBusinessVos11.addAll(myBusinessVos);
@@ -558,7 +620,9 @@ public class IAccountServiceImpl implements IAccountService {
 	
 	@Override
 	public List<MyBusinessVo> getMyBusiness(Integer businessType, Integer businessStatus, String identityCard,String sourceOfCertification) throws Exception {
-		 String url = iAccountCached.getUrl(); //webservice请求url
+		List<MyBusinessVo> returnMyBusinessVo = new ArrayList<MyBusinessVo>();
+		
+		String url = iAccountCached.getUrl(); //webservice请求url
 		 String method = iAccountCached.getMethod(); //webservice请求方法名称
 		 String userId = iAccountCached.getUserid(); //webservice登录账号
 		 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
@@ -566,9 +630,6 @@ public class IAccountServiceImpl implements IAccountService {
 		 List<MyBusinessVo> myBusinessVos11 = new ArrayList<MyBusinessVo>(); //驾驶证业务，包括(驾驶证业务查询、驾驶人信息单、驾驶人安全事故信用表)
 		 List<MyBusinessVo> myBusinessVos22 = new ArrayList<MyBusinessVo>(); //机动车业务，包括(机动车业务查询、机动车信息单、无车证明申请)
 		 
-		 
-		 
-		 /****/
 		 //驾驶证业务查询
 		 List<DriverLicenseToSupplementThePermitBusinessVo> driverLicenseToSupplementThePermitBusinessVos = (List<DriverLicenseToSupplementThePermitBusinessVo>) TransferThirdParty.getDriverLicenseToReplenishBusinessInquiriesInterface(identityCard, sourceOfCertification, url, method, userId, userPwd, key);
 		 myBusinessVos11 = getMyBusinessVos11(driverLicenseToSupplementThePermitBusinessVos);
@@ -592,12 +653,12 @@ public class IAccountServiceImpl implements IAccountService {
 		 getQueryMachineInformationSheet2(map1,myBusinessVos22);
 		 getQueryMachineInformationSheet3(map4,myBusinessVos22);
 		 
-		 
 		//业务类型	 0-全部
 		if(0 == businessType){
 			//业务状态 0-全部、1-办理中、2-已完结
 			if(0 == businessStatus){
-				
+				returnMyBusinessVo.addAll(myBusinessVos11);
+				returnMyBusinessVo.addAll(myBusinessVos22);
 			}else if(1 == businessStatus){
 				
 			}else if(2 == businessStatus) {
@@ -608,7 +669,7 @@ public class IAccountServiceImpl implements IAccountService {
 		if(1 == businessType){
 			//业务状态 0-全部、1-办理中、2-已完结
 			if(0 == businessStatus){
-				
+				returnMyBusinessVo.addAll(myBusinessVos22);
 			}else if(1 == businessStatus){
 				
 			}else if(2 == businessStatus) {
@@ -619,14 +680,14 @@ public class IAccountServiceImpl implements IAccountService {
 		if(2 == businessType){
 			//业务状态 0-全部、1-办理中、2-已完结
 			if(0 == businessStatus){
-				
+				returnMyBusinessVo.addAll(myBusinessVos11);
 			}else if(1 == businessStatus){
 				
 			}else if(2 == businessStatus) {
 				
 			}
 		}
-		return myBusinessVos11;
+		return returnMyBusinessVo;
 	}
 	@Override
 	public void sendSMSVerificatioCode(String mobilephone,String valideteCode) {
