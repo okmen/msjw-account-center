@@ -1,11 +1,300 @@
 package cn.account.service.impl;
 
+
+import com.alibaba.fastjson.JSONObject;
+
+import cn.account.bean.vo.BindCarVo;
+import cn.account.bean.vo.ReadilyShootVo;
+import cn.account.bean.vo.RegisterVo;
+import cn.account.bean.vo.UserBasicVo;
+import cn.sdk.util.Base64;
+import cn.sdk.webservice.WebServiceClient;
+
+@SuppressWarnings(value="all")
 public class NozzleMeans {
 	
 	
+
+	/**
+	 * 
+	 * @Title: addVehicle 
+	 * @author liuminkang
+	 * @Description: TODO(调用绑定车辆外部接口) 
+	 * @param bindCarVo
+	 * @param url
+	 * @param method
+	 * @param userId
+	 * @param userPwd
+	 * @param key
+	 * @return
+	 * @throws Exception    设定文件 
+	 * @return JSONObject    返回类型 
+	 * @date 2017年4月18日 下午5:24:28
+	 */
+	public static JSONObject addVehicle(BindCarVo bindCarVo,String url,String method,String userId,String userPwd,String key) throws Exception{
+		String xml = null;		
+		if(bindCarVo.getBindType()==0){//绑定他人车
+			xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><LOGIN_NAME>"+bindCarVo.getUserIdCard()+"</LOGIN_NAME><YHLY>"+bindCarVo.getUserSource()+"</YHLY><HPHM>"+bindCarVo.getLicensePlateNumber()+"</HPHM>"
+		            +"<HPZL>"+bindCarVo.getLicensePlateType()+"</HPZL><SFJC>"+bindCarVo.getProvinceAbbreviation()+" </SFJC><CJH4>"+bindCarVo.getFrameNumber()+"</CJH4><CZXM>"+bindCarVo.getOwnerName()+"</CZXM>"
+                    +"<CZSFZMHM>"+bindCarVo.getOwnerIdCard()+"</CZSFZMHM><SFBR>0</SFBR><LRIP>"+bindCarVo.getInputIP()+"</LRIP>"
+                    +"<BIND_DEPARTMENT>"+bindCarVo.getCertifiedSource()+"</BIND_DEPARTMENT><CZSFZMHMTPA>"+bindCarVo.getIdCardImgPositive()+"</CZSFZMHMTPA>"
+                    +"<CZSFZMHMTP>"+bindCarVo.getIdCardImgHandHeld()+"</CZSFZMHMTP></REQUEST>";
+		}else if(bindCarVo.getBindType()==1){//绑定个人车
+			xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><LOGIN_NAME>"+bindCarVo.getUserIdCard()+"</LOGIN_NAME><YHLY>"+bindCarVo.getUserSource()+"</YHLY><HPHM>"+bindCarVo.getLicensePlateNumber()+"</HPHM>"
+		            +"<HPZL>"+bindCarVo.getLicensePlateType()+"</HPZL><SFJC>"+bindCarVo.getProvinceAbbreviation()+" </SFJC><CJH4></CJH4><CZXM></CZXM>"
+                    +"<CZSFZMHM></CZSFZMHM><SFBR>1</SFBR><LRIP>"+bindCarVo.getInputIP()+"</LRIP>"
+                    +"<BIND_DEPARTMENT>"+bindCarVo.getCertifiedSource()+"</BIND_DEPARTMENT><CZSFZMHMTPA></CZSFZMHMTPA><CZSFZMHMTP></CZSFZMHMTP></REQUEST>";
+		}
+		String interfaceNumber = "xxcj10";
+		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
+		return json;
+	}
+	
+	/**
+	 * 
+	 * @Title: updateUser 
+	 * @author liuminkang
+	 * @Description: TODO(修改个人资料) 
+	 * @param userBasicVo
+	 * @param url
+	 * @param method
+	 * @param userId
+	 * @param userPwd
+	 * @param key
+	 * @return
+	 * @throws Exception    设定文件 
+	 * @return JSONObject    返回类型 
+	 * @date 2017年4月18日 下午5:29:46
+	 */
+	public static JSONObject updateUser(UserBasicVo userBasicVo,String url,String method,String userId,String userPwd,String key)throws Exception{
+		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><USERNAME>"+userBasicVo.getIdentityCard()+"</USERNAME><NICKNAME>"+userBasicVo.getNickname()+"</NICKNAME>"
+				+ "<TXDZ>"+userBasicVo.getMailingAddress()+"</TXDZ><PHOTO9>"+userBasicVo.getIdCardImgPositive()+"</PHOTO9><PHOTO6>"+userBasicVo.getIdCardImgHandHeld()+"</PHOTO6>"
+						+ "<SFZYXQ>"+userBasicVo.getIdCardValidityDate()+"</SFZYXQ><YHLY>"+userBasicVo.getUserSource()+"</YHLY></REQUEST>";
+		String interfaceNumber = "xxcj05";
+		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
+		return json;
+	}
+	
+	/**
+	 * 
+	 * @Title: updateMobile 
+	 * @author liuminkang
+	 * @Description: TODO(修改手机号) 
+	 * @param userBasicVo
+	 * @param url
+	 * @param method
+	 * @param userId
+	 * @param userPwd
+	 * @param key
+	 * @return
+	 * @throws Exception    设定文件 
+	 * @return JSONObject    返回类型 
+	 * @date 2017年4月18日 下午5:31:05
+	 */
+	public static JSONObject updateMobile(UserBasicVo userBasicVo,String url,String method,String userId,String userPwd,String key)throws Exception{
+		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><LOGIN_USER>"+userBasicVo.getIdentityCard()+"</LOGIN_USER><LXDH>"+userBasicVo.getOldMobile()+"</LXDH>"
+				+ "<NEWLXDH>"+userBasicVo.getNewMobile()+"</NEWLXDH><RZJS>"+userBasicVo.getUserSource()+"</RZJS></REQUEST>";
+		String interfaceNumber = "xxcj17";
+		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
+		return json;
+	}
+	
+	/**
+	 * 
+	 * @Title: updatePwd 
+	 * @author liuminkang
+	 * @Description: TODO(修改密码) 
+	 * @param userBasicVo
+	 * @param url
+	 * @param method
+	 * @param userId
+	 * @param userPwd
+	 * @param key
+	 * @return
+	 * @throws Exception    设定文件 
+	 * @return JSONObject    返回类型 
+	 * @date 2017年4月18日 下午5:32:44
+	 */
+	public static JSONObject updatePwd(UserBasicVo userBasicVo,String url,String method,String userId,String userPwd,String key)throws Exception{
+		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><USERNAME>"+userBasicVo.getIdentityCard()+"</USERNAME><OLDPWD>"+userBasicVo.getOldPwd()+"</OLDPWD>"
+				+ "<NEWPWD>"+userBasicVo.getNewPwd()+"</NEWPWD><YHLY>"+userBasicVo.getUserSource()+"</YHLY></REQUEST>";
+		String interfaceNumber = "xxcj04";
+		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
+		return json;
+	}
+	
+	/**
+	 * 
+	 * @Title: readilyShoot 
+	 * @author liuminkang
+	 * @Description: TODO(随手拍举报) 
+	 * @param readilyShootVo
+	 * @param url
+	 * @param method
+	 * @param userId
+	 * @param userPwd
+	 * @param key
+	 * @return
+	 * @throws Exception    设定文件 
+	 * @return JSONObject    返回类型 
+	 * @date 2017年4月18日 下午7:46:40
+	 */
+	public  static JSONObject readilyShoot(ReadilyShootVo readilyShootVo,String url,String method,String userId,String userPwd,String key) throws Exception {
+		
+		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><request><ssrxm>"+readilyShootVo.getWhistleblower()+"</ssrxm><lxdh>"+readilyShootVo.getMobilephone()+"</lxdh><lxdz>"+readilyShootVo.getLinkAddress()+"</lxdz><ssch>"+readilyShootVo.getLicensePlateNumber()+"</ssch>"
+				+ "<ssnr>"+readilyShootVo.getSituationStatement()+"</ssnr><jkbh>"+readilyShootVo.getPaymentNumber()+"</jkbh><sslx>"+readilyShootVo.getApplyType()+"</sslx><wfsj>"+readilyShootVo.getIllegalTime()+"</wfsj><wfdd>"+readilyShootVo.getIllegalSections()+"</wfdd>"
+				+ "<zfdw>"+readilyShootVo.getEnforcementDepartment()+"</zfdw><zjtp>"+readilyShootVo.getImages()+"</zjtp><ssly>"+readilyShootVo.getUserSource()+"</ssly><sfzmhm>"+readilyShootVo.getUserIdCard()+"</sfzmhm><xjyhid>"+readilyShootVo.getUserNumber()+"</xjyhid></request>";
+		String interfaceNumber = "HM1003";
+		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
+		return json;
+	}
+
+	/**
+	 * 
+	 * @Title: iAmTheOwner 
+	 * @author liuminkang
+	 * @Description: TODO(车主认证) 
+	 * @param registerVo
+	 * @param url
+	 * @param method
+	 * @param userId
+	 * @param userPwd
+	 * @param key
+	 * @return
+	 * @throws Exception    设定文件 
+	 * @return JSONObject    返回类型 
+	 * @date 2017年4月18日 下午7:47:03
+	 */
+	public static JSONObject iAmTheOwner(RegisterVo registerVo,String url,String method,String userId,String userPwd,String key) throws Exception{
+		//图片路径加密
+		byte[] idCardImgPositives= registerVo.getIdCardImgPositive().getBytes();
+		registerVo.setIdCardImgPositive(Base64.encode(idCardImgPositives));	
+				
+		byte[] idCardImgHandHelds = registerVo.getIdCardImgHandHeld().getBytes();
+		registerVo.setIdCardImgHandHeld(Base64.encode(idCardImgPositives));
+		
+		
+		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+registerVo.getUserIdCard()+"</SFZMHM><LXDH>"+registerVo.getMobilephone()+"</LXDH><LXDZ>"+registerVo.getLinkAddress()+"</LXDZ><HPHM>"+registerVo.getLicensePlateNumber()+"</HPHM>"
+				+ "<HPZL>"+registerVo.getLicensePlateType()+"</HPZL><RZLX>1</RZLX><RZLY>C</RZLY><JSRSZD>"+registerVo.getDriverLicenseIssuedAddress()+"</JSRSZD><SFJC>"+registerVo.getProvinceAbbreviation()+"</SFJC>"
+				+ "<RZJS>"+registerVo.getCertifiedRole()+"</RZJS><LRR>"+registerVo.getCallAccount()+"</LRR><PHOTO6>"+registerVo.getIdCardImgPositive()+"</PHOTO6><PHOTO9>"+registerVo.getIdCardImgHandHeld()+"</PHOTO9></REQUEST>";
+		String interfaceNumber = "xxcj15";
+		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
+		return json;
+	}
+	
+	/**
+	 * 
+	 * @Title: iamALongtimeUser 
+	 * @author liuminkang
+	 * @Description: TODO(长期使用人认证) 
+	 * @param registerVo
+	 * @param url
+	 * @param method
+	 * @param userId
+	 * @param userPwd
+	 * @param key
+	 * @return
+	 * @throws Exception    设定文件 
+	 * @return JSONObject    返回类型 
+	 * @date 2017年4月18日 下午7:47:08
+	 */
+	public static JSONObject iamALongtimeUser(RegisterVo registerVo,String url,String method,String userId,String userPwd,String key) throws Exception {	
+		//图片路径加密
+		byte[] idCardImgPositives= registerVo.getIdCardImgPositive().getBytes();
+		registerVo.setIdCardImgPositive(Base64.encode(idCardImgPositives));	
+						
+		byte[] idCardImgHandHelds = registerVo.getIdCardImgHandHeld().getBytes();
+		registerVo.setIdCardImgHandHeld(Base64.encode(idCardImgPositives));
+		
+		byte[] ownerIdCardImgPositives= registerVo.getOwnerIdCardImgPositive().getBytes();
+		registerVo.setOwnerIdCardImgPositive(Base64.encode(ownerIdCardImgPositives));	
+						
+		byte[] ownerIdCardImgHandHelds = registerVo.getOwnerIdCardImgHandHeld().getBytes();
+		registerVo.setOwnerIdCardImgHandHeld(Base64.encode(ownerIdCardImgHandHelds));
+		
+		String xml="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+registerVo.getUserIdCard()+"</SFZMHM><LXDH>"+registerVo.getMobilephone()+"</LXDH><LXDZ>"+registerVo.getLinkAddress()+"</LXDZ>"
+				+ "<HPHM>"+registerVo.getLicensePlateNumber()+"</HPHM><HPZL>"+registerVo.getLicensePlateType()+"</HPZL><CZXM>"+registerVo.getOwnerName()+"</CZXM><CZSFZMMC>"+registerVo.getOwnerIdName()+"</CZSFZMMC><CZSFZMHM>"+registerVo.getOwnerIdCard()+"</CZSFZMHM>"
+				+ "<CZLXDH>"+registerVo.getOwnerMobilephone()+"</CZLXDH><RZLX>"+registerVo.getCertifiedType()+"</RZLX><RZLY>"+registerVo.getCertifiedSource()+"</RZLY><RZJS>"+registerVo.getCertifiedRole()+"</RZJS>"
+				+ "<LRR>"+registerVo.getCallAccount()+"</LRR><JSRSZD>"+registerVo.getDriverLicenseIssuedAddress()+"</JSRSZD><SFJC>"+registerVo.getProvinceAbbreviation()+"</SFJC><PHOTO6>"+registerVo.getIdCardImgHandHeld()+"</PHOTO6>"
+				+ "<PHOTO9>"+registerVo.getIdCardImgPositive()+"</PHOTO9><PHOTO16>"+registerVo.getOwnerIdCardImgPositive()+"</PHOTO16><PHOTO18>"+registerVo.getOwnerIdCardImgHandHeld()+"</PHOTO18></REQUEST>";
+		String interfaceNumber = "xxcj15";
+		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
+		return json;
+	}
+	
+	/**
+	 * 
+	 * @Title: haveDriverLicenseNotCar 
+	 * @author liuminkang
+	 * @Description: TODO(有驾驶证无固定车认证) 
+	 * @param registerVo
+	 * @param url
+	 * @param method
+	 * @param userId
+	 * @param userPwd
+	 * @param key
+	 * @return
+	 * @throws Exception    设定文件 
+	 * @return JSONObject    返回类型 
+	 * @date 2017年4月18日 下午7:47:12
+	 */
+	public static JSONObject haveDriverLicenseNotCar(RegisterVo registerVo,String url,String method,String userId,String userPwd,String key) throws Exception {
+		
+		//图片路径加密
+		byte[] idCardImgPositives= registerVo.getIdCardImgPositive().getBytes();
+		registerVo.setIdCardImgPositive(Base64.encode(idCardImgPositives));	
+				
+		byte[] idCardImgHandHelds = registerVo.getIdCardImgHandHeld().getBytes();
+		registerVo.setIdCardImgHandHeld(Base64.encode(idCardImgPositives));
+		
+		String xml="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+registerVo.getUserIdCard()+"</SFZMHM><LXDH>"+registerVo.getMobilephone()+"</LXDH><LXDZ>"+registerVo.getLinkAddress()+"</LXDZ>"
+				+ "<RZLX>"+registerVo.getCertifiedType()+"</RZLX><RZLY>"+registerVo.getCertifiedSource()+"</RZLY><RZJS>"+registerVo.getCertifiedRole()+"</RZJS><LRR>"+registerVo.getCallAccount()+"</LRR>"
+				+ "<JSRSZD>"+registerVo.getDriverLicenseIssuedAddress()+"</JSRSZD ><PHOTO6>"+registerVo.getIdCardImgHandHeld()+"</PHOTO6><PHOTO9>"+registerVo.getIdCardImgPositive()+"</PHOTO9></REQUEST>";
+		String interfaceNumber = "xxcj15";
+		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
+		return json;
+	}
+	
+	/**
+	 * 
+	 * @Title: isPedestrianNotDriver 
+	 * @author liuminkang
+	 * @Description: TODO(行人认证) 
+	 * @param registerVo
+	 * @param url
+	 * @param method
+	 * @param userId
+	 * @param userPwd
+	 * @param key
+	 * @return
+	 * @throws Exception    设定文件 
+	 * @return JSONObject    返回类型 
+	 * @date 2017年4月18日 下午7:47:16
+	 */
+	public static JSONObject isPedestrianNotDriver(RegisterVo registerVo,String url,String method,String userId,String userPwd,String key)throws Exception {
+		//图片路径加密
+		byte[] idCardImgPositives= registerVo.getIdCardImgPositive().getBytes();
+		registerVo.setIdCardImgPositive(Base64.encode(idCardImgPositives));	
+		
+		byte[] idCardImgHandHelds = registerVo.getIdCardImgHandHeld().getBytes();
+		registerVo.setIdCardImgHandHeld(Base64.encode(idCardImgPositives));
+		
+		
+		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+ registerVo.getUserIdCard()+"</SFZMHM><LXDH>"+registerVo.getMobilephone()+"</LXDH>"
+				+ "<RZLX>"+registerVo.getCertifiedType()+"</RZLX><RZLY>C</RZLY><PHOTO6>"+registerVo.getIdCardImgHandHeld()+"</PHOTO6>"
+				+ "<PHOTO9>"+registerVo.getIdCardImgPositive()+"</PHOTO9></REQUEST>";
+		String interfaceNumber = "xxcjzrr";
+		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
+			System.out.println(json);
+		return json;
+	}
 	
 	
 	
+
 	
+	
+	
+
 
 }

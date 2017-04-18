@@ -28,6 +28,7 @@ import cn.account.bean.vo.MotorVehicleBusiness;
 import cn.account.bean.vo.MotorVehicleInformationSheetVo;
 import cn.account.bean.vo.MyBusinessVo;
 import cn.account.bean.vo.MyDriverLicenseVo;
+import cn.account.bean.vo.ReadilyShootVo;
 import cn.account.bean.vo.RegisterVo;
 import cn.account.bean.vo.UserBasicVo;
 import cn.account.bean.vo.queryclassservice.CertificationProgressQueryVo;
@@ -743,23 +744,14 @@ public class IAccountServiceImpl implements IAccountService {
 	@Override
 	public JSONObject addVehicle(BindCarVo bindCarVo) throws Exception{
 		
-		String xml = null;
+		 String url = iAccountCached.getUrl(); //webservice请求url
+		 String method = iAccountCached.getMethod(); //webservice请求方法名称
+		 String userId = iAccountCached.getUserid(); //webservice登录账号
+		 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+		 String key = iAccountCached.getKey(); //秘钥
 		
-		if(bindCarVo.getBindType()==0){//绑定他人车
-			xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><LOGIN_NAME>"+bindCarVo.getUserIdCard()+"</LOGIN_NAME><YHLY>"+bindCarVo.getUserSource()+"</YHLY><HPHM>"+bindCarVo.getLicensePlateNumber()+"</HPHM>"
-		            +"<HPZL>"+bindCarVo.getLicensePlateType()+"</HPZL><SFJC>"+bindCarVo.getProvinceAbbreviation()+" </SFJC><CJH4>"+bindCarVo.getFrameNumber()+"</CJH4><CZXM>"+bindCarVo.getOwnerName()+"</CZXM>"
-                    +"<CZSFZMHM>"+bindCarVo.getOwnerIdCard()+"</CZSFZMHM><SFBR>0</SFBR><LRIP>"+bindCarVo.getInputIP()+"</LRIP>"
-                    +"<BIND_DEPARTMENT>"+bindCarVo.getCertifiedSource()+"</BIND_DEPARTMENT><CZSFZMHMTPA>"+bindCarVo.getIdCardImgPositive()+"</CZSFZMHMTPA>"
-                    +"<CZSFZMHMTP>"+bindCarVo.getIdCardImgHandHeld()+"</CZSFZMHMTP></REQUEST>";
-		}else if(bindCarVo.getBindType()==1){//绑定个人车
-			xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><LOGIN_NAME>"+bindCarVo.getUserIdCard()+"</LOGIN_NAME><YHLY>"+bindCarVo.getUserSource()+"</YHLY><HPHM>"+bindCarVo.getLicensePlateNumber()+"</HPHM>"
-		            +"<HPZL>"+bindCarVo.getLicensePlateType()+"</HPZL><SFJC>"+bindCarVo.getProvinceAbbreviation()+" </SFJC><CJH4></CJH4><CZXM></CZXM>"
-                    +"<CZSFZMHM></CZSFZMHM><SFBR>1</SFBR><LRIP>"+bindCarVo.getInputIP()+"</LRIP>"
-                    +"<BIND_DEPARTMENT>"+bindCarVo.getCertifiedSource()+"</BIND_DEPARTMENT><CZSFZMHMTPA></CZSFZMHMTPA><CZSFZMHMTP></CZSFZMHMTP></REQUEST>";
-		}
-		String interfaceNumber = "xxcj10";
-		JSONObject json = WebServiceClient.getInstance().requestWebService("http://123.56.180.216:19002/xxfbpt/services/xxfbptservice","xxptSchuding", 
-		interfaceNumber,xml,"WX02","WX02@168","94D863D9BE7FB032E6A19430CC892610");
+		
+		JSONObject json = NozzleMeans.addVehicle(bindCarVo, url, method, userId, userPwd, key);
 		
 		return json;
 	}
@@ -767,15 +759,14 @@ public class IAccountServiceImpl implements IAccountService {
 
 	@Override
 	public JSONObject updateUser(UserBasicVo userBasicVo)throws Exception {
+		 String url = iAccountCached.getUrl(); //webservice请求url
+		 String method = iAccountCached.getMethod(); //webservice请求方法名称
+		 String userId = iAccountCached.getUserid(); //webservice登录账号
+		 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+		 String key = iAccountCached.getKey(); //秘钥
 		
 		
-		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>< REQUEST><USERNAME>"+userBasicVo.getIdentityCard()+"</ USERNAME><NICKNAME></NICKNAME>"
-				+ "<TXDZ>"+userBasicVo.getMailingAddress()+"</TXDZ><PHOTO9>"+userBasicVo.getIdCardImgPositive()+"</PHOTO9><PHOTO6>"+userBasicVo.getIdCardImgHandHeld()+"</PHOTO6>"
-						+ "<SFZYXQ>"+userBasicVo.getIdCardValidityDate()+"</SFZYXQ><YHLY>"+userBasicVo.getUserSource()+"</YHLY></REQUEST>";
-		String interfaceNumber = "xxcj05";
-		
-		JSONObject json = WebServiceClient.getInstance().requestWebService("http://123.56.180.216:19002/xxfbpt/services/xxfbptservice","xxptSchuding", 
-				interfaceNumber,xml,"WX02","WX02@168","94D863D9BE7FB032E6A19430CC892610");
+		JSONObject json = NozzleMeans.updateUser(userBasicVo, url, method, userId, userPwd, key);
 	
 		return null;
 	}
@@ -783,37 +774,42 @@ public class IAccountServiceImpl implements IAccountService {
 
 	@Override
 	public JSONObject updateMobile(UserBasicVo userBasicVo)throws Exception {		
-		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><LOGIN_USER>"+userBasicVo.getIdentityCard()+"</LOGIN_USER><LXDH>"+userBasicVo.getOldMobile()+"</LXDH>"
-				+ "<NEWLXDH>"+userBasicVo.getNewMobile()+"</NEWLXDH><RZJS>"+userBasicVo.getUserSource()+"</RZJS></REQUEST>";
-		String interfaceNumber = "xxcj17";
-		JSONObject json = WebServiceClient.getInstance().requestWebService("http://123.56.180.216:19002/xxfbpt/services/xxfbptservice","xxptSchuding", 
-				interfaceNumber,xml,"WX02","WX02@168","94D863D9BE7FB032E6A19430CC892610");
+		 String url = iAccountCached.getUrl(); //webservice请求url
+		 String method = iAccountCached.getMethod(); //webservice请求方法名称
+		 String userId = iAccountCached.getUserid(); //webservice登录账号
+		 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+		 String key = iAccountCached.getKey(); //秘钥
+		 
+		
+		JSONObject json = NozzleMeans.updateMobile(userBasicVo, url, method, userId, userPwd, key);
 				
 				return json;
 	}
 	
 	@Override
 	public JSONObject updatePwd(UserBasicVo userBasicVo)throws Exception {
+		 String url = iAccountCached.getUrl(); //webservice请求url
+		 String method = iAccountCached.getMethod(); //webservice请求方法名称
+		 String userId = iAccountCached.getUserid(); //webservice登录账号
+		 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+		 String key = iAccountCached.getKey(); //秘钥
 		
-		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><USERNAME>"+userBasicVo.getIdentityCard()+"</USERNAME><OLDPWD>"+userBasicVo.getOldPwd()+"</OLDPWD>"
-				+ "<NEWPWD>"+userBasicVo.getNewPwd()+"</NEWPWD><YHLY>"+userBasicVo.getUserSource()+"</YHLY></REQUEST>";
-		String interfaceNumber = "xxcj04";
-		JSONObject json = WebServiceClient.getInstance().requestWebService("http://123.56.180.216:19002/xxfbpt/services/xxfbptservice","xxptSchuding", 
-				interfaceNumber,xml,"WX02","WX02@168","94D863D9BE7FB032E6A19430CC892610");	
+		
+		JSONObject json = NozzleMeans.updatePwd(userBasicVo, url, method, userId, userPwd, key);	
 		return json;
 	}
 	
 	
 	@Override
-	public JSONObject readilyShoot(String illegalTime, String illegalSections, String img, String situationStatement,
-			String whistleblower, String identityCard, String mobilephone) throws Exception {
+	public JSONObject readilyShoot(ReadilyShootVo readilyShootVo) throws Exception {
+		 String url = iAccountCached.getUrl(); //webservice请求url
+		 String method = iAccountCached.getMethod(); //webservice请求方法名称
+		 String userId = iAccountCached.getUserid(); //webservice登录账号
+		 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+		 String key = iAccountCached.getKey(); //秘钥
 		
-		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><request><ssrxm>"+whistleblower+"</ssrxm><lxdh>"+mobilephone+"</lxdh><lxdz>申诉人联系地址</lxdz><ssch>申诉车号</ssch>"
-				+ "<ssnr>"+situationStatement+"</ssnr><jkbh>交款编号</jkbh><sslx>1</sslx><wfsj>"+illegalTime+"</wfsj><wfdd>"+illegalSections+"</wfdd><zfdw>执法单位(采集部门)</zfdw><zjtp>"+img+"</zjtp>"
-				+ "<ssly>C</ssly><sfzmhm>"+identityCard+"</sfzmhm><xjyhid></xjyhid></request>";
-		String interfaceNumber = "HM1003";
-		JSONObject json = WebServiceClient.getInstance().requestWebService("http://123.56.180.216:19002/xxfbpt/services/xxfbptservice","xxptSchuding", 
-					interfaceNumber,xml,"WX02","WX02@168","94D863D9BE7FB032E6A19430CC892610");
+		
+		JSONObject json = NozzleMeans.readilyShoot(readilyShootVo, url, method, userId, userPwd, key);
 		return json;
 	}
 
@@ -821,47 +817,44 @@ public class IAccountServiceImpl implements IAccountService {
 	@Override
 	public JSONObject iAmTheOwner(RegisterVo registerVo) throws Exception{
 		
-		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+registerVo.getUserIdCard()+"</SFZMHM><LXDH>"+registerVo.getMobilephone()+"</LXDH><LXDZ>"+registerVo.getLinkAddress()+"</LXDZ><HPHM>"+registerVo.getLicensePlateNumber()+"</HPHM>"
-				+ "<HPZL>"+registerVo.getLicensePlateType()+"</HPZL><RZLX>1</RZLX><RZLY>C</RZLY><JSRSZD>"+registerVo.getDriverLicenseIssuedAddress()+"</JSRSZD><SFJC>"+registerVo.getProvinceAbbreviation()+"</SFJC>"
-				+ "<RZJS>"+registerVo.getCertifiedType()+"</RZJS><LRR>"+registerVo.getCallAccount()+"</LRR><PHOTO6>"+registerVo.getIdCardImgPositive()+"</PHOTO6><PHOTO9>"+registerVo.getIdCardImgHandHeld()+"</PHOTO9></REQUEST>";
-		String interfaceNumber = "xxcj15";
-		JSONObject json = WebServiceClient.getInstance().requestWebService("http://123.56.180.216:19002/xxfbpt/services/xxfbptservice","xxptSchuding", 
-					interfaceNumber,xml,"WX02","WX02@168","94D863D9BE7FB032E6A19430CC892610");
+		 String url = iAccountCached.getUrl(); //webservice请求url
+		 String method = iAccountCached.getMethod(); //webservice请求方法名称
+		 String userId = iAccountCached.getUserid(); //webservice登录账号
+		 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+		 String key = iAccountCached.getKey(); //秘钥
+		 
+		
+		JSONObject json = NozzleMeans.iAmTheOwner(registerVo, url, method, userId, userPwd, key);
 		return json;
 	}
 	
 	
 	
 	@Override
-	public JSONObject iamALongtimeUser(String licensePlateType, String provinceAbbreviation, String licensePlateNumber,
-			String ownerName, String ownerIdCard, String userIdCard, String linkAddress, String mobilephone,
-			String driverLicenseIssuedAddress, String idCardImgPositive,
-			String idCardImgHandHeld) throws Exception {			
-		String xml="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+userIdCard+"</SFZMHM><LXDH>"+mobilephone+"</LXDH><LXDZ>"+linkAddress+"</LXDZ>"
-				+ "<HPHM>"+licensePlateNumber+"</HPHM><HPZL>"+licensePlateType+"</HPZL><CZXM>"+ownerName+"</CZXM><CZSFZMMC>"+ownerName+"</CZSFZMMC><CZSFZMHM>"+ownerIdCard+"</CZSFZMHM>"
-				+ "<CZLXDH>15878451232</CZLXDH><RZLX>2</RZLX><RZLY>C</RZLY><RZJS>1</RZJS>"
-				+ "<LRR>WX02_TEST</LRR><JSRSZD>"+driverLicenseIssuedAddress+"</JSRSZD><SFJC>"+provinceAbbreviation+"</SFJC><PHOTO6>"+idCardImgHandHeld+"</PHOTO6>"
-				+ "<PHOTO9>"+idCardImgPositive+"</PHOTO9><PHOTO16>车主身份证正面</PHOTO16><PHOTO18>车主手持身份证</PHOTO18></REQUEST>";
+	public JSONObject iamALongtimeUser(RegisterVo registerVo) throws Exception {			
+		 String url = iAccountCached.getUrl(); //webservice请求url
+		 String method = iAccountCached.getMethod(); //webservice请求方法名称
+		 String userId = iAccountCached.getUserid(); //webservice登录账号
+		 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+		 String key = iAccountCached.getKey(); //秘钥
+
 		
-		
-		String interfaceNumber = "xxcj15";
-		JSONObject json = WebServiceClient.getInstance().requestWebService("http://123.56.180.216:19002/xxfbpt/services/xxfbptservice","xxptSchuding", 
-					interfaceNumber,xml,"WX02","WX02@168","94D863D9BE7FB032E6A19430CC892610");
+		JSONObject json = NozzleMeans.iamALongtimeUser(registerVo, url, method, userId, userPwd, key);
 		return json;
 	}
 	
 	
 	
 	@Override
-	public JSONObject haveDriverLicenseNotCar(String identityCard, String linkAddress, String mobilephone,
-			String driverLicenseIssuedAddress, String idCardImgPositive,
-			String idCardImgHandHeld) throws Exception {
-		String xml="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+identityCard+"</SFZMHM><LXDH>"+mobilephone+"</LXDH><LXDZ>"+linkAddress+"</LXDZ>"
-				+ "<RZLX>3</RZLX><RZLY>C</RZLY><RZJS>1</RZJS><LRR>WX02_TEST</LRR>"
-				+ "<JSRSZD>"+driverLicenseIssuedAddress+"</JSRSZD ><PHOTO6>"+idCardImgHandHeld+"</PHOTO6><PHOTO9>"+idCardImgPositive+"</PHOTO9></REQUEST>";
-		String interfaceNumber = "xxcj15";
-		JSONObject json = WebServiceClient.getInstance().requestWebService("http://123.56.180.216:19002/xxfbpt/services/xxfbptservice","xxptSchuding", 
-					interfaceNumber,xml,"WX02","WX02@168","94D863D9BE7FB032E6A19430CC892610");
+	public JSONObject haveDriverLicenseNotCar(RegisterVo registerVo) throws Exception {
+		 String url = iAccountCached.getUrl(); //webservice请求url
+		 String method = iAccountCached.getMethod(); //webservice请求方法名称
+		 String userId = iAccountCached.getUserid(); //webservice登录账号
+		 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+		 String key = iAccountCached.getKey(); //秘钥
+		
+		
+		JSONObject json = NozzleMeans.haveDriverLicenseNotCar(registerVo, url, method, userId, userPwd, key);
 		return json;
 	}
 	
@@ -870,21 +863,16 @@ public class IAccountServiceImpl implements IAccountService {
 	
 	
 	@Override
-	public JSONObject isPedestrianNotDriver(String identityCard, String mobilephone,
-	    String idCardImgPositive, String idCardImgHandHeld)throws Exception {
-		//图片路径加密
-		byte[] idCardImgPositives= idCardImgPositive.getBytes();
-		idCardImgPositive =	Base64.encode(idCardImgPositives);	
+	public JSONObject isPedestrianNotDriver(RegisterVo registerVo)throws Exception {
 		
-		byte[] idCardImgHandHelds = idCardImgPositive.getBytes();
-		idCardImgPositive =	Base64.encode(idCardImgPositives);
+		 String url = iAccountCached.getUrl(); //webservice请求url
+		 String method = iAccountCached.getMethod(); //webservice请求方法名称
+		 String userId = iAccountCached.getUserid(); //webservice登录账号
+		 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+		 String key = iAccountCached.getKey(); //秘钥
 		
-		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+identityCard+"</SFZMHM><LXDH>18873583624</LXDH>"
-				+ "<RZLX>4</RZLX><RZLY>C</RZLY><PHOTO6>"+idCardImgHandHeld+"</PHOTO6>"
-				+ "<PHOTO9>"+idCardImgPositive+"</PHOTO9></REQUEST>";
-		String interfaceNumber = "xxcjzrr";
-			JSONObject json = WebServiceClient.getInstance().requestWebService("http://123.56.180.216:19002/xxfbpt/services/xxfbptservice","xxptSchuding", 
-					interfaceNumber,xml,"WX02","WX02@168","94D863D9BE7FB032E6A19430CC892610");
+		
+			JSONObject json = NozzleMeans.isPedestrianNotDriver(registerVo, url, method, userId, userPwd, key);
 			System.out.println(json);
 		return json;
 	}
