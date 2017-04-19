@@ -137,6 +137,7 @@ public class TransferThirdParty {
 					bindTheVehicleVo.setName(CZXM);
 					bindTheVehicleVo.setIdentityCard(CZSFZMHM);
 					bindTheVehicleVo.setIsMyself(SFBR);
+					bindTheVehicleVo.setBehindTheFrame4Digits(CJH4);
 					
 					String dateFormat = "yyyy-MM-dd";
 					Date date1 = AccountDateUtil.StringToDate(SYRQ, dateFormat);

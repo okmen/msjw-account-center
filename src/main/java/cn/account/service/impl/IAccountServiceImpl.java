@@ -146,6 +146,8 @@ public class IAccountServiceImpl implements IAccountService {
 					String isMyself = bindTheVehicleVo.getIsMyself();
 					if("本人".equals(isMyself)){
 						authenticationBasicInformationVo.setMyNumberPlate(bindTheVehicleVo.getNumberPlateNumber());
+						authenticationBasicInformationVo.setBehindTheFrame4Digits(bindTheVehicleVo.getBehindTheFrame4Digits());
+						authenticationBasicInformationVo.setPlateType(bindTheVehicleVo.getPlateType());
 					}
 				}
 			}
