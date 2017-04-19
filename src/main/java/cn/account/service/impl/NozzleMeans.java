@@ -119,7 +119,9 @@ public class NozzleMeans {
 		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><USERNAME>"+userBasicVo.getIdentityCard()+"</USERNAME><OLDPWD>"+userBasicVo.getOldPwd()+"</OLDPWD>"
 				+ "<NEWPWD>"+userBasicVo.getNewPwd()+"</NEWPWD><YHLY>"+userBasicVo.getUserSource()+"</YHLY></REQUEST>";
 		String interfaceNumber = "xxcj04";
-		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
+		//JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
+		JSONObject json = WebServiceClient.getInstance().requestWebService("http://123.56.180.216:19002/xxfbpt/services/xxfbptservice","xxptSchuding", 
+				interfaceNumber,xml,"WX02","WX02@168","94D863D9BE7FB032E6A19430CC892610");
 		return json;
 	}
 	
@@ -284,7 +286,6 @@ public class NozzleMeans {
 				+ "<PHOTO9>"+registerVo.getIdCardImgPositive()+"</PHOTO9></REQUEST>";
 		String interfaceNumber = "xxcjzrr";
 		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
-			System.out.println(json);
 		return json;
 	}
 	

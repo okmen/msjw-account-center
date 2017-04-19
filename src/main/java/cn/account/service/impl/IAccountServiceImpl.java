@@ -778,7 +778,7 @@ public class IAccountServiceImpl implements IAccountService {
 		
 		JSONObject json = NozzleMeans.updateUser(userBasicVo, url, method, userId, userPwd, key);
 	
-		return null;
+		return json;
 	}
 
 
@@ -883,7 +883,7 @@ public class IAccountServiceImpl implements IAccountService {
 		
 		
 			JSONObject json = NozzleMeans.isPedestrianNotDriver(registerVo, url, method, userId, userPwd, key);
-			System.out.println(json);
+
 		return json;
 	}
 
