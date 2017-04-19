@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.account.dao.mapper.DocumentationMapper">
+	
+    <resultMap type="cn.account.orm.DocumentationORM" id="documentationORM">
+		<result property="id" column="id" />
+		<result property="noticeKey" column="notice_key" />
+		<result property="content" column="content" />
+		<result property="addDate" column="add_date" />
+	</resultMap>
+
+	<sql id="common">
+		id,notice_key,content,add_date
+	</sql>
+	
+	<!-- 添加须知文档 -->
+	<insert id="addDocumentationORM" parameterType="cn.account.orm.DocumentationORM" useGeneratedKeys="true" keyProperty="id" >
+		insert into t_documentation (
+			notice_key,content,add_date
+		)
+		values(
+			#{noticeKey}, #{content}, #{addDate}
+		)
+	</insert>
+	
+	<!-- 根据key查询须知文档-->
+	<select id="getDocumentationORMByNoticeKey" resultType="cn.account.orm.DocumentationORM">
+		select <include refid="common" /> from t_documentation where 1=1 and notice_key = #{noticeKey}
+	</select>
+	
+</mapper>

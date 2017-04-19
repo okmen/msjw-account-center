@@ -1,7 +1,7 @@
 package cn.account.dao;
 
 import cn.account.bean.UserBind;
-import cn.account.bean.po.UserValidateCodePo;
+import cn.account.orm.UserValidateCodeORM;
 
 public interface IUserValidateCodeDao {
 	/**
@@ -9,7 +9,7 @@ public interface IUserValidateCodeDao {
 	 * @param userValidateCodePo
 	 * @return
 	 */
-    public int addUserValidateCode(UserValidateCodePo userValidateCodePo);
+    public int addUserValidateCode(UserValidateCodeORM userValidateCodePo);
     /**
      * 查询验证码
      * @param mobilephone

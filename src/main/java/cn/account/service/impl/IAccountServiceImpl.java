@@ -7,14 +7,15 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
 
+import cn.account.bean.Documentation;
 import cn.account.bean.UserBind;
 import cn.account.bean.WechatUserInfoBean;
-import cn.account.bean.po.UserValidateCodePo;
 import cn.account.bean.vo.AuthenticationBasicInformationVo;
 import cn.account.bean.vo.BindCarVo;
 import cn.account.bean.vo.BindTheVehicleVo;
@@ -37,12 +38,12 @@ import cn.account.bean.vo.queryclassservice.MakeAnAppointmentVo;
 import cn.account.bean.vo.queryclassservice.MotorVehicleBusinessVo;
 import cn.account.cached.impl.IAccountCachedImpl;
 import cn.account.dao.IAccountDao;
+import cn.account.dao.IDocumentDao;
 import cn.account.dao.IUserValidateCodeDao;
+import cn.account.orm.DocumentationORM;
+import cn.account.orm.UserValidateCodeORM;
 import cn.account.service.IAccountService;
 import cn.account.utils.TransferThirdParty;
-import cn.sdk.util.Base64;
-import cn.sdk.util.RandomUtil;
-import cn.sdk.webservice.WebServiceClient;
 
 /**
  * 个人中心
@@ -63,7 +64,8 @@ public class IAccountServiceImpl implements IAccountService {
 	
 	@Autowired
 	private IUserValidateCodeDao userValidateCodeDao;
-	
+	@Autowired
+	private IDocumentDao documentDao;
 	
 	@Override
 	public int insertWechatUserInfo(WechatUserInfoBean wechatUserInfo) {
@@ -110,7 +112,13 @@ public class IAccountServiceImpl implements IAccountService {
         }
         return list;
 	}
-
+	@Override
+	public Documentation getDocumentationByNoticeKey(String noticeKey) throws Exception {
+		Documentation documentation = new Documentation();
+		DocumentationORM documentationORM = documentDao.getDocumentationORMByNoticeKey(noticeKey);
+		BeanUtils.copyProperties(documentationORM, documentation);
+		return documentation;
+	}
 	/**
 	 * 登录
 	 * @return
@@ -695,7 +703,7 @@ public class IAccountServiceImpl implements IAccountService {
 	@Override
 	public void sendSMSVerificatioCode(String mobilephone,String valideteCode) {
 		//插入数据库
-		UserValidateCodePo userValidateCodePo = new UserValidateCodePo();
+		UserValidateCodeORM userValidateCodePo = new UserValidateCodeORM();
 		userValidateCodePo.setGenDate(new Date());
 		userValidateCodePo.setMobilephone(mobilephone);
 		userValidateCodePo.setValidateCode(valideteCode);
@@ -878,6 +886,9 @@ public class IAccountServiceImpl implements IAccountService {
 			System.out.println(json);
 		return json;
 	}
+
+
+	
 
 
 	

@@ -3,7 +3,7 @@ package cn.account.dao.mapper;
 import org.springframework.stereotype.Repository;
 
 import cn.account.bean.UserBind;
-import cn.account.bean.po.UserValidateCodePo;
+import cn.account.orm.UserValidateCodeORM;
 
 @Repository
 public interface UserValidateCodeMapper {
@@ -12,7 +12,7 @@ public interface UserValidateCodeMapper {
 	 * @param userValidateCodePo
 	 * @return
 	 */
-    public int addUserValidateCode(UserValidateCodePo userValidateCodePo);
+    public int addUserValidateCode(UserValidateCodeORM userValidateCodePo);
     /**
      * 查询验证码
      * @param mobilephone
