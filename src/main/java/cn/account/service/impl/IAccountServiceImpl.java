@@ -119,46 +119,6 @@ public class IAccountServiceImpl implements IAccountService {
 		BeanUtils.copyProperties(documentationORM, documentation);
 		return documentation;
 	}
-	
-	
-	
-	/*====基础数据服务=====*/
-	/**
-	 * 查询用户基础数据
-	 * @param identityCard
-	 * @param sourceOfCertification
-	 * @param mobilephone
-	 * @return
-	 * @throws Exception 
-	 */
-	@Override
-	public AuthenticationBasicInformationVo getAuthenticationBasicInformation(String identityCard,String sourceOfCertification,String mobilephone) throws Exception{
-		String url = iAccountCached.getUrl(); //webservice请求url
-		String method = iAccountCached.getMethod(); //webservice请求方法名称
-		String userId = iAccountCached.getUserid(); //webservice登录账号
-		String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
-		String key = iAccountCached.getKey(); //秘钥
-		
-		//认证基本信息查询接口
-		AuthenticationBasicInformationVo authenticationBasicInformationVo = TransferThirdParty.authenticationBasicInformationQuery(identityCard,sourceOfCertification, url, method,userId,userPwd,key);
-		
-		//我绑定的车辆信息
-		List<BindTheVehicleVo> bindTheVehicleVos = TransferThirdParty.bindsTheMotorVehicleQuery(mobilephone,identityCard, sourceOfCertification, url, method, userId, userPwd, key);
-		if(null != bindTheVehicleVos && bindTheVehicleVos.size() > 0){
-			for(BindTheVehicleVo bindTheVehicleVo : bindTheVehicleVos){
-				String isMyself = bindTheVehicleVo.getIsMyself();
-				if("本人".equals(isMyself)){
-					authenticationBasicInformationVo.setMyNumberPlate(bindTheVehicleVo.getNumberPlateNumber());
-					authenticationBasicInformationVo.setBehindTheFrame4Digits(bindTheVehicleVo.getBehindTheFrame4Digits());
-					authenticationBasicInformationVo.setPlateType(bindTheVehicleVo.getPlateType());
-				}
-			}
-		}
-		return authenticationBasicInformationVo;
-	}
-	
-	/*====基础数据服务=====*/
-	
 	/**
 	 * 登录
 	 * @return
@@ -668,21 +628,6 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		myBusinessVos11.addAll(myBusinessVos);
 	}
-	/**
-	 * 根据数据和状态过滤
-	 * @param myBusinessVos
-	 * @param status
-	 * @return
-	 */
-	private List<MyBusinessVo> getMyBusinessVoByStatus(List<MyBusinessVo> myBusinessVos,int status){
-		List<MyBusinessVo> returnMyBusinessVo = new ArrayList<MyBusinessVo>();
-		for(MyBusinessVo myBusinessVo : myBusinessVos){
-			if(status == myBusinessVo.getStatus()){
-				returnMyBusinessVo.add(myBusinessVo);
-			}
-		}
-		return returnMyBusinessVo;
-	}
 	
 	@Override
 	public List<MyBusinessVo> getMyBusiness(Integer businessType, Integer businessStatus, String identityCard,String sourceOfCertification) throws Exception {
@@ -721,15 +666,14 @@ public class IAccountServiceImpl implements IAccountService {
 		 
 		//业务类型	 0-全部
 		if(0 == businessType){
-			returnMyBusinessVo.addAll(myBusinessVos11);
-			returnMyBusinessVo.addAll(myBusinessVos22);
 			//业务状态 0-全部、1-办理中、2-已完结
 			if(0 == businessStatus){
-				return returnMyBusinessVo;
+				returnMyBusinessVo.addAll(myBusinessVos11);
+				returnMyBusinessVo.addAll(myBusinessVos22);
 			}else if(1 == businessStatus){
-				return getMyBusinessVoByStatus(returnMyBusinessVo, 1);
+				
 			}else if(2 == businessStatus) {
-				return getMyBusinessVoByStatus(returnMyBusinessVo, 2);
+				
 			}
 		}
 		//业务类型 	1-机动车业务
@@ -738,9 +682,9 @@ public class IAccountServiceImpl implements IAccountService {
 			if(0 == businessStatus){
 				returnMyBusinessVo.addAll(myBusinessVos22);
 			}else if(1 == businessStatus){
-				return getMyBusinessVoByStatus(myBusinessVos22, 1);
+				
 			}else if(2 == businessStatus) {
-				return getMyBusinessVoByStatus(myBusinessVos22, 2);
+				
 			}
 		}
 		//业务类型	2-驾驶证业务
@@ -749,9 +693,9 @@ public class IAccountServiceImpl implements IAccountService {
 			if(0 == businessStatus){
 				returnMyBusinessVo.addAll(myBusinessVos11);
 			}else if(1 == businessStatus){
-				return getMyBusinessVoByStatus(myBusinessVos11, 2);
+				
 			}else if(2 == businessStatus) {
-				return getMyBusinessVoByStatus(myBusinessVos11, 2);
+				
 			}
 		}
 		return returnMyBusinessVo;
