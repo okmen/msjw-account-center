@@ -212,14 +212,16 @@ public class NozzleMeans {
 						
 		byte[] ownerIdCardImgHandHelds = registerVo.getOwnerIdCardImgHandHeld().getBytes();
 		registerVo.setOwnerIdCardImgHandHeld(Base64.encode(ownerIdCardImgHandHelds));
-		
-		String xml="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+registerVo.getUserIdCard()+"</SFZMHM><LXDH>"+registerVo.getMobilephone()+"</LXDH><LXDZ>"+registerVo.getLinkAddress()+"</LXDZ>"
-				+ "<HPHM>"+registerVo.getLicensePlateNumber()+"</HPHM><HPZL>"+registerVo.getLicensePlateType()+"</HPZL><CZXM>"+registerVo.getOwnerName()+"</CZXM><CZSFZMMC>"+registerVo.getOwnerIdName()+"</CZSFZMMC><CZSFZMHM>"+registerVo.getOwnerIdCard()+"</CZSFZMHM>"
-				+ "<CZLXDH>"+registerVo.getOwnerMobilephone()+"</CZLXDH><RZLX>"+registerVo.getCertifiedType()+"</RZLX><RZLY>"+registerVo.getCertifiedSource()+"</RZLY><RZJS>"+registerVo.getCertifiedRole()+"</RZJS>"
-				+ "<LRR>"+registerVo.getCallAccount()+"</LRR><JSRSZD>"+registerVo.getDriverLicenseIssuedAddress()+"</JSRSZD><SFJC>"+registerVo.getProvinceAbbreviation()+"</SFJC><PHOTO6>"+registerVo.getIdCardImgHandHeld()+"</PHOTO6>"
-				+ "<PHOTO9>"+registerVo.getIdCardImgPositive()+"</PHOTO9><PHOTO16>"+registerVo.getOwnerIdCardImgPositive()+"</PHOTO16><PHOTO18>"+registerVo.getOwnerIdCardImgHandHeld()+"</PHOTO18></REQUEST>";
-		String interfaceNumber = "xxcj15";
-		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
+//		JSONObject json =null;
+	
+			String xml="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+registerVo.getUserIdCard()+"</SFZMHM><LXDH>"+registerVo.getMobilephone()+"</LXDH><LXDZ>"+registerVo.getLinkAddress()+"</LXDZ>"
+					+ "<HPHM>"+registerVo.getLicensePlateNumber()+"</HPHM><HPZL>"+registerVo.getLicensePlateType()+"</HPZL><CZXM>"+registerVo.getOwnerName()+"</CZXM><CZSFZMMC>"+registerVo.getOwnerIdName()+"</CZSFZMMC><CZSFZMHM>"+registerVo.getOwnerIdCard()+"</CZSFZMHM>"
+					+ "<CZLXDH>"+registerVo.getOwnerMobilephone()+"</CZLXDH><RZLX>"+registerVo.getCertifiedType()+"</RZLX><RZLY>"+registerVo.getCertifiedSource()+"</RZLY><RZJS>"+registerVo.getCertifiedRole()+"</RZJS>"
+					+ "<LRR>"+registerVo.getCallAccount()+"</LRR><JSRSZD>"+registerVo.getDriverLicenseIssuedAddress()+"</JSRSZD><SFJC>"+registerVo.getProvinceAbbreviation()+"</SFJC><PHOTO6>"+registerVo.getIdCardImgHandHeld()+"</PHOTO6>"
+					+ "<PHOTO9>"+registerVo.getIdCardImgPositive()+"</PHOTO9><PHOTO16>"+registerVo.getOwnerIdCardImgPositive()+"</PHOTO16><PHOTO18>"+registerVo.getOwnerIdCardImgHandHeld()+"</PHOTO18></REQUEST>";
+			String interfaceNumber = "xxcj15";
+			JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
+
 		return json;
 	}
 	

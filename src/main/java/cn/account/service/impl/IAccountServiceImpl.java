@@ -809,15 +809,18 @@ public class IAccountServiceImpl implements IAccountService {
 
 	@Override
 	public JSONObject addVehicle(BindCarVo bindCarVo) throws Exception{
-		
-		 String url = iAccountCached.getUrl(); //webservice请求url
-		 String method = iAccountCached.getMethod(); //webservice请求方法名称
-		 String userId = iAccountCached.getUserid(); //webservice登录账号
-		 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
-		 String key = iAccountCached.getKey(); //秘钥
-		
-		
-		JSONObject json = NozzleMeans.addVehicle(bindCarVo, url, method, userId, userPwd, key);
+		JSONObject json= null;
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 json = NozzleMeans.addVehicle(bindCarVo, url, method, userId, userPwd, key);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		return json;
 	}
@@ -825,57 +828,77 @@ public class IAccountServiceImpl implements IAccountService {
 
 	@Override
 	public JSONObject updateUser(UserBasicVo userBasicVo)throws Exception {
-		 String url = iAccountCached.getUrl(); //webservice请求url
-		 String method = iAccountCached.getMethod(); //webservice请求方法名称
-		 String userId = iAccountCached.getUserid(); //webservice登录账号
-		 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
-		 String key = iAccountCached.getKey(); //秘钥
+		JSONObject json= null;
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 json = NozzleMeans.updateUser(userBasicVo, url, method, userId, userPwd, key);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		
-		JSONObject json = NozzleMeans.updateUser(userBasicVo, url, method, userId, userPwd, key);
-	
 		return json;
 	}
 
 
 	@Override
 	public JSONObject updateMobile(UserBasicVo userBasicVo)throws Exception {		
-		 String url = iAccountCached.getUrl(); //webservice请求url
-		 String method = iAccountCached.getMethod(); //webservice请求方法名称
-		 String userId = iAccountCached.getUserid(); //webservice登录账号
-		 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
-		 String key = iAccountCached.getKey(); //秘钥
-		 
-		
-		JSONObject json = NozzleMeans.updateMobile(userBasicVo, url, method, userId, userPwd, key);
+				JSONObject json= null;
+				try {
+					
+					 String url = iAccountCached.getUrl(); //webservice请求url
+					 String method = iAccountCached.getMethod(); //webservice请求方法名称
+					 String userId = iAccountCached.getUserid(); //webservice登录账号
+					 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+					 String key = iAccountCached.getKey(); //秘钥
+					 json = NozzleMeans.updateMobile(userBasicVo, url, method, userId, userPwd, key);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				
 				return json;
 	}
 	
 	@Override
 	public JSONObject updatePwd(UserBasicVo userBasicVo)throws Exception {
-		 String url = iAccountCached.getUrl(); //webservice请求url
-		 String method = iAccountCached.getMethod(); //webservice请求方法名称
-		 String userId = iAccountCached.getUserid(); //webservice登录账号
-		 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
-		 String key = iAccountCached.getKey(); //秘钥
 		
+		JSONObject json= null;
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 json = NozzleMeans.updatePwd(userBasicVo, url, method, userId, userPwd, key);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		JSONObject json = NozzleMeans.updatePwd(userBasicVo, url, method, userId, userPwd, key);	
 		return json;
 	}
 	
 	
 	@Override
 	public JSONObject readilyShoot(ReadilyShootVo readilyShootVo) throws Exception {
-		 String url = iAccountCached.getUrl(); //webservice请求url
-		 String method = iAccountCached.getMethod(); //webservice请求方法名称
-		 String userId = iAccountCached.getUserid(); //webservice登录账号
-		 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
-		 String key = iAccountCached.getKey(); //秘钥
+
+		JSONObject json= null;
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 json = NozzleMeans.readilyShoot(readilyShootVo, url, method, userId, userPwd, key);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		
-		JSONObject json = NozzleMeans.readilyShoot(readilyShootVo, url, method, userId, userPwd, key);
 		return json;
 	}
 
@@ -883,14 +906,19 @@ public class IAccountServiceImpl implements IAccountService {
 	@Override
 	public JSONObject iAmTheOwner(RegisterVo registerVo) throws Exception{
 		
-		 String url = iAccountCached.getUrl(); //webservice请求url
-		 String method = iAccountCached.getMethod(); //webservice请求方法名称
-		 String userId = iAccountCached.getUserid(); //webservice登录账号
-		 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
-		 String key = iAccountCached.getKey(); //秘钥
-		 
+		JSONObject json= null;
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 json = NozzleMeans.iAmTheOwner(registerVo, url, method, userId, userPwd, key);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		JSONObject json = NozzleMeans.iAmTheOwner(registerVo, url, method, userId, userPwd, key);
 		return json;
 	}
 	
@@ -898,14 +926,20 @@ public class IAccountServiceImpl implements IAccountService {
 	
 	@Override
 	public JSONObject iamALongtimeUser(RegisterVo registerVo) throws Exception {			
-		 String url = iAccountCached.getUrl(); //webservice请求url
-		 String method = iAccountCached.getMethod(); //webservice请求方法名称
-		 String userId = iAccountCached.getUserid(); //webservice登录账号
-		 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
-		 String key = iAccountCached.getKey(); //秘钥
 
+		JSONObject json= null;
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 json = NozzleMeans.iamALongtimeUser(registerVo, url, method, userId, userPwd, key);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		JSONObject json = NozzleMeans.iamALongtimeUser(registerVo, url, method, userId, userPwd, key);
 		return json;
 	}
 	
@@ -913,14 +947,20 @@ public class IAccountServiceImpl implements IAccountService {
 	
 	@Override
 	public JSONObject haveDriverLicenseNotCar(RegisterVo registerVo) throws Exception {
-		 String url = iAccountCached.getUrl(); //webservice请求url
-		 String method = iAccountCached.getMethod(); //webservice请求方法名称
-		 String userId = iAccountCached.getUserid(); //webservice登录账号
-		 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
-		 String key = iAccountCached.getKey(); //秘钥
+
+		JSONObject json= null;
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 json = NozzleMeans.haveDriverLicenseNotCar(registerVo, url, method, userId, userPwd, key);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		
-		JSONObject json = NozzleMeans.haveDriverLicenseNotCar(registerVo, url, method, userId, userPwd, key);
 		return json;
 	}
 	
@@ -930,16 +970,20 @@ public class IAccountServiceImpl implements IAccountService {
 	
 	@Override
 	public JSONObject isPedestrianNotDriver(RegisterVo registerVo)throws Exception {
-		
-		 String url = iAccountCached.getUrl(); //webservice请求url
-		 String method = iAccountCached.getMethod(); //webservice请求方法名称
-		 String userId = iAccountCached.getUserid(); //webservice登录账号
-		 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
-		 String key = iAccountCached.getKey(); //秘钥
-		
-		
-			JSONObject json = NozzleMeans.isPedestrianNotDriver(registerVo, url, method, userId, userPwd, key);
 
+		JSONObject json= null;
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 json = NozzleMeans.isPedestrianNotDriver(registerVo, url, method, userId, userPwd, key);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return json;
 	}
 
