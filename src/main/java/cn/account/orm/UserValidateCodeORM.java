@@ -2,6 +2,8 @@ package cn.account.orm;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 /**
  * 用户短信验证码
  * @author Mbenben
@@ -46,5 +48,8 @@ public class UserValidateCodeORM implements Serializable{
 	public void setGenDate(Date genDate) {
 		this.genDate = genDate;
 	}
-	
+	@Override 
+    public String toString() { 
+            return ReflectionToStringBuilder.toString(this); 
+    }
 }

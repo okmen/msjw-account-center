@@ -2,6 +2,8 @@ package cn.account.orm;
 
 import java.util.Date;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+
 /**
  * 须知文档
  * @author Mbenben
@@ -46,5 +48,8 @@ public class DocumentationORM {
 	public void setAddDate(Date addDate) {
 		this.addDate = addDate;
 	}
-	
+	@Override 
+    public String toString() { 
+            return ReflectionToStringBuilder.toString(this); 
+    }
 }

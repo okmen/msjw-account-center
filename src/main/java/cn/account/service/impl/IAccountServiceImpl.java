@@ -115,10 +115,58 @@ public class IAccountServiceImpl implements IAccountService {
 	@Override
 	public Documentation getDocumentationByNoticeKey(String noticeKey) throws Exception {
 		Documentation documentation = new Documentation();
-		DocumentationORM documentationORM = documentDao.getDocumentationORMByNoticeKey(noticeKey);
-		BeanUtils.copyProperties(documentationORM, documentation);
+		try {
+			DocumentationORM documentationORM = documentDao.getDocumentationORMByNoticeKey(noticeKey);
+			BeanUtils.copyProperties(documentationORM, documentation);
+		} catch (Exception e) {
+			logger.error("查询须知文档错误，参数noticeKey = " + noticeKey, e);
+			throw e;
+		}
 		return documentation;
 	}
+
+	/*====基础数据服务=====*/
+	/**
+	 * 查询用户基础数据
+	 * @param identityCard
+	 * @param sourceOfCertification
+	 * @param mobilephone
+	 * @return
+	 * @throws Exception 
+	 */
+	@Override
+	public AuthenticationBasicInformationVo getAuthenticationBasicInformation(String identityCard,String sourceOfCertification,String mobilephone) throws Exception{
+		AuthenticationBasicInformationVo authenticationBasicInformationVo = new AuthenticationBasicInformationVo();
+		try {
+			String url = iAccountCached.getUrl(); //webservice请求url
+			String method = iAccountCached.getMethod(); //webservice请求方法名称
+			String userId = iAccountCached.getUserid(); //webservice登录账号
+			String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			String key = iAccountCached.getKey(); //秘钥
+			
+			//认证基本信息查询接口
+			authenticationBasicInformationVo = TransferThirdParty.authenticationBasicInformationQuery(identityCard,sourceOfCertification, url, method,userId,userPwd,key);
+			
+			//我绑定的车辆信息
+			List<BindTheVehicleVo> bindTheVehicleVos = TransferThirdParty.bindsTheMotorVehicleQuery(mobilephone,identityCard, sourceOfCertification, url, method, userId, userPwd, key);
+			if(null != bindTheVehicleVos && bindTheVehicleVos.size() > 0){
+				for(BindTheVehicleVo bindTheVehicleVo : bindTheVehicleVos){
+					String isMyself = bindTheVehicleVo.getIsMyself();
+					if("本人".equals(isMyself)){
+						authenticationBasicInformationVo.setMyNumberPlate(bindTheVehicleVo.getNumberPlateNumber());
+						authenticationBasicInformationVo.setBehindTheFrame4Digits(bindTheVehicleVo.getBehindTheFrame4Digits());
+						authenticationBasicInformationVo.setPlateType(bindTheVehicleVo.getPlateType());
+					}
+				}
+			}
+		} catch (Exception e) {
+			logger.error("查询用户基础数据错误" + "identityCard=" + identityCard + ",sourceOfCertification=" + sourceOfCertification + ",mobilephone" + mobilephone, e);
+			throw e;
+		}
+		return authenticationBasicInformationVo;
+	}
+	
+	/*====基础数据服务=====*/
 	/**
 	 * 登录
 	 * @return
@@ -136,52 +184,57 @@ public class IAccountServiceImpl implements IAccountService {
 		String identityCard = "";
 		String mobilephone = "";
 		AuthenticationBasicInformationVo authenticationBasicInformationVo = null;
-		//用户登录接口
-		Map<String, String> map = TransferThirdParty.login(loginName, password, url, method, userId, userPwd, key);
-		String code = map.get("code");
-		String msg = map.get("msg");
-		//已绑定机动车查询接口
-		List<BindTheVehicleVo> bindTheVehicleVos = null;
-		if(null != map && "0000".equals(map.get("code"))){
-			//认证基本信息查询接口
-			authenticationBasicInformationVo = TransferThirdParty.authenticationBasicInformationQuery(loginName,sourceOfCertification, url, method,userId,userPwd,key);
-			identityCard = authenticationBasicInformationVo.getIdentityCard();
-			mobilephone = authenticationBasicInformationVo.getMobilephone();
-			//我绑定的车辆信息
-			bindTheVehicleVos = TransferThirdParty.bindsTheMotorVehicleQuery(mobilephone,identityCard, sourceOfCertification, url, method, userId, userPwd, key);
-			if(null != bindTheVehicleVos && bindTheVehicleVos.size() > 0){
-				for(BindTheVehicleVo bindTheVehicleVo : bindTheVehicleVos){
-					String isMyself = bindTheVehicleVo.getIsMyself();
-					if("本人".equals(isMyself)){
-						authenticationBasicInformationVo.setMyNumberPlate(bindTheVehicleVo.getNumberPlateNumber());
-						authenticationBasicInformationVo.setBehindTheFrame4Digits(bindTheVehicleVo.getBehindTheFrame4Digits());
-						authenticationBasicInformationVo.setPlateType(bindTheVehicleVo.getPlateType());
+		try {
+			//用户登录接口
+			Map<String, String> map = TransferThirdParty.login(loginName, password, url, method, userId, userPwd, key);
+			String code = map.get("code");
+			String msg = map.get("msg");
+			//已绑定机动车查询接口
+			List<BindTheVehicleVo> bindTheVehicleVos = null;
+			if(null != map && "0000".equals(map.get("code"))){
+				//认证基本信息查询接口
+				authenticationBasicInformationVo = TransferThirdParty.authenticationBasicInformationQuery(loginName,sourceOfCertification, url, method,userId,userPwd,key);
+				identityCard = authenticationBasicInformationVo.getIdentityCard();
+				mobilephone = authenticationBasicInformationVo.getMobilephone();
+				//我绑定的车辆信息
+				bindTheVehicleVos = TransferThirdParty.bindsTheMotorVehicleQuery(mobilephone,identityCard, sourceOfCertification, url, method, userId, userPwd, key);
+				if(null != bindTheVehicleVos && bindTheVehicleVos.size() > 0){
+					for(BindTheVehicleVo bindTheVehicleVo : bindTheVehicleVos){
+						String isMyself = bindTheVehicleVo.getIsMyself();
+						if("本人".equals(isMyself)){
+							authenticationBasicInformationVo.setMyNumberPlate(bindTheVehicleVo.getNumberPlateNumber());
+							authenticationBasicInformationVo.setBehindTheFrame4Digits(bindTheVehicleVo.getBehindTheFrame4Digits());
+							authenticationBasicInformationVo.setPlateType(bindTheVehicleVo.getPlateType());
+						}
 					}
 				}
+				loginReturnBean.setCode(code);
+				loginReturnBean.setMsg(msg);
+				
+				//登录成功绑定，已经绑定就改下状态为isBind=1,没有则绑定
+				UserBind userBind = accountDao.getLoginInfo(identityCard, openId, loginClient);
+				if(null == userBind){
+					userBind = new UserBind();
+					userBind.setClientType(loginClient);
+					userBind.setBindDate(new Date());
+					userBind.setIdCard(identityCard);
+					userBind.setMobileNumber(mobilephone);
+					userBind.setIsBind(0);
+					userBind.setOpenId(openId);
+					accountDao.addLoginInfo(userBind);
+				}else{
+					accountDao.updateUserBind(identityCard,openId,loginClient);
+				}
+			}else {
+				//登录失败
+				loginReturnBean.setCode(code);
+				loginReturnBean.setMsg(msg);
 			}
-			loginReturnBean.setCode(code);
-			loginReturnBean.setMsg(msg);
-			
-			//登录成功绑定，已经绑定就改下状态为isBind=1,没有则绑定
-			UserBind userBind = accountDao.getLoginInfo(identityCard, openId, loginClient);
-			if(null == userBind){
-				userBind = new UserBind();
-				userBind.setClientType(loginClient);
-				userBind.setBindDate(new Date());
-				userBind.setIdCard(identityCard);
-				userBind.setMobileNumber(mobilephone);
-				userBind.setIsBind(0);
-				userBind.setOpenId(openId);
-				accountDao.addLoginInfo(userBind);
-			}else{
-				accountDao.updateUserBind(identityCard,openId,loginClient);
-			}
-		}else {
-			//登录失败
-			loginReturnBean.setCode(code);
-			loginReturnBean.setMsg(msg);
+	    	loginReturnBean.setAuthenticationBasicInformation(authenticationBasicInformationVo);
+		} catch (Exception e) {
+			logger.error("登录错误 ", e);
+			throw e;
 		}
-    	loginReturnBean.setAuthenticationBasicInformation(authenticationBasicInformationVo);
     	//登录信息入库
     	return loginReturnBean;
 	}
