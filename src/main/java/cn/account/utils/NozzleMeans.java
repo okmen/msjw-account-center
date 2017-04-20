@@ -123,9 +123,7 @@ public class NozzleMeans {
 		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><USERNAME>"+userBasicVo.getIdentityCard()+"</USERNAME><OLDPWD>"+userBasicVo.getOldPwd()+"</OLDPWD>"
 				+ "<NEWPWD>"+userBasicVo.getNewPwd()+"</NEWPWD><YHLY>"+userBasicVo.getUserSource()+"</YHLY></REQUEST>";
 		String interfaceNumber = "xxcj04";
-		//JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
-		JSONObject json = WebServiceClient.getInstance().requestWebService("http://123.56.180.216:19002/xxfbpt/services/xxfbptservice","xxptSchuding", 
-				interfaceNumber,xml,"WX02","WX02@168","94D863D9BE7FB032E6A19430CC892610");
+		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
 		return json;
 	}
 	
@@ -146,11 +144,7 @@ public class NozzleMeans {
 	 * @date 2017年4月18日 下午7:46:40
 	 */
 	public  static JSONObject readilyShoot(ReadilyShootVo readilyShootVo,String url,String method,String userId,String userPwd,String key) throws Exception {
-//		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><request><ssrxm>"+readilyShootVo.getWhistleblower()+"</ssrxm><lxdh>"+readilyShootVo.getMobilephone()+"</lxdh><lxdz>"+readilyShootVo.getLinkAddress()+"</lxdz><ssch>"+readilyShootVo.getLicensePlateNumber()+"</ssch>"
-//				+ "<sshpzl>02</sshpzl><ssnr>"+readilyShootVo.getSituationStatement()+"</ssnr><jkbh>"+readilyShootVo.getPaymentNumber()+"</jkbh><sslx>"+readilyShootVo.getApplyType()+"</sslx><wfsj>"+readilyShootVo.getIllegalTime()+"</wfsj><wfdd>"+readilyShootVo.getIllegalSections()+"</wfdd>"
-//				+ "<zfdw>"+readilyShootVo.getEnforcementDepartment()+"</zfdw><zjtp>"+readilyShootVo.getImages()+"</zjtp><ssly>"+readilyShootVo.getUserSource()+"</ssly><sfzmhm>"+readilyShootVo.getUserIdCard()+"</sfzmhm><xjyhid>"+readilyShootVo.getUserNumber()+"</xjyhid></request>";
-		String xml=null;
-		
+		String xml=null;	
 		if("C".equals(readilyShootVo.getUserSource())){
 			xml="<?xml version=\"1.0\" encoding=\"UTF-8\"?><request><body><hphm>"+readilyShootVo.getLicensePlateNumber()+"</hphm><hpzl>"+readilyShootVo.getLicensePlateType()+"</hpzl><wfxw1>"+readilyShootVo.getIllegalActivitieOne()+"</wfxw1><wfxw2></wfxw2>"
 					+ "<wfxw3></wfxw3><wfdd>"+readilyShootVo.getIllegalSections()+"</wfdd><wfsj>"+readilyShootVo.getIllegalTime()+"</wfsj><lrr>"+readilyShootVo.getInputMan()+"</lrr><lrrxm>"+readilyShootVo.getInputManName()+"</lrrxm>"
@@ -160,7 +154,6 @@ public class NozzleMeans {
 		
 		String interfaceNumber = "1003";
 		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
-		//logger.
 		return json;
 	}
 
