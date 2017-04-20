@@ -1,7 +1,11 @@
-package cn.account.service.impl;
+package cn.account.utils;
 
 
+
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cn.account.bean.vo.BindCarVo;
 import cn.account.bean.vo.ReadilyShootVo;
@@ -13,7 +17,7 @@ import cn.sdk.webservice.WebServiceClient;
 @SuppressWarnings(value="all")
 public class NozzleMeans {
 	
-	
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * 
@@ -142,11 +146,21 @@ public class NozzleMeans {
 	 * @date 2017年4月18日 下午7:46:40
 	 */
 	public  static JSONObject readilyShoot(ReadilyShootVo readilyShootVo,String url,String method,String userId,String userPwd,String key) throws Exception {
-		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><request><ssrxm>"+readilyShootVo.getWhistleblower()+"</ssrxm><lxdh>"+readilyShootVo.getMobilephone()+"</lxdh><lxdz>"+readilyShootVo.getLinkAddress()+"</lxdz><ssch>"+readilyShootVo.getLicensePlateNumber()+"</ssch>"
-				+ "<sshpzl>02</sshpzl><ssnr>"+readilyShootVo.getSituationStatement()+"</ssnr><jkbh>"+readilyShootVo.getPaymentNumber()+"</jkbh><sslx>"+readilyShootVo.getApplyType()+"</sslx><wfsj>"+readilyShootVo.getIllegalTime()+"</wfsj><wfdd>"+readilyShootVo.getIllegalSections()+"</wfdd>"
-				+ "<zfdw>"+readilyShootVo.getEnforcementDepartment()+"</zfdw><zjtp>"+readilyShootVo.getImages()+"</zjtp><ssly>"+readilyShootVo.getUserSource()+"</ssly><sfzmhm>"+readilyShootVo.getUserIdCard()+"</sfzmhm><xjyhid>"+readilyShootVo.getUserNumber()+"</xjyhid></request>";
-		String interfaceNumber = "HM1003";
+//		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><request><ssrxm>"+readilyShootVo.getWhistleblower()+"</ssrxm><lxdh>"+readilyShootVo.getMobilephone()+"</lxdh><lxdz>"+readilyShootVo.getLinkAddress()+"</lxdz><ssch>"+readilyShootVo.getLicensePlateNumber()+"</ssch>"
+//				+ "<sshpzl>02</sshpzl><ssnr>"+readilyShootVo.getSituationStatement()+"</ssnr><jkbh>"+readilyShootVo.getPaymentNumber()+"</jkbh><sslx>"+readilyShootVo.getApplyType()+"</sslx><wfsj>"+readilyShootVo.getIllegalTime()+"</wfsj><wfdd>"+readilyShootVo.getIllegalSections()+"</wfdd>"
+//				+ "<zfdw>"+readilyShootVo.getEnforcementDepartment()+"</zfdw><zjtp>"+readilyShootVo.getImages()+"</zjtp><ssly>"+readilyShootVo.getUserSource()+"</ssly><sfzmhm>"+readilyShootVo.getUserIdCard()+"</sfzmhm><xjyhid>"+readilyShootVo.getUserNumber()+"</xjyhid></request>";
+		String xml=null;
+		
+		if("C".equals(readilyShootVo.getUserSource())){
+			xml="<?xml version=\"1.0\" encoding=\"UTF-8\"?><request><body><hphm>"+readilyShootVo.getLicensePlateNumber()+"</hphm><hpzl>"+readilyShootVo.getLicensePlateType()+"</hpzl><wfxw1>"+readilyShootVo.getIllegalActivitieOne()+"</wfxw1><wfxw2></wfxw2>"
+					+ "<wfxw3></wfxw3><wfdd>"+readilyShootVo.getIllegalSections()+"</wfdd><wfsj>"+readilyShootVo.getIllegalTime()+"</wfsj><lrr>"+readilyShootVo.getInputMan()+"</lrr><lrrxm>"+readilyShootVo.getInputManName()+"</lrrxm>"
+					+ "<lrrlxdh>"+readilyShootVo.getInputManPhone()+"</lrrlxdh><lrly>"+readilyShootVo.getCallAccount()+"</lrly><jbtp1>"+readilyShootVo.getReportImgOne()+"</jbtp1><jbtp2>"+readilyShootVo.getReportImgTwo()+"</jbtp2><jbtp3>"+readilyShootVo.getReportImgThree()+"</jbtp3>"
+					+ "<sfzmhm>"+readilyShootVo.getUserIdCard()+"</sfzmhm><wxopenid>"+readilyShootVo.getOpenId()+"</wxopenid></body></request>";
+		}
+		
+		String interfaceNumber = "1003";
 		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
+		//logger.
 		return json;
 	}
 
@@ -292,7 +306,14 @@ public class NozzleMeans {
 	}
 	
 	
-	
+	public static JSONObject getPositioningAddress(String keyword,String url,String method,String userId,String userPwd,String key)throws Exception {
+		
+		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><request><wfdd>"+keyword+"</wfdd></request>";
+		String interfaceNumber = "1002";
+		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
+		return json;
+		
+	}
 
 	
 	

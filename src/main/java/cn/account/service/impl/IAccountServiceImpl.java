@@ -43,6 +43,7 @@ import cn.account.dao.IUserValidateCodeDao;
 import cn.account.orm.DocumentationORM;
 import cn.account.orm.UserValidateCodeORM;
 import cn.account.service.IAccountService;
+import cn.account.utils.NozzleMeans;
 import cn.account.utils.TransferThirdParty;
 
 /**
@@ -798,7 +799,6 @@ public class IAccountServiceImpl implements IAccountService {
 	          cancelSuccess = accountDao.unbindVehicle(userBind);
 	      } catch (Exception e) {
 	          logger.error("更新绑定状态失败，cancelSuccess = " + cancelSuccess);
-	          throw e;
 	      }
 	      return cancelSuccess;
 	}
@@ -816,7 +816,7 @@ public class IAccountServiceImpl implements IAccountService {
 			 String key = iAccountCached.getKey(); //秘钥
 			 json = NozzleMeans.addVehicle(bindCarVo, url, method, userId, userPwd, key);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("addVehicle出错，错误="+ bindCarVo.toString(),e);
 		}
 		
 		return json;
@@ -835,7 +835,7 @@ public class IAccountServiceImpl implements IAccountService {
 			 String key = iAccountCached.getKey(); //秘钥
 			 json = NozzleMeans.updateUser(userBasicVo, url, method, userId, userPwd, key);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("updateUser出错，错误="+ userBasicVo.toString(),e);
 		}
 		
 		return json;
@@ -854,7 +854,7 @@ public class IAccountServiceImpl implements IAccountService {
 					 String key = iAccountCached.getKey(); //秘钥
 					 json = NozzleMeans.updateMobile(userBasicVo, url, method, userId, userPwd, key);
 				} catch (Exception e) {
-					e.printStackTrace();
+					logger.error("updateMobile出错，错误="+ userBasicVo.toString(),e);
 				}
 				
 				return json;
@@ -873,7 +873,7 @@ public class IAccountServiceImpl implements IAccountService {
 			 String key = iAccountCached.getKey(); //秘钥
 			 json = NozzleMeans.updatePwd(userBasicVo, url, method, userId, userPwd, key);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("updatePwd出错，错误="+ userBasicVo.toString(),e);
 		}
 		
 		return json;
@@ -893,7 +893,7 @@ public class IAccountServiceImpl implements IAccountService {
 			 String key = iAccountCached.getKey(); //秘钥
 			 json = NozzleMeans.readilyShoot(readilyShootVo, url, method, userId, userPwd, key);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("ReadilyShootVo出错，错误="+ readilyShootVo.toString(),e);
 		}
 		
 		return json;
@@ -913,7 +913,7 @@ public class IAccountServiceImpl implements IAccountService {
 			 String key = iAccountCached.getKey(); //秘钥
 			 json = NozzleMeans.iAmTheOwner(registerVo, url, method, userId, userPwd, key);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("iAmTheOwner出错，错误="+ registerVo.toString(),e);
 		}
 		
 		return json;
@@ -934,7 +934,7 @@ public class IAccountServiceImpl implements IAccountService {
 			 String key = iAccountCached.getKey(); //秘钥
 			 json = NozzleMeans.iamALongtimeUser(registerVo, url, method, userId, userPwd, key);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("iamALongtimeUser出错，错误="+ registerVo.toString(),e);
 		}
 		
 		return json;
@@ -955,7 +955,7 @@ public class IAccountServiceImpl implements IAccountService {
 			 String key = iAccountCached.getKey(); //秘钥
 			 json = NozzleMeans.haveDriverLicenseNotCar(registerVo, url, method, userId, userPwd, key);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("haveDriverLicenseNotCar出错，错误="+ registerVo.toString(),e);
 		}
 		
 		return json;
@@ -978,7 +978,26 @@ public class IAccountServiceImpl implements IAccountService {
 			 String key = iAccountCached.getKey(); //秘钥
 			 json = NozzleMeans.isPedestrianNotDriver(registerVo, url, method, userId, userPwd, key);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("isPedestrianNotDriver出错，错误="+ registerVo.toString(),e);
+		}
+		
+		return json;
+	}
+
+
+	@Override
+	public JSONObject getPositioningAddress(String keyword) throws Exception {
+		JSONObject json= null;
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 json = NozzleMeans.getPositioningAddress(keyword, url, method, userId, userPwd, key);
+		} catch (Exception e) {
+			logger.error("getPositioningAddress出错，错误="+ keyword,e);
 		}
 		
 		return json;
