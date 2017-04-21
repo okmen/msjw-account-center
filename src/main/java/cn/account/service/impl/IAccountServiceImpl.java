@@ -815,10 +815,11 @@ public class IAccountServiceImpl implements IAccountService {
 			 
 			//业务类型	 0-全部
 			if(0 == businessType){
+				returnMyBusinessVo.addAll(myBusinessVos11);
+				returnMyBusinessVo.addAll(myBusinessVos22);
 				//业务状态 0-全部、1-办理中、2-已完结
 				if(0 == businessStatus){
-					returnMyBusinessVo.addAll(myBusinessVos11);
-					returnMyBusinessVo.addAll(myBusinessVos22);
+					
 				}else if(1 == businessStatus){
 					return getMyBusinessVoByStatus(returnMyBusinessVo, 1);
 				}else if(2 == businessStatus) {
