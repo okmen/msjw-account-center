@@ -1,6 +1,7 @@
 package cn.account.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -240,6 +241,21 @@ public class IAccountServiceImpl implements IAccountService {
     	return loginReturnBean;
 	}
 	/**
+	 * 根据数据和状态过滤
+	 * @param myBusinessVos
+	 * @param status
+	 * @return
+	 */
+	private List<MyBusinessVo> getMyBusinessVoByStatus(List<MyBusinessVo> myBusinessVos,int status){
+		List<MyBusinessVo> returnMyBusinessVo = new ArrayList<MyBusinessVo>();
+		for(MyBusinessVo myBusinessVo : myBusinessVos){
+			if(status == myBusinessVo.getStatus()){
+				returnMyBusinessVo.add(myBusinessVo);
+			}
+		}
+		return returnMyBusinessVo;
+	}
+	/**
 	 * 认证基本信息查询接口
 	 * @param idCard 身份证
 	 * @param sourceOfCertification 认证来源
@@ -247,13 +263,19 @@ public class IAccountServiceImpl implements IAccountService {
 	 * @throws Exception
 	 */
 	public AuthenticationBasicInformationVo authenticationBasicInformationQuery(String idCard,String sourceOfCertification) throws Exception{
-		String url = iAccountCached.getUrl(); //webservice请求url
-		String method = iAccountCached.getMethod(); //webservice请求方法名称
-		String userId = iAccountCached.getUserid(); //webservice登录账号
-		String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
-		String key = iAccountCached.getKey(); //秘钥
-		
-		AuthenticationBasicInformationVo authenticationBasicInformationVo = TransferThirdParty.authenticationBasicInformationQuery(idCard,sourceOfCertification, url, method,userId,userPwd,key);
+		AuthenticationBasicInformationVo authenticationBasicInformationVo = new AuthenticationBasicInformationVo();
+		try {
+			String url = iAccountCached.getUrl(); //webservice请求url
+			String method = iAccountCached.getMethod(); //webservice请求方法名称
+			String userId = iAccountCached.getUserid(); //webservice登录账号
+			String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			String key = iAccountCached.getKey(); //秘钥
+			
+			authenticationBasicInformationVo = TransferThirdParty.authenticationBasicInformationQuery(idCard,sourceOfCertification, url, method,userId,userPwd,key);
+		} catch (Exception e) {
+			logger.error("认证基本信息查询接口错误 ", e);
+			throw e;
+		}
 		return authenticationBasicInformationVo;
 	}
 	/**
@@ -275,13 +297,18 @@ public class IAccountServiceImpl implements IAccountService {
 	 * @throws Exception 
 	 */
 	public Map<String, Object> queryMachineInformationSheet(String applyType, String identityCard,String sourceOfCertification) throws Exception{
-		
-		String url = iAccountCached.getUrl(); //webservice请求url
-		String method = iAccountCached.getMethod(); //webservice请求方法名称
-		String userId = iAccountCached.getUserid(); //webservice登录账号
-		String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
-		String key = iAccountCached.getKey(); //秘钥
-		Map<String, Object> map = TransferThirdParty.queryMachineInformationSheet(applyType, identityCard, sourceOfCertification, url, method, userId, userPwd, key);
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			String url = iAccountCached.getUrl(); //webservice请求url
+			String method = iAccountCached.getMethod(); //webservice请求方法名称
+			String userId = iAccountCached.getUserid(); //webservice登录账号
+			String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			String key = iAccountCached.getKey(); //秘钥
+			map = TransferThirdParty.queryMachineInformationSheet(applyType, identityCard, sourceOfCertification, url, method, userId, userPwd, key);
+		} catch (Exception e) {
+			logger.error("查询机动车信息单进度 错误 ", e);
+			throw e;
+		}
 		return map;
 	}
 	
@@ -299,13 +326,19 @@ public class IAccountServiceImpl implements IAccountService {
 	@Override
 	public Map<String, String> commitMotorVehicleInformationSheet(String userName, String identityCard, String mobilephone,
 			String provinceAbbreviation, String numberPlateNumber, String plateType,String sourceOfCertification) throws Exception {
-		String url = iAccountCached.getUrl(); //webservice请求url
-		String method = iAccountCached.getMethod(); //webservice请求方法名称
-		String userId = iAccountCached.getUserid(); //webservice登录账号
-		String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
-		String key = iAccountCached.getKey(); //秘钥
-		Map<String, String> map = TransferThirdParty.commitAAingleApplicationForMotorVehicleInformation(userName, identityCard, mobilephone,
-				numberPlateNumber, plateType, sourceOfCertification, url, method, userId, userPwd, key);
+		Map<String, String> map = new HashMap<String, String>();
+		try {
+			String url = iAccountCached.getUrl(); //webservice请求url
+			String method = iAccountCached.getMethod(); //webservice请求方法名称
+			String userId = iAccountCached.getUserid(); //webservice登录账号
+			String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			String key = iAccountCached.getKey(); //秘钥
+			map = TransferThirdParty.commitAAingleApplicationForMotorVehicleInformation(userName, identityCard, mobilephone,
+					numberPlateNumber, plateType, sourceOfCertification, url, method, userId, userPwd, key);
+		} catch (Exception e) {
+			logger.error("提交机动车信息单错误 ", e);
+			throw e;
+		}
 		return map;
 	}
 	/**
@@ -725,9 +758,9 @@ public class IAccountServiceImpl implements IAccountService {
 				returnMyBusinessVo.addAll(myBusinessVos11);
 				returnMyBusinessVo.addAll(myBusinessVos22);
 			}else if(1 == businessStatus){
-				
+				return getMyBusinessVoByStatus(returnMyBusinessVo, 1);
 			}else if(2 == businessStatus) {
-				
+				return getMyBusinessVoByStatus(returnMyBusinessVo, 2);
 			}
 		}
 		//业务类型 	1-机动车业务
@@ -736,9 +769,9 @@ public class IAccountServiceImpl implements IAccountService {
 			if(0 == businessStatus){
 				returnMyBusinessVo.addAll(myBusinessVos22);
 			}else if(1 == businessStatus){
-				
+				return getMyBusinessVoByStatus(myBusinessVos22, 1);
 			}else if(2 == businessStatus) {
-				
+				return getMyBusinessVoByStatus(myBusinessVos22, 2);
 			}
 		}
 		//业务类型	2-驾驶证业务
@@ -747,25 +780,29 @@ public class IAccountServiceImpl implements IAccountService {
 			if(0 == businessStatus){
 				returnMyBusinessVo.addAll(myBusinessVos11);
 			}else if(1 == businessStatus){
-				
+				return getMyBusinessVoByStatus(myBusinessVos11, 2);
 			}else if(2 == businessStatus) {
-				
+				return getMyBusinessVoByStatus(myBusinessVos11, 2);
 			}
 		}
 		return returnMyBusinessVo;
 	}
 	@Override
 	public void sendSMSVerificatioCode(String mobilephone,String valideteCode) {
-		//插入数据库
 		UserValidateCodeORM userValidateCodePo = new UserValidateCodeORM();
-		userValidateCodePo.setGenDate(new Date());
-		userValidateCodePo.setMobilephone(mobilephone);
-		userValidateCodePo.setValidateCode(valideteCode);
-		
-		int result = userValidateCodeDao.addUserValidateCode(userValidateCodePo);
-		if(1 == result){
-			//插入redis,为5分钟有效期
-			iAccountCached.insertUserValidateCode(mobilephone, valideteCode);
+		try {
+			//插入数据库
+			userValidateCodePo.setGenDate(new Date());
+			userValidateCodePo.setMobilephone(mobilephone);
+			userValidateCodePo.setValidateCode(valideteCode);
+			int result = userValidateCodeDao.addUserValidateCode(userValidateCodePo);
+			if(1 == result){
+				//插入redis,为5分钟有效期
+				iAccountCached.insertUserValidateCode(mobilephone, valideteCode);
+			}
+		} catch (Exception e) {
+			logger.error("发送验证码错误，mobilephone = " + mobilephone + ",validateCode" + valideteCode);
+			throw e;
 		}
 	}
 
@@ -774,16 +811,21 @@ public class IAccountServiceImpl implements IAccountService {
 	public int verificatioCode(String mobilephone, String validateCode) {
 		// 0-验证成功，1-验证失败，2-验证码失效
 		int result = 0;
-		//取redis验证码
-		String code= iAccountCached.getUserValidateCode(mobilephone);
-		if(StringUtils.isNotBlank(code)){
-			if(validateCode.equals(code)){
-				result = 0;
+		try {
+			//取redis验证码
+			String code= iAccountCached.getUserValidateCode(mobilephone);
+			if(StringUtils.isNotBlank(code)){
+				if(validateCode.equals(code)){
+					result = 0;
+				}else{
+					result = 1;
+				}
 			}else{
-				result = 1;
+				result = 2;
 			}
-		}else{
-			result = 2;
+		} catch (Exception e) {
+			logger.error("验证验证码是否正确错误，mobilephone = " + mobilephone + ",validateCode" + validateCode);
+			throw e;
 		}
 		return result;
 	}
