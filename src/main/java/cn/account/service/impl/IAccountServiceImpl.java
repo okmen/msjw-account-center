@@ -842,7 +842,7 @@ public class IAccountServiceImpl implements IAccountService {
 				if(0 == businessStatus){
 					returnMyBusinessVo.addAll(myBusinessVos11);
 				}else if(1 == businessStatus){
-					return getMyBusinessVoByStatus(myBusinessVos11, 2);
+					return getMyBusinessVoByStatus(myBusinessVos11, 1);
 				}else if(2 == businessStatus) {
 					return getMyBusinessVoByStatus(myBusinessVos11, 2);
 				}
