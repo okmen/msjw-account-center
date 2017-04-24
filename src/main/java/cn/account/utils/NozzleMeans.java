@@ -38,6 +38,13 @@ public class NozzleMeans {
 	public static JSONObject addVehicle(BindCarVo bindCarVo,String url,String method,String userId,String userPwd,String key) throws Exception{
 		String xml = null;		
 		if(bindCarVo.getBindType()==0){//绑定他人车
+			//图片路径加密
+			byte[] idCardImgPositives= bindCarVo.getIdCardImgPositive().getBytes();
+			bindCarVo.setIdCardImgPositive(Base64.encode(idCardImgPositives));	
+					
+			byte[] idCardImgHandHelds = bindCarVo.getIdCardImgHandHeld().getBytes();
+			bindCarVo.setIdCardImgHandHeld(Base64.encode(idCardImgPositives));
+			
 			xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><LOGIN_NAME>"+bindCarVo.getUserIdCard()+"</LOGIN_NAME><YHLY>"+bindCarVo.getUserSource()+"</YHLY><HPHM>"+bindCarVo.getLicensePlateNumber()+"</HPHM>"
 		            +"<HPZL>"+bindCarVo.getLicensePlateType()+"</HPZL><SFJC>"+bindCarVo.getProvinceAbbreviation()+" </SFJC><CJH4>"+bindCarVo.getFrameNumber()+"</CJH4><CZXM>"+bindCarVo.getOwnerName()+"</CZXM>"
                     +"<CZSFZMHM>"+bindCarVo.getOwnerIdCard()+"</CZSFZMHM><SFBR>0</SFBR><LRIP>"+bindCarVo.getInputIP()+"</LRIP>"
@@ -71,6 +78,14 @@ public class NozzleMeans {
 	 * @date 2017年4月18日 下午5:29:46
 	 */
 	public static JSONObject updateUser(UserBasicVo userBasicVo,String url,String method,String userId,String userPwd,String key)throws Exception{
+		
+		//图片路径加密
+		byte[] idCardImgPositives= userBasicVo.getIdCardImgPositive().getBytes();
+		userBasicVo.setIdCardImgPositive(Base64.encode(idCardImgPositives));	
+				
+		byte[] idCardImgHandHelds = userBasicVo.getIdCardImgHandHeld().getBytes();
+		userBasicVo.setIdCardImgHandHeld(Base64.encode(idCardImgPositives));
+		
 		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><USERNAME>"+userBasicVo.getIdentityCard()+"</USERNAME><NICKNAME>"+userBasicVo.getNickname()+"</NICKNAME>"
 				+ "<TXDZ>"+userBasicVo.getMailingAddress()+"</TXDZ><PHOTO9>"+userBasicVo.getIdCardImgPositive()+"</PHOTO9><PHOTO6>"+userBasicVo.getIdCardImgHandHeld()+"</PHOTO6>"
 						+ "<SFZYXQ>"+userBasicVo.getIdCardValidityDate()+"</SFZYXQ><YHLY>"+userBasicVo.getUserSource()+"</YHLY></REQUEST>";
@@ -145,6 +160,23 @@ public class NozzleMeans {
 	 */
 	public  static JSONObject readilyShoot(ReadilyShootVo readilyShootVo,String url,String method,String userId,String userPwd,String key) throws Exception {
 		String xml=null;	
+		//图片路径加密
+		String reporImgOne =readilyShootVo.getReportImgOne();
+		String reportImgTwo =readilyShootVo.getReportImgTwo();
+		String reportImgThree =readilyShootVo.getReportImgThree();
+		if(reporImgOne!=null){
+			byte[] reporImgOnes= reporImgOne.getBytes();
+			readilyShootVo.setReportImgOne(Base64.encode(reporImgOnes));
+		}
+		if(reporImgOne!=null){
+			byte[] reportImgTwos= reporImgOne.getBytes();
+			readilyShootVo.setReportImgOne(Base64.encode(reportImgTwos));
+		}
+		if(reporImgOne!=null){
+			byte[] reportImgThrees= reporImgOne.getBytes();
+			readilyShootVo.setReportImgOne(Base64.encode(reportImgThrees));
+		}
+		
 		if("C".equals(readilyShootVo.getUserSource())){
 			xml="<?xml version=\"1.0\" encoding=\"UTF-8\"?><request><body><hphm>"+readilyShootVo.getLicensePlateNumber()+"</hphm><hpzl>"+readilyShootVo.getLicensePlateType()+"</hpzl><wfxw1>"+readilyShootVo.getIllegalActivitieOne()+"</wfxw1><wfxw2></wfxw2>"
 					+ "<wfxw3></wfxw3><wfdd>"+readilyShootVo.getIllegalSections()+"</wfdd><wfsj>"+readilyShootVo.getIllegalTime()+"</wfsj><lrr>"+readilyShootVo.getInputMan()+"</lrr><lrrxm>"+readilyShootVo.getInputManName()+"</lrrxm>"
@@ -219,9 +251,8 @@ public class NozzleMeans {
 						
 		byte[] ownerIdCardImgHandHelds = registerVo.getOwnerIdCardImgHandHeld().getBytes();
 		registerVo.setOwnerIdCardImgHandHeld(Base64.encode(ownerIdCardImgHandHelds));
-//		JSONObject json =null;
-	
-			String xml="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+registerVo.getUserIdCard()+"</SFZMHM><LXDH>"+registerVo.getMobilephone()+"</LXDH><LXDZ>"+registerVo.getLinkAddress()+"</LXDZ>"
+		
+		String xml="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+registerVo.getUserIdCard()+"</SFZMHM><LXDH>"+registerVo.getMobilephone()+"</LXDH><LXDZ>"+registerVo.getLinkAddress()+"</LXDZ>"
 					+ "<HPHM>"+registerVo.getLicensePlateNumber()+"</HPHM><HPZL>"+registerVo.getLicensePlateType()+"</HPZL><CZXM>"+registerVo.getOwnerName()+"</CZXM><CZSFZMMC>"+registerVo.getOwnerIdName()+"</CZSFZMMC><CZSFZMHM>"+registerVo.getOwnerIdCard()+"</CZSFZMHM>"
 					+ "<CZLXDH>"+registerVo.getOwnerMobilephone()+"</CZLXDH><RZLX>"+registerVo.getCertifiedType()+"</RZLX><RZLY>"+registerVo.getCertifiedSource()+"</RZLY><RZJS>"+registerVo.getCertifiedRole()+"</RZJS>"
 					+ "<LRR>"+registerVo.getCallAccount()+"</LRR><JSRSZD>"+registerVo.getDriverLicenseIssuedAddress()+"</JSRSZD><SFJC>"+registerVo.getProvinceAbbreviation()+"</SFJC><PHOTO6>"+registerVo.getIdCardImgHandHeld()+"</PHOTO6>"

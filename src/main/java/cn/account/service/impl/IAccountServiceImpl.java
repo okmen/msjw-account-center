@@ -907,7 +907,7 @@ public class IAccountServiceImpl implements IAccountService {
 	      try {
 	          cancelSuccess = accountDao.unbindVehicle(userBind);
 	      } catch (Exception e) {
-	          logger.error("更新绑定状态失败，cancelSuccess = " + cancelSuccess);
+	          logger.error("unbindVehicle出错，错误="+ userBind.toString(),e);
 	      }
 	      return cancelSuccess;
 	}
