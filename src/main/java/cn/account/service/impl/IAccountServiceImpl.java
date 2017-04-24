@@ -234,7 +234,7 @@ public class IAccountServiceImpl implements IAccountService {
 			}
 	    	loginReturnBean.setAuthenticationBasicInformation(authenticationBasicInformationVo);
 		} catch (Exception e) {
-			logger.error("登录错误 ", e);
+			logger.error("login 错误,  loginName=" + loginName + ",password=" + password + ",sourceOfCertification=" + sourceOfCertification + ",openId="+openId + ",loginClient=" + loginClient, e);
 			throw e;
 		}
     	//登录信息入库
@@ -248,10 +248,15 @@ public class IAccountServiceImpl implements IAccountService {
 	 */
 	private List<MyBusinessVo> getMyBusinessVoByStatus(List<MyBusinessVo> myBusinessVos,int status){
 		List<MyBusinessVo> returnMyBusinessVo = new ArrayList<MyBusinessVo>();
-		for(MyBusinessVo myBusinessVo : myBusinessVos){
-			if(status == myBusinessVo.getStatus()){
-				returnMyBusinessVo.add(myBusinessVo);
+		try {
+			for(MyBusinessVo myBusinessVo : myBusinessVos){
+				if(status == myBusinessVo.getStatus()){
+					returnMyBusinessVo.add(myBusinessVo);
+				}
 			}
+		} catch (Exception e) {
+			logger.error("getMyBusinessVoByStatus 错误， myBusinessVos=" + myBusinessVos.toString() + ",status=" + status, e);
+			throw e;
 		}
 		return returnMyBusinessVo;
 	}
@@ -273,7 +278,7 @@ public class IAccountServiceImpl implements IAccountService {
 			
 			authenticationBasicInformationVo = TransferThirdParty.authenticationBasicInformationQuery(idCard,sourceOfCertification, url, method,userId,userPwd,key);
 		} catch (Exception e) {
-			logger.error("认证基本信息查询接口错误 ", e);
+			logger.error("authenticationBasicInformationQuery 错误,idCard=" + idCard + ",sourceOfCertification=" + sourceOfCertification,  e);
 			throw e;
 		}
 		return authenticationBasicInformationVo;
@@ -306,7 +311,7 @@ public class IAccountServiceImpl implements IAccountService {
 			String key = iAccountCached.getKey(); //秘钥
 			map = TransferThirdParty.queryMachineInformationSheet(applyType, identityCard, sourceOfCertification, url, method, userId, userPwd, key);
 		} catch (Exception e) {
-			logger.error("查询机动车信息单进度 错误 ", e);
+			logger.error("查询机动车信息单进度 错误，applyType=" + applyType + ",identityCard="+identityCard+",sourceOfCertification="+sourceOfCertification, e);
 			throw e;
 		}
 		return map;
@@ -336,7 +341,8 @@ public class IAccountServiceImpl implements IAccountService {
 			map = TransferThirdParty.commitAAingleApplicationForMotorVehicleInformation(userName, identityCard, mobilephone,
 					numberPlateNumber, plateType, sourceOfCertification, url, method, userId, userPwd, key);
 		} catch (Exception e) {
-			logger.error("提交机动车信息单错误 ", e);
+			logger.error("commitMotorVehicleInformationSheet错误，userName="+userName+",identityCard="+identityCard+",mobilephone="+mobilephone+",provinceAbbreviation="+provinceAbbreviation
+					+",numberPlateNumber="+numberPlateNumber+",plateType="+plateType+",sourceOfCertification="+sourceOfCertification, e);
 			throw e;
 		}
 		return map;
@@ -372,7 +378,7 @@ public class IAccountServiceImpl implements IAccountService {
 			map = TransferThirdParty.commitDriverInformationSinglePrintApplicationInterface(applyType, userName, identityCard, mobilephone, sourceOfCertification, url, method, userId, userPwd, key);
 			
 		} catch (Exception e) {
-			logger.error("提交 代表驾驶人信息单/无车证明申请/驾驶人安全事故信用表失败", e);
+			logger.error("commitDriverLicenseInformationSheet 错误,applyType="+applyType + ",userName="+userName + ",identityCard=" + identityCard + ",mobilephone=" + mobilephone + ",sourceOfCertification="+sourceOfCertification, e);
 			throw e;
 		}
 		return map;
@@ -426,7 +432,7 @@ public class IAccountServiceImpl implements IAccountService {
 			 String key = iAccountCached.getKey(); //秘钥
 			 electronicDriverLicenseVo = TransferThirdParty.getElectronicDriverLicense(driverLicenseNumber, userName, mobileNumber, sourceOfCertification, url, method, userId, userPwd, key);
 		} catch (Exception e) {
-			logger.error("用户中心-电子驾驶证 错误", e);
+			logger.error("用户中心-电子驾驶证 错误,driverLicenseNumber=" + driverLicenseNumber + ",userName=" + userName + ",mobileNumber=" + mobileNumber+",sourceOfCertification=" + sourceOfCertification, e);
 			throw e;
 		}
 		return electronicDriverLicenseVo;
@@ -444,7 +450,7 @@ public class IAccountServiceImpl implements IAccountService {
 			 String key = iAccountCached.getKey(); //秘钥
 			 drivingLicenseVo = TransferThirdParty.getDrivingLicense(numberPlatenumber, plateType, mobileNumber, sourceOfCertification, url, method, userId, userPwd, key);
 		} catch (Exception e) {
-			logger.error("用户中心-电子行驶证 错误", e);
+			logger.error("用户中心-电子行驶证 错误,numberPlatenumber="+ numberPlatenumber + ",plateType=" + plateType + ",mobileNumber=" +mobileNumber+",sourceOfCertification="+sourceOfCertification, e);
 			throw e;
 		}
 		return drivingLicenseVo;
@@ -462,7 +468,7 @@ public class IAccountServiceImpl implements IAccountService {
 			 String key = iAccountCached.getKey(); //秘钥
 			 myDriverLicenseVo = TransferThirdParty.getMyDriverLicense(identityCard, sourceOfCertification, url, method, userId, userPwd, key);
 		} catch (Exception e) {
-			logger.error("用户中心-我的驾驶证错误", e);
+			logger.error("用户中心-我的驾驶证错误,identityCard=" + identityCard + ",sourceOfCertification="+sourceOfCertification, e);
 			throw e;
 		}
 		return myDriverLicenseVo;
@@ -480,7 +486,7 @@ public class IAccountServiceImpl implements IAccountService {
 			 String key = iAccountCached.getKey(); //秘钥
 			 bindTheVehicleVos = TransferThirdParty.bindsTheMotorVehicleQuery(mobilephone, identityCard, sourceOfCertification, url, method, userId, userPwd, key);
 		} catch (Exception e) {
-			logger.error("查询已绑车辆错误", e);
+			logger.error("查询已绑车辆错误,identityCard="+identityCard+",sourceOfCertification="+sourceOfCertification, e);
 			throw e;
 		}
 		return bindTheVehicleVos;
@@ -515,7 +521,7 @@ public class IAccountServiceImpl implements IAccountService {
 			 //车辆类型(客户端写死 例如 key-value)
 			 //motorVehicleInformationSheetVo.setPlateTypes(plateTypes);
 		} catch (Exception e) {
-			logger.error("获取机动车信息单错误", e);
+			logger.error("获取机动车信息单错误,identityCard=" + identityCard + ",sourceOfCertification=" + sourceOfCertification, e);
 			throw e;
 		}
 		return motorVehicleInformationSheetVo;
@@ -571,7 +577,7 @@ public class IAccountServiceImpl implements IAccountService {
 				 myBusinessVos11.add(myBusinessVo);
 			 }
 		} catch (Exception e) {
-			logger.error("驾驶证业务，包括(驾驶证业务查询、驾驶人信息单、驾驶人安全事故信用表) 错误", e);
+			logger.error("驾驶证业务，包括(驾驶证业务查询、驾驶人信息单、驾驶人安全事故信用表) 错误,driverLicenseToSupplementThePermitBusinessVos=" + driverLicenseToSupplementThePermitBusinessVos, e);
 			throw e;
 		}
 		return myBusinessVos11;
@@ -622,7 +628,7 @@ public class IAccountServiceImpl implements IAccountService {
 				 myBusinessVos22.add(myBusinessVo);
 			 }
 		} catch (Exception e) {
-			logger.error("//机动车业务，包括(机动车业务查询、机动车信息单、无车证明申请)错误", e);
+			logger.error("//机动车业务，包括(机动车业务查询、机动车信息单、无车证明申请)错误,motorVehicleBusinesses=" + motorVehicleBusinesses.toString(), e);
 			throw e;
 		}
 		return myBusinessVos22;
@@ -661,7 +667,7 @@ public class IAccountServiceImpl implements IAccountService {
 				myBusinessVos.add(myBusinessVo);
 			}
 		} catch (Exception e) {
-			logger.error("机动车信息单--机动车业务错误", e);
+			logger.error("机动车信息单--机动车业务错误,map=" + map + ",myBusinessVos22=" + myBusinessVos22.toString(), e);
 			throw e;
 		}
 		myBusinessVos22.addAll(myBusinessVos);
@@ -698,7 +704,7 @@ public class IAccountServiceImpl implements IAccountService {
 				myBusinessVos.add(myBusinessVo);
 			}
 		} catch (Exception e) {
-			logger.error("无车证明申请--机动车业务 错误", e);
+			logger.error("无车证明申请--机动车业务 错误,map="+ map + ",myBusinessVos22=" + myBusinessVos22, e);
 			throw e;
 		}
 		myBusinessVos22.addAll(myBusinessVos);
@@ -735,7 +741,7 @@ public class IAccountServiceImpl implements IAccountService {
 				myBusinessVos.add(myBusinessVo);
 			}
 		} catch (Exception e) {
-			logger.error("驾驶人信息单--驾驶证业务 错误", e);
+			logger.error("驾驶人信息单--驾驶证业务 错误,map=" + map.toString() + ",myBusinessVos11="+myBusinessVos11.toString(), e);
 			throw e;
 		}
 		myBusinessVos11.addAll(myBusinessVos);
@@ -772,7 +778,7 @@ public class IAccountServiceImpl implements IAccountService {
 				myBusinessVos.add(myBusinessVo);
 			}
 		} catch (Exception e) {
-			logger.error("驾驶人安全事故信用表--驾驶证业务 错误", e);
+			logger.error("驾驶人安全事故信用表--驾驶证业务 错误，map="+map.toString() + "myBusinessVos11=" + myBusinessVos11.toString(), e);
 			throw e;
 		}
 		myBusinessVos11.addAll(myBusinessVos);
@@ -849,7 +855,7 @@ public class IAccountServiceImpl implements IAccountService {
 				}
 			}
 		} catch (Exception e) {
-			logger.error("我的业务(切换查询-机动车业务、驾驶证业务)  错误", e);
+			logger.error("我的业务(切换查询-机动车业务、驾驶证业务)  错误,businessType="+businessType + ",businessStatus=" + businessStatus + ",identityCard="+identityCard+",sourceOfCertification="+sourceOfCertification , e);
 			throw e;
 		}
 		return returnMyBusinessVo;

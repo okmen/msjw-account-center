@@ -8,19 +8,20 @@
 		<result property="noticeKey" column="notice_key" />
 		<result property="content" column="content" />
 		<result property="addDate" column="add_date" />
+		<result property="title" column="title" />
 	</resultMap>
 
 	<sql id="common">
-		id,notice_key,content,add_date
+		id,notice_key,content,add_date,title
 	</sql>
 	
 	<!-- 添加须知文档 -->
 	<insert id="addDocumentationORM" parameterType="cn.account.orm.DocumentationORM" useGeneratedKeys="true" keyProperty="id" >
 		insert into t_documentation (
-			notice_key,content,add_date
+			notice_key,content,add_date,title
 		)
 		values(
-			#{noticeKey}, #{content}, #{addDate}
+			#{noticeKey}, #{content}, #{addDate}, #{title}
 		)
 	</insert>
 	

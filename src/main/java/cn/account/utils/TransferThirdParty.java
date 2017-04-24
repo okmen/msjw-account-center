@@ -194,6 +194,9 @@ public class TransferThirdParty {
 			String ZJCX =  (String) xxcj07RespJson.get("ZJCX");
 			//状态 	A正常	B超分	C转出	D暂扣	E撤销	F吊销	G注销	H违法未处理	I事故未处理	J停止使用	K抵押	L锁定	M逾期未换证	N延期换证	P延期体检	R注销可恢复	S逾期未审验状态	T延期审验	U扣留
 			String ZT =  (String) xxcj07RespJson.get("ZT");
+			if("0".equals(LJJF)){
+				LJJF = "12";
+			}
 			myDriverLicenseVo.setAvailableScore(LJJF + "分");
 			myDriverLicenseVo.setEffectiveDate(SYRQ);
 			myDriverLicenseVo.setFileNumber(DABH);
@@ -583,16 +586,39 @@ public class TransferThirdParty {
 		identificationOfAuditResultsVo.setTBYY(TBYY);
 		return identificationOfAuditResultsVo;
 	}
+	/**
+	 * 车主查询本人车辆绑定的其他驾驶人
+	 * @param idCard 身份证
+	 * @param numberPlateNumber 号牌号码
+	 * @param plateType 号牌种类
+	 * @param sourceOfCertification 认证来源
+	 * @param url 请求url
+	 * @param method 请求方法
+	 * @param userId 用户id
+	 * @param userPwd 用户密码
+	 * @param key 秘钥
+	 * @return
+	 * @throws Exception 
+	 */
+	public static List<BindTheVehicleVo> getBindTheOtherDriversUseMyCar(String idCard,String numberPlateNumber,String plateType,String sourceOfCertification,String url,String method,String userId,String userPwd,String key) throws Exception{
+		List<BindTheVehicleVo> bindTheVehicleVos = new ArrayList<BindTheVehicleVo>();
+		String dwc02 = "xxcj18";
+		String dwc02ReqXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><LOGIN_USER>"+idCard+"</LOGIN_USER><HPHM>"+numberPlateNumber+"</HPHM><HPZL>"+plateType+"</HPZL><RZJS>"+sourceOfCertification+"</RZJS></REQUEST>";
+		JSONObject dwc02RespJson = WebServiceClient.getInstance().requestWebService(url, method, dwc02,dwc02ReqXml,userId,userPwd,key);
+		return bindTheVehicleVos;
+	}
 	/*public static DriverLicenseInformationSheetVo getDriverLicenseInformationSheet(String identityCard,String sourceOfCertification,
 			String url,String method,String userId,String userPwd,String key){
 		
 	}*/
 	
 	public static void main(String[] args) throws Exception {
+		
+		getBindTheOtherDriversUseMyCar("440301199002101119", "粤B701NR", "02", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//commitAAingleApplicationForMotorVehicleInformation("王玉璞", "622822198502074110", "15920071829", "B6F7M1", "02", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		
 		//commitDriverInformationSinglePrintApplicationInterface("1", "王玉璞", "622822198502074110", "15920071829", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
-		System.out.println(queryMachineInformationSheet("1", "420881198302280017", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610"));
+		//System.out.println(queryMachineInformationSheet("1", "420881198302280017", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610"));
 		//getDriverLicenseToReplenishBusinessInquiriesInterface("440301199002101119", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//getMotorVehicleBusiness("440301199002101119", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//identificationOfAuditResults("", "440301199002101119", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
