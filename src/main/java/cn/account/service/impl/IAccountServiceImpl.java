@@ -641,30 +641,33 @@ public class IAccountServiceImpl implements IAccountService {
 		List<InformationSheetVo> informationSheetVos = (List<InformationSheetVo>) map.get("data");
 		List<MyBusinessVo> myBusinessVos = new ArrayList<MyBusinessVo>();
 		try {
-			for(InformationSheetVo informationSheetVo : informationSheetVos){
-				MyBusinessVo myBusinessVo = new MyBusinessVo();
-				myBusinessVo.setBusinessTitle("机动车信息单");
-				myBusinessVo.setUserName(informationSheetVo.getName());
-				myBusinessVo.setIdentityCard(informationSheetVo.getIdCard());
-				myBusinessVo.setApplicationTime(informationSheetVo.getApplicationTime());
-				// 状态代码  0-待审核 1-审核通过，信息单查询结果图片尚未同步出来，请耐心等待 2-审核通过，信息单查询结果图片已同步，可选择电脑打印或手机图片保存
-				if("0".equals(informationSheetVo.getStatusCode())){
-					myBusinessVo.setStatus(1);
-					myBusinessVo.setStatusStr("待审核");
+			String code = (String) map.get("code");
+			if("0000".equals(code)){
+				for(InformationSheetVo informationSheetVo : informationSheetVos){
+					MyBusinessVo myBusinessVo = new MyBusinessVo();
+					myBusinessVo.setBusinessTitle("机动车信息单");
+					myBusinessVo.setUserName(informationSheetVo.getName());
+					myBusinessVo.setIdentityCard(informationSheetVo.getIdCard());
+					myBusinessVo.setApplicationTime(informationSheetVo.getApplicationTime());
+					// 状态代码  0-待审核 1-审核通过，信息单查询结果图片尚未同步出来，请耐心等待 2-审核通过，信息单查询结果图片已同步，可选择电脑打印或手机图片保存
+					if("0".equals(informationSheetVo.getStatusCode())){
+						myBusinessVo.setStatus(1);
+						myBusinessVo.setStatusStr("待审核");
+					}
+					if("1".equals(informationSheetVo.getStatusCode())){
+						myBusinessVo.setStatus(1);
+						myBusinessVo.setStatusStr("审核通过 ");
+					}
+					if("2".equals(informationSheetVo.getStatusCode())){
+						myBusinessVo.setStatus(2);
+						myBusinessVo.setStatusStr("已制证");
+					}
+					myBusinessVo.setVehicleNumber(informationSheetVo.getNumberPlate());
+					myBusinessVo.setPlateType(informationSheetVo.getPlateType());
+					//具体业务 1、驾驶人信息单；2、机动车信息单；3、无车证明申请；4、驾驶人安全事故信用表；5、机动车行驶证；6、驾驶证
+					myBusinessVo.setDetailedBusiness(2);
+					myBusinessVos.add(myBusinessVo);
 				}
-				if("1".equals(informationSheetVo.getStatusCode())){
-					myBusinessVo.setStatus(1);
-					myBusinessVo.setStatusStr("审核通过 ");
-				}
-				if("2".equals(informationSheetVo.getStatusCode())){
-					myBusinessVo.setStatus(2);
-					myBusinessVo.setStatusStr("已制证");
-				}
-				myBusinessVo.setVehicleNumber(informationSheetVo.getNumberPlate());
-				myBusinessVo.setPlateType(informationSheetVo.getPlateType());
-				//具体业务 1、驾驶人信息单；2、机动车信息单；3、无车证明申请；4、驾驶人安全事故信用表；5、机动车行驶证；6、驾驶证
-				myBusinessVo.setDetailedBusiness(2);
-				myBusinessVos.add(myBusinessVo);
 			}
 		} catch (Exception e) {
 			logger.error("机动车信息单--机动车业务错误,map=" + map + ",myBusinessVos22=" + myBusinessVos22.toString(), e);
@@ -680,28 +683,31 @@ public class IAccountServiceImpl implements IAccountService {
 		List<InformationSheetVo> informationSheetVos = (List<InformationSheetVo>) map.get("data");
 		List<MyBusinessVo> myBusinessVos = new ArrayList<MyBusinessVo>();
 		try {
-			for(InformationSheetVo informationSheetVo : informationSheetVos){
-				MyBusinessVo myBusinessVo = new MyBusinessVo();
-				myBusinessVo.setBusinessTitle("无车证明申请");
-				myBusinessVo.setUserName(informationSheetVo.getName());
-				myBusinessVo.setIdentityCard(informationSheetVo.getIdCard());
-				// 状态代码  0-待审核 1-审核通过，信息单查询结果图片尚未同步出来，请耐心等待 2-审核通过，信息单查询结果图片已同步，可选择电脑打印或手机图片保存
-				if("0".equals(informationSheetVo.getStatusCode())){
-					myBusinessVo.setStatus(1);
-					myBusinessVo.setStatusStr("待审核");
+			String code = (String) map.get("code");
+			if("0000".equals(code)){
+				for(InformationSheetVo informationSheetVo : informationSheetVos){
+					MyBusinessVo myBusinessVo = new MyBusinessVo();
+					myBusinessVo.setBusinessTitle("无车证明申请");
+					myBusinessVo.setUserName(informationSheetVo.getName());
+					myBusinessVo.setIdentityCard(informationSheetVo.getIdCard());
+					// 状态代码  0-待审核 1-审核通过，信息单查询结果图片尚未同步出来，请耐心等待 2-审核通过，信息单查询结果图片已同步，可选择电脑打印或手机图片保存
+					if("0".equals(informationSheetVo.getStatusCode())){
+						myBusinessVo.setStatus(1);
+						myBusinessVo.setStatusStr("待审核");
+					}
+					if("1".equals(informationSheetVo.getStatusCode())){
+						myBusinessVo.setStatus(1);
+						myBusinessVo.setStatusStr("审核通过");
+					}
+					if("2".equals(informationSheetVo.getStatusCode())){
+						myBusinessVo.setStatus(2);
+						myBusinessVo.setStatusStr("已制证");
+					}
+					myBusinessVo.setApplicationTime(informationSheetVo.getApplicationTime());
+					//具体业务 1、驾驶人信息单；2、机动车信息单；3、无车证明申请；4、驾驶人安全事故信用表；5、机动车行驶证；6、驾驶证
+					myBusinessVo.setDetailedBusiness(3);
+					myBusinessVos.add(myBusinessVo);
 				}
-				if("1".equals(informationSheetVo.getStatusCode())){
-					myBusinessVo.setStatus(1);
-					myBusinessVo.setStatusStr("审核通过");
-				}
-				if("2".equals(informationSheetVo.getStatusCode())){
-					myBusinessVo.setStatus(2);
-					myBusinessVo.setStatusStr("已制证");
-				}
-				myBusinessVo.setApplicationTime(informationSheetVo.getApplicationTime());
-				//具体业务 1、驾驶人信息单；2、机动车信息单；3、无车证明申请；4、驾驶人安全事故信用表；5、机动车行驶证；6、驾驶证
-				myBusinessVo.setDetailedBusiness(3);
-				myBusinessVos.add(myBusinessVo);
 			}
 		} catch (Exception e) {
 			logger.error("无车证明申请--机动车业务 错误,map="+ map + ",myBusinessVos22=" + myBusinessVos22, e);
@@ -717,28 +723,31 @@ public class IAccountServiceImpl implements IAccountService {
 		List<InformationSheetVo> informationSheetVos = (List<InformationSheetVo>) map.get("data");
 		List<MyBusinessVo> myBusinessVos = new ArrayList<MyBusinessVo>();
 		try {
-			for(InformationSheetVo informationSheetVo : informationSheetVos){
-				MyBusinessVo myBusinessVo = new MyBusinessVo();
-				myBusinessVo.setBusinessTitle("驾驶人信息单");
-				myBusinessVo.setUserName(informationSheetVo.getName());
-				myBusinessVo.setIdentityCard(informationSheetVo.getIdCard());
-				// 状态代码  0-待审核 1-审核通过，信息单查询结果图片尚未同步出来，请耐心等待 2-审核通过，信息单查询结果图片已同步，可选择电脑打印或手机图片保存
-				if("0".equals(informationSheetVo.getStatusCode())){
-					myBusinessVo.setStatus(1);
-					myBusinessVo.setStatusStr("待审核");
+			String code = (String) map.get("code");
+			if("0000".equals(code)){
+				for(InformationSheetVo informationSheetVo : informationSheetVos){
+					MyBusinessVo myBusinessVo = new MyBusinessVo();
+					myBusinessVo.setBusinessTitle("驾驶人信息单");
+					myBusinessVo.setUserName(informationSheetVo.getName());
+					myBusinessVo.setIdentityCard(informationSheetVo.getIdCard());
+					// 状态代码  0-待审核 1-审核通过，信息单查询结果图片尚未同步出来，请耐心等待 2-审核通过，信息单查询结果图片已同步，可选择电脑打印或手机图片保存
+					if("0".equals(informationSheetVo.getStatusCode())){
+						myBusinessVo.setStatus(1);
+						myBusinessVo.setStatusStr("待审核");
+					}
+					if("1".equals(informationSheetVo.getStatusCode())){
+						myBusinessVo.setStatus(1);
+						myBusinessVo.setStatusStr("审核通过");
+					}
+					if("2".equals(informationSheetVo.getStatusCode())){
+						myBusinessVo.setStatus(2);
+						myBusinessVo.setStatusStr("审核通过");
+					}
+					myBusinessVo.setApplicationTime(informationSheetVo.getApplicationTime());
+					//具体业务 1、驾驶人信息单；2、机动车信息单；3、无车证明申请；4、驾驶人安全事故信用表；5、机动车行驶证；6、驾驶证
+					myBusinessVo.setDetailedBusiness(1);
+					myBusinessVos.add(myBusinessVo);
 				}
-				if("1".equals(informationSheetVo.getStatusCode())){
-					myBusinessVo.setStatus(1);
-					myBusinessVo.setStatusStr("审核通过");
-				}
-				if("2".equals(informationSheetVo.getStatusCode())){
-					myBusinessVo.setStatus(2);
-					myBusinessVo.setStatusStr("审核通过");
-				}
-				myBusinessVo.setApplicationTime(informationSheetVo.getApplicationTime());
-				//具体业务 1、驾驶人信息单；2、机动车信息单；3、无车证明申请；4、驾驶人安全事故信用表；5、机动车行驶证；6、驾驶证
-				myBusinessVo.setDetailedBusiness(1);
-				myBusinessVos.add(myBusinessVo);
 			}
 		} catch (Exception e) {
 			logger.error("驾驶人信息单--驾驶证业务 错误,map=" + map.toString() + ",myBusinessVos11="+myBusinessVos11.toString(), e);
@@ -754,28 +763,31 @@ public class IAccountServiceImpl implements IAccountService {
 		List<InformationSheetVo> informationSheetVos = (List<InformationSheetVo>) map.get("data");
 		List<MyBusinessVo> myBusinessVos = new ArrayList<MyBusinessVo>();
 		try {
-			for(InformationSheetVo informationSheetVo : informationSheetVos){
-				MyBusinessVo myBusinessVo = new MyBusinessVo();
-				myBusinessVo.setBusinessTitle("驾驶人安全事故信用表");
-				myBusinessVo.setUserName(informationSheetVo.getName());
-				myBusinessVo.setIdentityCard(informationSheetVo.getIdCard());
-				// 状态代码  0-待审核 1-审核通过，信息单查询结果图片尚未同步出来，请耐心等待 2-审核通过，信息单查询结果图片已同步，可选择电脑打印或手机图片保存
-				if("0".equals(informationSheetVo.getStatusCode())){
-					myBusinessVo.setStatus(1);
-					myBusinessVo.setStatusStr("待审核");
+			String code = (String) map.get("code");
+			if("0000".equals(code)){
+				for(InformationSheetVo informationSheetVo : informationSheetVos){
+					MyBusinessVo myBusinessVo = new MyBusinessVo();
+					myBusinessVo.setBusinessTitle("驾驶人安全事故信用表");
+					myBusinessVo.setUserName(informationSheetVo.getName());
+					myBusinessVo.setIdentityCard(informationSheetVo.getIdCard());
+					// 状态代码  0-待审核 1-审核通过，信息单查询结果图片尚未同步出来，请耐心等待 2-审核通过，信息单查询结果图片已同步，可选择电脑打印或手机图片保存
+					if("0".equals(informationSheetVo.getStatusCode())){
+						myBusinessVo.setStatus(1);
+						myBusinessVo.setStatusStr("待审核");
+					}
+					if("1".equals(informationSheetVo.getStatusCode())){
+						myBusinessVo.setStatus(1);
+						myBusinessVo.setStatusStr("审核通过");
+					}
+					if("2".equals(informationSheetVo.getStatusCode())){
+						myBusinessVo.setStatus(2);
+						myBusinessVo.setStatusStr("审核通过");
+					}
+					myBusinessVo.setApplicationTime(informationSheetVo.getApplicationTime());
+					//具体业务 1、驾驶人信息单；2、机动车信息单；3、无车证明申请；4、驾驶人安全事故信用表；5、机动车行驶证；6、驾驶证
+					myBusinessVo.setDetailedBusiness(4);
+					myBusinessVos.add(myBusinessVo);
 				}
-				if("1".equals(informationSheetVo.getStatusCode())){
-					myBusinessVo.setStatus(1);
-					myBusinessVo.setStatusStr("审核通过");
-				}
-				if("2".equals(informationSheetVo.getStatusCode())){
-					myBusinessVo.setStatus(2);
-					myBusinessVo.setStatusStr("审核通过");
-				}
-				myBusinessVo.setApplicationTime(informationSheetVo.getApplicationTime());
-				//具体业务 1、驾驶人信息单；2、机动车信息单；3、无车证明申请；4、驾驶人安全事故信用表；5、机动车行驶证；6、驾驶证
-				myBusinessVo.setDetailedBusiness(4);
-				myBusinessVos.add(myBusinessVo);
 			}
 		} catch (Exception e) {
 			logger.error("驾驶人安全事故信用表--驾驶证业务 错误，map="+map.toString() + "myBusinessVos11=" + myBusinessVos11.toString(), e);
