@@ -32,6 +32,35 @@ import cn.sdk.webservice.WebServiceClient;
  */
 @SuppressWarnings(value="all")
 public class TransferThirdParty {
+	
+	/**
+	 * 重置密码
+	 * @param idCard 身份证
+	 * @param userName 用户名
+	 * @param mobile 手机号
+	 * @param sourceOfCertification 认证来源
+	 * @param url 请求url
+	 * @param method 请求方法
+	 * @param userId 用户id
+	 * @param userPwd 用户密码
+	 * @param key 秘钥
+	 * @return
+	 * @throws Exception
+	 */
+	public static Map<String, String> resetPwd(String idCard,String userName,String mobile,String sourceOfCertification,String url,String method,String userId,String userPwd,String key) throws Exception{
+		String xxcj03 = "xxcj09";
+		String xxcj03ReqXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+idCard+"</SFZMHM><XM>"+userName+"</XM><SJHM>"+mobile+"</SJHM><YHLY>C</YHLY></REQUEST>";
+		JSONObject xxcj03RespJson = WebServiceClient.getInstance().requestWebService(url,method,xxcj03,xxcj03ReqXml,userId,userPwd,key);
+		
+		//返回的数据
+        String xxcj03Msg =(String) xxcj03RespJson.get("MSG");
+        //返回的状态码
+        String xxcj03Code = (String) xxcj03RespJson.get("CODE");
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("code", xxcj03Code);
+        map.put("msg", xxcj03Msg);
+		return map;
+	}
 	/**
 	 * 登录接口 xxcj03
 	 * @param loginName 登录账号
@@ -615,8 +644,9 @@ public class TransferThirdParty {
 	}*/
 	
 	public static void main(String[] args) throws Exception {
+		resetPwd("622822198502074110", "王玉璞", "15920071829", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		
-		getBindTheOtherDriversUseMyCar("440301199002101119", "粤B701NR", "02", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+		//getBindTheOtherDriversUseMyCar("440301199002101119", "粤B701NR", "02", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//commitAAingleApplicationForMotorVehicleInformation("王玉璞", "622822198502074110", "15920071829", "B6F7M1", "02", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		
 		//commitDriverInformationSinglePrintApplicationInterface("1", "王玉璞", "622822198502074110", "15920071829", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");

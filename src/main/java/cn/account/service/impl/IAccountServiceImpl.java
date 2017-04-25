@@ -126,7 +126,22 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		return documentation;
 	}
-
+	@Override
+	public Map<String, String> resetPwd(String idCard, String userName, String mobile, String sourceOfCertification)throws Exception {
+		Map<String, String> map = null; 
+		try {
+			String url = iAccountCached.getUrl(); //webservice请求url
+			String method = iAccountCached.getMethod(); //webservice请求方法名称
+			String userId = iAccountCached.getUserid(); //webservice登录账号
+			String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			String key = iAccountCached.getKey(); //秘钥
+			map = TransferThirdParty.resetPwd(idCard, userName, mobile, sourceOfCertification, url, method, userId, userPwd, key);
+		} catch (Exception e) {
+			logger.error("重置密码错误" + "idCard=" + idCard + ",sourceOfCertification=" + sourceOfCertification + ",mobilephone" + mobile + ",userName=" + userName, e);
+			throw e;
+		}
+		return map;
+	}
 	/*====基础数据服务=====*/
 	/**
 	 * 查询用户基础数据
@@ -1129,15 +1144,6 @@ public class IAccountServiceImpl implements IAccountService {
 		
 		return json;
 	}
-
-
-	
-
-
-	
-
-
-	
 
 //	@Override
 //	public UserRegInfo addNewUser(UserRegInfo userRegInfo) {
