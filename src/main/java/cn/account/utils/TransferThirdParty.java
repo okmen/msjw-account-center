@@ -74,20 +74,21 @@ public class TransferThirdParty {
 		String xxcj08 = "xxcj08";
 		String xxcj08ReqXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><USERNAME>"+loginName+"</USERNAME><RZLY>"+sourceOfCertification+"</RZLY></REQUEST>";
 		JSONObject xxcj08RespJson = WebServiceClient.getInstance().requestWebService(url, method, xxcj08,xxcj08ReqXml,userId,userPwd,key);
-		
-		JSONObject jsonObject = (JSONObject) xxcj08RespJson.get("BODY");
-		//真实姓名
-		String trueName = (String) jsonObject.get("LOGIN_TRUENAME");
-		//身份证号
-		String identityCard = (String) jsonObject.get("SFZMHM");
-		//手机号
-		String mobilephone = (String) jsonObject.get("YDDH");
+		String code = xxcj08RespJson.getString("code");
 		AuthenticationBasicInformationVo authenticationBasicInformationVo = new AuthenticationBasicInformationVo();
-		authenticationBasicInformationVo.setTrueName(trueName);
-		authenticationBasicInformationVo.setIdentityCard(identityCard);
-		authenticationBasicInformationVo.setMobilephone(mobilephone);
-		//authenticationBasicInformationVo.setMyAvatar("等微信开发获取");
-		
+		if("0000".equals(code)){
+			JSONObject jsonObject = (JSONObject) xxcj08RespJson.get("BODY");
+			//真实姓名
+			String trueName = (String) jsonObject.get("LOGIN_TRUENAME");
+			//身份证号
+			String identityCard = (String) jsonObject.get("SFZMHM");
+			//手机号
+			String mobilephone = (String) jsonObject.get("YDDH");
+			authenticationBasicInformationVo.setTrueName(trueName);
+			authenticationBasicInformationVo.setIdentityCard(identityCard);
+			authenticationBasicInformationVo.setMobilephone(mobilephone);
+			//authenticationBasicInformationVo.setMyAvatar("等微信开发获取");
+		}
 		return authenticationBasicInformationVo;
 	}
 	/**
@@ -226,15 +227,16 @@ public class TransferThirdParty {
 		String DZJSZ = "DZJSZ";
 		String DZJSZReqXml = "<?xml version='1.0' encoding='gb2312'?><REQUEST><JSZHM>"+driverLicenseNumber+"</JSZHM><XM>"+userName+"</XM><SQSJHM>"+mobileNumber+"</SQSJHM><SQLY>"+sourceOfCertification+"</SQLY></REQUEST>";
 		JSONObject xxcj06RespJson = WebServiceClient.getInstance().requestWebService(url, method, DZJSZ,DZJSZReqXml,userId,userPwd,key);
-		xxcj06RespJson = (JSONObject) xxcj06RespJson.get("BODY");
-		
-		String DZZ = xxcj06RespJson.getString("DZZ");
-		String EWM = xxcj06RespJson.getString("EWM");
-		
 		ElectronicDriverLicenseVo electronicDriverLicenseVo = new ElectronicDriverLicenseVo();
-		electronicDriverLicenseVo.setElectronicDriverLicense(DZZ);
-		electronicDriverLicenseVo.setElectronicDriverLicenseQRCode(EWM);
-		
+		String code = xxcj06RespJson.getString("CODE");
+		if("0000".equals(code)){
+			xxcj06RespJson = (JSONObject) xxcj06RespJson.get("BODY");
+			String DZZ = xxcj06RespJson.getString("DZZ");
+			String EWM = xxcj06RespJson.getString("EWM");
+			
+			electronicDriverLicenseVo.setElectronicDriverLicense(DZZ);
+			electronicDriverLicenseVo.setElectronicDriverLicenseQRCode(EWM);
+		}
 		return electronicDriverLicenseVo;
 	}
 	/**
@@ -259,26 +261,26 @@ public class TransferThirdParty {
 		String DZXSZ = "DZXSZ";
 		String DZXSZReqXml = "<?xml version='1.0' encoding='gb2312'?><REQUEST><HPHM>"+numberPlatenumber+"</HPHM><HPZL>"+plateType+"</HPZL><SQSJHM>"+mobileNumber+"</SQSJHM><SQLY>"+sourceOfCertification+"</SQLY></REQUEST>";
 		JSONObject DZXSZRespJson = WebServiceClient.getInstance().requestWebService(url, method, DZXSZ,DZXSZReqXml,userId,userPwd,key);
-		DZXSZRespJson = (JSONObject) DZXSZRespJson.get("BODY");
-		
-		//车主姓名
-		String CZXM = DZXSZRespJson.getString("CZXM");
-		//身份证
-		String CZSFZMHM = DZXSZRespJson.getString("CZSFZMHM");
-		//1为本人，0为其他人
-		String SFBR = DZXSZRespJson.getString("SFBR");
-		//电子行驶证（base64）
-		String DZZ = DZXSZRespJson.getString("DZZ");
-		//电子行驶证二维码（加密串）
-		String EWM = DZXSZRespJson.getString("EWM");
-		
+		String code = DZXSZRespJson.getString("CODE");
 		DrivingLicenseVo drivingLicenseVo = new DrivingLicenseVo();
-		drivingLicenseVo.setElectronicDriverLicense(CZXM);
-		drivingLicenseVo.setIsOwnerName(SFBR);
-		drivingLicenseVo.setElectronicDrivingLicense(DZZ);
-		drivingLicenseVo.setElectronicDrivingLicenseQRCode(EWM);
-		
-		System.out.println(DZXSZRespJson);
+		if("0000".equals(code)){
+			DZXSZRespJson = (JSONObject) DZXSZRespJson.get("BODY");
+			//车主姓名
+			String CZXM = DZXSZRespJson.getString("CZXM");
+			//身份证
+			String CZSFZMHM = DZXSZRespJson.getString("CZSFZMHM");
+			//1为本人，0为其他人
+			String SFBR = DZXSZRespJson.getString("SFBR");
+			//电子行驶证（base64）
+			String DZZ = DZXSZRespJson.getString("DZZ");
+			//电子行驶证二维码（加密串）
+			String EWM = DZXSZRespJson.getString("EWM");
+			
+			drivingLicenseVo.setElectronicDriverLicense(CZXM);
+			drivingLicenseVo.setIsOwnerName(SFBR);
+			drivingLicenseVo.setElectronicDrivingLicense(DZZ);
+			drivingLicenseVo.setElectronicDrivingLicenseQRCode(EWM);
+		}
 		return drivingLicenseVo;
 	}
 	
