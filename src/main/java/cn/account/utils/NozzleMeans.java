@@ -37,14 +37,7 @@ public class NozzleMeans {
 	 */
 	public static JSONObject addVehicle(BindCarVo bindCarVo,String url,String method,String userId,String userPwd,String key) throws Exception{
 		String xml = null;		
-		if(bindCarVo.getBindType()==0){//绑定他人车
-			//图片路径加密
-			byte[] idCardImgPositives= bindCarVo.getIdCardImgPositive().getBytes();
-			bindCarVo.setIdCardImgPositive(Base64.encode(idCardImgPositives));	
-					
-			byte[] idCardImgHandHelds = bindCarVo.getIdCardImgHandHeld().getBytes();
-			bindCarVo.setIdCardImgHandHeld(Base64.encode(idCardImgPositives));
-			
+		if(bindCarVo.getBindType()==0){//绑定他人车			
 			xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><LOGIN_NAME>"+bindCarVo.getUserIdCard()+"</LOGIN_NAME><YHLY>"+bindCarVo.getUserSource()+"</YHLY><HPHM>"+bindCarVo.getLicensePlateNumber()+"</HPHM>"
 		            +"<HPZL>"+bindCarVo.getLicensePlateType()+"</HPZL><SFJC>"+bindCarVo.getProvinceAbbreviation()+" </SFJC><CJH4>"+bindCarVo.getFrameNumber()+"</CJH4><CZXM>"+bindCarVo.getOwnerName()+"</CZXM>"
                     +"<CZSFZMHM>"+bindCarVo.getOwnerIdCard()+"</CZSFZMHM><SFBR>0</SFBR><LRIP>"+bindCarVo.getInputIP()+"</LRIP>"
@@ -78,14 +71,6 @@ public class NozzleMeans {
 	 * @date 2017年4月18日 下午5:29:46
 	 */
 	public static JSONObject updateUser(UserBasicVo userBasicVo,String url,String method,String userId,String userPwd,String key)throws Exception{
-		
-		//图片路径加密
-		byte[] idCardImgPositives= userBasicVo.getIdCardImgPositive().getBytes();
-		userBasicVo.setIdCardImgPositive(Base64.encode(idCardImgPositives));	
-				
-		byte[] idCardImgHandHelds = userBasicVo.getIdCardImgHandHeld().getBytes();
-		userBasicVo.setIdCardImgHandHeld(Base64.encode(idCardImgPositives));
-		
 		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><USERNAME>"+userBasicVo.getIdentityCard()+"</USERNAME><NICKNAME>"+userBasicVo.getNickname()+"</NICKNAME>"
 				+ "<TXDZ>"+userBasicVo.getMailingAddress()+"</TXDZ><PHOTO9>"+userBasicVo.getIdCardImgPositive()+"</PHOTO9><PHOTO6>"+userBasicVo.getIdCardImgHandHeld()+"</PHOTO6>"
 						+ "<SFZYXQ>"+userBasicVo.getIdCardValidityDate()+"</SFZYXQ><YHLY>"+userBasicVo.getUserSource()+"</YHLY></REQUEST>";
@@ -160,23 +145,6 @@ public class NozzleMeans {
 	 */
 	public  static JSONObject readilyShoot(ReadilyShootVo readilyShootVo,String url,String method,String userId,String userPwd,String key) throws Exception {
 		String xml=null;	
-		//图片路径加密
-		String reporImgOne =readilyShootVo.getReportImgOne();
-		String reportImgTwo =readilyShootVo.getReportImgTwo();
-		String reportImgThree =readilyShootVo.getReportImgThree();
-		if(reporImgOne!=null){
-			byte[] reporImgOnes= reporImgOne.getBytes();
-			readilyShootVo.setReportImgOne(Base64.encode(reporImgOnes));
-		}
-		if(reporImgOne!=null){
-			byte[] reportImgTwos= reporImgOne.getBytes();
-			readilyShootVo.setReportImgOne(Base64.encode(reportImgTwos));
-		}
-		if(reporImgOne!=null){
-			byte[] reportImgThrees= reporImgOne.getBytes();
-			readilyShootVo.setReportImgOne(Base64.encode(reportImgThrees));
-		}
-		
 		if("C".equals(readilyShootVo.getUserSource())){
 			xml="<?xml version=\"1.0\" encoding=\"UTF-8\"?><request><body><hphm>"+readilyShootVo.getLicensePlateNumber()+"</hphm><hpzl>"+readilyShootVo.getLicensePlateType()+"</hpzl><wfxw1>"+readilyShootVo.getIllegalActivitieOne()+"</wfxw1><wfxw2></wfxw2>"
 					+ "<wfxw3></wfxw3><wfdd>"+readilyShootVo.getIllegalSections()+"</wfdd><wfsj>"+readilyShootVo.getIllegalTime()+"</wfsj><lrr>"+readilyShootVo.getInputMan()+"</lrr><lrrxm>"+readilyShootVo.getInputManName()+"</lrrxm>"
@@ -206,14 +174,6 @@ public class NozzleMeans {
 	 * @date 2017年4月18日 下午7:47:03
 	 */
 	public static JSONObject iAmTheOwner(RegisterVo registerVo,String url,String method,String userId,String userPwd,String key) throws Exception{
-		//图片路径加密
-		byte[] idCardImgPositives= registerVo.getIdCardImgPositive().getBytes();
-		registerVo.setIdCardImgPositive(Base64.encode(idCardImgPositives));	
-				
-		byte[] idCardImgHandHelds = registerVo.getIdCardImgHandHeld().getBytes();
-		registerVo.setIdCardImgHandHeld(Base64.encode(idCardImgPositives));
-		
-		
 		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+registerVo.getUserIdCard()+"</SFZMHM><LXDH>"+registerVo.getMobilephone()+"</LXDH><LXDZ>"+registerVo.getLinkAddress()+"</LXDZ><HPHM>"+registerVo.getLicensePlateNumber()+"</HPHM>"
 				+ "<HPZL>"+registerVo.getLicensePlateType()+"</HPZL><RZLX>1</RZLX><RZLY>C</RZLY><JSRSZD>"+registerVo.getDriverLicenseIssuedAddress()+"</JSRSZD><SFJC>"+registerVo.getProvinceAbbreviation()+"</SFJC>"
 				+ "<RZJS>"+registerVo.getCertifiedRole()+"</RZJS><LRR>"+registerVo.getCallAccount()+"</LRR><PHOTO6>"+registerVo.getIdCardImgPositive()+"</PHOTO6><PHOTO9>"+registerVo.getIdCardImgHandHeld()+"</PHOTO9></REQUEST>";
@@ -239,19 +199,6 @@ public class NozzleMeans {
 	 * @date 2017年4月18日 下午7:47:08
 	 */
 	public static JSONObject iamALongtimeUser(RegisterVo registerVo,String url,String method,String userId,String userPwd,String key) throws Exception {	
-		//图片路径加密
-		byte[] idCardImgPositives= registerVo.getIdCardImgPositive().getBytes();
-		registerVo.setIdCardImgPositive(Base64.encode(idCardImgPositives));	
-						
-		byte[] idCardImgHandHelds = registerVo.getIdCardImgHandHeld().getBytes();
-		registerVo.setIdCardImgHandHeld(Base64.encode(idCardImgPositives));
-		
-		byte[] ownerIdCardImgPositives= registerVo.getOwnerIdCardImgPositive().getBytes();
-		registerVo.setOwnerIdCardImgPositive(Base64.encode(ownerIdCardImgPositives));	
-						
-		byte[] ownerIdCardImgHandHelds = registerVo.getOwnerIdCardImgHandHeld().getBytes();
-		registerVo.setOwnerIdCardImgHandHeld(Base64.encode(ownerIdCardImgHandHelds));
-		
 		String xml="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+registerVo.getUserIdCard()+"</SFZMHM><LXDH>"+registerVo.getMobilephone()+"</LXDH><LXDZ>"+registerVo.getLinkAddress()+"</LXDZ>"
 					+ "<HPHM>"+registerVo.getLicensePlateNumber()+"</HPHM><HPZL>"+registerVo.getLicensePlateType()+"</HPZL><CZXM>"+registerVo.getOwnerName()+"</CZXM><CZSFZMMC>"+registerVo.getOwnerIdName()+"</CZSFZMMC><CZSFZMHM>"+registerVo.getOwnerIdCard()+"</CZSFZMHM>"
 					+ "<CZLXDH>"+registerVo.getOwnerMobilephone()+"</CZLXDH><RZLX>"+registerVo.getCertifiedType()+"</RZLX><RZLY>"+registerVo.getCertifiedSource()+"</RZLY><RZJS>"+registerVo.getCertifiedRole()+"</RZJS>"
@@ -279,15 +226,7 @@ public class NozzleMeans {
 	 * @return JSONObject    返回类型 
 	 * @date 2017年4月18日 下午7:47:12
 	 */
-	public static JSONObject haveDriverLicenseNotCar(RegisterVo registerVo,String url,String method,String userId,String userPwd,String key) throws Exception {
-		
-		//图片路径加密
-		byte[] idCardImgPositives= registerVo.getIdCardImgPositive().getBytes();
-		registerVo.setIdCardImgPositive(Base64.encode(idCardImgPositives));	
-				
-		byte[] idCardImgHandHelds = registerVo.getIdCardImgHandHeld().getBytes();
-		registerVo.setIdCardImgHandHeld(Base64.encode(idCardImgPositives));
-		
+	public static JSONObject haveDriverLicenseNotCar(RegisterVo registerVo,String url,String method,String userId,String userPwd,String key) throws Exception {				
 		String xml="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+registerVo.getUserIdCard()+"</SFZMHM><LXDH>"+registerVo.getMobilephone()+"</LXDH><LXDZ>"+registerVo.getLinkAddress()+"</LXDZ>"
 				+ "<RZLX>"+registerVo.getCertifiedType()+"</RZLX><RZLY>"+registerVo.getCertifiedSource()+"</RZLY><RZJS>"+registerVo.getCertifiedRole()+"</RZJS><LRR>"+registerVo.getCallAccount()+"</LRR>"
 				+ "<JSRSZD>"+registerVo.getDriverLicenseIssuedAddress()+"</JSRSZD ><PHOTO6>"+registerVo.getIdCardImgHandHeld()+"</PHOTO6><PHOTO9>"+registerVo.getIdCardImgPositive()+"</PHOTO9></REQUEST>";
@@ -313,14 +252,6 @@ public class NozzleMeans {
 	 * @date 2017年4月18日 下午7:47:16
 	 */
 	public static JSONObject isPedestrianNotDriver(RegisterVo registerVo,String url,String method,String userId,String userPwd,String key)throws Exception {
-		//图片路径加密
-		byte[] idCardImgPositives= registerVo.getIdCardImgPositive().getBytes();
-		registerVo.setIdCardImgPositive(Base64.encode(idCardImgPositives));	
-		
-		byte[] idCardImgHandHelds = registerVo.getIdCardImgHandHeld().getBytes();
-		registerVo.setIdCardImgHandHeld(Base64.encode(idCardImgPositives));
-		
-		
 		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+ registerVo.getUserIdCard()+"</SFZMHM><LXDH>"+registerVo.getMobilephone()+"</LXDH>"
 				+ "<RZLX>"+registerVo.getCertifiedType()+"</RZLX><RZLY>C</RZLY><PHOTO6>"+registerVo.getIdCardImgHandHeld()+"</PHOTO6>"
 				+ "<PHOTO9>"+registerVo.getIdCardImgPositive()+"</PHOTO9></REQUEST>";
@@ -330,8 +261,7 @@ public class NozzleMeans {
 	}
 	
 	
-	public static JSONObject getPositioningAddress(String keyword,String url,String method,String userId,String userPwd,String key)throws Exception {
-		
+	public static JSONObject getPositioningAddress(String keyword,String url,String method,String userId,String userPwd,String key)throws Exception {		
 		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><request><wfdd>"+keyword+"</wfdd></request>";
 		String interfaceNumber = "1002";
 		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
