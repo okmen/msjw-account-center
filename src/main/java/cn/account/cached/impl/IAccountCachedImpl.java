@@ -196,4 +196,16 @@ public class IAccountCachedImpl implements IAccountCached{
 		return key;
 	}
 
+
+	@Override
+	public String getDocumentByKey(String key) {
+		return cacheManger.get(key);
+	}
+
+
+	@Override
+	public boolean setDucoment(String key, String value) {
+		return cacheManger.set(key, value);
+	}
+
 }

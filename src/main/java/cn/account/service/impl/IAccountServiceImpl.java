@@ -12,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.account.bean.Documentation;
@@ -37,6 +38,7 @@ import cn.account.bean.vo.queryclassservice.CertificationProgressQueryVo;
 import cn.account.bean.vo.queryclassservice.DriverLicenseBusinessVo;
 import cn.account.bean.vo.queryclassservice.MakeAnAppointmentVo;
 import cn.account.bean.vo.queryclassservice.MotorVehicleBusinessVo;
+import cn.account.cached.ICacheKey;
 import cn.account.cached.impl.IAccountCachedImpl;
 import cn.account.dao.IAccountDao;
 import cn.account.dao.IDocumentDao;
@@ -118,8 +120,18 @@ public class IAccountServiceImpl implements IAccountService {
 	public Documentation getDocumentationByNoticeKey(String noticeKey) throws Exception {
 		Documentation documentation = new Documentation();
 		try {
-			DocumentationORM documentationORM = documentDao.getDocumentationORMByNoticeKey(noticeKey);
-			BeanUtils.copyProperties(documentationORM, documentation);
+			//根据key查询redis，没有数据则查询mysql并把数据存到redis
+			String documentJson = iAccountCached.getDocumentByKey(ICacheKey.ACCOUNT_DOC + noticeKey);
+			if(StringUtils.isBlank(documentJson)){
+				DocumentationORM documentationORM = documentDao.getDocumentationORMByNoticeKey(noticeKey);
+				if(null != documentationORM){
+					BeanUtils.copyProperties(documentationORM, documentation);
+					documentJson = JSON.toJSONString(documentation);
+					iAccountCached.setDucoment(ICacheKey.ACCOUNT_DOC + noticeKey, documentJson);
+				}
+			}else{
+				documentation = JSON.parseObject(documentJson, Documentation.class);
+			}
 		} catch (Exception e) {
 			logger.error("查询须知文档错误，参数noticeKey = " + noticeKey, e);
 			throw e;

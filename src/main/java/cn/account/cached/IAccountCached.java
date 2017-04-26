@@ -78,4 +78,17 @@ public interface IAccountCached extends ICacheKey {
      * @return
      */
     public String getUserValidateCode(String mobilephone);
+    /**
+     * 根据key查询须知文档
+     * @param key
+     * @return
+     */
+    public String getDocumentByKey(String key);
+    /**
+     * 添加须知到缓存
+     * @param key
+     * @param value
+     * @return
+     */
+    public boolean setDucoment(String key,String value);
 }

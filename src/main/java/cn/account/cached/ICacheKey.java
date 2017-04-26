@@ -9,4 +9,5 @@ public interface ICacheKey {
 	public static String USER_REDIS_KEY = cachePrefix + "user_";
 	public static String USER_WECHAT_INFO_REDIS_KEY = cachePrefix + "wechat_";
 	public static int USER_VALIDATE_CODE = 300; //短信验证码有效期
+	public static String ACCOUNT_DOC = "ACCOUNT_DOC_"; //须知
 }
