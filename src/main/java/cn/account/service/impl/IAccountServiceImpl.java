@@ -42,6 +42,7 @@ import cn.account.cached.ICacheKey;
 import cn.account.cached.impl.IAccountCachedImpl;
 import cn.account.dao.IAccountDao;
 import cn.account.dao.IDocumentDao;
+import cn.account.dao.IUserBindAlipayDao;
 import cn.account.dao.IUserValidateCodeDao;
 import cn.account.orm.DocumentationORM;
 import cn.account.orm.UserValidateCodeORM;
@@ -62,6 +63,9 @@ public class IAccountServiceImpl implements IAccountService {
 
 	@Autowired
 	private IAccountDao accountDao;
+	
+	@Autowired
+	private IUserBindAlipayDao userBindAlipayDao;
 
 	@Autowired
 	private IAccountCachedImpl iAccountCached;
@@ -240,20 +244,26 @@ public class IAccountServiceImpl implements IAccountService {
 				loginReturnBean.setCode(code);
 				loginReturnBean.setMsg(msg);
 				
-				//登录成功绑定，已经绑定就改下状态为isBind=1,没有则绑定
-				UserBind userBind = accountDao.getLoginInfo(identityCard, openId, loginClient);
-				if(null == userBind){
-					userBind = new UserBind();
-					userBind.setClientType(loginClient);
-					userBind.setBindDate(new Date());
-					userBind.setIdCard(identityCard);
-					userBind.setMobileNumber(mobilephone);
-					userBind.setIsBind(0);
+				UserBind userBind = new UserBind();
+				userBind.setBindDate(new Date());
+				userBind.setIdCard(identityCard);
+				userBind.setMobileNumber(mobilephone);
+				userBind.setIsBind(0);
+				userBind.setClientType(sourceOfCertification);
+				if("C".equals(sourceOfCertification)){
 					userBind.setOpenId(openId);
-					accountDao.addLoginInfo(userBind);
+					accountDao.addOrUpdateLoginInfo(userBind);
+				}else if("Z".equals(sourceOfCertification)){
+					userBind.setUserId(openId);
+					userBindAlipayDao.addOrUpdateLoginInfo(userBind);
+				}
+				//登录成功绑定，已经绑定就改下状态为isBind=1,没有则绑定
+				//UserBind userBind = accountDao.getLoginInfo(identityCard, openId, sourceOfCertification);
+				/*if(null == userBind){
+					
 				}else{
 					accountDao.updateUserBind(identityCard,openId,loginClient);
-				}
+				}*/
 			}else {
 				//登录失败
 				loginReturnBean.setCode(code);
@@ -950,7 +960,11 @@ public class IAccountServiceImpl implements IAccountService {
 	          return cancelSuccess;
 	      }
 	      try {
-	          cancelSuccess = accountDao.unbindVehicle(userBind);
+	    	  if("C".equalsIgnoreCase(userBind.getClientType())){
+	    		  cancelSuccess = accountDao.unbindVehicle(userBind);
+	    	  }else if("Z".equalsIgnoreCase(userBind.getClientType())){
+	    		  cancelSuccess = userBindAlipayDao.unbindVehicle(userBind);
+	    	  }
 	      } catch (Exception e) {
 	          logger.error("unbindVehicle出错，错误="+ userBind.toString(),e);
 	      }

@@ -32,7 +32,7 @@ public interface IAccountDao {
 	 */
 	int insertWechatUserInfo(WechatUserInfoBean wechatUserInfo);
 	
-	
+	public int addOrUpdateLoginInfo(UserBind userBind);
 	/**
 	 * 添加新用户
 	 * 

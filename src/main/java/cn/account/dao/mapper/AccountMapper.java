@@ -47,6 +47,8 @@ public interface AccountMapper {
     public long updateBindOpenidStatus(UserOpenidBean userOpenidBean);
     
     public int unbindVehicle(UserBind userBind);
+    
+    public int addOrUpdateLoginInfo(UserBind userBind);
     /**
      * 登录绑定
      * @param userBind

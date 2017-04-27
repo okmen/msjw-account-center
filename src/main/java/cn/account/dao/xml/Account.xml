@@ -102,6 +102,16 @@
 		)
 	</insert>
 	
+	<update id="addOrUpdateLoginInfo" parameterType="cn.account.bean.UserBind">
+		insert into t_user_bind (
+			open_id,id_card,mobile_number,bind_date,unbind_date,is_bind,client_type
+		)
+		values(
+			#{openId}, #{idCard}, #{mobileNumber}, #{bindDate}, #{unbindDate},#{isBind}, #{clientType} 
+		)
+		ON DUPLICATE KEY UPDATE id_card = #{idCard},mobile_number = #{mobileNumber},bind_date = #{bindDate}, is_bind = #{isBind}
+	</update>
+	
 	<!-- 登录绑定查询 -->
 	<select id="getLoginInfo" resultType="cn.account.bean.UserBind">
 		select * from t_user_bind where id_card = #{idCard} and open_id = #{openId} and client_type = #{clientType}

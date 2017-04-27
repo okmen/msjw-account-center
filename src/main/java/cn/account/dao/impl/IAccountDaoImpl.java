@@ -135,7 +135,10 @@ public class IAccountDaoImpl implements IAccountDao {
 	public int updateUserBind(String identityCard, String openId, String clientType) {
 		return userMapper.updateUserBind(identityCard, openId, clientType);
 	}
-
 	
+	@Override
+	public int addOrUpdateLoginInfo(UserBind userBind){
+		return userMapper.addOrUpdateLoginInfo(userBind);
+	}
 
 }
