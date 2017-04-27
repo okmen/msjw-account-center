@@ -49,7 +49,7 @@ public class TransferThirdParty {
 	 */
 	public static Map<String, String> resetPwd(String idCard,String userName,String mobile,String sourceOfCertification,String url,String method,String userId,String userPwd,String key) throws Exception{
 		String xxcj03 = "xxcj09";
-		String xxcj03ReqXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+idCard+"</SFZMHM><XM>"+userName+"</XM><SJHM>"+mobile+"</SJHM><YHLY>C</YHLY></REQUEST>";
+		String xxcj03ReqXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+idCard+"</SFZMHM><XM>"+userName+"</XM><SJHM>"+mobile+"</SJHM><YHLY>"+sourceOfCertification+"</YHLY></REQUEST>";
 		JSONObject xxcj03RespJson = WebServiceClient.getInstance().requestWebService(url,method,xxcj03,xxcj03ReqXml,userId,userPwd,key);
 		
 		//返回的数据
@@ -73,9 +73,10 @@ public class TransferThirdParty {
 	 * @return 认证来源
 	 * @throws Exception
 	 */
-	public static Map<String, String> login(String loginName,String password,String url,String method,String userId,String userPwd,String key) throws Exception{
+	public static Map<String, String> login(String loginName,String password,String url,String method,String userId,String userPwd,String key,String sourceOfCertification) throws Exception{
 		String xxcj03 = "xxcj03";
-		String xxcj03ReqXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><USERNAME>"+loginName+"</USERNAME><PWD>"+password+"</PWD><YHLY>WX_XCX</YHLY><SFZMHM></SFZMHM><XM></XM></REQUEST>";
+		//String xxcj03ReqXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><USERNAME>"+loginName+"</USERNAME><PWD>"+password+"</PWD><YHLY>WX_XCX</YHLY><SFZMHM></SFZMHM><XM></XM></REQUEST>";
+		String xxcj03ReqXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><USERNAME>"+loginName+"</USERNAME><PWD>"+password+"</PWD><YHLY>"+sourceOfCertification+"</YHLY><SFZMHM></SFZMHM><XM></XM></REQUEST>";
 		JSONObject xxcj03RespJson = WebServiceClient.getInstance().requestWebService(url,method,xxcj03,xxcj03ReqXml,userId,userPwd,key);
 		
 		//返回的数据

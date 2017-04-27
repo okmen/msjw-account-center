@@ -219,7 +219,7 @@ public class IAccountServiceImpl implements IAccountService {
 		AuthenticationBasicInformationVo authenticationBasicInformationVo = null;
 		try {
 			//用户登录接口
-			Map<String, String> map = TransferThirdParty.login(loginName, password, url, method, userId, userPwd, key);
+			Map<String, String> map = TransferThirdParty.login(loginName, password, url, method, userId, userPwd, key,sourceOfCertification);
 			String code = map.get("code");
 			String msg = map.get("msg");
 			//已绑定机动车查询接口
