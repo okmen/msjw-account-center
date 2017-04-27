@@ -968,6 +968,9 @@ public class IAccountServiceImpl implements IAccountService {
 	      } catch (Exception e) {
 	          logger.error("unbindVehicle出错，错误="+ userBind.toString(),e);
 	      }
+	      if(cancelSuccess != 1){
+	    	  logger.info("解绑方法参数" + userBind.toString());
+	      }
 	      return cancelSuccess;
 	}
 
