@@ -247,14 +247,16 @@
 				<dubbo.monitor.address><![CDATA[monitor.szjj.me:7070]]></dubbo.monitor.address>
 				<log4j.logLevel>INFO</log4j.logLevel>
 				
-				<mysql.account.read.url><![CDATA[jdbc:mysql://db.szjj.me:4306/cm_choumeionline?useUnicode=true&autoReconnect=true&characterEncoding=UTF-8]]></mysql.account.read.url>
-				<mysql.account.read.username><![CDATA[app_account-center]]></mysql.account.read.username>
-				<mysql.account.write.url><![CDATA[jdbc:mysql://db.szjj.me:4306/cm_choumeionline?useUnicode=true&autoReconnect=true&characterEncoding=UTF-8]]></mysql.account.write.url>
-				<mysql.account.write.username><![CDATA[app_account-center]]></mysql.account.write.username>
+				<mysql.account.read.url><![CDATA[jdbc:mysql://db.szjj.me:3306/service?useUnicode=true&autoReconnect=true&characterEncoding=UTF-8]]></mysql.account.read.url>
+				<mysql.account.read.username><![CDATA[root]]></mysql.account.read.username>
+				<mysql.account.write.url><![CDATA[jdbc:mysql://db.szjj.me:3306/service?useUnicode=true&autoReconnect=true&characterEncoding=UTF-8]]></mysql.account.write.url>
+				<mysql.account.write.username><![CDATA[root]]></mysql.account.write.username>
 
 				<mysql.account.password.config><![CDATA[config.file=/workspace/druid/choumei-password_online.properties;secretkey.file=/workspace/druid/key_online]]></mysql.account.password.config>
-
+				<mysql.account.read.password><![CDATA[123456]]></mysql.account.read.password>
+				
 				<redis.user-center.configstr><![CDATA[user-center1:redis.szjj.me:6379]]></redis.user-center.configstr>
+				<redis.user-center.password><![CDATA[123456]]></redis.user-center.password>
                
                 <!-- accessToken有效期30天 -->
                 <accessToken.time>2592000</accessToken.time>
@@ -274,7 +276,8 @@
 				<!-- 警司通参数 -->
 				<jiaojing.userid>WX02</jiaojing.userid>
 				<jiaojing.userpwd>WX02@168</jiaojing.userpwd>
-				<jiaojing.url>http://api.szjj.me:19002/xxfbpt/services/xxfbptservice</jiaojing.url>
+				<!-- <jiaojing.url>http://192.168.2.147:9080/xxfbpt/services/xxfbptservice?wsdl</jiaojing.url> -->
+				<jiaojing.url>http://api.szjj.me:9080/xxfbpt/services/xxfbptservice?wsdl</jiaojing.url>
 				<jiaojing.method>xxptSchuding</jiaojing.method>
 				<jiaojing.key>94D863D9BE7FB032E6A19430CC892610</jiaojing.key>
 			</properties>
