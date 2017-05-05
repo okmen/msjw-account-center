@@ -245,7 +245,7 @@ public class TransferThirdParty {
 			xxcj07RespJson = (JSONObject) xxcj07RespJson.get("BODY");
 			//档案编号
 			String DABH =  (String) xxcj07RespJson.get("DABH");
-			//累计记分
+			//被扣记分
 			String LJJF =  (String) xxcj07RespJson.get("LJJF");
 			//身份证号
 			String SFZMHM =  (String) xxcj07RespJson.get("SFZMHM");
@@ -261,10 +261,10 @@ public class TransferThirdParty {
 			String ZJCX =  (String) xxcj07RespJson.get("ZJCX");
 			//状态 	A正常	B超分	C转出	D暂扣	E撤销	F吊销	G注销	H违法未处理	I事故未处理	J停止使用	K抵押	L锁定	M逾期未换证	N延期换证	P延期体检	R注销可恢复	S逾期未审验状态	T延期审验	U扣留
 			String ZT =  (String) xxcj07RespJson.get("ZT");
-			if("0".equals(LJJF)){
-				LJJF = "12";
-			}
-			myDriverLicenseVo.setAvailableScore(LJJF + "分");
+			
+			Integer jf = Integer.valueOf(LJJF);
+			jf = 12 - jf;
+			myDriverLicenseVo.setAvailableScore(jf + "分");
 			myDriverLicenseVo.setEffectiveDate(SYRQ);
 			myDriverLicenseVo.setFileNumber(DABH);
 			//myDriverLicenseVo.setIsReceive(0); //由于涉及到微信卡包是否领取判断，这版本微信卡包不开发，此字段无法获取
@@ -699,7 +699,7 @@ public class TransferThirdParty {
 	}*/
 	
 	public static void main(String[] args) throws Exception {
-		resetPwd("622822198502074110", "王玉璞", "15920071829", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+		//resetPwd("622822198502074110", "王玉璞", "15920071829", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		
 		//getBindTheOtherDriversUseMyCar("440301199002101119", "粤B701NR", "02", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//commitAAingleApplicationForMotorVehicleInformation("王玉璞", "622822198502074110", "15920071829", "B6F7M1", "02", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
@@ -712,6 +712,8 @@ public class TransferThirdParty {
 		//searchForNaturaPersonIdentityAuditResults("", "440301199002101119", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		
 		//busRegistrationResultsInquiries("3SSS", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+		getMyDriverLicense("420106197410224212", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+		
 	}
 	
 	
