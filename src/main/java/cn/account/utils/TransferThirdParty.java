@@ -269,7 +269,17 @@ public class TransferThirdParty {
 			myDriverLicenseVo.setFileNumber(DABH);
 			//myDriverLicenseVo.setIsReceive(0); //由于涉及到微信卡包是否领取判断，这版本微信卡包不开发，此字段无法获取
 			myDriverLicenseVo.setPhysicalExaminationDate(SYRQ); //体检日期
-			myDriverLicenseVo.setStatus(ZT_STATUS.valueOf(ZT).getZtStatus());
+			
+			//多个状态处理
+			char[] cs = ZT.toCharArray();
+			StringBuffer sb = new StringBuffer();
+	    	for(char c : cs){
+	    		String ztStr = ZT_STATUS.valueOf(String.valueOf(c)).getZtStatus();
+	    		sb.append(ztStr).append(",");
+	    	}
+	    	String zString = sb.toString();
+	    	zString = zString.substring(0, zString.length() - 1);
+			myDriverLicenseVo.setStatus(zString);
 		}
 		return myDriverLicenseVo;
 	}
@@ -712,11 +722,12 @@ public class TransferThirdParty {
 		//searchForNaturaPersonIdentityAuditResults("", "440301199002101119", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		
 		//busRegistrationResultsInquiries("3SSS", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
-		//getMyDriverLicense("420106197410224212", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+		//getMyDriverLicense("440301199002101119", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//authenticationBasicInformationQuery("13809613859", "C",  "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//bindsTheMotorVehicleQuery("13809613859", "350582197810012622", "C",  "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
-		getElectronicDriverLicense("440301199002101119", "杨明畅", "18603017278", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+		//getElectronicDriverLicense("440301199002101119", "杨明畅", "18603017278", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		
+		login("15016709831", "633420", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610", "C");
 		
 	}
 	
