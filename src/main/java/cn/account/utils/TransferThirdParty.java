@@ -32,7 +32,6 @@ import cn.sdk.webservice.WebServiceClient;
  */
 @SuppressWarnings(value="all")
 public class TransferThirdParty {
-	
 	/**
 	 * 重置密码
 	 * @param idCard 身份证
