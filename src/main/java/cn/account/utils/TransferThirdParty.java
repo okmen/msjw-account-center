@@ -147,9 +147,46 @@ public class TransferThirdParty {
 				if(xString.contains("[")){
 					//绑定多辆车
 					JSONArray moreC = xxcj06RespJson.getJSONArray("ROW");
+					Iterator iterator = moreC.iterator();
+					while (iterator.hasNext()) {
+						BindTheVehicleVo bindTheVehicleVo = new BindTheVehicleVo();
+						JSONObject jsonObject = (JSONObject) iterator.next();
+						String CJH4 = jsonObject.getString("CJH4"); //车架后4位
+						String CZSFZMHM = jsonObject.getString("CZSFZMHM"); //车主身份证明号码
+						String CZXM = jsonObject.getString("CZXM"); //车主姓名
+						String HPHM = jsonObject.getString("HPHM"); //号牌号码
+						String HPZL = jsonObject.getString("HPZL"); //号牌种类
+						String QZBFQZ = jsonObject.getString("QZBFQZ"); //强制报废期止提醒
+						String SFBR = jsonObject.getString("SFBR"); //是否本人
+						String SFJC = jsonObject.getString("SFJC"); //车牌核发省简称
+						String SYRQ = jsonObject.getString("SYRQ"); //审验日期
+						String ZT = jsonObject.getString("ZT"); //状态 A正常B转出C被盗抢D停驶E注销G违法未处理H海关监管I事故未处理J嫌疑车K查封L暂扣M强制注销N事故逃逸O锁定P到达报废标准公告牌证作废Q逾期未检验
+						
+						bindTheVehicleVo.setNumberPlateNumber(SFJC + HPHM);
+						bindTheVehicleVo.setPlateType(HPZL);
+						bindTheVehicleVo.setAnnualReviewDate(SYRQ);
+						bindTheVehicleVo.setName(CZXM);
+						bindTheVehicleVo.setIdentityCard(CZSFZMHM);
+						bindTheVehicleVo.setIsMyself(SFBR);
+						bindTheVehicleVo.setBehindTheFrame4Digits(CJH4);
+						
+						String dateFormat = "yyyy-MM-dd";
+						Date date1 = AccountDateUtil.StringToDate(SYRQ, dateFormat);
+						String dateStr = AccountDateUtil.DateToString(new Date(), dateFormat);
+						Date date2 = AccountDateUtil.StringToDate(dateStr, dateFormat);
+						int haveDateStr = AccountDateUtil.differentDaysByMillisecond(date1, date2);
+						
+						bindTheVehicleVo.setAnnualReviewDateRemind("距离年审时间还有 " + haveDateStr + "天");
+						bindTheVehicleVo.setMobilephone(mobilephone);
+						bindTheVehicleVo.setIllegalNumber("这里需要调用该车辆的未处理的违法总数");
+						bindTheVehicleVo.setOtherPeopleUse("车辆其他使用人");
+						bindTheVehicleVos.add(bindTheVehicleVo);
+					}
+					
 				}else{
 					//绑定一辆车
-					JSONObject oneC = (JSONObject) xxcj06RespJson.get("ROW");
+					JSONObject oneC = xxcj06RespJson.getJSONObject("ROW");
+					
 					BindTheVehicleVo bindTheVehicleVo = new BindTheVehicleVo();
 					String CJH4 = oneC.getString("CJH4"); //车架后4位
 					String CZSFZMHM = oneC.getString("CZSFZMHM"); //车主身份证明号码
@@ -482,8 +519,17 @@ public class TransferThirdParty {
 		if("0000".equals(CODE)){
 			//有数据
 			xxcj20RespJson = xxcj20RespJson.getJSONObject("BODY");
-			JSONArray jsonArray = xxcj20RespJson.getJSONArray("ROW");
-			driverLicenseToSupplementThePermitBusinessVos = JSONObject.parseArray(jsonArray.toJSONString(), DriverLicenseToSupplementThePermitBusinessVo.class); 
+			if(xxcj20RespJson.toJSONString().contains("[")){
+				//多条
+				JSONArray jsonArray = xxcj20RespJson.getJSONArray("ROW");
+				driverLicenseToSupplementThePermitBusinessVos = JSONObject.parseArray(jsonArray.toJSONString(), DriverLicenseToSupplementThePermitBusinessVo.class);
+			}else{
+				//一条
+				JSONObject jsonObject = xxcj20RespJson.getJSONObject("ROW");
+				DriverLicenseToSupplementThePermitBusinessVo driverLicenseToSupplementThePermitBusinessVo = JSONObject.parseObject(jsonObject.toJSONString(), DriverLicenseToSupplementThePermitBusinessVo.class);
+				driverLicenseToSupplementThePermitBusinessVos.add(driverLicenseToSupplementThePermitBusinessVo);
+			}
+			 
 		}else {
 			//无数据
 		}
@@ -511,8 +557,17 @@ public class TransferThirdParty {
 		if("0000".equals(CODE)){
 			//有数据
 			xxcj21RespJson = xxcj21RespJson.getJSONObject("BODY");
-			JSONArray jsonArray = xxcj21RespJson.getJSONArray("ROW");
-			motorVehicleBusinesses = JSONObject.parseArray(jsonArray.toJSONString(), MotorVehicleBusiness.class); 
+			
+			if(xxcj21RespJson.toJSONString().contains("[")){
+				//多条
+				JSONArray jsonArray = xxcj21RespJson.getJSONArray("ROW");
+				motorVehicleBusinesses = JSONObject.parseArray(jsonArray.toJSONString(), MotorVehicleBusiness.class);
+			}else{
+				//一条
+				JSONObject jsonObject = xxcj21RespJson.getJSONObject("ROW");
+				MotorVehicleBusiness motorVehicleBusiness = JSONObject.parseObject(jsonObject.toJSONString(), MotorVehicleBusiness.class);
+				motorVehicleBusinesses.add(motorVehicleBusiness);
+			}
 		}else {
 			//无数据
 		}
