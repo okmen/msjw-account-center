@@ -283,7 +283,9 @@ public class TransferThirdParty {
 			String ZJCX =  (String) xxcj07RespJson.get("ZJCX");
 			//状态 	A正常	B超分	C转出	D暂扣	E撤销	F吊销	G注销	H违法未处理	I事故未处理	J停止使用	K抵押	L锁定	M逾期未换证	N延期换证	P延期体检	R注销可恢复	S逾期未审验状态	T延期审验	U扣留
 			String ZT =  (String) xxcj07RespJson.get("ZT");
-			
+			if(null == LJJF){
+				return myDriverLicenseVo;
+			}
 			Integer jf = Integer.valueOf(LJJF);
 			jf = 12 - jf;
 			myDriverLicenseVo.setAvailableScore(jf + "分");
