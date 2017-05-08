@@ -37,15 +37,15 @@ public class NozzleMeans {
 	 */
 	public static JSONObject addVehicle(BindCarVo bindCarVo,String url,String method,String userId,String userPwd,String key) throws Exception{
 		String xml = null;		
-		if(bindCarVo.getBindType()==0){//绑定他人车			
-			xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><LOGIN_NAME>"+bindCarVo.getUserIdCard()+"</LOGIN_NAME><YHLY>"+bindCarVo.getUserSource()+"</YHLY><HPHM>"+bindCarVo.getLicensePlateNumber()+"</HPHM>"
-		            +"<HPZL>"+bindCarVo.getLicensePlateType()+"</HPZL><SFJC>"+bindCarVo.getProvinceAbbreviation()+" </SFJC><CJH4>"+bindCarVo.getFrameNumber()+"</CJH4><CZXM>"+bindCarVo.getOwnerName()+"</CZXM>"
+		if(bindCarVo.getBindType()==0){ //0-绑定他人车辆		
+			xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><LOGIN_NAME>"+bindCarVo.getUserIdCard()+"</LOGIN_NAME><YHLY>"+bindCarVo.getCertifiedSource()+"</YHLY><HPHM>"+bindCarVo.getLicensePlateNumber()+"</HPHM>"
+		            +"<HPZL>"+bindCarVo.getLicensePlateType()+"</HPZL><SFJC>"+bindCarVo.getProvinceAbbreviation()+"</SFJC><CJH4>"+bindCarVo.getFrameNumber()+"</CJH4><CZXM>"+bindCarVo.getOwnerName()+"</CZXM>"
                     +"<CZSFZMHM>"+bindCarVo.getOwnerIdCard()+"</CZSFZMHM><SFBR>0</SFBR><LRIP>"+bindCarVo.getInputIP()+"</LRIP>"
                     +"<BIND_DEPARTMENT>"+bindCarVo.getCertifiedSource()+"</BIND_DEPARTMENT><CZSFZMHMTPA>"+bindCarVo.getIdCardImgPositive()+"</CZSFZMHMTPA>"
                     +"<CZSFZMHMTP>"+bindCarVo.getIdCardImgHandHeld()+"</CZSFZMHMTP></REQUEST>";
-		}else if(bindCarVo.getBindType()==1){//绑定个人车
-			xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><LOGIN_NAME>"+bindCarVo.getUserIdCard()+"</LOGIN_NAME><YHLY>"+bindCarVo.getUserSource()+"</YHLY><HPHM>"+bindCarVo.getLicensePlateNumber()+"</HPHM>"
-		            +"<HPZL>"+bindCarVo.getLicensePlateType()+"</HPZL><SFJC>"+bindCarVo.getProvinceAbbreviation()+" </SFJC><CJH4></CJH4><CZXM></CZXM>"
+		}else if(bindCarVo.getBindType()==1){//1-绑定个人车辆信息
+			xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><LOGIN_NAME>"+bindCarVo.getUserIdCard()+"</LOGIN_NAME><YHLY>"+bindCarVo.getCertifiedSource()+"</YHLY><HPHM>"+bindCarVo.getLicensePlateNumber()+"</HPHM>"
+		            +"<HPZL>"+bindCarVo.getLicensePlateType()+"</HPZL><SFJC>"+bindCarVo.getProvinceAbbreviation()+"</SFJC><CJH4></CJH4><CZXM></CZXM>"
                     +"<CZSFZMHM></CZSFZMHM><SFBR>1</SFBR><LRIP>"+bindCarVo.getInputIP()+"</LRIP>"
                     +"<BIND_DEPARTMENT>"+bindCarVo.getCertifiedSource()+"</BIND_DEPARTMENT><CZSFZMHMTPA></CZSFZMHMTPA><CZSFZMHMTP></CZSFZMHMTP></REQUEST>";
 		}
@@ -148,10 +148,15 @@ public class NozzleMeans {
 		if("C".equals(readilyShootVo.getUserSource())){
 			xml="<?xml version=\"1.0\" encoding=\"UTF-8\"?><request><body><hphm>"+readilyShootVo.getLicensePlateNumber()+"</hphm><hpzl>"+readilyShootVo.getLicensePlateType()+"</hpzl><wfxw1>"+readilyShootVo.getIllegalActivitieOne()+"</wfxw1><wfxw2></wfxw2>"
 					+ "<wfxw3></wfxw3><wfdd>"+readilyShootVo.getIllegalSections()+"</wfdd><wfsj>"+readilyShootVo.getIllegalTime()+"</wfsj><lrr>"+readilyShootVo.getInputMan()+"</lrr><lrrxm>"+readilyShootVo.getInputManName()+"</lrrxm>"
-					+ "<lrrlxdh>"+readilyShootVo.getInputManPhone()+"</lrrlxdh><lrly>"+readilyShootVo.getCallAccount()+"</lrly><jbtp1>"+readilyShootVo.getReportImgOne()+"</jbtp1><jbtp2>"+readilyShootVo.getReportImgTwo()+"</jbtp2><jbtp3>"+readilyShootVo.getReportImgThree()+"</jbtp3>"
+					+ "<lrrlxdh>"+readilyShootVo.getInputManPhone()+"</lrrlxdh><lrly>"+"WX02"+"</lrly><jbtp1>"+readilyShootVo.getReportImgOne()+"</jbtp1><jbtp2>"+readilyShootVo.getReportImgTwo()+"</jbtp2><jbtp3>"+readilyShootVo.getReportImgThree()+"</jbtp3>"
 					+ "<sfzmhm>"+readilyShootVo.getUserIdCard()+"</sfzmhm><wxopenid>"+readilyShootVo.getOpenId()+"</wxopenid></body></request>";
 		}
-		
+		if("Z".equals(readilyShootVo.getUserSource())){
+			xml="<?xml version=\"1.0\" encoding=\"UTF-8\"?><request><body><hphm>"+readilyShootVo.getLicensePlateNumber()+"</hphm><hpzl>"+readilyShootVo.getLicensePlateType()+"</hpzl><wfxw1>"+readilyShootVo.getIllegalActivitieOne()+"</wfxw1><wfxw2></wfxw2>"
+					+ "<wfxw3></wfxw3><wfdd>"+readilyShootVo.getIllegalSections()+"</wfdd><wfsj>"+readilyShootVo.getIllegalTime()+"</wfsj><lrr>"+readilyShootVo.getInputMan()+"</lrr><lrrxm>"+readilyShootVo.getInputManName()+"</lrrxm>"
+					+ "<lrrlxdh>"+readilyShootVo.getInputManPhone()+"</lrrlxdh><lrly>"+"Z"+"</lrly><jbtp1>"+readilyShootVo.getReportImgOne()+"</jbtp1><jbtp2>"+readilyShootVo.getReportImgTwo()+"</jbtp2><jbtp3>"+readilyShootVo.getReportImgThree()+"</jbtp3>"
+					+ "<sfzmhm>"+readilyShootVo.getUserIdCard()+"</sfzmhm><wxopenid>"+readilyShootVo.getOpenId()+"</wxopenid></body></request>";
+		}
 		String interfaceNumber = "1003";
 		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
 		return json;
@@ -260,7 +265,17 @@ public class NozzleMeans {
 		return json;
 	}
 	
-	
+	/**
+	 * 根据关键字模糊查询违法地点
+	 * @param keyword
+	 * @param url
+	 * @param method
+	 * @param userId
+	 * @param userPwd
+	 * @param key
+	 * @return
+	 * @throws Exception
+	 */
 	public static JSONObject getPositioningAddress(String keyword,String url,String method,String userId,String userPwd,String key)throws Exception {		
 		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><request><wfdd>"+keyword+"</wfdd></request>";
 		String interfaceNumber = "1002";

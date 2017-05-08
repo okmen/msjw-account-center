@@ -163,19 +163,31 @@ public class TransferThirdParty {
 						
 						bindTheVehicleVo.setNumberPlateNumber(SFJC + HPHM);
 						bindTheVehicleVo.setPlateType(HPZL);
-						bindTheVehicleVo.setAnnualReviewDate(SYRQ);
+						
 						bindTheVehicleVo.setName(CZXM);
 						bindTheVehicleVo.setIdentityCard(CZSFZMHM);
 						bindTheVehicleVo.setIsMyself(SFBR);
 						bindTheVehicleVo.setBehindTheFrame4Digits(CJH4);
 						
-						String dateFormat = "yyyy-MM-dd";
-						Date date1 = AccountDateUtil.StringToDate(SYRQ, dateFormat);
-						String dateStr = AccountDateUtil.DateToString(new Date(), dateFormat);
-						Date date2 = AccountDateUtil.StringToDate(dateStr, dateFormat);
-						int haveDateStr = AccountDateUtil.differentDaysByMillisecond(date1, date2);
+						if(StringUtils.isNotBlank(SYRQ)){
+							bindTheVehicleVo.setAnnualReviewDate(SYRQ);
+							String dateFormat = "yyyy-MM-dd";
+							Date date1 = AccountDateUtil.StringToDate(SYRQ, dateFormat);
+							String dateStr = AccountDateUtil.DateToString(new Date(), dateFormat);
+							Date date2 = AccountDateUtil.StringToDate(dateStr, dateFormat);
+							int haveDateStr = AccountDateUtil.differentDaysByMillisecond(date1, date2);
+							if(haveDateStr >= 0){
+								bindTheVehicleVo.setAnnualReviewDateRemind("距离年审时间还有" + haveDateStr + "天");
+							}else{
+								//年审过期
+								bindTheVehicleVo.setAnnualReviewDateRemind("您的车辆过期未审");
+							}
+						}else{
+							//没有年审日期
+							bindTheVehicleVo.setAnnualReviewDate("");
+							bindTheVehicleVo.setAnnualReviewDateRemind("");
+						}
 						
-						bindTheVehicleVo.setAnnualReviewDateRemind("距离年审时间还有 " + haveDateStr + "天");
 						bindTheVehicleVo.setMobilephone(mobilephone);
 						bindTheVehicleVo.setIllegalNumber("这里需要调用该车辆的未处理的违法总数");
 						bindTheVehicleVo.setOtherPeopleUse("车辆其他使用人");
@@ -206,13 +218,23 @@ public class TransferThirdParty {
 					bindTheVehicleVo.setIsMyself(SFBR);
 					bindTheVehicleVo.setBehindTheFrame4Digits(CJH4);
 					
-					String dateFormat = "yyyy-MM-dd";
-					Date date1 = AccountDateUtil.StringToDate(SYRQ, dateFormat);
-					String dateStr = AccountDateUtil.DateToString(new Date(), dateFormat);
-					Date date2 = AccountDateUtil.StringToDate(dateStr, dateFormat);
-					int haveDateStr = AccountDateUtil.differentDaysByMillisecond(date1, date2);
-					
-					bindTheVehicleVo.setAnnualReviewDateRemind("距离年审时间还有 " + haveDateStr + "天");
+					if(StringUtils.isNotBlank(SYRQ)){
+						String dateFormat = "yyyy-MM-dd";
+						Date date1 = AccountDateUtil.StringToDate(SYRQ, dateFormat);
+						String dateStr = AccountDateUtil.DateToString(new Date(), dateFormat);
+						Date date2 = AccountDateUtil.StringToDate(dateStr, dateFormat);
+						int haveDateStr = AccountDateUtil.differentDaysByMillisecond(date1, date2);
+						if(haveDateStr >= 0){
+							bindTheVehicleVo.setAnnualReviewDateRemind("距离年审时间还有 " + haveDateStr + "天");
+						}else{
+							//年审过期
+							bindTheVehicleVo.setAnnualReviewDateRemind("您的车辆过期未审");
+						}
+					}else{
+						//没有年审日期
+						bindTheVehicleVo.setAnnualReviewDate("");
+						bindTheVehicleVo.setAnnualReviewDateRemind("");
+					}
 					bindTheVehicleVo.setMobilephone(mobilephone);
 					bindTheVehicleVo.setIllegalNumber("这里需要调用该车辆的未处理的违法总数");
 					bindTheVehicleVo.setOtherPeopleUse("车辆其他使用人");
