@@ -181,7 +181,7 @@ public class NozzleMeans {
 	public static JSONObject iAmTheOwner(RegisterVo registerVo,String url,String method,String userId,String userPwd,String key) throws Exception{
 		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+registerVo.getUserIdCard()+"</SFZMHM><LXDH>"+registerVo.getMobilephone()+"</LXDH><LXDZ>"+registerVo.getLinkAddress()+"</LXDZ><HPHM>"+registerVo.getLicensePlateNumber()+"</HPHM>"
 				+ "<HPZL>"+registerVo.getLicensePlateType()+"</HPZL><RZLX>1</RZLX><RZLY>C</RZLY><JSRSZD>"+registerVo.getDriverLicenseIssuedAddress()+"</JSRSZD><SFJC>"+registerVo.getProvinceAbbreviation()+"</SFJC>"
-				+ "<RZJS>"+registerVo.getCertifiedRole()+"</RZJS><LRR>"+registerVo.getCallAccount()+"</LRR><PHOTO6>"+registerVo.getIdCardImgPositive()+"</PHOTO6><PHOTO9>"+registerVo.getIdCardImgHandHeld()+"</PHOTO9></REQUEST>";
+				+ "<RZJS>"+registerVo.getCertifiedRole()+"</RZJS><LRR>"+registerVo.getCallAccount()+"</LRR><PHOTO6>"+registerVo.getIdCardImgPositive()+"</PHOTO6><PHOTO9>"+registerVo.getIdCardImgHandHeld()+"</PHOTO9><OPENID>"+registerVo.getOpenId()+"</OPENID></REQUEST>";
 		String interfaceNumber = "xxcj15";
 		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
 		return json;
@@ -208,7 +208,7 @@ public class NozzleMeans {
 					+ "<HPHM>"+registerVo.getLicensePlateNumber()+"</HPHM><HPZL>"+registerVo.getLicensePlateType()+"</HPZL><CZXM>"+registerVo.getOwnerName()+"</CZXM><CZSFZMMC>"+registerVo.getOwnerIdName()+"</CZSFZMMC><CZSFZMHM>"+registerVo.getOwnerIdCard()+"</CZSFZMHM>"
 					+ "<CZLXDH>"+registerVo.getOwnerMobilephone()+"</CZLXDH><RZLX>"+registerVo.getCertifiedType()+"</RZLX><RZLY>"+registerVo.getCertifiedSource()+"</RZLY><RZJS>"+registerVo.getCertifiedRole()+"</RZJS>"
 					+ "<LRR>"+registerVo.getCallAccount()+"</LRR><JSRSZD>"+registerVo.getDriverLicenseIssuedAddress()+"</JSRSZD><SFJC>"+registerVo.getProvinceAbbreviation()+"</SFJC><PHOTO6>"+registerVo.getIdCardImgHandHeld()+"</PHOTO6>"
-					+ "<PHOTO9>"+registerVo.getIdCardImgPositive()+"</PHOTO9><PHOTO16>"+registerVo.getOwnerIdCardImgPositive()+"</PHOTO16><PHOTO18>"+registerVo.getOwnerIdCardImgHandHeld()+"</PHOTO18></REQUEST>";
+					+ "<PHOTO9>"+registerVo.getIdCardImgPositive()+"</PHOTO9><PHOTO16>"+registerVo.getOwnerIdCardImgPositive()+"</PHOTO16><PHOTO18>"+registerVo.getOwnerIdCardImgHandHeld()+"</PHOTO18><OPENID>"+registerVo.getOpenId()+"</OPENID></REQUEST>";
 			String interfaceNumber = "xxcj15";
 			JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
 
@@ -234,7 +234,7 @@ public class NozzleMeans {
 	public static JSONObject haveDriverLicenseNotCar(RegisterVo registerVo,String url,String method,String userId,String userPwd,String key) throws Exception {				
 		String xml="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+registerVo.getUserIdCard()+"</SFZMHM><LXDH>"+registerVo.getMobilephone()+"</LXDH><LXDZ>"+registerVo.getLinkAddress()+"</LXDZ>"
 				+ "<RZLX>"+registerVo.getCertifiedType()+"</RZLX><RZLY>"+registerVo.getCertifiedSource()+"</RZLY><RZJS>"+registerVo.getCertifiedRole()+"</RZJS><LRR>"+registerVo.getCallAccount()+"</LRR>"
-				+ "<JSRSZD>"+registerVo.getDriverLicenseIssuedAddress()+"</JSRSZD ><PHOTO6>"+registerVo.getIdCardImgHandHeld()+"</PHOTO6><PHOTO9>"+registerVo.getIdCardImgPositive()+"</PHOTO9></REQUEST>";
+				+ "<JSRSZD>"+registerVo.getDriverLicenseIssuedAddress()+"</JSRSZD ><PHOTO6>"+registerVo.getIdCardImgHandHeld()+"</PHOTO6><PHOTO9>"+registerVo.getIdCardImgPositive()+"</PHOTO9><OPENID>"+registerVo.getOpenId()+"</OPENID></REQUEST>";
 		String interfaceNumber = "xxcj15";
 		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
 		return json;
@@ -259,7 +259,7 @@ public class NozzleMeans {
 	public static JSONObject isPedestrianNotDriver(RegisterVo registerVo,String url,String method,String userId,String userPwd,String key)throws Exception {
 		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+ registerVo.getUserIdCard()+"</SFZMHM><LXDH>"+registerVo.getMobilephone()+"</LXDH>"
 				+ "<RZLX>"+registerVo.getCertifiedType()+"</RZLX><RZLY>C</RZLY><PHOTO6>"+registerVo.getIdCardImgHandHeld()+"</PHOTO6>"
-				+ "<PHOTO9>"+registerVo.getIdCardImgPositive()+"</PHOTO9></REQUEST>";
+				+ "<PHOTO9>"+registerVo.getIdCardImgPositive()+"</PHOTO9><OPENID>"+registerVo.getOpenId()+"</OPENID></REQUEST>";
 		String interfaceNumber = "xxcjzrr";
 		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
 		return json;
@@ -283,9 +283,25 @@ public class NozzleMeans {
 		return json;
 		
 	}
-
 	
-	
+	/**
+	 * 违法行为的选择项目
+	 * @param keyword
+	 * @param url
+	 * @param method
+	 * @param userId
+	 * @param userPwd
+	 * @param key
+	 * @return
+	 * @throws Exception
+	 */
+	public static JSONObject getTheChoiceOfIllegalActivities(String keyword,String url,String method,String userId,String userPwd,String key)throws Exception {		
+		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><request><wfnr>"+keyword+"</wfnr></request>";
+		String interfaceNumber = "1001";
+		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
+		return json;
+		
+	}
 	
 
 

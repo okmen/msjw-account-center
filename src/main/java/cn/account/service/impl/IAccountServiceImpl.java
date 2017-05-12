@@ -1174,6 +1174,23 @@ public class IAccountServiceImpl implements IAccountService {
 		return json;
 	}
 
+	@Override
+	public JSONObject getTheChoiceOfIllegalActivities(String keyword) throws Exception {
+		JSONObject json= null;
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 json = NozzleMeans.getTheChoiceOfIllegalActivities(keyword, url, method, userId, userPwd, key);
+		} catch (Exception e) {
+			logger.error("getPositioningAddress出错，错误="+ keyword,e);
+		}
+		
+		return json;
+	}
 //	@Override
 //	public UserRegInfo addNewUser(UserRegInfo userRegInfo) {
 //		long addSuccess = 0;
