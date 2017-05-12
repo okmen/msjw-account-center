@@ -1148,6 +1148,7 @@ public class IAccountServiceImpl implements IAccountService {
 			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
 			 String key = iAccountCached.getKey(); //秘钥
 			 json = NozzleMeans.isPedestrianNotDriver(registerVo, url, method, userId, userPwd, key);
+			 logger.info("日志打印：json="+json + "对象参数=" + registerVo + "url=" + url + "method=" + method + "userId=" + userId + "userPwd=" + userPwd + "key=" + key);
 		} catch (Exception e) {
 			logger.error("isPedestrianNotDriver出错，错误="+ registerVo.toString(),e);
 		}

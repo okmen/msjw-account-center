@@ -732,7 +732,18 @@ public class TransferThirdParty {
 		
 	}*/
 	
+	public static List<BindTheVehicleVo> getElectronicPolicy(String idCard,String mobileNumber,String licensePlateNumber,String licensePlateType,String sourceOfCertification,String url,String method,String userId,String userPwd,String key) throws Exception{
+		List<BindTheVehicleVo> bindTheVehicleVos = new ArrayList<BindTheVehicleVo>();
+		String dwc02 = "CXJR02";
+		String dwc02ReqXml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?><request><body><6sfzmhm>"+idCard+"</sfzmhm><sjhm>"+mobileNumber+"</sjhm><yhly>"+sourceOfCertification+"</yhly><carnumber>"+licensePlateNumber+"</carnumber><cartype>"+licensePlateType+"</cartype></body></request>";
+		JSONObject dwc02RespJson = WebServiceClient.getInstance().requestWebService(url, method, dwc02,dwc02ReqXml,userId,userPwd,key);
+		return bindTheVehicleVos;
+		
+	}
+	
 	public static void main(String[] args) throws Exception {
+		getElectronicPolicy("445222199209020034", "15920050177", "粤B6A42E", "02", "C","http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+		
 		//resetPwd("622822198502074110", "王玉璞", "15920071829", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		
 		//getBindTheOtherDriversUseMyCar("440301199002101119", "粤B701NR", "02", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
@@ -751,7 +762,7 @@ public class TransferThirdParty {
 		//bindsTheMotorVehicleQuery("13809613859", "350582197810012622", "C",  "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//getElectronicDriverLicense("440301199002101119", "杨明畅", "18603017278", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		
-		login("15016709831", "633420", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610", "C");
+		//login("15016709831", "633420", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610", "C");
 		
 	}
 	
