@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import cn.account.bean.ElectronicPolicyBean;
 import cn.account.bean.vo.AuthenticationBasicInformationVo;
 import cn.account.bean.vo.BindTheVehicleVo;
 import cn.account.bean.vo.DriverLicenseToSupplementThePermitBusinessVo;
@@ -731,19 +732,59 @@ public class TransferThirdParty {
 			String url,String method,String userId,String userPwd,String key){
 		
 	}*/
-	
-	public static List<BindTheVehicleVo> getElectronicPolicy(String idCard,String mobileNumber,String licensePlateNumber,String licensePlateType,String sourceOfCertification,String url,String method,String userId,String userPwd,String key) throws Exception{
-		List<BindTheVehicleVo> bindTheVehicleVos = new ArrayList<BindTheVehicleVo>();
-		String dwc02 = "CXJR02";
-		String dwc02ReqXml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?><request><body><6sfzmhm>"+idCard+"</sfzmhm><sjhm>"+mobileNumber+"</sjhm><yhly>"+sourceOfCertification+"</yhly><carnumber>"+licensePlateNumber+"</carnumber><cartype>"+licensePlateType+"</cartype></body></request>";
-		JSONObject dwc02RespJson = WebServiceClient.getInstance().requestWebService(url, method, dwc02,dwc02ReqXml,userId,userPwd,key);
-		return bindTheVehicleVos;
-		
+	/**
+	 * 电子保单
+	 * @param idCard 身份证号
+	 * @param mobileNumber 手机号
+	 * @param licensePlateNumber 号牌号码
+	 * @param licensePlateType 车辆类型
+	 * @param sourceOfCertification 认证来源
+	 * @param url
+	 * @param method
+	 * @param userId
+	 * @param userPwd
+	 * @param key
+	 * @return
+	 * @throws Exception
+	 */
+	public static Map<String, Object> getElectronicPolicy(String idCard,String mobileNumber,String licensePlateNumber,String licensePlateType,String sourceOfCertification,String url,String method,String userId,String userPwd,String key) throws Exception{
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<ElectronicPolicyBean> electronicPolicyBeans = new ArrayList<ElectronicPolicyBean>();
+		String CXJR02 = "CXJR02";
+		String CXJR02ReqXml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?><request><body><sfzmhm>"+idCard+"</sfzmhm><sjhm>"+mobileNumber+"</sjhm><yhly>"+sourceOfCertification+"</yhly><carnumber>"+licensePlateNumber+"</carnumber><cartype>"+licensePlateType+"</cartype></body></request>";
+		JSONObject CXJR02RespJson = WebServiceClient.getInstance().requestWebService(url, method, CXJR02,CXJR02ReqXml,userId,userPwd,key);
+		JSONObject head = CXJR02RespJson.getJSONObject("head");
+		if(null != head){
+			String code = head.getString("code");
+			String msg = head.getString("msg");
+			if(StringUtils.isNotBlank(code) && "0000".equals(code)){
+				//组装数据
+				JSONObject body = CXJR02RespJson.getJSONObject("body");
+				if(CXJR02RespJson.toJSONString().contains("[")){
+					//多条
+					JSONArray jsonArray = body.getJSONArray("ret");
+					electronicPolicyBeans = JSONObject.parseArray(jsonArray.toJSONString(), ElectronicPolicyBean.class);
+				}else{
+					//一条
+					JSONObject jsonObject = body.getJSONObject("ret");
+					ElectronicPolicyBean electronicPolicyBean = JSONObject.parseObject(body.toJSONString(), ElectronicPolicyBean.class);
+					electronicPolicyBeans.add(electronicPolicyBean);
+				}
+				map.put("code", code);
+				map.put("data", electronicPolicyBeans);
+			}else{
+				//失败
+				map.put("code", code);
+				map.put("msg", msg);
+				map.put("data", null);
+			}
+		}
+		return map;
 	}
 	
 	public static void main(String[] args) throws Exception {
-		getElectronicPolicy("445222199209020034", "15920050177", "粤B6A42E", "02", "C","http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
-		
+		Map<String, Object> map = getElectronicPolicy("622822198502074110", "15920071829", "粤B6F7M1", "02", "C","http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+		System.out.println(map);
 		//resetPwd("622822198502074110", "王玉璞", "15920071829", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		
 		//getBindTheOtherDriversUseMyCar("440301199002101119", "粤B701NR", "02", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");

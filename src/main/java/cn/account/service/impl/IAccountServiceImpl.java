@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.zookeeper.KeeperException.Code;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -16,6 +17,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.account.bean.Documentation;
+import cn.account.bean.ElectronicPolicyBean;
 import cn.account.bean.UserBind;
 import cn.account.bean.WechatUserInfoBean;
 import cn.account.bean.vo.AuthenticationBasicInformationVo;
@@ -1192,6 +1194,25 @@ public class IAccountServiceImpl implements IAccountService {
 		
 		return json;
 	}
+	
+	@Override
+	public Map<String, Object> getElectronicPolicy(String idCard, String mobileNumber, String licensePlateNumber,String licensePlateType, String sourceOfCertification) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 map = TransferThirdParty.getElectronicPolicy(idCard, mobileNumber, licensePlateNumber, licensePlateType, sourceOfCertification, url, method, userId, userPwd, key);
+		} catch (Exception e) {
+			logger.error("电子保单查询错误，idCard = " + idCard + ",mobileNumber=" + mobileNumber + ",licensePlateNumber=" + licensePlateNumber + ",licensePlateType=" + licensePlateType + ",sourceOfCertification=" + sourceOfCertification);
+			throw e;
+		}
+		return map;
+	}
+	
+	
 //	@Override
 //	public UserRegInfo addNewUser(UserRegInfo userRegInfo) {
 //		long addSuccess = 0;
@@ -1446,5 +1467,8 @@ public class IAccountServiceImpl implements IAccountService {
 //        }
 //        return updateSuccess;
 //    }
+
+
+	
 
 }
