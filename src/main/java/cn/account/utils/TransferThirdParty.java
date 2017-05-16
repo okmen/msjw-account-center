@@ -10,6 +10,7 @@ import java.util.Map;
 import org.apache.commons.lang.ObjectUtils.Null;
 import org.apache.commons.lang3.StringUtils;
 
+import com.alibaba.druid.stat.TableStat.Name;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
@@ -782,9 +783,17 @@ public class TransferThirdParty {
 		return map;
 	}
 	
+	
+	public static void name(String url,String method,String userId,String userPwd,String key) throws Exception {
+		String CXJR02 = "J1";
+		String CXJR02ReqXml = "<request><head><yhdh>C</yhdh><ip>192.168.1.1</ip><lsh>2</lsh></head><body><sqm>MUH4T4RCS2NJJ3HTB5QEN6UNPL21N01</sqm></body></request>";
+		JSONObject CXJR02RespJson = WebServiceClient.getInstance().requestWebService(url, method, CXJR02,CXJR02ReqXml,userId,userPwd,key);
+		JSONObject head = CXJR02RespJson.getJSONObject("head");
+	}
 	public static void main(String[] args) throws Exception {
-		Map<String, Object> map = getElectronicPolicy("622822198502074110", "15920071829", "粤B6F7M1", "02", "C","http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
-		System.out.println(map);
+		name( "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+		//Map<String, Object> map = getElectronicPolicy("622822198502074110", "15920071829", "粤B6F7M1", "02", "C","http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+		//System.out.println(map);
 		//resetPwd("622822198502074110", "王玉璞", "15920071829", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		
 		//getBindTheOtherDriversUseMyCar("440301199002101119", "粤B701NR", "02", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");

@@ -165,8 +165,15 @@ public class IAccountCachedImpl implements IAccountCached{
 	public void insertUserValidateCode(String mobilephone, String validateCode) {
     	cacheManger.set(mobilephone, validateCode, ICacheKey.USER_VALIDATE_CODE);
 	}
+    @Override
+    public void sendSmsFreqLimit(String mobilephone){
+    	cacheManger.set(mobilephone + "_limit", mobilephone, ICacheKey.SEND_FREQ_LIMIT);
+    }
 
-
+    @Override
+	public String getSendSmsFreqLimit(String mobilephone) {
+		return cacheManger.get(mobilephone + "_limit");
+	}
 	@Override
 	public String getUserValidateCode(String mobilephone) {
 		return cacheManger.get(mobilephone);

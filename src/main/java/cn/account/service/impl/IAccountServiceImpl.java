@@ -954,6 +954,17 @@ public class IAccountServiceImpl implements IAccountService {
 		return result;
 	}
 
+	/**
+	 * 手机号码在redis是否存在
+	 * @param mobile
+	 * @return
+	 * @throws Exception
+	 */
+	public String isExistMobile(String mobilephone)throws Exception{
+		String temp = iAccountCached.getSendSmsFreqLimit(mobilephone);
+		return temp;
+	}
+	
 	@Override
 	public int unbindVehicle(UserBind userBind) {
 		int cancelSuccess = 0;
@@ -1210,6 +1221,24 @@ public class IAccountServiceImpl implements IAccountService {
 			throw e;
 		}
 		return map;
+	}
+
+
+	@Override
+	public void sendSmsFreqLimit(String mobilephone) {
+		try {
+			iAccountCached.sendSmsFreqLimit(mobilephone);
+		} catch (Exception e) {
+			logger.error("sendSmsFreqLimit",e);
+			throw e;
+		}
+	}
+
+
+	@Override
+	public String getSendSmsFreqLimit(String mobilephone) {
+		String key = iAccountCached.getSendSmsFreqLimit(mobilephone);
+		return key;
 	}
 	
 	

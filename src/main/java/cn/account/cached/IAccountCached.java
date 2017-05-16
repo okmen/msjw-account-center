@@ -73,6 +73,17 @@ public interface IAccountCached extends ICacheKey {
      */
     public void insertUserValidateCode(String mobilephone,String validateCode);
     /**
+     * 限制一个手机号短信5秒发一次
+     * @param mobilephone
+     */
+    public void sendSmsFreqLimit(String mobilephone);
+    /**
+     * 根据手机号+limit获取
+     * @param mobilephone
+     * @return
+     */
+    public String getSendSmsFreqLimit(String mobilephone);
+    /**
      * 根据手机号从redis取验证码
      * @param mobilephone
      * @return
