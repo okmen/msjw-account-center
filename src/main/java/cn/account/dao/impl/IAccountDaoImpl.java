@@ -141,4 +141,14 @@ public class IAccountDaoImpl implements IAccountDao {
 		return userMapper.addOrUpdateLoginInfo(userBind);
 	}
 
+	@Override
+	public List<UserBind> getBetweenAndId(String startId, String endId) {
+		return userMapper.getBetweenAndId(startId, endId);
+	}
+
+	@Override
+	public List<UserBind> getBetweenAndBindDate(String startDate, String endDate) {
+		return userMapper.getBetweenAndBindDate(startDate, endDate);
+	}
+
 }

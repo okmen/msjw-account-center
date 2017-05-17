@@ -1264,5 +1264,31 @@ public class IAccountServiceImpl implements IAccountService {
 		
 		return null;
 	}
+
+
+	@Override
+	public List<UserBind> getBetweenAndId(String startId, String endId) {
+		List<UserBind> userBinds = null;
+		try {
+			userBinds =	accountDao.getBetweenAndId(startId, endId);
+		} catch (Exception e) {
+			logger.error("getBetweenAndId 错误", e);
+			throw e;
+		}
+		return userBinds;
+	}
+
+
+	@Override
+	public List<UserBind> getBetweenAndBindDate(String startDate, String endDate) {
+		List<UserBind> userBinds = null;
+		try {
+			userBinds =	accountDao.getBetweenAndBindDate(startDate, endDate);
+		} catch (Exception e) {
+			logger.error("getBetweenAndId 错误", e);
+			throw e;
+		}
+		return userBinds;
+	}
 	
 }

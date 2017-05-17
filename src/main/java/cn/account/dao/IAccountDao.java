@@ -1,6 +1,8 @@
 package cn.account.dao;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import cn.account.bean.UserBind;
 import cn.account.bean.UserOpenidBean;
 import cn.account.bean.UserRegInfo;
@@ -138,5 +140,18 @@ public interface IAccountDao {
      */
     public boolean updateDevice(String deviceUuid,int osType,long userId);
     
-
+    /**
+     * id 范围查询
+     * @param startId
+     * @param endId
+     * @return
+     */
+	public List<UserBind> getBetweenAndId(String startId,String endId);
+	/**
+	 * 绑定时间范围查询
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public List<UserBind> getBetweenAndBindDate(String startDate,String endDate);
 }

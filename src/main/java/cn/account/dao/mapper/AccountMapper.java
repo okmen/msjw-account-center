@@ -71,7 +71,22 @@ public interface AccountMapper {
 	 * @return
 	 */
 	public int updateUserBind(@Param("idCard")String idCard,@Param("openId")String openId,@Param("clientType")String clientType);
-    
+    /**
+     * id 范围查询
+     * @param startId
+     * @param endId
+     * @return
+     */
+	public List<UserBind> getBetweenAndId(@Param("startId") String startId,@Param("endId") String endId);
+	/**
+	 * 绑定时间范围查询
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public List<UserBind> getBetweenAndBindDate(@Param("startDate") String startDate,@Param("endDate") String endDate);
+	
+	
     public Long getUserIdByOpenid(String openid);
     
     public String getOpenidByUserId(long userId);

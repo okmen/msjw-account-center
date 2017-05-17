@@ -4,7 +4,12 @@
 <mapper namespace="cn.account.dao.mapper.AccountMapper">
 
 
-    
+     <resultMap type="cn.account.bean.UserBind" id="resultUserBind">
+     	<id property="id" column="id"/>
+		<result property="openId" column="open_id" />
+		<result property="mobileNumber" column="mobile_number" />
+		
+	</resultMap>
     
     
     <resultMap type="cn.account.orm.WechatUserInfoORM" id="wechatUserInfo">
@@ -111,6 +116,15 @@
 		)
 		ON DUPLICATE KEY UPDATE id_card = #{idCard},mobile_number = #{mobileNumber},bind_date = #{bindDate}, is_bind = #{isBind}
 	</update>
+	
+	<select id="getBetweenAndId" resultMap="resultUserBind">
+		select id,open_id,mobile_number from t_user_bind where id BETWEEN #{startId} AND #{endId}
+	</select>
+	
+	<select id="getBetweenAndBindDate" resultMap="resultUserBind">
+		select id,open_id,mobile_number from t_user_bind where bind_date BETWEEN #{startDate} AND #{endDate}
+	</select>
+	
 	
 	<!-- 登录绑定查询 -->
 	<select id="getLoginInfo" resultType="cn.account.bean.UserBind">
