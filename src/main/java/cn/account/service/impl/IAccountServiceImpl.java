@@ -249,6 +249,10 @@ public class IAccountServiceImpl implements IAccountService {
 							authenticationBasicInformationVo.setMyNumberPlate(bindTheVehicleVo.getNumberPlateNumber());
 							authenticationBasicInformationVo.setBehindTheFrame4Digits(bindTheVehicleVo.getBehindTheFrame4Digits());
 							authenticationBasicInformationVo.setPlateType(bindTheVehicleVo.getPlateType());
+						}else{
+							authenticationBasicInformationVo.setMyNumberPlate(bindTheVehicleVo.getNumberPlateNumber());
+							authenticationBasicInformationVo.setBehindTheFrame4Digits(bindTheVehicleVo.getBehindTheFrame4Digits());
+							authenticationBasicInformationVo.setPlateType(bindTheVehicleVo.getPlateType());
 						}
 					}
 				}
@@ -1001,7 +1005,6 @@ public class IAccountServiceImpl implements IAccountService {
 	public JSONObject addVehicle(BindCarVo bindCarVo) throws Exception{
 		JSONObject json= null;
 		try {
-			
 			 String url = iAccountCached.getUrl(); //webservice请求url
 			 String method = iAccountCached.getMethod(); //webservice请求方法名称
 			 String userId = iAccountCached.getUserid(); //webservice登录账号
@@ -1010,8 +1013,8 @@ public class IAccountServiceImpl implements IAccountService {
 			 json = NozzleMeans.addVehicle(bindCarVo, url, method, userId, userPwd, key);
 		} catch (Exception e) {
 			logger.error("addVehicle出错，错误="+ bindCarVo.toString(),e);
+			throw e;
 		}
-		
 		return json;
 	}
 
@@ -1020,7 +1023,6 @@ public class IAccountServiceImpl implements IAccountService {
 	public JSONObject updateUser(UserBasicVo userBasicVo)throws Exception {
 		JSONObject json= null;
 		try {
-			
 			 String url = iAccountCached.getUrl(); //webservice请求url
 			 String method = iAccountCached.getMethod(); //webservice请求方法名称
 			 String userId = iAccountCached.getUserid(); //webservice登录账号
@@ -1029,36 +1031,33 @@ public class IAccountServiceImpl implements IAccountService {
 			 json = NozzleMeans.updateUser(userBasicVo, url, method, userId, userPwd, key);
 		} catch (Exception e) {
 			logger.error("updateUser出错，错误="+ userBasicVo.toString(),e);
+			throw e;
 		}
-		
 		return json;
 	}
 
 
 	@Override
 	public JSONObject updateMobile(UserBasicVo userBasicVo)throws Exception {		
-				JSONObject json= null;
-				try {
-					
-					 String url = iAccountCached.getUrl(); //webservice请求url
-					 String method = iAccountCached.getMethod(); //webservice请求方法名称
-					 String userId = iAccountCached.getUserid(); //webservice登录账号
-					 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
-					 String key = iAccountCached.getKey(); //秘钥
-					 json = NozzleMeans.updateMobile(userBasicVo, url, method, userId, userPwd, key);
-				} catch (Exception e) {
-					logger.error("updateMobile出错，错误="+ userBasicVo.toString(),e);
-				}
-				
-				return json;
+			JSONObject json= null;
+			try {
+				 String url = iAccountCached.getUrl(); //webservice请求url
+				 String method = iAccountCached.getMethod(); //webservice请求方法名称
+				 String userId = iAccountCached.getUserid(); //webservice登录账号
+				 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+				 String key = iAccountCached.getKey(); //秘钥
+				 json = NozzleMeans.updateMobile(userBasicVo, url, method, userId, userPwd, key);
+			} catch (Exception e) {
+				logger.error("updateMobile出错，错误="+ userBasicVo.toString(),e);
+				throw e;
+			}
+			return json;
 	}
 	
 	@Override
 	public JSONObject updatePwd(UserBasicVo userBasicVo)throws Exception {
-		
 		JSONObject json= null;
 		try {
-			
 			 String url = iAccountCached.getUrl(); //webservice请求url
 			 String method = iAccountCached.getMethod(); //webservice请求方法名称
 			 String userId = iAccountCached.getUserid(); //webservice登录账号
@@ -1067,18 +1066,16 @@ public class IAccountServiceImpl implements IAccountService {
 			 json = NozzleMeans.updatePwd(userBasicVo, url, method, userId, userPwd, key);
 		} catch (Exception e) {
 			logger.error("updatePwd出错，错误="+ userBasicVo.toString(),e);
+			throw e;
 		}
-		
 		return json;
 	}
 	
 	
 	@Override
 	public JSONObject readilyShoot(ReadilyShootVo readilyShootVo) throws Exception {
-		
 		JSONObject json= null;
 		try {
-			
 			 String url = iAccountCached.getUrl(); //webservice请求url
 			 String method = iAccountCached.getMethod(); //webservice请求方法名称
 			 String userId = iAccountCached.getUserid(); //webservice登录账号
@@ -1088,18 +1085,16 @@ public class IAccountServiceImpl implements IAccountService {
 			 
 		} catch (Exception e) {
 			logger.error("ReadilyShootVo出错，错误="+ readilyShootVo.toString(),e);
+			throw e;
 		}
-		
 		return json;
 	}
 
 	
 	@Override
 	public JSONObject iAmTheOwner(RegisterVo registerVo) throws Exception{
-		
 		JSONObject json= null;
 		try {
-			
 			 String url = iAccountCached.getUrl(); //webservice请求url
 			 String method = iAccountCached.getMethod(); //webservice请求方法名称
 			 String userId = iAccountCached.getUserid(); //webservice登录账号
@@ -1108,19 +1103,17 @@ public class IAccountServiceImpl implements IAccountService {
 			 json = NozzleMeans.iAmTheOwner(registerVo, url, method, userId, userPwd, key);
 		} catch (Exception e) {
 			logger.error("iAmTheOwner出错，错误="+ registerVo.toString(),e);
+			throw e;
 		}
-		
 		return json;
 	}
 	
 	
 	
 	@Override
-	public JSONObject iamALongtimeUser(RegisterVo registerVo) throws Exception {			
-
+	public JSONObject iamALongtimeUser(RegisterVo registerVo) throws Exception {
 		JSONObject json= null;
 		try {
-			
 			 String url = iAccountCached.getUrl(); //webservice请求url
 			 String method = iAccountCached.getMethod(); //webservice请求方法名称
 			 String userId = iAccountCached.getUserid(); //webservice登录账号
@@ -1129,8 +1122,8 @@ public class IAccountServiceImpl implements IAccountService {
 			 json = NozzleMeans.iamALongtimeUser(registerVo, url, method, userId, userPwd, key);
 		} catch (Exception e) {
 			logger.error("iamALongtimeUser出错，错误="+ registerVo.toString(),e);
+			throw e;
 		}
-		
 		return json;
 	}
 	
@@ -1138,10 +1131,8 @@ public class IAccountServiceImpl implements IAccountService {
 	
 	@Override
 	public JSONObject haveDriverLicenseNotCar(RegisterVo registerVo) throws Exception {
-
 		JSONObject json= null;
 		try {
-			
 			 String url = iAccountCached.getUrl(); //webservice请求url
 			 String method = iAccountCached.getMethod(); //webservice请求方法名称
 			 String userId = iAccountCached.getUserid(); //webservice登录账号
@@ -1150,8 +1141,8 @@ public class IAccountServiceImpl implements IAccountService {
 			 json = NozzleMeans.haveDriverLicenseNotCar(registerVo, url, method, userId, userPwd, key);
 		} catch (Exception e) {
 			logger.error("haveDriverLicenseNotCar出错，错误="+ registerVo.toString(),e);
+			throw e;
 		}
-		
 		return json;
 	}
 	
@@ -1161,10 +1152,8 @@ public class IAccountServiceImpl implements IAccountService {
 	
 	@Override
 	public JSONObject isPedestrianNotDriver(RegisterVo registerVo)throws Exception {
-
 		JSONObject json= null;
 		try {
-			
 			 String url = iAccountCached.getUrl(); //webservice请求url
 			 String method = iAccountCached.getMethod(); //webservice请求方法名称
 			 String userId = iAccountCached.getUserid(); //webservice登录账号
@@ -1174,8 +1163,8 @@ public class IAccountServiceImpl implements IAccountService {
 			 logger.info("日志打印：json="+json + "对象参数=" + registerVo + "url=" + url + "method=" + method + "userId=" + userId + "userPwd=" + userPwd + "key=" + key);
 		} catch (Exception e) {
 			logger.error("isPedestrianNotDriver出错，错误="+ registerVo.toString(),e);
+			throw e;
 		}
-		
 		return json;
 	}
 
@@ -1184,7 +1173,6 @@ public class IAccountServiceImpl implements IAccountService {
 	public JSONObject getPositioningAddress(String keyword) throws Exception {
 		JSONObject json= null;
 		try {
-			
 			 String url = iAccountCached.getUrl(); //webservice请求url
 			 String method = iAccountCached.getMethod(); //webservice请求方法名称
 			 String userId = iAccountCached.getUserid(); //webservice登录账号
@@ -1193,8 +1181,8 @@ public class IAccountServiceImpl implements IAccountService {
 			 json = NozzleMeans.getPositioningAddress(keyword, url, method, userId, userPwd, key);
 		} catch (Exception e) {
 			logger.error("getPositioningAddress出错，错误="+ keyword,e);
+			throw e;
 		}
-		
 		return json;
 	}
 
@@ -1202,7 +1190,6 @@ public class IAccountServiceImpl implements IAccountService {
 	public JSONObject getTheChoiceOfIllegalActivities(String keyword) throws Exception {
 		JSONObject json= null;
 		try {
-			
 			 String url = iAccountCached.getUrl(); //webservice请求url
 			 String method = iAccountCached.getMethod(); //webservice请求方法名称
 			 String userId = iAccountCached.getUserid(); //webservice登录账号
@@ -1211,8 +1198,8 @@ public class IAccountServiceImpl implements IAccountService {
 			 json = NozzleMeans.getTheChoiceOfIllegalActivities(keyword, url, method, userId, userPwd, key);
 		} catch (Exception e) {
 			logger.error("getPositioningAddress出错，错误="+ keyword,e);
+			throw e;
 		}
-		
 		return json;
 	}
 	

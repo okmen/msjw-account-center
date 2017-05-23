@@ -780,7 +780,29 @@ public class TransferThirdParty {
 		}
 		return map;
 	}
-	
+	/**
+	 * 
+	 * @param numberPlateNumber 号牌号码
+	 * @param plateType 号牌种类
+	 * @param idCard 星级身份证号
+	 * @param parkingLocation 停车地点
+	 * @param reasonForParking 停车原因
+	 * @param theVehicleLeavesTheScene 车辆驶离现场照片
+	 * @param stopInformingASinglePhotographer 停车告知单拍摄照片
+	 * @param sourceOfCertification 认证来源 微信C 支付宝Z
+	 * @param url
+	 * @param method
+	 * @param userId
+	 * @param userPwd
+	 * @param key
+	 * @throws Exception
+	 */
+	public static void violationOfPenalty10Minutes(String numberPlateNumber, String plateType,String idCard,String parkingLocation, String reasonForParking,String theVehicleLeavesTheScene,String stopInformingASinglePhotographer,String sourceOfCertification,String url,String method,String userId,String userPwd,String key) throws Exception{
+		String WTSQ01 = "WTSQ01";
+		String WTSQ01ReqXml = "<?xml version='1.0' encoding='gb2312'?><REQUEST><HPHM>"+numberPlateNumber+"</HPHM><HPZL>"+plateType+"</HPZL><SFZMHM>"+idCard+"</SFZMHM><TCDD>"+parkingLocation+"</TCDD><TCYY>"+stopInformingASinglePhotographer+"</TCYY><TCZP>"+theVehicleLeavesTheScene+"</TCZP><TCGZDZP>"+stopInformingASinglePhotographer+"</TCGZDZP><YHLY>"+sourceOfCertification+"</YHLY></REQUEST>";
+		JSONObject WTSQ01RespJson = WebServiceClient.getInstance().requestWebService(url, method, WTSQ01,WTSQ01ReqXml,userId,userPwd,key);
+		JSONObject head = WTSQ01RespJson.getJSONObject("head");
+	}
 	
 	public static void name(String url,String method,String userId,String userPwd,String key) throws Exception {
 		String CXJR02 = "J1";
@@ -814,8 +836,10 @@ public class TransferThirdParty {
 	
 	
 	public static void main(String[] args) throws Exception {
-
 		queryResultOfReadilyShoot("W20170522881675", "090551","http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+
+		violationOfPenalty10Minutes("粤B601NR", "02", "440301199002101119", "南山大道", "吃饭", "1111", "2222", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+
 		//name( "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//Map<String, Object> map = getElectronicPolicy("622822198502074110", "15920071829", "粤B6F7M1", "02", "C","http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//System.out.println(map);
@@ -837,7 +861,7 @@ public class TransferThirdParty {
 		//bindsTheMotorVehicleQuery("13809613859", "350582197810012622", "C",  "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//getElectronicDriverLicense("440301199002101119", "杨明畅", "18603017278", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		
-		//login("15016709831", "633420", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610", "C");
+		//login("13902455233", "886957", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610", "C");
 		
 	}
 	
