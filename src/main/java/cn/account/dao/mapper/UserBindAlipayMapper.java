@@ -1,5 +1,7 @@
 package cn.account.dao.mapper;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import cn.account.bean.UserBind;
@@ -8,6 +10,7 @@ import cn.account.bean.UserBind;
  * @author Mbenben
  *
  */
+import cn.account.bean.UserBindAlipay;
 @Repository
 public interface UserBindAlipayMapper {
 	/**

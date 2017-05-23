@@ -1,10 +1,13 @@
 package cn.account.dao.impl;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import cn.account.bean.UserBind;
+import cn.account.bean.UserBindAlipay;
 import cn.account.dao.IUserBindAlipayDao;
 import cn.account.dao.mapper.UserBindAlipayMapper;
 @Repository
@@ -26,4 +29,5 @@ public class UserBindAlipayDaoImpl implements IUserBindAlipayDao {
 	public int unbindVehicle(UserBind userBind){
 		return userBindAlipayMapper.unbindVehicle(userBind);
 	}
+	
 }

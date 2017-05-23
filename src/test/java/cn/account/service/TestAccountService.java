@@ -22,10 +22,15 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cn.account.bean.DeviceBean;
+import cn.account.bean.ReadilyShoot;
+import cn.account.bean.ResultOfReadilyShoot;
 import cn.account.bean.Token;
+import cn.account.bean.UserBind;
+import cn.account.bean.UserBindAlipay;
 import cn.account.bean.UserOpenidBean;
 import cn.account.bean.UserRegInfo;
 import cn.account.bean.WechatUserInfoBean;
+import cn.account.bean.vo.ReadilyShootVo;
 import cn.account.service.IAccountService;
 import cn.sdk.util.AESNewUtils;
 import cn.sdk.util.DESUtils;
@@ -53,7 +58,45 @@ public class TestAccountService {
 	@Autowired
 	@Qualifier("accountService")
 	private IAccountService accountService;
+	/**
+	 * 隨手拍举报
+	 */
+	@Test
+	public void testReadilyShoot(){
+		String reportSerialNumber = "W20170522881675";
+		String password = "090551";
+		try {
+			ResultOfReadilyShoot shoot = accountService.queryResultOfReadilyShoot(reportSerialNumber, password);
+			System.out.println(shoot.getStatus());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 
+	/**
+	 * 随手拍插入数据库
+	 */
+	@Test
+	public void testSaveReadilyShoot(){
+		ReadilyShoot readilyShoot = new ReadilyShoot();
+		readilyShoot.setAddDate(new Date());
+		readilyShoot.setIllegalTime(new Date());
+		readilyShoot.setIllegalSections("bb");
+		readilyShoot.setSituationStatement("aaa");
+		readilyShoot.setReportSerialNumber("20170522881675");
+		readilyShoot.setPassword("090552");
+		readilyShoot.setIllegalImg1("111");
+		readilyShoot.setIllegalImg2("222");
+		readilyShoot.setIllegalImg2("333");
+		 
+		try {
+			 System.out.print(accountService.saveReadilyShoot(readilyShoot));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Test
 	public void testxxxxx() {
 //		DynamicHttpclientCall dynamicHttpclientCall = new DynamicHttpclientCall("http://szjjapi.chudaokeji.com/yywfcl/services/yywfcl?WSDL",
@@ -117,6 +160,7 @@ public class TestAccountService {
 		String mobilephone = "13888888888";
 		accountService.sendSMSVerificatioCode(mobilephone, "123456");
 	}
+	
 
 	// // 获取用户信息
 	// @Test

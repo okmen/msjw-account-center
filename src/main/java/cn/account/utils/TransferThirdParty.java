@@ -7,14 +7,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.ObjectUtils.Null;
 import org.apache.commons.lang3.StringUtils;
 
-import com.alibaba.druid.stat.TableStat.Name;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.account.bean.ElectronicPolicyBean;
+import cn.account.bean.ResultOfReadilyShoot;
 import cn.account.bean.vo.AuthenticationBasicInformationVo;
 import cn.account.bean.vo.BindTheVehicleVo;
 import cn.account.bean.vo.DriverLicenseToSupplementThePermitBusinessVo;
@@ -25,7 +24,6 @@ import cn.account.bean.vo.InformationSheetVo;
 import cn.account.bean.vo.MotorVehicleBusiness;
 import cn.account.bean.vo.MyDriverLicenseVo;
 import cn.account.bean.vo.ZT_STATUS;
-import cn.sdk.util.DateUtil;
 import cn.sdk.webservice.WebServiceClient;
 /**
  * 调用第三方封装
@@ -790,8 +788,35 @@ public class TransferThirdParty {
 		JSONObject CXJR02RespJson = WebServiceClient.getInstance().requestWebService(url, method, CXJR02,CXJR02ReqXml,userId,userPwd,key);
 		JSONObject head = CXJR02RespJson.getJSONObject("head");
 	}
+	
+	
+	/**
+	 * 违法举报结果查询
+	 * @param recordNumber 举报序号
+	 * @param QueryPassworrd 查询密码
+	 * @return
+	 * @throws Exception
+	 */
+	public static ResultOfReadilyShoot queryResultOfReadilyShoot(String reportSerialNumber,String password,String url,String method,String userId,String userPwd,String key) throws Exception{
+		ResultOfReadilyShoot resultOfReadilyShoot = new ResultOfReadilyShoot();
+		String B1003 = "B1003";
+		String B1003ReqXml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?><request><body><jbxh>"+reportSerialNumber+"</jbxh><cxyzm>"+password+"</cxyzm></body></request>";
+		JSONObject B1003RespJson =  WebServiceClient.getInstance().requestWebService(url, method, B1003,B1003ReqXml,userId,userPwd,key);
+		String code = B1003RespJson.getString("code");
+		String msg = B1003RespJson.getString("msg");
+		if ("0000".equals(code)) {
+			resultOfReadilyShoot.setStatus(msg);
+		}else{
+			resultOfReadilyShoot.setMsg(msg);
+		}
+		return resultOfReadilyShoot;
+	}
+	
+	
 	public static void main(String[] args) throws Exception {
-		name( "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+
+		queryResultOfReadilyShoot("W20170522881675", "090551","http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+		//name( "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//Map<String, Object> map = getElectronicPolicy("622822198502074110", "15920071829", "粤B6F7M1", "02", "C","http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//System.out.println(map);
 		//resetPwd("622822198502074110", "王玉璞", "15920071829", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");

@@ -1,6 +1,9 @@
 package cn.account.dao;
 
+import java.util.List;
+
 import cn.account.bean.UserBind;
+import cn.account.bean.UserBindAlipay;
 /**
  * 用户中心-支付宝
  * @author Mbenben

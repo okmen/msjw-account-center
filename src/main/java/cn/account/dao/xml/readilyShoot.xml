@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.account.dao.mapper.ReadilyShootMapper">
+
+
+	<insert id="saveReadilyShoot" parameterType="cn.account.bean.ReadilyShoot" useGeneratedKeys="true" keyProperty="id">
+		insert into t_readily_shoot (
+			add_date, illegal_time, illegal_sections, situation_statement, report_serial_number, password, illegal_img1, illegal_img2, illegal_img3
+		)
+		values  (
+			#{addDate}, #{illegalTime}, #{illegalSections}, #{situationStatement}, #{reportSerialNumber}, #{password}, #{illegalImg1}, #{illegalImg2}, #{illegalImg3}
+	    )
+	</insert>
+	
+	<select id="queryByReportSerialNumberAndPassword" resultType="cn.account.bean.ReadilyShoot" >
+		select id,
+			   add_date addDate,
+			   illegal_time illegalTime,
+			   illegal_sections illegalSections, 
+			   situation_statement situationStatement,
+			   report_serial_number reportSerialNumber,
+			   password,
+			   illegal_img1 illegalImg1,
+			   illegal_img2 illegalImg2,
+			   illegal_img3 illegalImg3,
+			   remark
+			   from t_readily_shoot where report_serial_number = #{reportSerialNumber} and password = #{password}
+	</select>
+	
+</mapper>
