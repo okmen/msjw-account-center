@@ -1250,8 +1250,7 @@ public class IAccountServiceImpl implements IAccountService {
 		String key = iAccountCached.getSendSmsFreqLimit(mobilephone);
 		return key;
 	}
-<<<<<<< Updated upstream
-=======
+
 
 
 	@Override
@@ -1567,7 +1566,7 @@ public class IAccountServiceImpl implements IAccountService {
 //        }
 //        return updateSuccess;
 //    }
->>>>>>> Stashed changes
+
 
 
 	@Override
