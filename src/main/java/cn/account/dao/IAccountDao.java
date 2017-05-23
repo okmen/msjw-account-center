@@ -1,12 +1,8 @@
 package cn.account.dao;
 import java.util.List;
 
-<<<<<<< Updated upstream
 import org.apache.ibatis.annotations.Param;
-
-=======
 import cn.account.bean.ReadilyShoot;
->>>>>>> Stashed changes
 import cn.account.bean.UserBind;
 import cn.account.bean.UserOpenidBean;
 import cn.account.bean.UserRegInfo;
@@ -144,7 +140,6 @@ public interface IAccountDao {
      */
     public boolean updateDevice(String deviceUuid,int osType,long userId);
     
-<<<<<<< Updated upstream
     /**
      * id 范围查询
      * @param startId
@@ -159,8 +154,6 @@ public interface IAccountDao {
 	 * @return
 	 */
 	public List<UserBind> getBetweenAndBindDate(String startDate,String endDate);
-=======
     
 
->>>>>>> Stashed changes
 }
