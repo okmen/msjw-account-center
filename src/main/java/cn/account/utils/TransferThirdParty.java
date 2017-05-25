@@ -187,8 +187,9 @@ public class TransferThirdParty {
 							bindTheVehicleVo.setAnnualReviewDate("");
 							bindTheVehicleVo.setAnnualReviewDateRemind("");
 						}
-						
-						bindTheVehicleVo.setMobilephone(mobilephone);
+						if("本人".equals(SFBR)){
+							bindTheVehicleVo.setMobilephone(mobilephone);
+						}
 						bindTheVehicleVo.setIllegalNumber("这里需要调用该车辆的未处理的违法总数");
 						bindTheVehicleVo.setOtherPeopleUse("车辆其他使用人");
 						bindTheVehicleVos.add(bindTheVehicleVo);
@@ -235,7 +236,9 @@ public class TransferThirdParty {
 						bindTheVehicleVo.setAnnualReviewDate("");
 						bindTheVehicleVo.setAnnualReviewDateRemind("");
 					}
-					bindTheVehicleVo.setMobilephone(mobilephone);
+					if("本人".equals(SFBR)){
+						bindTheVehicleVo.setMobilephone(mobilephone);
+					}
 					bindTheVehicleVo.setIllegalNumber("这里需要调用该车辆的未处理的违法总数");
 					bindTheVehicleVo.setOtherPeopleUse("车辆其他使用人");
 					bindTheVehicleVos.add(bindTheVehicleVo);
@@ -384,33 +387,6 @@ public class TransferThirdParty {
 		return drivingLicenseVo;
 	}
 	
-	/**
-	 * 提交  驾驶人信息单打印申请接口
-	 * @param applyType 申请类型（1代表驾驶人信息单；2代表机动车信息单 3代表无车证明申请；4代表驾驶人安全事故信用表）
-	 * @param applyName 申请人姓名（必须是星级用户姓名）
-	 * @param applyIdCard 申请人身份证号码（必须是星级用户身份证号码）
-	 * @param applyMobileNumber 申请人联系电话（必须是星级用户联系电话）
-	 * @param sourceOfCertification 申请来源（APP 传A，微信传C，支付宝传Z）
-	 * @param url  请求url
-	 * @param method  请求方法
-	 * @param userId  用户id
-	 * @param userPwd  用户密码
-	 * @param key  秘钥
-	 * @return 0000 表示申请成功
-	 * @throws Exception 
-	 */
-	public static Map<String, String> commitDriverInformationSinglePrintApplicationInterface(String applyType, String applyName,String applyIdCard, String applyMobileNumber,String sourceOfCertification,
-			String url,String method,String userId,String userPwd,String key) throws Exception{
-		String EZ1005 = "EZ1005";
-		String EZ1005ReqXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><request><sqlx>"+applyType+"</sqlx><xm>"+applyName+"</xm><sfzmhm>"+applyIdCard+"</sfzmhm><lxdh>"+applyMobileNumber+"</lxdh><sqly>"+sourceOfCertification+"</sqly></request>";
-		JSONObject EZ1005RespJson = WebServiceClient.getInstance().requestWebService(url, method, EZ1005,EZ1005ReqXml,userId,userPwd,key);
-		String code = EZ1005RespJson.getString("code");
-		String msg = EZ1005RespJson.getString("msg");
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("code", code);
-		map.put("msg", msg);
-		return map;
-	}
 	/**
 	 * 提交  机动车信息单打印申请接口
 	 * @param applyName 申请人姓名（必须是星级用户姓名）
@@ -813,6 +789,33 @@ public class TransferThirdParty {
 	
 	
 	/**
+	 * 提交  驾驶人信息单打印申请接口
+	 * @param applyType 申请类型（1代表驾驶人信息单；2代表机动车信息单 3代表无车证明申请；4代表驾驶人安全事故信用表）
+	 * @param applyName 申请人姓名（必须是星级用户姓名）
+	 * @param applyIdCard 申请人身份证号码（必须是星级用户身份证号码）
+	 * @param applyMobileNumber 申请人联系电话（必须是星级用户联系电话）
+	 * @param sourceOfCertification 申请来源（APP 传A，微信传C，支付宝传Z）
+	 * @param url  请求url
+	 * @param method  请求方法
+	 * @param userId  用户id
+	 * @param userPwd  用户密码
+	 * @param key  秘钥
+	 * @return 0000 表示申请成功
+	 * @throws Exception 
+	 */
+	public static Map<String, String> commitDriverInformationSinglePrintApplicationInterface(String applyType, String applyName,String applyIdCard, String applyMobileNumber,String sourceOfCertification,
+			String url,String method,String userId,String userPwd,String key) throws Exception{
+		String EZ1005 = "EZ1005";
+		String EZ1005ReqXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><request><sqlx>"+applyType+"</sqlx><xm>"+applyName+"</xm><sfzmhm>"+applyIdCard+"</sfzmhm><lxdh>"+applyMobileNumber+"</lxdh><sqly>"+sourceOfCertification+"</sqly></request>";
+		JSONObject EZ1005RespJson = WebServiceClient.getInstance().requestWebService(url, method, EZ1005,EZ1005ReqXml,userId,userPwd,key);
+		String code = EZ1005RespJson.getString("code");
+		String msg = EZ1005RespJson.getString("msg");
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("code", code);
+		map.put("msg", msg);
+		return map;
+	}
+	/**
 	 * 违法举报结果查询
 	 * @param recordNumber 举报序号
 	 * @param QueryPassworrd 查询密码
@@ -836,9 +839,9 @@ public class TransferThirdParty {
 	
 	
 	public static void main(String[] args) throws Exception {
-		queryResultOfReadilyShoot("W20170522881675", "090551","http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+		//queryResultOfReadilyShoot("W20170522881675", "090551","http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 
-		violationOfPenalty10Minutes("粤B601NR", "02", "440301199002101119", "南山大道", "吃饭", "1111", "2222", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+		//violationOfPenalty10Minutes("粤B601NR", "02", "440301199002101119", "南山大道", "吃饭", "1111", "2222", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 
 		//name( "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//Map<String, Object> map = getElectronicPolicy("622822198502074110", "15920071829", "粤B6F7M1", "02", "C","http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
@@ -859,8 +862,8 @@ public class TransferThirdParty {
 		//getMyDriverLicense("440301199002101119", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//authenticationBasicInformationQuery("13809613859", "C",  "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//bindsTheMotorVehicleQuery("13809613859", "350582197810012622", "C",  "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
-		//getElectronicDriverLicense("440301199002101119", "杨明畅", "18603017278", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
-		
+		//getElectronicDriverLicense("440301199002101119", "xxx", "xxx", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+		getDrivingLicense("粤B6F7M1", "02", "15920071829", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//login("13902455233", "886957", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610", "C");
 		
 	}

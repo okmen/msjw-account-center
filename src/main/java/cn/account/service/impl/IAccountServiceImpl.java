@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
+import cn.account.bean.Car;
 import cn.account.bean.Documentation;
 import cn.account.bean.ReadilyShoot;
 import cn.account.bean.ResultOfReadilyShoot;
@@ -228,6 +229,7 @@ public class IAccountServiceImpl implements IAccountService {
 		String identityCard = "";
 		String mobilephone = "";
 		AuthenticationBasicInformationVo authenticationBasicInformationVo = null;
+		List<Car> cars = new ArrayList<Car>();
 		try {
 			//用户登录接口
 			Map<String, String> map = TransferThirdParty.login(loginName, password, url, method, userId, userPwd, key,sourceOfCertification);
@@ -245,15 +247,17 @@ public class IAccountServiceImpl implements IAccountService {
 				if(null != bindTheVehicleVos && bindTheVehicleVos.size() > 0){
 					for(BindTheVehicleVo bindTheVehicleVo : bindTheVehicleVos){
 						String isMyself = bindTheVehicleVo.getIsMyself();
-						if("本人".equals(isMyself)){
-							authenticationBasicInformationVo.setMyNumberPlate(bindTheVehicleVo.getNumberPlateNumber());
-							authenticationBasicInformationVo.setBehindTheFrame4Digits(bindTheVehicleVo.getBehindTheFrame4Digits());
-							authenticationBasicInformationVo.setPlateType(bindTheVehicleVo.getPlateType());
-						}else{
-							authenticationBasicInformationVo.setMyNumberPlate(bindTheVehicleVo.getNumberPlateNumber());
-							authenticationBasicInformationVo.setBehindTheFrame4Digits(bindTheVehicleVo.getBehindTheFrame4Digits());
-							authenticationBasicInformationVo.setPlateType(bindTheVehicleVo.getPlateType());
-						}
+						authenticationBasicInformationVo.setMyNumberPlate(bindTheVehicleVo.getNumberPlateNumber());
+						authenticationBasicInformationVo.setBehindTheFrame4Digits(bindTheVehicleVo.getBehindTheFrame4Digits());
+						authenticationBasicInformationVo.setPlateType(bindTheVehicleVo.getPlateType());
+						
+						//绑定的车的信息
+						Car car = new Car();
+						car.setBehindTheFrame4Digits(bindTheVehicleVo.getBehindTheFrame4Digits());
+						car.setMyNumberPlate(bindTheVehicleVo.getNumberPlateNumber());
+						car.setPlateType(bindTheVehicleVo.getPlateType());
+						car.setMobilephone(mobilephone);
+						cars.add(car);
 					}
 				}
 				loginReturnBean.setCode(code);
@@ -285,6 +289,7 @@ public class IAccountServiceImpl implements IAccountService {
 				loginReturnBean.setMsg(msg);
 			}
 	    	loginReturnBean.setAuthenticationBasicInformation(authenticationBasicInformationVo);
+	    	loginReturnBean.setCars(cars);
 		} catch (Exception e) {
 			logger.error("login 错误,  loginName=" + loginName + ",password=" + password + ",sourceOfCertification=" + sourceOfCertification + ",openId="+openId + ",loginClient=" + loginClient, e);
 			throw e;
