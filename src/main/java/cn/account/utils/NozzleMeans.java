@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.account.bean.vo.BindCarVo;
+import cn.account.bean.vo.BindDriverLicenseVo;
 import cn.account.bean.vo.ReadilyShootVo;
 import cn.account.bean.vo.RegisterVo;
 import cn.account.bean.vo.UserBasicVo;
@@ -286,7 +287,7 @@ public class NozzleMeans {
 	
 	/**
 	 * 违法行为的选择项目
-	 * @param keyword
+	 * @param interfaceNumber
 	 * @param url
 	 * @param method
 	 * @param userId
@@ -304,6 +305,5 @@ public class NozzleMeans {
 	}
 	
 	
-	 
-
+	
 }

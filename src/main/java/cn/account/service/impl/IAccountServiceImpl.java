@@ -24,6 +24,7 @@ import cn.account.bean.UserBind;
 import cn.account.bean.WechatUserInfoBean;
 import cn.account.bean.vo.AuthenticationBasicInformationVo;
 import cn.account.bean.vo.BindCarVo;
+import cn.account.bean.vo.BindDriverLicenseVo;
 import cn.account.bean.vo.BindTheVehicleVo;
 import cn.account.bean.vo.DriverLicenseInformationSheetVo;
 import cn.account.bean.vo.DriverLicenseToSupplementThePermitBusinessVo;
@@ -1608,6 +1609,26 @@ public class IAccountServiceImpl implements IAccountService {
 			throw e;
 		}
 		return userBinds;
+	}
+
+
+	@Override
+	public JSONObject bindDriverLicense(BindDriverLicenseVo bindDriverLicenseVo) {
+		JSONObject json= null;
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 json = TransferThirdParty.bindDriverLicense(bindDriverLicenseVo, url, method, userId, userPwd, key);
+			 
+		} catch (Exception e) {
+			logger.error("bindDriverLicense出错，错误="+ bindDriverLicenseVo.toString(),e);
+		}
+		
+		return json;
 	}
 	
 }

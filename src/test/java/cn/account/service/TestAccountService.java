@@ -30,6 +30,7 @@ import cn.account.bean.UserBindAlipay;
 import cn.account.bean.UserOpenidBean;
 import cn.account.bean.UserRegInfo;
 import cn.account.bean.WechatUserInfoBean;
+import cn.account.bean.vo.BindDriverLicenseVo;
 import cn.account.bean.vo.ReadilyShootVo;
 import cn.account.service.IAccountService;
 import cn.sdk.util.AESNewUtils;
@@ -58,6 +59,23 @@ public class TestAccountService {
 	@Autowired
 	@Qualifier("accountService")
 	private IAccountService accountService;
+	
+	/**
+	 * 绑定驾驶证
+	 */
+	@Test
+	public void testBindDriverLicense(){
+		
+		BindDriverLicenseVo bindDriverLicenseVo = new BindDriverLicenseVo();
+		bindDriverLicenseVo.setLoginName("420881198302280017");
+		bindDriverLicenseVo.setUserSource("C");
+		bindDriverLicenseVo.setIdentityCard("420881198302280017");
+		bindDriverLicenseVo.setDriverLicenseIssuedAddress("1");
+		bindDriverLicenseVo.setSourceOfCertification("C");
+		bindDriverLicenseVo.setName("孙涛");
+		JSONObject json = accountService.bindDriverLicense(bindDriverLicenseVo);
+		System.out.println(json);
+	}
 	/**
 	 * 隨手拍举报
 	 */
@@ -84,11 +102,11 @@ public class TestAccountService {
 		readilyShoot.setIllegalTime(new Date());
 		readilyShoot.setIllegalSections("bb");
 		readilyShoot.setSituationStatement("aaa");
-		readilyShoot.setReportSerialNumber("20170522881675");
-		readilyShoot.setPassword("090552");
+		readilyShoot.setReportSerialNumber("W20170522881676");
+		readilyShoot.setPassword("090551");
 		readilyShoot.setIllegalImg1("111");
 		readilyShoot.setIllegalImg2("222");
-		readilyShoot.setIllegalImg2("333");
+		readilyShoot.setIllegalImg3("333");
 		 
 		try {
 			 System.out.print(accountService.saveReadilyShoot(readilyShoot));

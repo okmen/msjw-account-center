@@ -15,6 +15,7 @@ import com.alibaba.fastjson.JSONObject;
 import cn.account.bean.ElectronicPolicyBean;
 import cn.account.bean.ResultOfReadilyShoot;
 import cn.account.bean.vo.AuthenticationBasicInformationVo;
+import cn.account.bean.vo.BindDriverLicenseVo;
 import cn.account.bean.vo.BindTheVehicleVo;
 import cn.account.bean.vo.DriverLicenseToSupplementThePermitBusinessVo;
 import cn.account.bean.vo.DrivingLicenseVo;
@@ -837,12 +838,59 @@ public class TransferThirdParty {
 		return resultOfReadilyShoot;
 	}
 	
+
+	/**
+	 * 驾驶证认证
+	 * @param interfaceNumber
+	 * @param url
+	 * @param method
+	 * @param userId
+	 * @param userPwd
+	 * @param key
+	 * @return
+	 * @throws Exception
+	 */
+	public static JSONObject bindDriverLicense(BindDriverLicenseVo bindDriverLicenseVo,String url,String method,String userId,String userPwd,String key)throws Exception{
+		String xxcj12 = "xxcj12";
+		String xxcj12RepXml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?><REQUEST><LOGIN_NAME>"+bindDriverLicenseVo.getLoginName()+"</LOGIN_NAME><YHLY>"+bindDriverLicenseVo.getUserSource()+"</YHLY><JSZHM>"+bindDriverLicenseVo.getIdentityCard()+"</JSZHM><JSRSZD>"+bindDriverLicenseVo.getDriverLicenseIssuedAddress()+"</JSRSZD><XM>"+bindDriverLicenseVo.getName()+"</XM><BIND_DEPARTMENT>"+bindDriverLicenseVo.getSourceOfCertification()+"</BIND_DEPARTMENT></REQUEST>";
+		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, xxcj12, xxcj12RepXml, userId, userPwd, key);
+		return json;
+	}
+	
+	 
+	/**
+	 * 驾驶证绑定查询
+	 * @param identityCard
+	 * @return
+	 * @throws Exception
+	 */
+	public static JSONObject queryResultOfBindDriverLicense(String longName,String userSource ,String url,String method,String userId,String userPwd,String key)throws Exception{
+		String xxcj13 = "xxcj13";
+		String xxcj13RepXml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?><REQUEST><LOGIN_NAME>"+longName+"</LOGIN_NAME><YHLY>"+userSource+"</YHLY></REQUEST>";
+		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, xxcj13, xxcj13RepXml, userId, userPwd, key);
+		return json;
+	}
+	
 	
 	public static void main(String[] args) throws Exception {
+<<<<<<< Updated upstream
 		//queryResultOfReadilyShoot("W20170522881675", "090551","http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 
 		//violationOfPenalty10Minutes("粤B601NR", "02", "440301199002101119", "南山大道", "吃饭", "1111", "2222", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 
+=======
+		queryResultOfBindDriverLicense("360428199308071413", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+		/*BindDriverLicenseVo bindDriverLicenseVo = new BindDriverLicenseVo();
+		bindDriverLicenseVo.setLoginName("360428199308071413");
+		bindDriverLicenseVo.setUserSource("C");
+		bindDriverLicenseVo.setIdentityCard("360428199308071413");
+		bindDriverLicenseVo.setDriverLicenseIssuedAddress("3");
+		bindDriverLicenseVo.setSourceOfCertification("C");
+		bindDriverLicenseVo.setName("占善呈");
+		bindDriverLicense(bindDriverLicenseVo, "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");*/
+		
+		//queryResultOfReadilyShoot("W20170522881675", "090551","http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+>>>>>>> Stashed changes
 		//name( "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//Map<String, Object> map = getElectronicPolicy("622822198502074110", "15920071829", "粤B6F7M1", "02", "C","http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//System.out.println(map);
