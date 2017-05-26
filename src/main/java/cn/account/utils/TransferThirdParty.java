@@ -873,12 +873,12 @@ public class TransferThirdParty {
 	
 	
 	public static void main(String[] args) throws Exception {
-<<<<<<< Updated upstream
+
 		//queryResultOfReadilyShoot("W20170522881675", "090551","http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 
 		//violationOfPenalty10Minutes("粤B601NR", "02", "440301199002101119", "南山大道", "吃饭", "1111", "2222", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 
-=======
+
 		queryResultOfBindDriverLicense("360428199308071413", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		/*BindDriverLicenseVo bindDriverLicenseVo = new BindDriverLicenseVo();
 		bindDriverLicenseVo.setLoginName("360428199308071413");
@@ -890,7 +890,7 @@ public class TransferThirdParty {
 		bindDriverLicense(bindDriverLicenseVo, "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");*/
 		
 		//queryResultOfReadilyShoot("W20170522881675", "090551","http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
->>>>>>> Stashed changes
+
 		//name( "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//Map<String, Object> map = getElectronicPolicy("622822198502074110", "15920071829", "粤B6F7M1", "02", "C","http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//System.out.println(map);
