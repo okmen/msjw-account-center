@@ -248,12 +248,16 @@ public class IAccountServiceImpl implements IAccountService {
 				if(null != bindTheVehicleVos && bindTheVehicleVos.size() > 0){
 					for(BindTheVehicleVo bindTheVehicleVo : bindTheVehicleVos){
 						String isMyself = bindTheVehicleVo.getIsMyself();
-						authenticationBasicInformationVo.setMyNumberPlate(bindTheVehicleVo.getNumberPlateNumber());
-						authenticationBasicInformationVo.setBehindTheFrame4Digits(bindTheVehicleVo.getBehindTheFrame4Digits());
-						authenticationBasicInformationVo.setPlateType(bindTheVehicleVo.getPlateType());
-						
 						//绑定的车的信息
 						Car car = new Car();
+						if("本人".equals(isMyself)){
+							authenticationBasicInformationVo.setMyNumberPlate(bindTheVehicleVo.getNumberPlateNumber());
+							authenticationBasicInformationVo.setBehindTheFrame4Digits(bindTheVehicleVo.getBehindTheFrame4Digits());
+							authenticationBasicInformationVo.setPlateType(bindTheVehicleVo.getPlateType());
+							car.setIsMySelf(0);
+						}else{
+							car.setIsMySelf(1);
+						}
 						car.setBehindTheFrame4Digits(bindTheVehicleVo.getBehindTheFrame4Digits());
 						car.setMyNumberPlate(bindTheVehicleVo.getNumberPlateNumber());
 						car.setPlateType(bindTheVehicleVo.getPlateType());
@@ -298,6 +302,74 @@ public class IAccountServiceImpl implements IAccountService {
     	//登录信息入库
     	return loginReturnBean;
 	}
+	
+	@Override
+	public LoginReturnBeanVo alipayLogin(String loginName, String sourceOfCertification, String openId) throws Exception {
+		LoginReturnBeanVo loginReturnBean = new LoginReturnBeanVo();
+		
+		String url = iAccountCached.getUrl(); //webservice请求url
+		String method = iAccountCached.getMethod(); //webservice请求方法名称
+		String userId = iAccountCached.getUserid(); //webservice登录账号
+		String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+		String key = iAccountCached.getKey(); //秘钥
+		String identityCard = "";
+		String mobilephone = "";
+		AuthenticationBasicInformationVo authenticationBasicInformationVo = null;
+		List<Car> cars = new ArrayList<Car>();
+		try {
+			//已绑定机动车查询接口
+			List<BindTheVehicleVo> bindTheVehicleVos = null;
+				//认证基本信息查询接口
+				authenticationBasicInformationVo = TransferThirdParty.authenticationBasicInformationQuery(loginName,sourceOfCertification, url, method,userId,userPwd,key);
+				identityCard = authenticationBasicInformationVo.getIdentityCard();
+				mobilephone = authenticationBasicInformationVo.getMobilephone();
+				//我绑定的车辆信息
+				bindTheVehicleVos = TransferThirdParty.bindsTheMotorVehicleQuery(mobilephone,identityCard, sourceOfCertification, url, method, userId, userPwd, key);
+				if(null != bindTheVehicleVos && bindTheVehicleVos.size() > 0){
+					for(BindTheVehicleVo bindTheVehicleVo : bindTheVehicleVos){
+						String isMyself = bindTheVehicleVo.getIsMyself();
+						//绑定的车的信息
+						Car car = new Car();
+						if("本人".equals(isMyself)){
+							authenticationBasicInformationVo.setMyNumberPlate(bindTheVehicleVo.getNumberPlateNumber());
+							authenticationBasicInformationVo.setBehindTheFrame4Digits(bindTheVehicleVo.getBehindTheFrame4Digits());
+							authenticationBasicInformationVo.setPlateType(bindTheVehicleVo.getPlateType());
+							car.setIsMySelf(0);
+						}else{
+							car.setIsMySelf(1);
+						}
+						car.setBehindTheFrame4Digits(bindTheVehicleVo.getBehindTheFrame4Digits());
+						car.setMyNumberPlate(bindTheVehicleVo.getNumberPlateNumber());
+						car.setPlateType(bindTheVehicleVo.getPlateType());
+						car.setMobilephone(mobilephone);
+						cars.add(car);
+					}
+				}
+				loginReturnBean.setCode("0000");
+				loginReturnBean.setMsg("登录成功");
+				UserBind userBind = new UserBind();
+				userBind.setBindDate(new Date());
+				userBind.setIdCard(identityCard);
+				userBind.setMobileNumber(mobilephone);
+				userBind.setIsBind(0);
+				userBind.setClientType(sourceOfCertification);
+				if("C".equals(sourceOfCertification)){
+					userBind.setOpenId(openId);
+					accountDao.addOrUpdateLoginInfo(userBind);
+				}else if("Z".equals(sourceOfCertification)){
+					userBind.setUserId(openId);
+					userBindAlipayDao.addOrUpdateLoginInfo(userBind);
+				}
+	    	loginReturnBean.setAuthenticationBasicInformation(authenticationBasicInformationVo);
+	    	loginReturnBean.setCars(cars);
+		} catch (Exception e) {
+			logger.error("login 错误,  loginName=" + loginName + ",sourceOfCertification=" + sourceOfCertification + ",openId="+openId,e);
+			throw e;
+		}
+    	//登录信息入库
+    	return loginReturnBean;
+	}
+	
 	/**
 	 * 根据数据和状态过滤
 	 * @param myBusinessVos
@@ -1610,24 +1682,20 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		return userBinds;
 	}
-
-
+	
 	@Override
 	public JSONObject bindDriverLicense(BindDriverLicenseVo bindDriverLicenseVo) {
 		JSONObject json= null;
 		try {
-			
 			 String url = iAccountCached.getUrl(); //webservice请求url
 			 String method = iAccountCached.getMethod(); //webservice请求方法名称
 			 String userId = iAccountCached.getUserid(); //webservice登录账号
 			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
 			 String key = iAccountCached.getKey(); //秘钥
 			 json = TransferThirdParty.bindDriverLicense(bindDriverLicenseVo, url, method, userId, userPwd, key);
-			 
 		} catch (Exception e) {
 			logger.error("bindDriverLicense出错，错误="+ bindDriverLicenseVo.toString(),e);
 		}
-		
 		return json;
 	}
 	

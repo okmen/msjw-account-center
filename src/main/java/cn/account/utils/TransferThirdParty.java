@@ -837,8 +837,6 @@ public class TransferThirdParty {
 		}
 		return resultOfReadilyShoot;
 	}
-	
-
 	/**
 	 * 驾驶证认证
 	 * @param interfaceNumber
@@ -856,8 +854,6 @@ public class TransferThirdParty {
 		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, xxcj12, xxcj12RepXml, userId, userPwd, key);
 		return json;
 	}
-	
-	 
 	/**
 	 * 驾驶证绑定查询
 	 * @param identityCard
@@ -870,7 +866,6 @@ public class TransferThirdParty {
 		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, xxcj13, xxcj13RepXml, userId, userPwd, key);
 		return json;
 	}
-	
 	
 	public static void main(String[] args) throws Exception {
 
