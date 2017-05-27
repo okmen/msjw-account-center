@@ -1160,7 +1160,6 @@ public class IAccountServiceImpl implements IAccountService {
 			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
 			 String key = iAccountCached.getKey(); //秘钥
 			 json = NozzleMeans.readilyShoot(readilyShootVo, url, method, userId, userPwd, key);
-			 
 		} catch (Exception e) {
 			logger.error("ReadilyShootVo出错，错误="+ readilyShootVo.toString(),e);
 			throw e;
