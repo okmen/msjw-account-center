@@ -1766,7 +1766,6 @@ public class IAccountServiceImpl implements IAccountService {
 	}
 
 
-<<<<<<< Updated upstream
 	@Override
 	public ResultOfBIndDriverLicenseVo queryResultOfBindDriverLicense(String identityCard, String userSource) {
 		ResultOfBIndDriverLicenseVo resultOfBIndDriverLicenseVo= null;
@@ -1869,7 +1868,7 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		
 		return map;
-=======
+	}
 	/**
 	 * 提交无车证明申请
 	 * @Description: TODO(提交无车证明申请)
@@ -1961,7 +1960,6 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		
 		return baseBean;
->>>>>>> Stashed changes
 	}
 	
 }
