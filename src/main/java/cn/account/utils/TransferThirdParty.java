@@ -106,8 +106,9 @@ public class TransferThirdParty {
 		String xxcj08ReqXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><USERNAME>"+loginName+"</USERNAME><RZLY>"+sourceOfCertification+"</RZLY></REQUEST>";
 		JSONObject xxcj08RespJson = WebServiceClient.getInstance().requestWebService(url, method, xxcj08,xxcj08ReqXml,userId,userPwd,key);
 		String code = xxcj08RespJson.getString("CODE");
-		AuthenticationBasicInformationVo authenticationBasicInformationVo = new AuthenticationBasicInformationVo();
+		AuthenticationBasicInformationVo authenticationBasicInformationVo = null;
 		if("0000".equals(code)){
+			authenticationBasicInformationVo = new AuthenticationBasicInformationVo();
 			JSONObject jsonObject = (JSONObject) xxcj08RespJson.get("BODY");
 			//真实姓名
 			String trueName = (String) jsonObject.get("LOGIN_TRUENAME");

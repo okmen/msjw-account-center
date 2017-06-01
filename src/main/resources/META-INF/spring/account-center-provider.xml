@@ -18,5 +18,8 @@
 
 
 	<dubbo:service interface="cn.account.service.IAccountService" ref="accountService" />
+	
+	<dubbo:service interface="cn.account.service.IThirdPartyInformationService" ref="thirdPartyInformationService" />
+	
 
 </beans>
