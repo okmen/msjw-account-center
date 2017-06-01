@@ -57,6 +57,10 @@ import cn.account.orm.UserValidateCodeORM;
 import cn.account.service.IAccountService;
 import cn.account.utils.NozzleMeans;
 import cn.account.utils.TransferThirdParty;
+import cn.sdk.bean.BaseBean;
+import cn.sdk.util.MsgCode;
+import cn.sdk.util.StringUtil;
+import cn.sdk.webservice.WebServiceClient;
 
 /**
  * 个人中心
@@ -1762,6 +1766,7 @@ public class IAccountServiceImpl implements IAccountService {
 	}
 
 
+<<<<<<< Updated upstream
 	@Override
 	public ResultOfBIndDriverLicenseVo queryResultOfBindDriverLicense(String identityCard, String userSource) {
 		ResultOfBIndDriverLicenseVo resultOfBIndDriverLicenseVo= null;
@@ -1864,6 +1869,99 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		
 		return map;
+=======
+	/**
+	 * 提交无车证明申请
+	 * @Description: TODO(提交无车证明申请)
+	 * @param applyType 申请类型
+	 * @param applyName 申请人姓名
+	 * @param identityCard 申请人身份证号
+	 * @param applyPhone 申请人联系电话
+	 * @param sourceOfCertification 申请来源
+	 * @return
+	 * @throws Exception 
+	 */
+	public BaseBean addNoneCarCertification(String applyType, String applyName, String identityCard, String applyPhone, String sourceOfCertification) throws Exception {
+		logger.info("提交无车证明申请采集WebService...");
+		
+		String interfaceNumber = "EZ1005";	//接口编号
+		BaseBean baseBean = new BaseBean();	//创建返回信息
+		
+		//拼装xml数据
+		StringBuffer sb = new StringBuffer();
+		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><request>")
+		.append("<sqlx>").append(applyType).append("</sqlx>")				//申请类型	
+		.append("<xm>").append(applyName).append("</xm>")	                //姓名  
+		.append("<sfzmhm>").append(identityCard).append("</sfzmhm>")	    //身份证号
+		.append("<lxdh>").append(applyPhone).append("</lxdh>")	            //联系电话
+		.append("<sqly>").append(sourceOfCertification).append("</sqly>")	//来源方式
+		.append("</request>");
+		
+		try {
+			JSONObject respStr = WebServiceClient.getInstance().requestWebService(iAccountCached.getUrl(), iAccountCached.getMethod(), 
+					interfaceNumber, sb.toString(), iAccountCached.getUserid(), iAccountCached.getUserpwd(), iAccountCached.getKey());
+			
+			String code = respStr.get("code").toString();	//返回状态码 
+			String msg = respStr.get("msg").toString();		//返回消息描述
+			
+			baseBean.setCode(code);		
+			baseBean.setMsg(msg);		
+			
+			logger.info("提交无车证明申请采集返回结果:" + respStr);
+		} catch (Exception e) {
+			logger.error("提交无车证明申请采集失败！", e);
+			throw e;
+		}
+		
+		return baseBean;
+		
+	}
+
+	/**
+	 * 提交驾驶人安全事故信用表申请
+	 * @Description: TODO(提交驾驶人安全事故信用表申请)
+	 * @param applyType 申请类型
+	 * @param applyName 申请人姓名
+	 * @param identityCard 申请人身份证号
+	 * @param applyPhone 申请人联系电话
+	 * @param sourceOfCertification 申请来源
+	 * @return
+	 * @throws Exception 
+	 */
+	public BaseBean addSafeAccidentCredit(String applyType, String applyName, String identityCard, String applyPhone, String sourceOfCertification) throws Exception {
+		logger.info("提交驾驶人安全事故信用表申请采集WebService...");
+		
+		String interfaceNumber = "EZ1005";	//接口编号
+		BaseBean baseBean = new BaseBean();	//创建返回信息
+		
+		//拼装xml数据
+		StringBuffer sb = new StringBuffer();
+		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><request>")
+		.append("<sqlx>").append(applyType).append("</sqlx>")				//申请类型
+		.append("<xm>").append(applyName).append("</xm>")					//姓名
+		.append("<sfzmhm>").append(identityCard).append("</sfzmhm>")		//身份证号
+		.append("<lxdh>").append(applyPhone).append("</lxdh>")				//联系电话
+		.append("<sqly>").append(sourceOfCertification).append("</sqly>")	//来源方式
+		.append("</request>");
+		
+		try {
+			JSONObject respStr = WebServiceClient.getInstance().requestWebService(iAccountCached.getUrl(), iAccountCached.getMethod(), 
+					interfaceNumber, sb.toString(), iAccountCached.getUserid(), iAccountCached.getUserpwd(), iAccountCached.getKey());
+			
+			String code = respStr.get("code").toString();	//返回状态码 
+			String msg = respStr.get("msg").toString();		//返回消息描述
+			
+			baseBean.setCode(code);		
+			baseBean.setMsg(msg);		
+			
+			logger.info("提交驾驶人安全事故信用表申请采集返回结果:" + respStr);
+		} catch (Exception e) {
+			logger.error("提交驾驶人安全事故信用表申请采集失败！", e);
+			throw e;
+		}
+		
+		return baseBean;
+>>>>>>> Stashed changes
 	}
 	
 }
