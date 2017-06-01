@@ -32,6 +32,7 @@ import cn.account.bean.UserRegInfo;
 import cn.account.bean.WechatUserInfoBean;
 import cn.account.bean.vo.BindDriverLicenseVo;
 import cn.account.bean.vo.ReadilyShootVo;
+import cn.account.bean.vo.ResultOfBIndDriverLicenseVo;
 import cn.account.service.IAccountService;
 import cn.sdk.util.AESNewUtils;
 import cn.sdk.util.DESUtils;
@@ -59,6 +60,78 @@ public class TestAccountService {
 	@Autowired
 	@Qualifier("accountService")
 	private IAccountService accountService;
+	
+	
+	
+	/**
+	 * 查询机动车信息单
+	 */
+	@Test
+	public void testQueryScheduleOfMotorVehicleInformationList(){
+		String applyType = "2";
+		String identityCard = "445222199209020034";
+		String sourceOfCertification = "C";
+		Map<String, Object> map = new HashMap<>();
+		map = accountService.queryScheduleOfMotorVehicleInformationList(applyType, identityCard, sourceOfCertification);
+		System.out.println(map);
+	}
+	
+	/**
+	 * 查询驾驶人信息单
+	 */
+	@Test
+	public void testQueryScheduleOfDriverInformationList(){
+		String applyType = "1";
+		String identityCard = "445222199209020034";
+		String sourceOfCertification = "C";
+		Map<String, Object> map = new HashMap<>();
+		map = accountService.queryScheduleOfDriverInformationList(applyType, identityCard, sourceOfCertification);
+		System.out.println(map);
+	}
+	/**
+	 * 申请驾驶人信息单
+	 */
+	@Test
+	public void testSubmitApplicationForDriverInformation(){
+		String applyType = "1";
+		String userName = "张宇帆";
+		String identityCard = "4452221992090";
+		String mobilephone = "15920050177";
+		String sourceOfCertification = "C";
+		Map<String, String> map = new HashMap<>();
+		map = accountService.submitApplicationForDriverInformation(applyType, userName, identityCard, mobilephone, sourceOfCertification);
+		System.out.println(map);
+	}
+	
+	
+	/**
+	 * 申请机动车信息单
+	 */
+	@Test
+	public void testSubmitApplicationForMotorVehicleInformation(){
+		String applyType = "1";
+		String userName = "张宇帆";
+		String identityCard = "445222199209020034";
+		String mobilephone = "15920050177";
+		String sourceOfCertification = "C";
+		String licensePlateNumber = "粤B6A42E";
+		String plateType = "02";
+		Map<String, String> map = new HashMap<>();
+		map = accountService.submitApplicationForMotorVehicleInformation(applyType, userName, identityCard, mobilephone,licensePlateNumber,plateType, sourceOfCertification);
+		System.out.println(map);
+	}
+	
+	/**
+	 * 绑定驾驶证结果查询
+	 */
+	@Test
+	public void  testqueryResultOfBindDriverLicense(){
+		String identityCard = "360428199308071411";
+		String userSource = "C";
+		ResultOfBIndDriverLicenseVo resultOfBIndDriverLicenseVo = null;
+		resultOfBIndDriverLicenseVo = accountService.queryResultOfBindDriverLicense(identityCard, userSource);
+		System.out.println(resultOfBIndDriverLicenseVo.getJSZHM());
+	}
 	
 	/**
 	 * 绑定驾驶证

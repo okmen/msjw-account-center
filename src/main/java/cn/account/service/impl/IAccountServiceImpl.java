@@ -38,6 +38,7 @@ import cn.account.bean.vo.MyBusinessVo;
 import cn.account.bean.vo.MyDriverLicenseVo;
 import cn.account.bean.vo.ReadilyShootVo;
 import cn.account.bean.vo.RegisterVo;
+import cn.account.bean.vo.ResultOfBIndDriverLicenseVo;
 import cn.account.bean.vo.UserBasicVo;
 import cn.account.bean.vo.queryclassservice.CertificationProgressQueryVo;
 import cn.account.bean.vo.queryclassservice.DriverLicenseBusinessVo;
@@ -1696,6 +1697,111 @@ public class IAccountServiceImpl implements IAccountService {
 			logger.error("bindDriverLicense出错，错误="+ bindDriverLicenseVo.toString(),e);
 		}
 		return json;
+	}
+
+
+	@Override
+	public ResultOfBIndDriverLicenseVo queryResultOfBindDriverLicense(String identityCard, String userSource) {
+		ResultOfBIndDriverLicenseVo resultOfBIndDriverLicenseVo= null;
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 resultOfBIndDriverLicenseVo = TransferThirdParty.queryResultOfBindDriverLicense(identityCard, userSource, url, method, userId, userPwd, key);
+			 
+		} catch (Exception e) {
+			logger.error("bindDriverLicense出错，错误="+ "identityCard=" + identityCard+"userSource=" + userSource,e);
+		}
+		
+		return resultOfBIndDriverLicenseVo;
+	}
+
+
+	@Override
+	public Map<String, String> submitApplicationForDriverInformation(String applyType, String applyName,
+			String identityCard, String applyPhone, String sourceOfCertification) {
+		Map<String, String> map = new HashMap<>();
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 map = TransferThirdParty.submitApplicationForDriverInformation(applyType, applyName, identityCard, applyPhone, sourceOfCertification, url, method, userId, userPwd, key);
+			 
+		} catch (Exception e) {
+			logger.error("submitApplicationForDriverInformation出错，错误="+ "applyType=" + applyType+"applyName=" + applyName+"identityCard=" + identityCard+"sourceOfCertification=" + sourceOfCertification+"applyPhone=" + applyPhone,e);
+		}
+		
+		return map;
+	}
+
+
+	@Override
+	public Map<String, String> submitApplicationForMotorVehicleInformation(String applyType, String applyName,
+			String identityCard, String applyPhone, String licensePlateNumber,
+			String plateType, String sourceOfCertification) {
+		Map<String, String> map = new HashMap<>();
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 map = TransferThirdParty.submitApplicationForMotorVehicleInformation(applyType, applyName, identityCard, applyPhone,licensePlateNumber,plateType, sourceOfCertification, url, method, userId, userPwd, key);
+			 
+		} catch (Exception e) {
+			logger.error("submitApplicationForMotorVehicleInformation出错，错误="+ "applyType=" + applyType+"applyName=" + applyName+"identityCard=" + identityCard+"applyPhone=" + applyPhone+"sourceOfCertification=" + sourceOfCertification+"licensePlateNumber=" + licensePlateNumber+"plateType=" + plateType,e);
+		}
+		
+		return map;
+	}
+
+
+	@Override
+	public Map<String, Object> queryScheduleOfDriverInformationList(String applyType, String identityCard,
+			String sourceOfCertification) {
+		Map<String, Object> map = new HashMap<>();
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 map = TransferThirdParty.queryScheduleOfDriverInformationList(applyType, identityCard, sourceOfCertification, url, method, userId, userPwd, key);
+			 
+		} catch (Exception e) {
+			logger.error("queryScheduleOfDriverInformationList出错，错误="+ "applyType=" + applyType+"identityCard=" + identityCard+"sourceOfCertification=" + sourceOfCertification,e);
+		}
+		
+		return map;
+	}
+
+
+	@Override
+	public Map<String, Object> queryScheduleOfMotorVehicleInformationList(String applyType, String identityCard,
+			String sourceOfCertification) {
+		Map<String, Object> map = new HashMap<>();
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 map = TransferThirdParty.queryScheduleOfMotorVehicleInformationList(applyType, identityCard, sourceOfCertification, url, method, userId, userPwd, key);
+			 
+		} catch (Exception e) {
+			logger.error("queryScheduleOfMotorVehicleInformationList出错，错误="+ "applyType=" + applyType+"identityCard=" + identityCard+"sourceOfCertification=" + sourceOfCertification,e);
+		}
+		
+		return map;
 	}
 	
 }

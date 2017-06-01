@@ -24,6 +24,7 @@ import cn.account.bean.vo.IdentificationOfAuditResultsVo;
 import cn.account.bean.vo.InformationSheetVo;
 import cn.account.bean.vo.MotorVehicleBusiness;
 import cn.account.bean.vo.MyDriverLicenseVo;
+import cn.account.bean.vo.ResultOfBIndDriverLicenseVo;
 import cn.account.bean.vo.ZT_STATUS;
 import cn.sdk.webservice.WebServiceClient;
 /**
@@ -789,6 +790,8 @@ public class TransferThirdParty {
 	}
 	
 	
+	
+	
 	/**
 	 * 提交  驾驶人信息单打印申请接口
 	 * @param applyType 申请类型（1代表驾驶人信息单；2代表机动车信息单 3代表无车证明申请；4代表驾驶人安全事故信用表）
@@ -816,6 +819,243 @@ public class TransferThirdParty {
 		map.put("msg", msg);
 		return map;
 	}
+	
+	
+	/**
+	 * 提交  驾驶人信息单打印申请接口
+	 * @param applyType 申请类型（1代表驾驶人信息单；2代表机动车信息单 3代表无车证明申请；4代表驾驶人安全事故信用表）
+	 * @param name 申请人姓名（必须是星级用户姓名）
+	 * @param idnetityCard 申请人身份证号码（必须是星级用户身份证号码）
+	 * @param mobilephone 申请人联系电话（必须是星级用户联系电话）
+	 * @param sourceOfCertification 申请来源（APP 传A，微信传C，支付宝传Z）
+	 * @param url  请求url
+	 * @param method  请求方法
+	 * @param userId  用户id
+	 * @param userPwd  用户密码
+	 * @param key  秘钥
+	 * @return 0000 表示申请成功
+	 * @throws Exception 
+	 */
+	public static Map<String, String> submitApplicationForDriverInformation(String applyType, String applyName,String identityCard, String applyPhone,String sourceOfCertification,
+			String url,String method,String userId,String userPwd,String key) throws Exception{
+		String EZ1005 = "EZ1005";
+		String EZ1005ReqXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><request><sqlx>"+applyType+"</sqlx><xm>"+applyName+"</xm><sfzmhm>"+identityCard+"</sfzmhm><lxdh>"+applyPhone+"</lxdh><sqly>"+sourceOfCertification+"</sqly></request>";
+		JSONObject EZ1005RespJson = WebServiceClient.getInstance().requestWebService(url, method, EZ1005,EZ1005ReqXml,userId,userPwd,key);
+		String code = EZ1005RespJson.getString("code");
+		String msg = EZ1005RespJson.getString("msg");
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("code", code);
+		map.put("msg", msg);
+		return map;
+	}
+	
+	
+	
+	/**
+	 * 查询驾驶人信息单进度
+	 * @param appType 申请类型
+	 * @param identityCard 申请人身份证号
+	 * @param url  请求url
+	 * @param method  请求方法
+	 * @param userId  用户id
+	 * @param userPwd  用户密码
+	 * @param key  秘钥
+	 * @return
+	 * @throws Exception
+	 */
+	public static Map<String , Object> queryScheduleOfDriverInformationList(String applyType,String identityCard,String sourceOfCertification ,String url,String method,String userId,String userPwd,String key) throws Exception{
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		String EZ1007 = "EZ1007";
+		String EZ1007ReqXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><request><sqlx>"+applyType+"</sqlx><sfzmhm>"+identityCard+"</sfzmhm></request>";
+		JSONObject EZ1007RespJson = WebServiceClient.getInstance().requestWebService(url, method, EZ1007,EZ1007ReqXml,userId,userPwd,key);
+		String code = EZ1007RespJson.getString("code");
+		String msg = EZ1007RespJson.getString("msg");
+		
+		if("0000".equals(code)){
+			//成功
+			EZ1007RespJson = EZ1007RespJson.getJSONObject("body");
+			List<InformationSheetVo> informationSheetVos = new ArrayList<InformationSheetVo>();
+			if(EZ1007RespJson.toJSONString().contains("[")){
+				//多条
+				JSONArray jsonArray = EZ1007RespJson.getJSONArray("row");
+				Iterator iterator = jsonArray.iterator();
+				
+				while (iterator.hasNext()) {
+					InformationSheetVo informationSheetVo = new InformationSheetVo();
+					JSONObject jsonObject = (JSONObject) iterator.next();
+					String photo = jsonObject.getString("photo"); //图片
+					String sfzmhm = jsonObject.getString("sfzmhm"); //身份证
+					String shzt = jsonObject.getString("shzt"); //状态代码
+					String sqsj = jsonObject.getString("sqsj"); //申请时间
+					String tbyy = jsonObject.getString("tbyy"); //审核结果
+					String xh = jsonObject.getString("xh");//申请流水号
+					String xm = jsonObject.getString("xm");//姓名
+					informationSheetVo.setApplicationTime(sqsj);
+					informationSheetVo.setApplyForSerialNumber(xh);
+					informationSheetVo.setAuditResults(tbyy);
+					informationSheetVo.setIdCard(sfzmhm);
+					informationSheetVo.setName(xm);
+					informationSheetVo.setPhoto(photo);
+					informationSheetVo.setStatusCode(shzt);
+					informationSheetVos.add(informationSheetVo);
+				}
+				
+			}else{
+				InformationSheetVo informationSheetVo = new InformationSheetVo();
+				JSONObject jsonObject = EZ1007RespJson.getJSONObject("row");
+				String photo = jsonObject.getString("photo"); //图片
+				String sfzmhm = jsonObject.getString("sfzmhm"); //身份证
+				String shzt = jsonObject.getString("shzt"); //状态代码
+				String sqsj = jsonObject.getString("sqsj"); //申请时间
+				String tbyy = jsonObject.getString("tbyy"); //审核结果
+				String xh = jsonObject.getString("xh");//申请流水号
+				String xm = jsonObject.getString("xm");//姓名
+				informationSheetVo.setApplicationTime(sqsj);
+				informationSheetVo.setApplyForSerialNumber(xh);
+				informationSheetVo.setAuditResults(tbyy);
+				informationSheetVo.setIdCard(sfzmhm);
+				informationSheetVo.setName(xm);
+				informationSheetVo.setPhoto(photo);
+				informationSheetVo.setStatusCode(shzt);
+				//单条
+				informationSheetVos.add(informationSheetVo);
+			}
+			map.put("code", code);
+			map.put("data", informationSheetVos);
+		}else{
+			//失败
+			map.put("code", code);
+			map.put("msg", msg);
+			map.put("data", null);
+		}
+		return map;
+	}
+	
+	
+	
+	/**
+	 * 提交机动车信息单打印申请接口
+	  *@param applyType 申请类型（1代表驾驶人信息单；2代表机动车信息单 3代表无车证明申请；4代表驾驶人安全事故信用表）
+	 * @param userName 申请人姓名（必须是星级用户姓名）
+	 * @param idnetityCard 申请人身份证号码（必须是星级用户身份证号码）
+	 * @param mobilephone 申请人联系电话（必须是星级用户联系电话）
+	 * @param numberPlateNumber 号牌号码 
+     * @param plateType 号牌种类 例如 02-蓝牌
+     * @param sourceOfCertification 申请来源（APP 传A，微信传C，支付宝传Z）
+     * @param url  请求url
+	 * @param method  请求方法
+	 * @param userId  用户id
+	 * @param userPwd  用户密码
+	 * @param key  秘钥
+	 * @return 0000 表示申请成功
+	 * @throws Exception 
+     */
+	
+	public static Map<String, String> submitApplicationForMotorVehicleInformation(String applyType, String applyName,
+			String identityCard, String applyPhone, String licensePlateNumber,String plateType, String sourceOfCertification ,String url, String method, String userId, String userPwd, String key) throws Exception {
+			String EZ1006 = "EZ1006";
+			String EZ1006ReqXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><request><sqlx>"+applyType+"</sqlx><xm>"+applyName+"</xm><sfzmhm>"+identityCard+"</sfzmhm><lxdh>"+applyPhone+"</lxdh><hphm>"+licensePlateNumber+"</hphm><hpzl>"+plateType+"</hpzl><sqly>"+sourceOfCertification+"</sqly></request>";
+			JSONObject EZ1006RespJson = WebServiceClient.getInstance().requestWebService(url, method, EZ1006,EZ1006ReqXml,userId,userPwd,key);
+			String code = EZ1006RespJson.getString("code");
+			String msg = EZ1006RespJson.getString("msg");
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("code", code);
+			map.put("msg", msg);
+			return map;
+	}
+	
+	/**
+	 * 查询机动车信息单进度
+	 * @param applyType 申请类型(1、驾驶人信息单；2、机动车信息单；3、无车证明申请；4、驾驶人安全事故信用表)
+	 * @param applyIdCard 身份证
+	 * @param sourceOfCertification 认证来源
+	 * @param url  请求url
+	 * @param method  请求方法
+	 * @param userId  用户id
+	 * @param userPwd  用户密码
+	 * @param key  秘钥
+	 * @return 对应的进度信息
+	 * @throws Exception
+	 */
+	public static Map<String, Object> queryScheduleOfMotorVehicleInformationList(String applyType, String identityCard,String sourceOfCertification,String url,String method,String userId,String userPwd,String key) throws Exception{
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		String EZ1007 = "EZ1007";
+		String EZ1007ReqXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><request><sqlx>"+applyType+"</sqlx><sfzmhm>"+identityCard+"</sfzmhm></request>";
+		JSONObject EZ1007RespJson = WebServiceClient.getInstance().requestWebService(url, method, EZ1007,EZ1007ReqXml,userId,userPwd,key);
+		String code = EZ1007RespJson.getString("code");
+		String msg = EZ1007RespJson.getString("msg");
+		
+		if("0000".equals(code)){
+			//成功
+			EZ1007RespJson = EZ1007RespJson.getJSONObject("body");
+			List<InformationSheetVo> informationSheetVos = new ArrayList<InformationSheetVo>();
+			if(EZ1007RespJson.toJSONString().contains("[")){
+				//多条
+				JSONArray jsonArray = EZ1007RespJson.getJSONArray("row");
+				Iterator iterator = jsonArray.iterator();
+				
+				while (iterator.hasNext()) {
+					InformationSheetVo informationSheetVo = new InformationSheetVo();
+					JSONObject jsonObject = (JSONObject) iterator.next();
+					String hphm = jsonObject.getString("hphm"); //车牌号 例如  粤B701NR
+					String hpzl = jsonObject.getString("hpzl"); //号牌类型 02-黄牌
+					String photo = jsonObject.getString("photo"); //图片
+					String sfzmhm = jsonObject.getString("sfzmhm"); //身份证
+					String shzt = jsonObject.getString("shzt"); //状态代码
+					String sqsj = jsonObject.getString("sqsj"); //申请时间
+					String tbyy = jsonObject.getString("tbyy"); //审核结果
+					String xh = jsonObject.getString("xh");//申请流水号
+					String xm = jsonObject.getString("xm");//姓名
+					informationSheetVo.setApplicationTime(sqsj);
+					informationSheetVo.setApplyForSerialNumber(xh);
+					informationSheetVo.setAuditResults(tbyy);
+					informationSheetVo.setIdCard(sfzmhm);
+					informationSheetVo.setName(xm);
+					informationSheetVo.setNumberPlate(hphm);
+					informationSheetVo.setPhoto(photo);
+					informationSheetVo.setPlateType(hpzl);
+					informationSheetVo.setStatusCode(shzt);
+					informationSheetVos.add(informationSheetVo);
+				}
+				
+			}else{
+				InformationSheetVo informationSheetVo = new InformationSheetVo();
+				JSONObject jsonObject = EZ1007RespJson.getJSONObject("row");
+				String hphm = jsonObject.getString("hphm"); //车牌号 例如  粤B701NR
+				String hpzl = jsonObject.getString("hpzl"); //号牌类型 02-黄牌
+				String photo = jsonObject.getString("photo"); //图片
+				String sfzmhm = jsonObject.getString("sfzmhm"); //身份证
+				String shzt = jsonObject.getString("shzt"); //状态代码
+				String sqsj = jsonObject.getString("sqsj"); //申请时间
+				String tbyy = jsonObject.getString("tbyy"); //审核结果
+				String xh = jsonObject.getString("xh");//申请流水号
+				String xm = jsonObject.getString("xm");//姓名
+				informationSheetVo.setApplicationTime(sqsj);
+				informationSheetVo.setApplyForSerialNumber(xh);
+				informationSheetVo.setAuditResults(tbyy);
+				informationSheetVo.setIdCard(sfzmhm);
+				informationSheetVo.setName(xm);
+				informationSheetVo.setNumberPlate(hphm);
+				informationSheetVo.setPhoto(photo);
+				informationSheetVo.setPlateType(hpzl);
+				informationSheetVo.setStatusCode(shzt);
+				//单条
+				informationSheetVos.add(informationSheetVo);
+			}
+			map.put("code", code);
+			map.put("data", informationSheetVos);
+		}else{
+			//失败
+			map.put("code", code);
+			map.put("msg", msg);
+			map.put("data", null);
+		}
+		return map;
+	}
+	
+	
 	/**
 	 * 违法举报结果查询
 	 * @param recordNumber 举报序号
@@ -852,38 +1092,75 @@ public class TransferThirdParty {
 		String xxcj12 = "xxcj12";
 		String xxcj12RepXml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?><REQUEST><LOGIN_NAME>"+bindDriverLicenseVo.getLoginName()+"</LOGIN_NAME><YHLY>"+bindDriverLicenseVo.getUserSource()+"</YHLY><JSZHM>"+bindDriverLicenseVo.getIdentityCard()+"</JSZHM><JSRSZD>"+bindDriverLicenseVo.getDriverLicenseIssuedAddress()+"</JSRSZD><XM>"+bindDriverLicenseVo.getName()+"</XM><BIND_DEPARTMENT>"+bindDriverLicenseVo.getSourceOfCertification()+"</BIND_DEPARTMENT></REQUEST>";
 		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, xxcj12, xxcj12RepXml, userId, userPwd, key);
+		 
 		return json;
 	}
 	/**
 	 * 驾驶证绑定查询
-	 * @param identityCard
+	 * @param identityCard 身份证号
+	 * @param userSource 用户来源
 	 * @return
 	 * @throws Exception
 	 */
-	public static JSONObject queryResultOfBindDriverLicense(String longName,String userSource ,String url,String method,String userId,String userPwd,String key)throws Exception{
+	public static ResultOfBIndDriverLicenseVo queryResultOfBindDriverLicense(String longName,String userSource ,String url,String method,String userId,String userPwd,String key)throws Exception{
+		ResultOfBIndDriverLicenseVo resultOfBIndDriverLicenseVo = new ResultOfBIndDriverLicenseVo();
 		String xxcj13 = "xxcj13";
 		String xxcj13RepXml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?><REQUEST><LOGIN_NAME>"+longName+"</LOGIN_NAME><YHLY>"+userSource+"</YHLY></REQUEST>";
-		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, xxcj13, xxcj13RepXml, userId, userPwd, key);
-		return json;
+		JSONObject xxcj13RepJson = WebServiceClient.getInstance().requestWebService(url, method, xxcj13, xxcj13RepXml, userId, userPwd, key);
+		String code= xxcj13RepJson.getString("CODE");
+		String msg = xxcj13RepJson.getString("MSG");
+		if ("0000".equals(code)) {
+			xxcj13RepJson = xxcj13RepJson.getJSONObject("BODY");
+			xxcj13RepJson = xxcj13RepJson.getJSONObject("ROW");
+			String CID = xxcj13RepJson.getString("CID");
+			String JSZHM = xxcj13RepJson.getString("JSZHM");
+			String LJJF = xxcj13RepJson.getString("LJJF");
+			String SFZMHM = xxcj13RepJson.getString("SFZMHM");
+			String SHZT = xxcj13RepJson.getString("SHZT");
+			String SYRQ = xxcj13RepJson.getString("SYRQ");
+			String SYYXQZ = xxcj13RepJson.getString("SYYXQZ");
+			String XB = xxcj13RepJson.getString("XB");
+			String XM = xxcj13RepJson.getString("XM");
+			String YXQZ = xxcj13RepJson.getString("YXQZ");
+			String ZJCX = xxcj13RepJson.getString("ZJCX");
+			String ZT = xxcj13RepJson.getString("ZT");
+			resultOfBIndDriverLicenseVo.setCID(CID);
+			resultOfBIndDriverLicenseVo.setJSZHM(JSZHM);
+			resultOfBIndDriverLicenseVo.setLJJF(LJJF);
+			resultOfBIndDriverLicenseVo.setSFZMHM(SFZMHM);
+			resultOfBIndDriverLicenseVo.setSHZT(SHZT);
+			resultOfBIndDriverLicenseVo.setSYRQ(SYRQ);
+			resultOfBIndDriverLicenseVo.setSYYXQZ(SYYXQZ);
+			resultOfBIndDriverLicenseVo.setXB(XB);
+			resultOfBIndDriverLicenseVo.setXM(XM);
+			resultOfBIndDriverLicenseVo.setYXQZ(YXQZ);
+			resultOfBIndDriverLicenseVo.setZJCX(ZJCX);
+			resultOfBIndDriverLicenseVo.setZT(ZT);
+		}else{
+			resultOfBIndDriverLicenseVo.setMsg(msg);
+		}
+		
+		return resultOfBIndDriverLicenseVo;
 	}
 	
-	public static void main(String[] args) throws Exception {
 
+	public static void main(String[] args) throws Exception {
+		//queryMachineInformationSheet("2", "445222199209020034", "C","http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+		//queryScheduleOfDriverInformationList("1", "C","445222199209020034", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//queryResultOfReadilyShoot("W20170522881675", "090551","http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 
 		//violationOfPenalty10Minutes("粤B601NR", "02", "440301199002101119", "南山大道", "吃饭", "1111", "2222", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 
 
-		queryResultOfBindDriverLicense("360428199308071413", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
-		/*BindDriverLicenseVo bindDriverLicenseVo = new BindDriverLicenseVo();
-		bindDriverLicenseVo.setLoginName("360428199308071413");
-		bindDriverLicenseVo.setUserSource("C");
-		bindDriverLicenseVo.setIdentityCard("360428199308071413");
-		bindDriverLicenseVo.setDriverLicenseIssuedAddress("3");
-		bindDriverLicenseVo.setSourceOfCertification("C");
-		bindDriverLicenseVo.setName("占善呈");
-		bindDriverLicense(bindDriverLicenseVo, "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");*/
-		
+		//queryResultOfBindDriverLicense("360428199308071413", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+		// bindDriverLicenseVo = new BindDriverLicenseVo();
+		//bindDriverLicenseVo.setLoginName("440301199002101119");
+		//bindDriverLicenseVo.setUserSource("C");
+		//bindDriverLicenseVo.setIdentityCard("440301199002101119");
+		//bindDriverLicenseVo.setDriverLicenseIssuedAddress("1");
+		//bindDriverLicenseVo.setSourceOfCertification("C");
+		//bindDriverLicenseVo.setName("杨明畅");
+		//bindDriverLicense(bindDriverLicenseVo, "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//queryResultOfReadilyShoot("W20170522881675", "090551","http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 
 		//name( "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
@@ -906,7 +1183,7 @@ public class TransferThirdParty {
 		//authenticationBasicInformationQuery("13809613859", "C",  "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//bindsTheMotorVehicleQuery("13809613859", "350582197810012622", "C",  "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//getElectronicDriverLicense("440301199002101119", "xxx", "xxx", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
-		getDrivingLicense("粤B6F7M1", "02", "15920071829", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+		//getDrivingLicense("粤B6F7M1", "02", "15920071829", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//login("13902455233", "886957", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610", "C");
 		
 	}
