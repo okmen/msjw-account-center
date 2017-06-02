@@ -1023,10 +1023,9 @@ public class IAccountServiceImpl implements IAccountService {
 			 //驾驶人安全事故信用表
 			 Map<String, Object> map4 = TransferThirdParty.queryMachineInformationSheet("4", identityCard, sourceOfCertification, url, method, userId, userPwd, key);
 			 getQueryMachineInformationSheet1(map1,myBusinessVos11);
+			 getQueryMachineInformationSheet2(map2,myBusinessVos22);
+			 getQueryMachineInformationSheet3(map3,myBusinessVos22);
 			 getQueryMachineInformationSheet4(map4,myBusinessVos11);
-			 
-			 getQueryMachineInformationSheet2(map1,myBusinessVos22);
-			 getQueryMachineInformationSheet3(map4,myBusinessVos22);
 			 
 			//业务类型	 0-全部
 			if(0 == businessType){
