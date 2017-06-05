@@ -26,6 +26,7 @@ import cn.account.bean.vo.MotorVehicleBusiness;
 import cn.account.bean.vo.MyDriverLicenseVo;
 import cn.account.bean.vo.ResultOfBIndDriverLicenseVo;
 import cn.account.bean.vo.ZT_STATUS;
+import cn.sdk.bean.BaseBean;
 import cn.sdk.webservice.WebServiceClient;
 /**
  * 调用第三方封装
@@ -1189,5 +1190,66 @@ public class TransferThirdParty {
 		
 	}
 	
+	/**
+	 * 提交无车证明申请
+	 * @Description: TODO(提交无车证明申请)
+	 * @param applyType 申请类型
+	 * @param applyName 申请人姓名
+	 * @param identityCard 申请人身份证号
+	 * @param applyPhone 申请人联系电话
+	 * @param sourceOfCertification 申请来源
+	 * @return
+	 * @throws Exception 
+	 */
+	public static JSONObject addNoneCarCertification(String applyType, String applyName, String identityCard, String applyPhone, String sourceOfCertification,
+			String url, String method, String userId, String userPwd, String key) throws Exception{
+		
+		String interfaceNumber = "EZ1005";	//接口编号
+		
+		//拼装xml数据
+		StringBuffer sb = new StringBuffer();
+		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><request>")
+		.append("<sqlx>").append(applyType).append("</sqlx>")				//申请类型	
+		.append("<xm>").append(applyName).append("</xm>")	                //姓名  
+		.append("<sfzmhm>").append(identityCard).append("</sfzmhm>")	    //身份证号
+		.append("<lxdh>").append(applyPhone).append("</lxdh>")	            //联系电话
+		.append("<sqly>").append(sourceOfCertification).append("</sqly>")	//来源方式
+		.append("</request>");
+		
+		JSONObject respJson = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber, sb.toString(), userId, userPwd, key);
+		
+		return respJson;
+	}
+	
+	/**
+	 * 提交驾驶人安全事故信用表申请
+	 * @Description: TODO(提交驾驶人安全事故信用表申请)
+	 * @param applyType 申请类型
+	 * @param applyName 申请人姓名
+	 * @param identityCard 申请人身份证号
+	 * @param applyPhone 申请人联系电话
+	 * @param sourceOfCertification 申请来源
+	 * @return
+	 * @throws Exception 
+	 */
+	public static JSONObject addSafeAccidentCredit(String applyType, String applyName, String identityCard, String applyPhone, String sourceOfCertification,
+			String url, String method, String userId, String userPwd, String key) throws Exception{
+		
+		String interfaceNumber = "EZ1005";	//接口编号
+		
+		//拼装xml数据
+		StringBuffer sb = new StringBuffer();
+		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><request>")
+		.append("<sqlx>").append(applyType).append("</sqlx>")				//申请类型
+		.append("<xm>").append(applyName).append("</xm>")					//姓名
+		.append("<sfzmhm>").append(identityCard).append("</sfzmhm>")		//身份证号
+		.append("<lxdh>").append(applyPhone).append("</lxdh>")				//联系电话
+		.append("<sqly>").append(sourceOfCertification).append("</sqly>")	//来源方式
+		.append("</request>");
+		
+		JSONObject respJson = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber, sb.toString(), userId, userPwd, key);
+		
+		return respJson;
+	}
 	
 }

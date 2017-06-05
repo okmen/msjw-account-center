@@ -1882,37 +1882,31 @@ public class IAccountServiceImpl implements IAccountService {
 	public BaseBean addNoneCarCertification(String applyType, String applyName, String identityCard, String applyPhone, String sourceOfCertification) throws Exception {
 		logger.info("提交无车证明申请采集WebService...");
 		
-		String interfaceNumber = "EZ1005";	//接口编号
-		BaseBean baseBean = new BaseBean();	//创建返回信息
-		
-		//拼装xml数据
-		StringBuffer sb = new StringBuffer();
-		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><request>")
-		.append("<sqlx>").append(applyType).append("</sqlx>")				//申请类型	
-		.append("<xm>").append(applyName).append("</xm>")	                //姓名  
-		.append("<sfzmhm>").append(identityCard).append("</sfzmhm>")	    //身份证号
-		.append("<lxdh>").append(applyPhone).append("</lxdh>")	            //联系电话
-		.append("<sqly>").append(sourceOfCertification).append("</sqly>")	//来源方式
-		.append("</request>");
+		BaseBean baseBean = new BaseBean();		//创建返回信息
 		
 		try {
-			JSONObject respStr = WebServiceClient.getInstance().requestWebService(iAccountCached.getUrl(), iAccountCached.getMethod(), 
-					interfaceNumber, sb.toString(), iAccountCached.getUserid(), iAccountCached.getUserpwd(), iAccountCached.getKey());
+			String url = iAccountCached.getUrl(); 			//webservice请求url
+			String method = iAccountCached.getMethod(); 	//webservice请求方法名称
+			String userId = iAccountCached.getUserid(); 	//webservice登录账号
+			String userPwd = iAccountCached.getUserpwd(); 	//webservice登录密码
+			String key = iAccountCached.getKey();			//秘钥
 			
-			String code = respStr.get("code").toString();	//返回状态码 
-			String msg = respStr.get("msg").toString();		//返回消息描述
+			//调用第三方接口
+			JSONObject respJson = TransferThirdParty.addNoneCarCertification(applyType, applyName, identityCard, applyPhone, sourceOfCertification, url, method, userId, userPwd, key);
+			
+			String code = respJson.get("code").toString();	//返回状态码 
+			String msg = respJson.get("msg").toString();	//返回消息描述
 			
 			baseBean.setCode(code);		
 			baseBean.setMsg(msg);		
 			
-			logger.info("提交无车证明申请采集返回结果:" + respStr);
+			logger.info("提交无车证明申请采集返回结果:" + respJson);
 		} catch (Exception e) {
 			logger.error("提交无车证明申请采集失败！", e);
 			throw e;
 		}
 		
 		return baseBean;
-		
 	}
 
 	/**
@@ -1929,30 +1923,25 @@ public class IAccountServiceImpl implements IAccountService {
 	public BaseBean addSafeAccidentCredit(String applyType, String applyName, String identityCard, String applyPhone, String sourceOfCertification) throws Exception {
 		logger.info("提交驾驶人安全事故信用表申请采集WebService...");
 		
-		String interfaceNumber = "EZ1005";	//接口编号
 		BaseBean baseBean = new BaseBean();	//创建返回信息
 		
-		//拼装xml数据
-		StringBuffer sb = new StringBuffer();
-		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><request>")
-		.append("<sqlx>").append(applyType).append("</sqlx>")				//申请类型
-		.append("<xm>").append(applyName).append("</xm>")					//姓名
-		.append("<sfzmhm>").append(identityCard).append("</sfzmhm>")		//身份证号
-		.append("<lxdh>").append(applyPhone).append("</lxdh>")				//联系电话
-		.append("<sqly>").append(sourceOfCertification).append("</sqly>")	//来源方式
-		.append("</request>");
-		
 		try {
-			JSONObject respStr = WebServiceClient.getInstance().requestWebService(iAccountCached.getUrl(), iAccountCached.getMethod(), 
-					interfaceNumber, sb.toString(), iAccountCached.getUserid(), iAccountCached.getUserpwd(), iAccountCached.getKey());
+			String url = iAccountCached.getUrl(); 			//webservice请求url
+			String method = iAccountCached.getMethod(); 	//webservice请求方法名称
+			String userId = iAccountCached.getUserid(); 	//webservice登录账号
+			String userPwd = iAccountCached.getUserpwd(); 	//webservice登录密码
+			String key = iAccountCached.getKey();			//秘钥
 			
-			String code = respStr.get("code").toString();	//返回状态码 
-			String msg = respStr.get("msg").toString();		//返回消息描述
+			//调用第三方接口
+			JSONObject respJson = TransferThirdParty.addSafeAccidentCredit(applyType, applyName, identityCard, applyPhone, sourceOfCertification, url, method, userId, userPwd, key);
+			
+			String code = respJson.get("code").toString();	//返回状态码 
+			String msg = respJson.get("msg").toString();	//返回消息描述
 			
 			baseBean.setCode(code);		
 			baseBean.setMsg(msg);		
 			
-			logger.info("提交驾驶人安全事故信用表申请采集返回结果:" + respStr);
+			logger.info("提交驾驶人安全事故信用表申请采集返回结果:" + respJson);
 		} catch (Exception e) {
 			logger.error("提交驾驶人安全事故信用表申请采集失败！", e);
 			throw e;
