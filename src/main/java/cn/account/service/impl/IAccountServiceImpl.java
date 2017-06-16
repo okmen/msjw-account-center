@@ -26,8 +26,12 @@ import cn.account.bean.vo.AuthenticationBasicInformationVo;
 import cn.account.bean.vo.BindCarVo;
 import cn.account.bean.vo.BindDriverLicenseVo;
 import cn.account.bean.vo.BindTheVehicleVo;
+import cn.account.bean.vo.DriverChangeContactVo;
+import cn.account.bean.vo.DriverLicenseAnnualVerificationVo;
 import cn.account.bean.vo.DriverLicenseInformationSheetVo;
+import cn.account.bean.vo.DriverLicenseIntoVo;
 import cn.account.bean.vo.DriverLicenseToSupplementThePermitBusinessVo;
+import cn.account.bean.vo.DriverLicenseVoluntaryDemotionVo;
 import cn.account.bean.vo.DrivingLicenseVo;
 import cn.account.bean.vo.ElectronicDriverLicenseVo;
 import cn.account.bean.vo.InformationSheetVo;
@@ -38,7 +42,10 @@ import cn.account.bean.vo.MyBusinessVo;
 import cn.account.bean.vo.MyDriverLicenseVo;
 import cn.account.bean.vo.ReadilyShootVo;
 import cn.account.bean.vo.RegisterVo;
+import cn.account.bean.vo.RenewalDriverLicenseVo;
+import cn.account.bean.vo.RepairOrReplaceDriverLicenseVo;
 import cn.account.bean.vo.ResultOfBIndDriverLicenseVo;
+import cn.account.bean.vo.UnbindVehicleVo;
 import cn.account.bean.vo.UserBasicVo;
 import cn.account.bean.vo.queryclassservice.CertificationProgressQueryVo;
 import cn.account.bean.vo.queryclassservice.DriverLicenseBusinessVo;
@@ -1948,6 +1955,170 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		
 		return baseBean;
+	}
+
+
+	@Override
+	public Map<String, String> driverLicenseAnnualVerification(
+			DriverLicenseAnnualVerificationVo driverLicenseAnnualVerificationVo) {
+		Map<String, String> map = new HashMap<>();
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 map = TransferThirdParty.driverLicenseAnnualVerification(driverLicenseAnnualVerificationVo, url, method, userId, userPwd, key);
+			 
+		} catch (Exception e) {
+			logger.error("driverLicenseAnnualVerification出错，错误="+ "driverLicenseAnnualVerificationVo=" + driverLicenseAnnualVerificationVo,e);
+		}
+		
+		return map;
+	}
+
+
+	@Override
+	public Map<String, String> renewalDriverLicense(RenewalDriverLicenseVo renewalDriverLicenseVo) {
+		Map<String, String> map = new HashMap<>();
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 map = TransferThirdParty.renewalDriverLicense(renewalDriverLicenseVo, url, method, userId, userPwd, key);
+			 
+		} catch (Exception e) {
+			logger.error("driverLicenseAnnualVerification出错，错误="+ "renewalDriverLicenseVo=" + renewalDriverLicenseVo,e);
+		}
+		
+		return map;
+	}
+
+
+	@Override
+	public Map<String, String> driverLicenseInto(DriverLicenseIntoVo driverLicenseIntoVo) {
+		Map<String, String> map = new HashMap<>();
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 map = TransferThirdParty.driverLicenseInto(driverLicenseIntoVo, url, method, userId, userPwd, key);
+			 
+		} catch (Exception e) {
+			logger.error("driverLicenseInto出错，错误="+ "driverLicenseIntoVo=" + driverLicenseIntoVo,e);
+		}
+		
+		return map;
+	}
+
+
+	@Override
+	public Map<String, String> driverLicenseVoluntaryDemotion(
+			DriverLicenseVoluntaryDemotionVo driverLicenseVoluntaryDemotionVo) {
+		Map<String, String> map = new HashMap<>();
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 map = TransferThirdParty.driverLicenseVoluntaryDemotion(driverLicenseVoluntaryDemotionVo, url, method, userId, userPwd, key);
+			 
+		} catch (Exception e) {
+			logger.error("driverLicenseVoluntaryDemotion出错，错误="+ "driverLicenseVoluntaryDemotionVo=" + driverLicenseVoluntaryDemotionVo,e);
+		}
+		
+		return map;
+		
+	}
+
+
+
+	@Override
+	public Map<String, String> driverChangeContact(DriverChangeContactVo driverChangeContactVo) {
+		Map<String, String> map = new HashMap<>();
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 map = TransferThirdParty.driverChangeContact(driverChangeContactVo, url, method, userId, userPwd, key);
+			 
+		} catch (Exception e) {
+			logger.error("driverChangeContact出错，错误="+ "driverChangeContactVo=" + driverChangeContactVo,e);
+		}
+		
+		return map;
+	}
+
+
+	@Override
+	public Map<String, String> repairDriverLicense(RepairOrReplaceDriverLicenseVo repairOrReplaceDriverLicenseVo) {
+		Map<String, String> map = new HashMap<>();
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 map = TransferThirdParty.repairDriverLicense(repairOrReplaceDriverLicenseVo, url, method, userId, userPwd, key);
+			 
+		} catch (Exception e) {
+			logger.error("repairDriverLicense出错，错误="+ "repairOrReplaceDriverLicenseVo=" + repairOrReplaceDriverLicenseVo,e);
+		}
+		
+		return map;
+	}
+
+
+	@Override
+	public Map<String, String> replaceDriverLicense(RepairOrReplaceDriverLicenseVo repairOrReplaceDriverLicenseVo) {
+		Map<String, String> map = new HashMap<>();
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 map = TransferThirdParty.replaceDriverLicense(repairOrReplaceDriverLicenseVo, url, method, userId, userPwd, key);
+			 
+		} catch (Exception e) {
+			logger.error("replaceDriverLicense出错，错误="+ "repairOrReplaceDriverLicenseVo=" + repairOrReplaceDriverLicenseVo,e);
+		}
+		
+		return map;
+	}
+
+
+	@Override
+	public Map<String, String> unbindVehicle(UnbindVehicleVo unbindVehicleVo) {
+		Map<String, String> map = new HashMap<>();
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 map = TransferThirdParty.unbindVehicle(unbindVehicleVo, url, method, userId, userPwd, key);
+			 
+		} catch (Exception e) {
+			logger.error("unbindVehicle出错，错误="+ "unbindVehicleVo=" + unbindVehicleVo,e);
+		}
+		
+		return map;
 	}
 	
 }

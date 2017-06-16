@@ -7,7 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.jws.WebService;
 import javax.swing.text.Document;
+import javax.xml.ws.WebServiceContext;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -22,6 +24,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cn.account.bean.DeviceBean;
+import cn.account.bean.IssuingLicenceAuthority;
 import cn.account.bean.ReadilyShoot;
 import cn.account.bean.ResultOfReadilyShoot;
 import cn.account.bean.Token;
@@ -30,9 +33,18 @@ import cn.account.bean.UserBindAlipay;
 import cn.account.bean.UserOpenidBean;
 import cn.account.bean.UserRegInfo;
 import cn.account.bean.WechatUserInfoBean;
+import cn.account.bean.vo.BindCarVo;
 import cn.account.bean.vo.BindDriverLicenseVo;
+import cn.account.bean.vo.DriverChangeContactVo;
+import cn.account.bean.vo.DriverLicenseAnnualVerificationVo;
+import cn.account.bean.vo.DriverLicenseIntoVo;
+import cn.account.bean.vo.DriverLicenseVoluntaryDemotionVo;
+import cn.account.bean.vo.MyDriverLicenseVo;
 import cn.account.bean.vo.ReadilyShootVo;
+import cn.account.bean.vo.RenewalDriverLicenseVo;
+import cn.account.bean.vo.RepairOrReplaceDriverLicenseVo;
 import cn.account.bean.vo.ResultOfBIndDriverLicenseVo;
+import cn.account.bean.vo.UnbindVehicleVo;
 import cn.account.service.IAccountService;
 import cn.sdk.util.AESNewUtils;
 import cn.sdk.util.DESUtils;
@@ -61,6 +73,265 @@ public class TestAccountService {
 	@Qualifier("accountService")
 	private IAccountService accountService;
 	
+	/**
+	 * 我的驾驶证
+	 * @throws Exception 
+	 */
+	@Test
+	public void testMyDriverLicense() throws Exception{
+		String IDcard = "420881198302280017";
+		String userSource = "C";
+		MyDriverLicenseVo myDriverLicense = accountService.getMyDriverLicense(IDcard, userSource);
+		System.out.println(myDriverLicense);
+	}
+	/**
+	 * 绑定车辆
+	 * @throws Exception 
+	 */
+	@Test
+	public void testBindVehicle() throws Exception{
+		BindCarVo vo = new BindCarVo();
+		vo.setBindType(1);
+		vo.setCertifiedSource("C");
+		vo.setInputIP("192.168.1.245");
+		vo.setLicensePlateNumber("B6F7M1");
+		vo.setLicensePlateType("02");
+		vo.setProvinceAbbreviation("粤");
+		vo.setUserSource("C");
+		vo.setUserIdCard("622822198502074110");
+		JSONObject addVehicle = accountService.addVehicle(vo);
+		System.out.println(addVehicle);
+	}
+	/**
+	 * 解绑车辆
+	 * 
+	 */
+	@Test
+	public void testUnbindVehicle(){
+		UnbindVehicleVo unbindVehicleVo = new UnbindVehicleVo();
+		unbindVehicleVo.setJblx("1");
+		unbindVehicleVo.setLicensePlateNumber("B6F7M1");
+		unbindVehicleVo.setLicensePlateType("02");
+		unbindVehicleVo.setLoginUser("622822198502074110");
+		unbindVehicleVo.setIdentificationNO("A");
+		unbindVehicleVo.setIDcard("622822198502074110");
+		unbindVehicleVo.setSourceOfCertification("C");
+		Map<String, String> map = accountService.unbindVehicle(unbindVehicleVo);
+		System.out.println(map);
+	}
+	
+	/**
+	 * 驾驶人联系方式变更
+	 */
+	@Test
+	public void testDriverChangeContact(){
+		//http://192.168.1.245:8080/web/user/driverChangeContact.html?name=张宇帆&gender=1&identificationNO=A&IDcard=622822198502074110&driverLicense=622822198502074110&mailingAddress=深圳市宝安区&mobilephone=15920050177&loginUser=15920050177&userSource=C&IDCardPhoto1=111&IDCardPhoto2=222&driverLicensePhoto=111 
+		DriverChangeContactVo dv = new DriverChangeContactVo();
+		dv.setBusinessType("L");
+		dv.setDriverLicensePhoto("ddd");
+		dv.setGender("n");
+		dv.setIDcard("622822198502074110");
+		dv.setDriverLicense("622822198502074110");
+		dv.setIDCardPhoto1("111");
+		dv.setIDCardPhoto2("222");
+		dv.setIdentificationNO("A");
+		dv.setIp("11");
+		dv.setLoginUser("15920050177");
+		dv.setMailingAddress("深圳市宝安区");
+		dv.setMobilephone("15920050177");
+		dv.setName("王玉璞");
+		dv.setUserSource("C");
+		Map< String, String> map = new HashMap<>();
+		map = accountService.driverChangeContact(dv);
+		System.out.println(map);
+	}
+	
+	/**
+	 * 驾驶证补证
+	 */
+	@Test
+	public void testRepairDriverLicense(){
+		//http://192.168.1.245:8080/web/user/repairDriverLicense.html?repairReason=1&identificationNO=A&IDcard=445222199209020034&name=张宇帆&mobilephone=15920050177&IDCardPhoto1=111&IDCardPhoto2=222&photoReturnNumberString=111&foreignersLiveTable=111&placeOfDomicile=深圳&postalcode=1&receiverName=111&receiverNumber=15920050177&mailingAddress=深圳市宝安区&livePhoto1=111&livePhoto2=222&loginUser=445222199209020034&sourceOfCertification=C&userSource=C                    
+		RepairOrReplaceDriverLicenseVo rv = new RepairOrReplaceDriverLicenseVo();
+		rv.setBusinessType("B");
+		rv.setForeignersLiveTable("111");
+		rv.setIDcard("445222199209020034");
+		rv.setIDCardPhoto1("111");
+		rv.setIDCardPhoto2("222");
+		rv.setIdentificationNO("A");
+		rv.setIp("11");
+		rv.setLivePhoto1("111");
+		rv.setLivePhoto2("222");
+		rv.setLoginUser("445222199209020034");
+		rv.setMailingAddress("深圳市宝安区");
+		rv.setName("张宇帆");
+		rv.setPhotoReturnNumberString("123456");
+		rv.setPlaceOfDomicile("深圳");
+		rv.setPostalcode("");
+		rv.setReceiverName("333");
+		rv.setReceiverNumber("15920050177");
+		rv.setRepairReason("");
+		rv.setSourceOfCertification("C");
+		rv.setUserSource("C");
+		Map<String , String> map = new HashMap<>();
+		map = accountService.repairDriverLicense(rv);
+		System.out.println(map);
+	} 
+	
+	
+	/**
+	 * 驾驶证换证
+	 */
+	@Test
+	public void testReplaceDriverLicense(){
+		//http://192.168.1.245:8080/web/user/replaceDriverLicense.html?identificationNO=A&IDcard=445222199209020034&name=张宇帆&mobilephone=15920050177&IDCardPhoto1=111&IDCardPhoto2=222&photoReturnNumberString=111&foreignersLiveTable=111&placeOfDomicile=深圳&receiverName=111&receiverNumber=15920050177&mailingAddress=深圳市宝安区&livePhoto1=111&livePhoto2=222&loginUser=445222199209020034&sourceOfCertification=C&userSource=C                    
+		RepairOrReplaceDriverLicenseVo rv = new RepairOrReplaceDriverLicenseVo();
+		rv.setBusinessType("H");
+		rv.setForeignersLiveTable("111");
+		rv.setIDcard("445222199209020034");
+		rv.setIDCardPhoto1("111");
+		rv.setIDCardPhoto2("222");
+		rv.setIdentificationNO("A");
+		rv.setIp("11");
+		rv.setLivePhoto1("111");
+		rv.setLivePhoto2("222");
+		rv.setLoginUser("445222199209020034");
+		rv.setMailingAddress("深圳市宝安区");
+		rv.setName("张宇帆");
+		rv.setPhotoReturnNumberString("123456");
+		rv.setPlaceOfDomicile("深圳");
+		rv.setReceiverName("333");
+		rv.setReceiverNumber("15920050177");
+		rv.setSourceOfCertification("C");
+		rv.setUserSource("C");
+		Map<String , String> map = new HashMap<>();
+		map = accountService.replaceDriverLicense(rv);
+		System.out.println(map);
+	} 
+	
+	
+	/**
+	 * 驾驶证自愿降级
+	 */
+	@Test
+	public void testDriverLicenseVoluntaryDemotion(){
+		//http://192.168.1.245:8080/web/user/driverLicenseVoluntaryDemotion.html?identificationNO=A&loginUser=445222199209020034&IDcard=445222199209020034&driverLicense=445222199209020034&name=张宇帆&photoReturnNumberString=11111&placeOfDomicile=深圳&receiverName=张宇帆&receiverNumber=15920050177&mailingAddress=深圳市宝安区&sourceOfCertification=C&userSource=C&IDCardPhoto1=111&IDCardPhoto2=222&driverLicensePhoto=111      
+		DriverLicenseVoluntaryDemotionVo dv = new DriverLicenseVoluntaryDemotionVo();
+		dv.setBusinessType("J");
+		dv.setDriverLicensePhoto("111");
+		dv.setIDcard("445222199209020034");
+		dv.setDriverLicense("445222199209020034");
+		dv.setIDCardPhoto1("111");
+		dv.setIDCardPhoto2("222");
+		dv.setIdentificationNO("A");
+		dv.setIp("11");
+		dv.setLoginUser("445222199209020034");
+		dv.setMailingAddress("深圳市宝安区");
+		dv.setName("张宇帆");
+		dv.setPhotoReturnNumberString("111");
+		dv.setReceiverName("张宇帆");
+		dv.setReceiverNumber("15920050177");
+		dv.setSourceOfCertification("C");
+		dv.setUserSource("C");
+		dv.setPlaceOfDomicile("1");
+		Map<String, String > map = new HashMap<>();
+		map = accountService.driverLicenseVoluntaryDemotion(dv);
+		System.out.println(map);
+	}
+	
+	
+	
+	/**
+	 * 驾驶证转入
+	 */
+	@Test
+	public void testDriverLicenseInto(){
+		//http://192.168.1.245:8080/web/user/driverLicenseInto.html?name=张宇帆&identificationNO=A&IDcard=445222199209020034&driverLicense=445222199209020034&fileNumber=123456&issuingLicenceAuthority=藏A:拉萨市公安局&photoReturnNumberString=111&receiverName=张宇帆&receiverNumber=15920050177&mailingAddress=深圳市宝安区&sourceOfCertification=C&loginUser=445222199209020034&IDCardPhoto1=111&IDCardPhoto2=222&driverLicensePhoto=111&bodyConditionForm=222    
+		DriverLicenseIntoVo dv = new DriverLicenseIntoVo();
+		dv.setBodyConditionForm("111");
+		dv.setBusinessType("Z");
+		dv.setDriverLicensePhoto("111");
+		dv.setFileNumber("440304166612");
+		dv.setIDcard("445222199209020034");
+		dv.setDriverLicense("445222199209020034");
+		dv.setIDCardPhoto1("111");
+		dv.setIDCardPhoto2("222");
+		dv.setIdentificationNO("A");
+		dv.setIp("11");
+		dv.setIssuingLicenceAuthority("藏A:拉萨市公安局");
+		dv.setLoginUser("445222199209020034");
+		dv.setMailingAddress("深圳市宝安区");
+		dv.setName("张宇帆");
+		dv.setPhotoReturnNumberString("111");
+		dv.setReceiverName("张宇帆");
+		dv.setReceiverNumber("15920050177");
+		dv.setSourceOfCertification("C");
+		Map<String, String > map = new HashMap<>();
+		map = accountService.driverLicenseInto(dv);
+		System.out.println(map);
+	}
+	
+	
+	/**
+	 * 驾驶证延期换证
+	 */
+	@Test
+	public void testRenewalDriverLicense(){
+		//http://192.168.1.245:8080/web/user/renewalDriverLicense.html?name=张宇帆&identificationNO=A&IDcard=445222199209020034&driverLicense=445222199209020034&fileNumber=123456&delayDate=20170701&delayReason=gg&sourceOfCertification=C&loginUser=445222199209020034&IDCardPhoto1=111&IDCardPhoto2=222&driverLicensePhoto=111&delayPhoto=111&receiverName=张宇帆&receiverNumber=15920050177&mailingAddress=深圳市宝安区       
+		RenewalDriverLicenseVo rd = new RenewalDriverLicenseVo();
+		rd.setBusinessType("Y");
+		rd.setDelayDate("20170712");
+		rd.setDelayPhoto("111");
+		rd.setDelayReason("服兵役");
+		rd.setDriverLicensePhoto("111");
+		rd.setFileNumber("111");
+		rd.setIDcard("622822198502074110");
+		rd.setDriverLicense("622822198502074110");
+		rd.setIDCardPhoto1("111");
+		rd.setIDCardPhoto2("222");
+		rd.setIdentificationNO("A");
+		rd.setIp("11");
+		rd.setLoginUser("622822198502074110");
+		rd.setName("王玉璞");
+		rd.setSourceOfCertification("C");
+		Map<String, String > map = new HashMap<>();
+		map = accountService.renewalDriverLicense(rd);
+		System.out.println(map);
+	}
+	
+	
+	/**
+	 * 驾驶证年审
+	 */
+	@Test
+	public void testDriverLicenseAnnualVerification(){
+		//http://192.168.1.245:8080/web/user/driverLicenseAnnualVerification.html?identificationNO=A&name=张宇帆&IDcard=445222199209020034&mobilephone=15920050177&placeOfDomicile=深圳&receiverName=11&receiverNumber=15920050177&mailingAddress=深圳市宝安区&IDCardPhoto1=111&IDCardPhoto2=222&livePhoto1=111&livePhoto2=222 &educationDrawingtable=111&foreignersLiveTable=222&postalcode=1&loginUser=445222199209020034&sourceOfCertification=C&userSource=C
+		DriverLicenseAnnualVerificationVo dv = new DriverLicenseAnnualVerificationVo();
+		dv.setBusinessType("N");
+		dv.setEducationDrawingtable("111");
+		dv.setForeignersLiveTable("22");
+		dv.setIDcard("445222199209020034");
+		dv.setIDCardPhoto1("111");
+		dv.setIDCardPhoto2("222");
+		dv.setIdentificationNO("A");
+		dv.setIp("192.168.1.243");
+		dv.setLivePhoto1("");
+		dv.setLivePhoto2("");
+		dv.setLoginUser("445222199209020034");
+		dv.setMailingAddress("深圳市宝安区");
+		dv.setMobilephone("15920050177");
+		dv.setName("张宇帆");
+		dv.setPlaceOfDomicile("深圳");
+		dv.setPostalcode("1");
+		dv.setReceiverName("111");
+		dv.setReceiverNumber("222");
+		dv.setSourceOfCertification("C");
+		dv.setUserSource("C");
+		
+		Map<String, String > map = new HashMap<>();
+		map = accountService.driverLicenseAnnualVerification(dv);
+		System.out.println(map);
+	}
 	
 	
 	/**
@@ -126,7 +397,7 @@ public class TestAccountService {
 	 */
 	@Test
 	public void  testqueryResultOfBindDriverLicense(){
-		String identityCard = "360428199308071411";
+		String identityCard = "420881198302280017";
 		String userSource = "C";
 		ResultOfBIndDriverLicenseVo resultOfBIndDriverLicenseVo = null;
 		resultOfBIndDriverLicenseVo = accountService.queryResultOfBindDriverLicense(identityCard, userSource);
@@ -140,12 +411,12 @@ public class TestAccountService {
 	public void testBindDriverLicense(){
 		
 		BindDriverLicenseVo bindDriverLicenseVo = new BindDriverLicenseVo();
-		bindDriverLicenseVo.setLoginName("420881198302280017");
+		bindDriverLicenseVo.setLoginName("42138119910422133X");
 		bindDriverLicenseVo.setUserSource("C");
-		bindDriverLicenseVo.setIdentityCard("420881198302280017");
-		bindDriverLicenseVo.setDriverLicenseIssuedAddress("1");
+		bindDriverLicenseVo.setIdentityCard("42138119910422133X");
+		bindDriverLicenseVo.setDriverLicenseIssuedAddress("3");
 		bindDriverLicenseVo.setSourceOfCertification("C");
-		bindDriverLicenseVo.setName("孙涛");
+		bindDriverLicenseVo.setName("吴帆");
 		JSONObject json = accountService.bindDriverLicense(bindDriverLicenseVo);
 		System.out.println(json);
 	}
