@@ -9,7 +9,6 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
@@ -18,24 +17,16 @@ import cn.account.bean.ResultOfReadilyShoot;
 import cn.account.bean.vo.AuthenticationBasicInformationVo;
 import cn.account.bean.vo.BindDriverLicenseVo;
 import cn.account.bean.vo.BindTheVehicleVo;
-import cn.account.bean.vo.DriverChangeContactVo;
-import cn.account.bean.vo.DriverLicenseAnnualVerificationVo;
-import cn.account.bean.vo.DriverLicenseIntoVo;
 import cn.account.bean.vo.DriverLicenseToSupplementThePermitBusinessVo;
-import cn.account.bean.vo.DriverLicenseVoluntaryDemotionVo;
 import cn.account.bean.vo.DrivingLicenseVo;
 import cn.account.bean.vo.ElectronicDriverLicenseVo;
 import cn.account.bean.vo.IdentificationOfAuditResultsVo;
 import cn.account.bean.vo.InformationSheetVo;
 import cn.account.bean.vo.MotorVehicleBusiness;
 import cn.account.bean.vo.MyDriverLicenseVo;
-import cn.account.bean.vo.RenewalDriverLicenseVo;
-import cn.account.bean.vo.RepairOrReplaceDriverLicenseVo;
 import cn.account.bean.vo.ResultOfBIndDriverLicenseVo;
 import cn.account.bean.vo.UnbindVehicleVo;
 import cn.account.bean.vo.ZT_STATUS;
-import cn.sdk.bean.BaseBean;
-import cn.sdk.util.Base64Decoder;
 import cn.sdk.webservice.WebServiceClient;
 /**
  * 调用第三方封装
@@ -1154,169 +1145,7 @@ public class TransferThirdParty {
 		return resultOfBIndDriverLicenseVo;
 	}
 	
-	/**
-	 * 驾驶证年审
-	 * @param args
-	 * @throws Exception 
-	 */
-	public static Map<String, String> driverLicenseAnnualVerification(DriverLicenseAnnualVerificationVo driverLicenseAnnualVerificationVo,String url,String method,String userId,String userPwd,String key) throws Exception{
-		Map<String , String> map = new HashMap<>();
-		String EZ1001 = "EZ1001";
-		String EZ1001RepXml = "<?xmlversion=\"1.0\"encoding=\"utf-8\"?><REQUEST><YWLX>"+driverLicenseAnnualVerificationVo.getBusinessType()+"</YWLX><SFZMMC>"+driverLicenseAnnualVerificationVo.getIdentificationNO()+"</SFZMMC><SFZMHM>"+driverLicenseAnnualVerificationVo.getIDcard()+"</SFZMHM><JSZHM>"+driverLicenseAnnualVerificationVo.getIDcard()+"</JSZHM><XM>"+driverLicenseAnnualVerificationVo.getName()+"</XM><HJSZD>"+driverLicenseAnnualVerificationVo.getPlaceOfDomicile()+"</HJSZD><YZBM>"+driverLicenseAnnualVerificationVo.getPostalcode()+"</YZBM><SJRXM>"+driverLicenseAnnualVerificationVo.getReceiverName()+"</SJRXM><SJRSJ>"+driverLicenseAnnualVerificationVo.getReceiverNumber()+"</SJRSJ><LXZSDZ>"+driverLicenseAnnualVerificationVo.getMailingAddress()+"</LXZSDZ><SFZHMA>"+driverLicenseAnnualVerificationVo.getIDCardPhoto1()+"</SFZHMA><SFZHMB>"+driverLicenseAnnualVerificationVo.getIDCardPhoto2()+"</SFZHMB><JZZA>"+driverLicenseAnnualVerificationVo.getLivePhoto1()+"</JZZA><JZZB>"+driverLicenseAnnualVerificationVo.getLivePhoto2()+"</JZZB><JYPXB>"+driverLicenseAnnualVerificationVo.getEducationDrawingtable()+"</JYPXB><PHOTO31>"+driverLicenseAnnualVerificationVo.getForeignersLiveTable()+"</PHOTO31><IP>"+driverLicenseAnnualVerificationVo.getIp()+"</IP><LOGIN_USER>"+driverLicenseAnnualVerificationVo.getLoginUser()+"</LOGIN_USER><RZLY>"+driverLicenseAnnualVerificationVo.getSourceOfCertification()+"</RZLY><LYBZ>"+driverLicenseAnnualVerificationVo.getUserSource()+"</LYBZ></REQUEST>";
-		JSONObject EZ1001RepJson = WebServiceClient.getInstance().requestWebService(url, method, EZ1001, EZ1001RepXml, userId, userPwd, key);
-		String code = EZ1001RepJson.getString("CODE");
-		String msg = EZ1001RepJson.getString("MSG");
-		map.put("code", code);
-		map.put("msg", msg);
-		return map;
 	
-	}
-	
-	/**
-	 * 驾驶证延期换证
-	 * 
-	 * @param args
-	 * @throws Exception 
-	 */
-	public static Map<String, String> renewalDriverLicense(RenewalDriverLicenseVo renewalDriverLicenseVo,String url,String method,String userId,String userPwd,String key) throws Exception{
-		Map<String , String> map = new HashMap<>();
-		String EZ1001 = "EZ1001";
-		String EZ1001RepXml = "<?xmlversion=\"1.0\"encoding=\"utf-8\"?><REQUEST><YWLX>"+renewalDriverLicenseVo.getBusinessType()+"</YWLX><XM>"+renewalDriverLicenseVo.getName()+"</XM><SFZMMC>"+renewalDriverLicenseVo.getIdentificationNO()+"</SFZMMC><SFZMHM>"+renewalDriverLicenseVo.getIDcard()+"</SFZMHM><JSZHM>"+renewalDriverLicenseVo.getDriverLicense()+"</JSZHM><DABH>"+renewalDriverLicenseVo.getFileNumber()+"</DABH><YQZZRQ>"+renewalDriverLicenseVo.getDelayDate()+"</YQZZRQ><YQYY>"+renewalDriverLicenseVo.getDelayReason()+"</YQYY><LYBZ>"+renewalDriverLicenseVo.getSourceOfCertification()+"</LYBZ><LOGIN_USER>"+renewalDriverLicenseVo.getLoginUser()+"</LOGIN_USER><IP>"+renewalDriverLicenseVo.getIp()+"</IP><SFZHMA>"+renewalDriverLicenseVo.getIDCardPhoto1()+"</SFZHMA><SFZHMB>"+renewalDriverLicenseVo.getIDCardPhoto2()+"</SFZHMB><JSZ>"+renewalDriverLicenseVo.getDriverLicensePhoto()+"</JSZ><YQZM>"+renewalDriverLicenseVo.getDelayPhoto()+"</YQZM></REQUEST>";
-		JSONObject EZ1001RepJson = WebServiceClient.getInstance().requestWebService(url, method, EZ1001, EZ1001RepXml, userId, userPwd, key);
-		String code = EZ1001RepJson.getString("CODE");
-		String msg = EZ1001RepJson.getString("MSG");
-		map.put("code", code);
-		map.put("msg", msg);
-		return map;
-	
-	}
-	
-	
-	/**
-	 * 驾驶证转入
-	 * 
-	 * @param args
-	 * @throws Exception 
-	 */
-	public static Map<String, String> driverLicenseInto(DriverLicenseIntoVo driverLicenseIntoVo, String url,String method,String userId,String userPwd,String key) throws Exception{
-		Map<String , String> map = new HashMap<>();
-		String EZ1001 = "EZ1001";
-		String EZ1001RepXml = "<?xmlversion=\"1.0\"encoding=\"utf-8\"?><REQUEST><YWLX>"+driverLicenseIntoVo.getBusinessType()+"</YWLX><XM>"+driverLicenseIntoVo.getName()+"</XM><SFZMMC>"+driverLicenseIntoVo.getIdentificationNO()+"</SFZMMC><SFZMHM>"+driverLicenseIntoVo.getIDcard()+"</SFZMHM><JSZHM>"+driverLicenseIntoVo.getDriverLicense()+"</JSZHM><DABH>"+driverLicenseIntoVo.getFileNumber()+"</DABH><FZJG>"+driverLicenseIntoVo.getIssuingLicenceAuthority()+"</FZJG><XPHZBH>"+driverLicenseIntoVo.getPhotoReturnNumberString()+"</XPHZBH><SJRXM>"+driverLicenseIntoVo.getReceiverName()+"</SJRXM><SJRSJ>"+driverLicenseIntoVo.getReceiverNumber()+"</SJRSJ><SJRDZ>"+driverLicenseIntoVo.getMailingAddress()+"</SJRDZ><LYBZ>"+driverLicenseIntoVo.getSourceOfCertification()+"</LYBZ><LOGIN_USER>"+driverLicenseIntoVo.getLoginUser()+"</LOGIN_USER><IP>"+driverLicenseIntoVo.getIp()+"</IP><SFZHMA>"+driverLicenseIntoVo.getIDCardPhoto1()+"</SFZHMA><SFZHMB>"+driverLicenseIntoVo.getIDCardPhoto2()+"</SFZHMB><JSZ>"+driverLicenseIntoVo.getDriverLicensePhoto()+"</JSZ><STTJSBB>"+driverLicenseIntoVo.getBodyConditionForm()+"</STTJSBB></REQUEST>";
-		JSONObject EZ1001RepJson = WebServiceClient.getInstance().requestWebService(url, method, EZ1001, EZ1001RepXml, userId, userPwd, key);
-		String code = EZ1001RepJson.getString("CODE");
-		String msg = EZ1001RepJson.getString("MSG");
-		map.put("code", code);
-		map.put("msg", msg);
-		return map;
-	
-	}
-	
-	
-	
-	/**
-	 * 驾驶证自愿降级
-	 * 
-	 * @param args
-	 * @throws Exception 
-	 */
-	public static Map<String, String> driverLicenseVoluntaryDemotion(DriverLicenseVoluntaryDemotionVo driverLicenseVoluntaryDemotionVo, String url,String method,String userId,String userPwd,String key) throws Exception{
-		Map<String , String> map = new HashMap<>();
-		String EZ1001 = "EZ1001";
-		String EZ1001RepXml = "<?xmlversion=\"1.0\"encoding=\"utf-8\"?><REQUEST><YWLX>"+driverLicenseVoluntaryDemotionVo.getBusinessType()+"</YWLX><SFZMMC>"+driverLicenseVoluntaryDemotionVo.getIdentificationNO()+"</SFZMMC><LOGIN_USER>"+driverLicenseVoluntaryDemotionVo.getLoginUser()+"</LOGIN_USER><SFZMHM>"+driverLicenseVoluntaryDemotionVo.getIDcard()+"</SFZMHM><JSZHM>"+driverLicenseVoluntaryDemotionVo.getDriverLicense()+"</JSZHM><XM>"+driverLicenseVoluntaryDemotionVo.getName()+"</XM><XPHZBH>"+driverLicenseVoluntaryDemotionVo.getPhotoReturnNumberString()+"</XPHZBH><HJSZD>"+driverLicenseVoluntaryDemotionVo.getPlaceOfDomicile()+"</HJSZD><SJRXM>"+driverLicenseVoluntaryDemotionVo.getReceiverName()+"</SJRXM><SJRSJ>"+driverLicenseVoluntaryDemotionVo.getReceiverNumber()+"</SJRSJ><LXZSDZ>"+driverLicenseVoluntaryDemotionVo.getMailingAddress()+"</LXZSDZ><IP>"+driverLicenseVoluntaryDemotionVo.getIp()+"</IP><RZLY>"+driverLicenseVoluntaryDemotionVo.getSourceOfCertification()+"</RZLY><LYBZ>"+driverLicenseVoluntaryDemotionVo.getUserSource()+"</LYBZ><SFZHMA>"+driverLicenseVoluntaryDemotionVo.getIDCardPhoto1()+"</SFZHMA><SFZHMB>"+driverLicenseVoluntaryDemotionVo.getIDCardPhoto2()+"</SFZHMB><JSZ>"+driverLicenseVoluntaryDemotionVo.getDriverLicensePhoto()+"</JSZ></REQUEST>";
-		JSONObject EZ1001RepJson = WebServiceClient.getInstance().requestWebService(url, method, EZ1001, EZ1001RepXml, userId, userPwd, key);
-		String code = EZ1001RepJson.getString("CODE");
-		String msg = EZ1001RepJson.getString("MSG");
-		map.put("code", code);
-		map.put("msg", msg);
-		return map;
-	
-	}
-	
-	
-	
-	
-	/**
-	 * 驾驶证补证
-	 * 
-	 * @param args
-	 * @throws Exception 
-	 */
-	public static Map<String, String> repairDriverLicense(RepairOrReplaceDriverLicenseVo repairOrReplaceDriverLicenseVo, String url,String method,String userId,String userPwd,String key) throws Exception{
-		Map<String , String> map = new HashMap<>();
-		String EZ1001 = "EZ1001";
-		String EZ1001RepXml = "<?xmlversion=\"1.0\"encoding=\"utf-8\"?><REQUEST><YWLX>"+repairOrReplaceDriverLicenseVo.getBusinessType()+"</YWLX><YWYY>"+repairOrReplaceDriverLicenseVo.getRepairReason()+"</YWYY><SFZMMC>"+repairOrReplaceDriverLicenseVo.getIdentificationNO()+"</SFZMMC><SFZMHM>"+repairOrReplaceDriverLicenseVo.getIDcard()+"</SFZMHM><JSZHM>"+repairOrReplaceDriverLicenseVo.getIDcard()+"</JSZHM><XM>"+repairOrReplaceDriverLicenseVo.getName()+"</XM><SFZHMA>"+repairOrReplaceDriverLicenseVo.getIDCardPhoto1()+"</SFZHMA><SFZHMB>"+repairOrReplaceDriverLicenseVo.getIDCardPhoto2()+"</SFZHMB><XPHZBH>"+repairOrReplaceDriverLicenseVo.getPhotoReturnNumberString()+"</XPHZBH><PHOTO31>"+repairOrReplaceDriverLicenseVo.getForeignersLiveTable()+"</PHOTO31><HJSZD>"+repairOrReplaceDriverLicenseVo.getPlaceOfDomicile()+"</HJSZD><YZBM>"+repairOrReplaceDriverLicenseVo.getPostalcode()+"</YZBM><SJRXM>"+repairOrReplaceDriverLicenseVo.getReceiverName()+"</SJRXM><SJRSJ>"+repairOrReplaceDriverLicenseVo.getReceiverNumber()+"</SJRSJ><LXZSDZ>"+repairOrReplaceDriverLicenseVo.getMailingAddress()+"</LXZSDZ><JZZA>"+repairOrReplaceDriverLicenseVo.getLivePhoto1()+"</JZZA><JZZB>"+repairOrReplaceDriverLicenseVo.getLivePhoto2()+"</JZZB><IP>"+repairOrReplaceDriverLicenseVo.getIp()+"</IP><LOGIN_USER>"+repairOrReplaceDriverLicenseVo.getLoginUser()+"</LOGIN_USER><RZLY>"+repairOrReplaceDriverLicenseVo.getSourceOfCertification()+"</RZLY><LYBZ>"+repairOrReplaceDriverLicenseVo.getUserSource()+"</LYBZ></REQUEST>";
-		JSONObject EZ1001RepJson = WebServiceClient.getInstance().requestWebService(url, method, EZ1001, EZ1001RepXml, userId, userPwd, key);
-		String code = EZ1001RepJson.getString("CODE");
-		String msg = EZ1001RepJson.getString("MSG");
-		map.put("code", code);
-		map.put("msg", msg);
-		return map;
-	
-	}
-	
-	
-	/**
-	 * 驾驶证换证
-	 * 
-	 * @param args
-	 * @throws Exception 
-	 */
-	public static Map<String, String> replaceDriverLicense(RepairOrReplaceDriverLicenseVo repairOrReplaceDriverLicenseVo, String url,String method,String userId,String userPwd,String key) throws Exception{
-		Map<String , String> map = new HashMap<>();
-		String EZ1001 = "EZ1001";
-		String EZ1001RepXml = "<?xmlversion=\"1.0\"encoding=\"utf-8\"?><REQUEST><YWLX>"+repairOrReplaceDriverLicenseVo.getBusinessType()+"</YWLX><SFZMMC>"+repairOrReplaceDriverLicenseVo.getIdentificationNO()+"</SFZMMC><SFZMHM>"+repairOrReplaceDriverLicenseVo.getIDcard()+"</SFZMHM><JSZHM>"+repairOrReplaceDriverLicenseVo.getIDcard()+"</JSZHM><XM>"+repairOrReplaceDriverLicenseVo.getName()+"</XM><XPHZBH>"+repairOrReplaceDriverLicenseVo.getPhotoReturnNumberString()+"</XPHZBH><HJSZD>"+repairOrReplaceDriverLicenseVo.getPlaceOfDomicile()+"</HJSZD><SJRXM>"+repairOrReplaceDriverLicenseVo.getReceiverName()+"</SJRXM><SJRSJ>"+repairOrReplaceDriverLicenseVo.getReceiverNumber()+"</SJRSJ><LXZSDZ>"+repairOrReplaceDriverLicenseVo.getMailingAddress()+"</LXZSDZ><SFZHMA>"+repairOrReplaceDriverLicenseVo.getIDCardPhoto1()+"</SFZHMA><SFZHMB>"+repairOrReplaceDriverLicenseVo.getIDCardPhoto2()+"</SFZHMB><JZZA>"+repairOrReplaceDriverLicenseVo.getLivePhoto1()+"</JZZA><JZZB>"+repairOrReplaceDriverLicenseVo.getLivePhoto2()+"</JZZB><PHOTO31>"+repairOrReplaceDriverLicenseVo.getForeignersLiveTable()+"</PHOTO31><IP>"+repairOrReplaceDriverLicenseVo.getIp()+"</IP><LOGIN_USER>"+repairOrReplaceDriverLicenseVo.getLoginUser()+"</LOGIN_USER><RZLY>"+repairOrReplaceDriverLicenseVo.getSourceOfCertification()+"</RZLY><LYBZ>"+repairOrReplaceDriverLicenseVo.getUserSource()+"</LYBZ></REQUEST>"; 
-		JSONObject EZ1001RepJson = WebServiceClient.getInstance().requestWebService(url, method, EZ1001, EZ1001RepXml, userId, userPwd, key);
-		String code = EZ1001RepJson.getString("CODE");
-		String msg = EZ1001RepJson.getString("MSG");
-		map.put("code", code);
-		map.put("msg", msg);
-		return map;
-	
-	}
-	
-//	/**
-//	 * 
-//	 * 驾驶证补证换证
-//	 * 
-//	 */
-//	                                  
-//	public static Map<String, String> repairOrReplaceDriverLicense(RepairOrReplaceDriverLicenseVo repairOrReplaceDriverLicenseVo, String url,String method,String userId,String userPwd,String key) throws Exception{
-//		Map<String , String> map = new HashMap<>();
-//		String EZ1001 = "EZ1001";
-//		String EZ1001RepXml = "";
-//		String businessType = repairOrReplaceDriverLicenseVo.getBusinessType();
-//		if ("B".equals(businessType)) {
-//			EZ1001RepXml = "<?xmlversion=\"1.0\"encoding=\"utf-8\"?><REQUEST><YWLX>"+repairOrReplaceDriverLicenseVo.getBusinessType()+"</YWLX><YWYY>"+repairOrReplaceDriverLicenseVo.getRepairReason()+"</YWYY><SFZMMC>"+repairOrReplaceDriverLicenseVo.getIdentificationNO()+"</SFZMMC><SFZMHM>"+repairOrReplaceDriverLicenseVo.getIDcard()+"</SFZMHM><JSZHM>"+repairOrReplaceDriverLicenseVo.getIDcard()+"</JSZHM><XM>"+repairOrReplaceDriverLicenseVo.getName()+"</XM><SFZHMA>"+repairOrReplaceDriverLicenseVo.getIDCardPhoto1()+"</SFZHMA><SFZHMB>"+repairOrReplaceDriverLicenseVo.getIDCardPhoto2()+"</SFZHMB><XPHZBH>"+repairOrReplaceDriverLicenseVo.getPhotoReturnNumberString()+"</XPHZBH><PHOTO31>"+repairOrReplaceDriverLicenseVo.getForeignersLiveTable()+"</PHOTO31><HJSZD>"+repairOrReplaceDriverLicenseVo.getPlaceOfDomicile()+"</HJSZD><YZBM>"+repairOrReplaceDriverLicenseVo.getPostalcode()+"</YZBM><SJRXM>"+repairOrReplaceDriverLicenseVo.getReceiverName()+"</SJRXM><SJRSJ>"+repairOrReplaceDriverLicenseVo.getReceiverNumber()+"</SJRSJ><LXZSDZ>"+repairOrReplaceDriverLicenseVo.getMailingAddress()+"</LXZSDZ><JZZA>"+repairOrReplaceDriverLicenseVo.getLivePhoto1()+"</JZZA><JZZB>"+repairOrReplaceDriverLicenseVo.getLivePhoto2()+"</JZZB><IP>"+repairOrReplaceDriverLicenseVo.getIp()+"</IP><LOGIN_USER>"+repairOrReplaceDriverLicenseVo.getLoginUser()+"</LOGIN_USER><RZLY>"+repairOrReplaceDriverLicenseVo.getSourceOfCertification()+"</RZLY><LYBZ>"+repairOrReplaceDriverLicenseVo.getUserSource()+"</LYBZ></REQUEST>";
-//		}else if("H".equals(businessType)){
-//			EZ1001RepXml = "<?xmlversion=\"1.0\"encoding=\"utf-8\"?><REQUEST><YWLX>"+repairOrReplaceDriverLicenseVo.getBusinessType()+"</YWLX><SFZMMC>"+repairOrReplaceDriverLicenseVo.getIdentificationNO()+"</SFZMMC><SFZMHM>"+repairOrReplaceDriverLicenseVo.getIDcard()+"</SFZMHM><JSZHM>"+repairOrReplaceDriverLicenseVo.getIDcard()+"</JSZHM><XM>"+repairOrReplaceDriverLicenseVo.getName()+"</XM><XPHZBH>"+repairOrReplaceDriverLicenseVo.getPhotoReturnNumberString()+"</XPHZBH><HJSZD>"+repairOrReplaceDriverLicenseVo.getPlaceOfDomicile()+"</HJSZD><SJRXM>"+repairOrReplaceDriverLicenseVo.getReceiverName()+"</SJRXM><SJRSJ>"+repairOrReplaceDriverLicenseVo.getReceiverNumber()+"</SJRSJ><LXZSDZ>"+repairOrReplaceDriverLicenseVo.getMailingAddress()+"</LXZSDZ><SFZHMA>"+repairOrReplaceDriverLicenseVo.getIDCardPhoto1()+"</SFZHMA><SFZHMB>"+repairOrReplaceDriverLicenseVo.getIDCardPhoto2()+"</SFZHMB><JZZA>"+repairOrReplaceDriverLicenseVo.getLivePhoto1()+"</JZZA><JZZB>"+repairOrReplaceDriverLicenseVo.getLivePhoto2()+"</JZZB><PHOTO31>"+repairOrReplaceDriverLicenseVo.getForeignersLiveTable()+"</PHOTO31><IP>"+repairOrReplaceDriverLicenseVo.getIp()+"</IP><LOGIN_USER>"+repairOrReplaceDriverLicenseVo.getLoginUser()+"</LOGIN_USER><RZLY>"+repairOrReplaceDriverLicenseVo.getSourceOfCertification()+"</RZLY><LYBZ>"+repairOrReplaceDriverLicenseVo.getUserSource()+"</LYBZ></REQUEST>"; 
-//		}
-//		JSONObject EZ1001RepJson = WebServiceClient.getInstance().requestWebService(url, method, EZ1001, EZ1001RepXml, userId, userPwd, key);
-//		String code = EZ1001RepJson.getString("CODE");
-//		String msg = EZ1001RepJson.getString("MSG");
-//		map.put("code", code);
-//		map.put("msg", msg);
-//		return map;
-//	
-//	}
-	
-	
-	/**
-	 * 驾驶人联系方式变更
-	 * @param args
-	 * @throws Exception 
-	 */
-	public static Map<String, String> driverChangeContact(DriverChangeContactVo driverChangeContactVo, String url,String method,String userId,String userPwd,String key) throws Exception{
-		Map<String , String> map = new HashMap<>();
-		String EZ1001 = "EZ1001";
-		String EZ1001RepXml = "<?xmlversion=\"1.0\"encoding=\"utf-8\"?><REQUEST><YWLX>"+driverChangeContactVo.getBusinessType()+"</YWLX><XM>"+driverChangeContactVo.getName()+"</XM><XB>"+driverChangeContactVo.getGender()+"</XB><SFZMMC>"+driverChangeContactVo.getIdentificationNO()+"</SFZMMC><SFZMHM>"+driverChangeContactVo.getIDcard()+"</SFZMHM><JSZHM>"+driverChangeContactVo.getDriverLicense()+"</JSZHM><LXZSDZ>"+driverChangeContactVo.getMailingAddress()+"</LXZSDZ><YDDH>"+driverChangeContactVo.getMobilephone()+"</YDDH><LOGIN_USER>"+driverChangeContactVo.getLoginUser()+"</LOGIN_USER><LYBZ>"+driverChangeContactVo.getUserSource()+"</LYBZ><IP>"+driverChangeContactVo.getIp()+"</IP><SFZHMA>"+driverChangeContactVo.getIDCardPhoto1()+"</SFZHMA><SFZHMB>"+driverChangeContactVo.getIDCardPhoto2()+"</SFZHMB><JSZ>"+driverChangeContactVo.getDriverLicensePhoto()+"</JSZ></REQUEST>";		
-		JSONObject EZ1001RepJson = WebServiceClient.getInstance().requestWebService(url, method, EZ1001, EZ1001RepXml, userId, userPwd, key);
-		String code = EZ1001RepJson.getString("CODE");
-		String msg = EZ1001RepJson.getString("MSG");
-		map.put("code", code);
-		map.put("msg", msg);
-		return map;
-	
-	}
 	
 	
 	
