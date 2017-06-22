@@ -1,20 +1,9 @@
 package cn.account.service;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import javax.jws.WebService;
-import javax.swing.text.Document;
-import javax.xml.ws.WebServiceContext;
-
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.dom4j.DocumentHelper;
 import org.junit.Assert;
 import org.junit.Test;
@@ -24,51 +13,19 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import cn.account.bean.DeviceBean;
-import cn.account.bean.IssuingLicenceAuthority;
+import com.alibaba.fastjson.JSONObject;
+
 import cn.account.bean.ReadilyShoot;
 import cn.account.bean.ResultOfReadilyShoot;
-import cn.account.bean.Token;
-import cn.account.bean.UserBind;
-import cn.account.bean.UserBindAlipay;
-import cn.account.bean.UserOpenidBean;
-import cn.account.bean.UserRegInfo;
 import cn.account.bean.WechatUserInfoBean;
 import cn.account.bean.vo.BindCarVo;
 import cn.account.bean.vo.BindDriverLicenseVo;
-import cn.account.bean.vo.BindTheVehicleVo;
-import cn.account.bean.vo.DriverChangeContactVo;
-import cn.account.bean.vo.DriverLicenseAnnualVerificationVo;
-import cn.account.bean.vo.DriverLicenseIntoVo;
-import cn.account.bean.vo.DriverLicenseVoluntaryDemotionVo;
 import cn.account.bean.vo.LoginReturnBeanVo;
 import cn.account.bean.vo.MyDriverLicenseVo;
-import cn.account.bean.vo.ReadilyShootVo;
-import cn.account.bean.vo.RenewalDriverLicenseVo;
-import cn.account.bean.vo.RepairOrReplaceDriverLicenseVo;
 import cn.account.bean.vo.ResultOfBIndDriverLicenseVo;
 import cn.account.bean.vo.UnbindVehicleVo;
 import cn.account.bean.vo.UserBasicVo;
-import cn.account.service.IAccountService;
-import cn.sdk.util.AESNewUtils;
-import cn.sdk.util.DESUtils;
-
-
-import cn.sdk.util.HttpClientUtil;
 import cn.sdk.webservice.Xml2Json;
-
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.RequestEntity;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:junit-test.xml" })
