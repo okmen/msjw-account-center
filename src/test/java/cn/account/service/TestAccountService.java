@@ -37,8 +37,15 @@ import cn.account.bean.WechatUserInfoBean;
 import cn.account.bean.vo.BindCarVo;
 import cn.account.bean.vo.BindDriverLicenseVo;
 import cn.account.bean.vo.BindTheVehicleVo;
+import cn.account.bean.vo.DriverChangeContactVo;
+import cn.account.bean.vo.DriverLicenseAnnualVerificationVo;
+import cn.account.bean.vo.DriverLicenseIntoVo;
+import cn.account.bean.vo.DriverLicenseVoluntaryDemotionVo;
+import cn.account.bean.vo.LoginReturnBeanVo;
 import cn.account.bean.vo.MyDriverLicenseVo;
 import cn.account.bean.vo.ReadilyShootVo;
+import cn.account.bean.vo.RenewalDriverLicenseVo;
+import cn.account.bean.vo.RepairOrReplaceDriverLicenseVo;
 import cn.account.bean.vo.ResultOfBIndDriverLicenseVo;
 import cn.account.bean.vo.UnbindVehicleVo;
 import cn.account.bean.vo.UserBasicVo;
@@ -566,12 +573,26 @@ public class TestAccountService {
 	 * 测试getWechatUserInfoById
 	 */
 	@Test
-	public void testGetWechatUserInfoById() {
-		WechatUserInfoBean result = null;
-		result = accountService.getWechatUserInfoById(1);
-		Assert.assertTrue(result != null);
+	public void testAlipayLogin() {
+		try {
+			LoginReturnBeanVo loginReturnBeanVo = accountService.alipayLogin("13902930139", "C", "cccc");
+			System.out.println(loginReturnBeanVo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-
+	/**
+	 * 测试getWechatUserInfoById
+	 */
+	@Test
+	public void testGetElectronicPolicy() {
+		try {
+			Map<String, Object> map = accountService.getElectronicPolicy("440301196501254159", "13902930139", "粤B11L13", "02", "C");
+			System.out.println(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * 
 	 */
