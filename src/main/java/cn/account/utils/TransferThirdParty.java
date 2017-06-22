@@ -1,5 +1,6 @@
 package cn.account.utils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import cn.account.bean.ElectronicPolicyBean;
 import cn.account.bean.ResultOfReadilyShoot;
 import cn.account.bean.vo.AuthenticationBasicInformationVo;
 import cn.account.bean.vo.BindDriverLicenseVo;
+import cn.account.bean.vo.BindTheOtherDriversUseMyCarVo;
 import cn.account.bean.vo.BindTheVehicleVo;
 import cn.account.bean.vo.DriverLicenseToSupplementThePermitBusinessVo;
 import cn.account.bean.vo.DrivingLicenseVo;
@@ -25,8 +27,11 @@ import cn.account.bean.vo.InformationSheetVo;
 import cn.account.bean.vo.MotorVehicleBusiness;
 import cn.account.bean.vo.MyDriverLicenseVo;
 import cn.account.bean.vo.ResultOfBIndDriverLicenseVo;
+import cn.account.bean.vo.TrafficQueryVo;
 import cn.account.bean.vo.UnbindVehicleVo;
 import cn.account.bean.vo.ZT_STATUS;
+import cn.sdk.util.DateUtil;
+import cn.sdk.util.DateUtil2;
 import cn.sdk.webservice.WebServiceClient;
 /**
  * 调用第三方封装
@@ -700,12 +705,54 @@ public class TransferThirdParty {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static List<BindTheVehicleVo> getBindTheOtherDriversUseMyCar(String idCard,String numberPlateNumber,String plateType,String sourceOfCertification,String url,String method,String userId,String userPwd,String key) throws Exception{
-		List<BindTheVehicleVo> bindTheVehicleVos = new ArrayList<BindTheVehicleVo>();
+	public static Map<String, Object> getBindTheOtherDriversUseMyCar(String idCard,String numberPlateNumber,String plateType,String sourceOfCertification,String url,String method,String userId,String userPwd,String key) throws Exception{
+		Map<String, Object> map = new HashMap<>();
+		List<BindTheOtherDriversUseMyCarVo> list = new ArrayList<BindTheOtherDriversUseMyCarVo>();
 		String dwc02 = "xxcj18";
 		String dwc02ReqXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><LOGIN_USER>"+idCard+"</LOGIN_USER><HPHM>"+numberPlateNumber+"</HPHM><HPZL>"+plateType+"</HPZL><RZJS>"+sourceOfCertification+"</RZJS></REQUEST>";
 		JSONObject dwc02RespJson = WebServiceClient.getInstance().requestWebService(url, method, dwc02,dwc02ReqXml,userId,userPwd,key);
-		return bindTheVehicleVos;
+		String code = dwc02RespJson.getString("CODE");
+		String msg = dwc02RespJson.getString("MSG");
+		if("0000".equals(code)){
+			//成功
+			dwc02RespJson = dwc02RespJson.getJSONObject("BODY");
+			if(dwc02RespJson.toJSONString().contains("[")){
+				//多条
+				JSONArray jsonArray = dwc02RespJson.getJSONArray("ROW");
+				Iterator iterator = jsonArray.iterator();
+				while (iterator.hasNext()) {
+					BindTheOtherDriversUseMyCarVo bindTheOtherDriversUseMyCarVo = new BindTheOtherDriversUseMyCarVo();
+					JSONObject jsonObject = (JSONObject) iterator.next();
+					String IDcard = jsonObject.getString("SFZMHM");
+					String mobilephone = jsonObject.getString("SYRLXDH");
+					String name =jsonObject.getString("XM");
+					bindTheOtherDriversUseMyCarVo.setIDcard(IDcard);
+					bindTheOtherDriversUseMyCarVo.setMobilephone(mobilephone);
+					bindTheOtherDriversUseMyCarVo.setName(name);
+					list.add(bindTheOtherDriversUseMyCarVo);
+				}
+			}else{
+				//一条
+				BindTheOtherDriversUseMyCarVo bindTheOtherDriversUseMyCarVo = new BindTheOtherDriversUseMyCarVo();
+				JSONObject jsonObject = (JSONObject)dwc02RespJson.getJSONObject("ROW");
+				String IDcard = jsonObject.getString("SFZMHM");
+				String mobilephone = jsonObject.getString("SYRLXDH");
+				String name =jsonObject.getString("XM");
+				bindTheOtherDriversUseMyCarVo.setIDcard(IDcard);
+				bindTheOtherDriversUseMyCarVo.setMobilephone(mobilephone);
+				bindTheOtherDriversUseMyCarVo.setName(name);
+				list.add(bindTheOtherDriversUseMyCarVo);
+			}
+			
+			map.put("code", code);
+			map.put("data", list);
+		}else{
+			//失败
+			map.put("code", code);
+			map.put("msg", msg);
+			map.put("data", null);
+		}
+		return map;
 	}
 	/*public static DriverLicenseInformationSheetVo getDriverLicenseInformationSheet(String identityCard,String sourceOfCertification,
 			String url,String method,String userId,String userPwd,String key){
@@ -1158,7 +1205,7 @@ public class TransferThirdParty {
 	public static Map<String, String> unbindVehicle(UnbindVehicleVo unbindVehicleVo, String url,String method,String userId,String userPwd,String key) throws Exception{
 		Map<String , String> map = new HashMap<>();
 		String xxcj16 = "xxcj16";
-		String xxcj16RepXml = "<?xmlversion=\"1.0\"encoding=\"utf-8\"?><REQUEST><LOGIN_USER>"+unbindVehicleVo.getLoginUser()+"</LOGIN_USER><HPHM>"+unbindVehicleVo.getLicensePlateNumber()+"</HPHM><HPZL>"+unbindVehicleVo.getLicensePlateType()+"</HPZL><SFZMMC>"+unbindVehicleVo.getIdentificationNO()+"</SFZMMC><SFZMHM>"+unbindVehicleVo.getIDcard()+"</SFZMHM><RZLY>"+unbindVehicleVo.getSourceOfCertification()+"</RZLY><JBLX>"+unbindVehicleVo.getJblx()+"</JBLX></REQUEST>";		
+		String xxcj16RepXml = "<?xml version=\"1.0\"encoding=\"utf-8\"?><REQUEST><LOGIN_USER>"+unbindVehicleVo.getLoginUser()+"</LOGIN_USER><HPHM>"+unbindVehicleVo.getLicensePlateNumber()+"</HPHM><HPZL>"+unbindVehicleVo.getLicensePlateType()+"</HPZL><SFZMMC>"+unbindVehicleVo.getIdentificationNO()+"</SFZMMC><SFZMHM>"+unbindVehicleVo.getIDcard()+"</SFZMHM><RZLY>"+unbindVehicleVo.getSourceOfCertification()+"</RZLY><JBLX>"+unbindVehicleVo.getJblx()+"</JBLX></REQUEST>";		
 //		String xxcj16RepXml = "<?xmlversion=\"1.0\"encoding=\"utf-8\"?><REQUEST><LOGIN_USER>"+unbindVehicleVo.getLoginUser()+"</LOGIN_USER><HPHM>"+unbindVehicleVo.getLicensePlateNumber()+"</HPHM><HPZL>"+unbindVehicleVo.getLicensePlateType()+"</HPZL><RZLY>"+unbindVehicleVo.getUserSource()+"</RZLY><BIND_DEPARTMENT>"+unbindVehicleVo.getSourceOfCertification()+"</BIND_DEPARTMENT><JBLX>"+unbindVehicleVo.getJblx()+"</JBLX></REQUEST>";		
 		JSONObject xxcj16RepJson = WebServiceClient.getInstance().requestWebService(url, method, xxcj16, xxcj16RepXml, userId, userPwd, key);
 		String code = xxcj16RepJson.getString("CODE");
@@ -1170,6 +1217,9 @@ public class TransferThirdParty {
 	}
 
 	public static void main(String[] args) throws Exception {
+//		getBindTheOtherDriversUseMyCar("622822198502074110", "粤B6F7M1", "02", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+		trafficQuery("WX02", "WX02@168", "event_list","C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+//		detailsTrafficQuery("WX02", "WX02@168", "event_msg", "537418","C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 //		UnbindVehicleVo unbindVehicleVo = new UnbindVehicleVo();
 //		unbindVehicleVo.setJblx("2");
 //		unbindVehicleVo.setLicensePlateNumber("445222199209020034");
@@ -1184,7 +1234,7 @@ public class TransferThirdParty {
 		//driverLicenseAnnualVerification("N","王玉璞", "622822198502074110", "15920071829", "其他", "王玉璞", "15920071829", "111", "111", "222", "333", "444", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//queryMachineInformationSheet("2", "445222199209020034", "C","http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//queryScheduleOfDriverInformationList("1", "C","445222199209020034", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
-		//queryResultOfReadilyShoot("W20170522881675", "090551","http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+//		queryResultOfReadilyShoot("W20170522881675", "090551","http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 
 		//violationOfPenalty10Minutes("粤B601NR", "02", "440301199002101119", "南山大道", "吃饭", "1111", "2222", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 
@@ -1284,6 +1334,133 @@ public class TransferThirdParty {
 		JSONObject respJson = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber, sb.toString(), userId, userPwd, key);
 		
 		return respJson;
+	}
+	
+	
+	/**
+	 * 单条路况查询
+	 * @return
+	 * @throws Exception 
+	 */
+	public static Map<String, String> detailsTrafficQuery(String comUserId,String comUserPwd,String jkId,String zjz ,String sourceOfCertification,
+			String url, String method, String userId, String userPwd, String key) throws Exception{
+		Map<String, String> map = new HashMap<>();
+		String eventMsg = "event_msg";	//接口编号
+		String eventMsgReqXml ="<?xml version=\"1.0\" encoding=\"UTF-8\" ?><request><com_userid>"+comUserId+"</com_userid><com_userpwd>"+comUserPwd+"</com_userpwd><com_jkid>"+jkId+"</com_jkid><zjz>"+zjz+"</zjz><yyly>"+sourceOfCertification+"</yyly></request>";
+		JSONObject eventMsgRespJson = WebServiceClient.getInstance().complexWebService(url, method, eventMsg, eventMsgReqXml, userId, userPwd, key);
+		String code = eventMsgRespJson.getString("code");
+		String msg = eventMsgRespJson.getString("msg");
+		if ("0000".equals(code)){
+			eventMsgRespJson = eventMsgRespJson.getJSONObject("body");
+			eventMsgRespJson = eventMsgRespJson.getJSONObject("ret");
+			String pic = eventMsgRespJson.getString("pic");
+			map.put("code", code);
+			map.put("data", pic);
+		}else{
+			map.put("code", code);
+			map.put("msg", msg);
+			map.put("data", null);
+		}
+		return map;
+	}
+	
+	/**
+	 * 路况查询
+	 * @return
+	 * @throws Exception 
+	 */
+	public static Map<String, Object> trafficQuery(String comUserId,String comUserPwd,String jkId,String sourceOfCertification,
+			String url, String method, String userId, String userPwd, String key) throws Exception{
+		Map<String, Object> map = new HashMap<>();
+		String eventList = "event_list";	//接口编号
+		String eventListReqXml ="<?xml version=\"1.0\" encoding=\"UTF-8\" ?><request><com_userid>"+comUserId+"</com_userid><com_userpwd>"+comUserPwd+"</com_userpwd><com_jkid>"+jkId+"</com_jkid><yyly>"+sourceOfCertification+"</yyly></request>";
+		JSONObject eventListRespJson = WebServiceClient.getInstance().complexWebService(url, method, eventList, eventListReqXml, userId, userPwd, key);
+		String code = eventListRespJson.getString("code");
+		String msg = eventListRespJson.getString("msg");
+		if("0000".equals(code)){
+			//成功
+			eventListRespJson = eventListRespJson.getJSONObject("body");			
+			List<TrafficQueryVo> trafficQueryVos = new ArrayList<TrafficQueryVo>();
+			if(eventListRespJson.toJSONString().contains("[")){
+				//多条
+				JSONArray jsonArray = eventListRespJson.getJSONArray("ret");
+				Iterator iterator = jsonArray.iterator();
+				while (iterator.hasNext()) {
+					TrafficQueryVo trafficQueryVo = new TrafficQueryVo();
+					JSONObject jsonObject = (JSONObject) iterator.next();
+					String endUnitName = jsonObject.getString("end_unit_name");
+					String eventLevel = jsonObject.getString("event_level");
+					String eventReason = jsonObject.getString("event_reason");
+					String gpsX = jsonObject.getString("gps_x");
+					String gpsY = jsonObject.getString("gps_y");
+					String id = jsonObject.getString("id");
+					String modifyDate1 = jsonObject.getString("modify_date");
+					Date date = DateUtil2.str2date(modifyDate1);
+					String modifyDate = DateUtil2.date2shortTime(date);
+					String roadName = jsonObject.getString("road_name");
+					String sectionName = jsonObject.getString("section_name");
+					String startDate1 = jsonObject.getString("start_date");
+					Date date2 = DateUtil2.str2date(startDate1);
+					String startDate = DateUtil2.date2shortTime(date2);
+					String startUnitName = jsonObject.getString("start_unit_name");
+					String summary = jsonObject.getString("summary");
+					trafficQueryVo.setEndUnitName(endUnitName);
+					trafficQueryVo.setEventLevel(eventLevel);
+					trafficQueryVo.setEventReason(eventReason);
+					trafficQueryVo.setGpsX(gpsX);
+					trafficQueryVo.setGpsY(gpsY);
+					trafficQueryVo.setId(id);
+					trafficQueryVo.setModifyDate(modifyDate);
+					trafficQueryVo.setRoadName(roadName);
+					trafficQueryVo.setSectionName(sectionName);
+					trafficQueryVo.setStartDate(startDate);
+					trafficQueryVo.setStartUnitName(startUnitName);
+					trafficQueryVo.setSummary(summary);
+					trafficQueryVos.add(trafficQueryVo);
+				}
+				
+			}else{
+				TrafficQueryVo trafficQueryVo = new TrafficQueryVo();
+				JSONObject jsonObject = eventListRespJson.getJSONObject("ret");
+				String endUnitName = jsonObject.getString("end_unit_name");
+				String eventLevel = jsonObject.getString("event_level");
+				String eventReason = jsonObject.getString("event_reason");
+				String gpsX = jsonObject.getString("gps_x");
+				String gpsY = jsonObject.getString("gps_y");
+				String id = jsonObject.getString("id");
+				String modifyDate1 = jsonObject.getString("modify_date");
+				Date date = DateUtil2.str2date(modifyDate1);
+				String modifyDate = DateUtil2.date2shortTime(date);
+				String roadName = jsonObject.getString("road_name");
+				String sectionName = jsonObject.getString("section_name");
+				String startDate1 = jsonObject.getString("start_date");
+				Date date2 = DateUtil2.str2date(startDate1);
+				String startDate = DateUtil2.date2shortTime(date2);
+				String startUnitName = jsonObject.getString("start_unit_name");
+				String summary = jsonObject.getString("summary");
+				trafficQueryVo.setEndUnitName(endUnitName);
+				trafficQueryVo.setEventLevel(eventLevel);
+				trafficQueryVo.setEventReason(eventReason);
+				trafficQueryVo.setGpsX(gpsX);
+				trafficQueryVo.setGpsY(gpsY);
+				trafficQueryVo.setId(id);
+				trafficQueryVo.setModifyDate(modifyDate);
+				trafficQueryVo.setRoadName(roadName);
+				trafficQueryVo.setSectionName(sectionName);
+				trafficQueryVo.setStartDate(startDate);
+				trafficQueryVo.setStartUnitName(startUnitName);
+				trafficQueryVo.setSummary(summary);
+				trafficQueryVos.add(trafficQueryVo);
+			}
+			map.put("code", code);
+			map.put("data", trafficQueryVos);
+		}else{
+			//失败
+			map.put("code", code);
+			map.put("msg", msg);
+			map.put("data", null);
+		}
+		return map;
 	}
 	
 }

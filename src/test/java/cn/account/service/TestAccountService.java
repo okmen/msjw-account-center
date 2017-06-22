@@ -15,6 +15,7 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.dom4j.DocumentHelper;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,6 +36,7 @@ import cn.account.bean.UserRegInfo;
 import cn.account.bean.WechatUserInfoBean;
 import cn.account.bean.vo.BindCarVo;
 import cn.account.bean.vo.BindDriverLicenseVo;
+import cn.account.bean.vo.BindTheVehicleVo;
 import cn.account.bean.vo.MyDriverLicenseVo;
 import cn.account.bean.vo.ReadilyShootVo;
 import cn.account.bean.vo.ResultOfBIndDriverLicenseVo;
@@ -46,6 +48,7 @@ import cn.sdk.util.DESUtils;
 
 
 import cn.sdk.util.HttpClientUtil;
+import cn.sdk.webservice.Xml2Json;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -67,7 +70,45 @@ public class TestAccountService {
 	@Autowired
 	@Qualifier("accountService")
 	private IAccountService accountService;
+	/**
+	 * 路况查询
+	 * @throws Exception
+	 */
+	@Test
+	public void testTrafficQuery() throws Exception{
+		String sourceOfCertification = "C";
+		accountService.trafficQuery(sourceOfCertification);
+	}
 	
+	
+	@Test
+	public void testDetailsTrafficQuery() throws Exception{
+		String zjz = "537468";
+		String sourceOfCertification = "C";
+		accountService.detailsTrafficQuery(zjz, sourceOfCertification);
+	}
+	@Test
+	public void testGetBindTheOtherDriversUseMyCar() throws Exception{
+		String IDcard = "622822198502074110";
+		String plateType = "02";
+		String sourceOfCertification = "C";
+		String numberPlateNumber = "粤B6F7M1";
+		Map<String, Object> map = accountService.getBindTheOtherDriversUseMyCar(IDcard, numberPlateNumber, plateType, sourceOfCertification);
+		System.out.println(map);
+	}
+	
+	/**
+	 * @throws Exception 
+	 * 
+	 */
+	@Test
+	public void testXml() throws Exception{
+		JSONObject json2 = new JSONObject();
+		String respJson = "<?xml version=\"1.0\" encoding=\"utf-8\"?><return><code>0000</code><msg><response><code>0000</code><msg>查询成功</msg><body><ret><id>537247</id><road_name>北环大道</road_name><section_name>侨香段</section_name><start_unit_name>北环广深立交西</start_unit_name><end_unit_name>铜鼓人行天桥</end_unit_name><event_level>车多</event_level><event_reason>车流量过大</event_reason><summary>北环大道 在北环广深立交西 西向东方向上，由于车流量过大造成从北环广深立交西到北环大道铜鼓人行天桥车多</summary><modify_date>2017-06-19 18:05:46.0</modify_date><start_date>2017-06-19 12:00:05.0</start_date><pic>null</pic><gps_x>0</gps_x><gps_y>0</gps_y></ret></body></response></msg></return>";
+		org.dom4j.Document doc1 = DocumentHelper.parseText(respJson);
+		Xml2Json.dom4j2Json(doc1.getRootElement(),json2);
+		System.out.println(json2);
+	}
 	
 	/**
 	 *修改手机号
@@ -89,7 +130,7 @@ public class TestAccountService {
 	 */
 	@Test
 	public void testMyDriverLicense() throws Exception{
-		String IDcard = "42138119910422133X";
+		String IDcard = "622822198502074110";
 		String userSource = "C";
 		MyDriverLicenseVo myDriverLicense = accountService.getMyDriverLicense(IDcard, userSource);
 		System.out.println(myDriverLicense);
@@ -114,10 +155,11 @@ public class TestAccountService {
 	}
 	/**
 	 * 解绑车辆
+	 * @throws Exception 
 	 * 
 	 */
 	@Test
-	public void testUnbindVehicle(){
+	public void testUnbindVehicle() throws Exception{
 		UnbindVehicleVo unbindVehicleVo = new UnbindVehicleVo();
 		unbindVehicleVo.setJblx("1");
 		unbindVehicleVo.setLicensePlateNumber("B6F7M1");
@@ -346,9 +388,10 @@ public class TestAccountService {
 	
 	/**
 	 * 查询机动车信息单
+	 * @throws Exception 
 	 */
 	@Test
-	public void testQueryScheduleOfMotorVehicleInformationList(){
+	public void testQueryScheduleOfMotorVehicleInformationList() throws Exception{
 		String applyType = "2";
 		String identityCard = "445222199209020034";
 		String sourceOfCertification = "C";
@@ -359,9 +402,10 @@ public class TestAccountService {
 	
 	/**
 	 * 查询驾驶人信息单
+	 * @throws Exception 
 	 */
 	@Test
-	public void testQueryScheduleOfDriverInformationList(){
+	public void testQueryScheduleOfDriverInformationList() throws Exception{
 		String applyType = "1";
 		String identityCard = "445222199209020034";
 		String sourceOfCertification = "C";
@@ -371,9 +415,10 @@ public class TestAccountService {
 	}
 	/**
 	 * 申请驾驶人信息单
+	 * @throws Exception 
 	 */
 	@Test
-	public void testSubmitApplicationForDriverInformation(){
+	public void testSubmitApplicationForDriverInformation() throws Exception{
 		String applyType = "1";
 		String userName = "张宇帆";
 		String identityCard = "4452221992090";
@@ -387,9 +432,10 @@ public class TestAccountService {
 	
 	/**
 	 * 申请机动车信息单
+	 * @throws Exception 
 	 */
 	@Test
-	public void testSubmitApplicationForMotorVehicleInformation(){
+	public void testSubmitApplicationForMotorVehicleInformation() throws Exception{
 		String applyType = "1";
 		String userName = "张宇帆";
 		String identityCard = "445222199209020034";
@@ -404,9 +450,10 @@ public class TestAccountService {
 	
 	/**
 	 * 绑定驾驶证结果查询
+	 * @throws Exception 
 	 */
 	@Test
-	public void  testqueryResultOfBindDriverLicense(){
+	public void  testqueryResultOfBindDriverLicense() throws Exception{
 		String identityCard = "42138119910422133X";
 		String userSource = "C";
 		ResultOfBIndDriverLicenseVo resultOfBIndDriverLicenseVo = null;
@@ -416,9 +463,10 @@ public class TestAccountService {
 	
 	/**
 	 * 绑定驾驶证
+	 * @throws Exception 
 	 */
 	@Test
-	public void testBindDriverLicense(){
+	public void testBindDriverLicense() throws Exception{
 		
 		BindDriverLicenseVo bindDriverLicenseVo = new BindDriverLicenseVo();
 		bindDriverLicenseVo.setLoginName("42138119910422133X");

@@ -1750,7 +1750,7 @@ public class IAccountServiceImpl implements IAccountService {
 	}
 	
 	@Override
-	public JSONObject bindDriverLicense(BindDriverLicenseVo bindDriverLicenseVo) {
+	public JSONObject bindDriverLicense(BindDriverLicenseVo bindDriverLicenseVo)  throws Exception{
 		JSONObject json= null;
 		try {
 			 String url = iAccountCached.getUrl(); //webservice请求url
@@ -1761,13 +1761,14 @@ public class IAccountServiceImpl implements IAccountService {
 			 json = TransferThirdParty.bindDriverLicense(bindDriverLicenseVo, url, method, userId, userPwd, key);
 		} catch (Exception e) {
 			logger.error("bindDriverLicense出错，错误="+ bindDriverLicenseVo.toString(),e);
+			throw e;
 		}
 		return json;
 	}
 
 
 	@Override
-	public ResultOfBIndDriverLicenseVo queryResultOfBindDriverLicense(String identityCard, String userSource) {
+	public ResultOfBIndDriverLicenseVo queryResultOfBindDriverLicense(String identityCard, String userSource)  throws Exception{
 		ResultOfBIndDriverLicenseVo resultOfBIndDriverLicenseVo= null;
 		try {
 			
@@ -1780,6 +1781,7 @@ public class IAccountServiceImpl implements IAccountService {
 			 
 		} catch (Exception e) {
 			logger.error("bindDriverLicense出错，错误="+ "identityCard=" + identityCard+"userSource=" + userSource,e);
+			throw e;
 		}
 		
 		return resultOfBIndDriverLicenseVo;
@@ -1788,7 +1790,7 @@ public class IAccountServiceImpl implements IAccountService {
 
 	@Override
 	public Map<String, String> submitApplicationForDriverInformation(String applyType, String applyName,
-			String identityCard, String applyPhone, String sourceOfCertification) {
+			String identityCard, String applyPhone, String sourceOfCertification)  throws Exception{
 		Map<String, String> map = new HashMap<>();
 		try {
 			
@@ -1801,6 +1803,7 @@ public class IAccountServiceImpl implements IAccountService {
 			 
 		} catch (Exception e) {
 			logger.error("submitApplicationForDriverInformation出错，错误="+ "applyType=" + applyType+"applyName=" + applyName+"identityCard=" + identityCard+"sourceOfCertification=" + sourceOfCertification+"applyPhone=" + applyPhone,e);
+			throw e;
 		}
 		
 		return map;
@@ -1810,7 +1813,7 @@ public class IAccountServiceImpl implements IAccountService {
 	@Override
 	public Map<String, String> submitApplicationForMotorVehicleInformation(String applyType, String applyName,
 			String identityCard, String applyPhone, String licensePlateNumber,
-			String plateType, String sourceOfCertification) {
+			String plateType, String sourceOfCertification)  throws Exception{
 		Map<String, String> map = new HashMap<>();
 		try {
 			
@@ -1823,6 +1826,7 @@ public class IAccountServiceImpl implements IAccountService {
 			 
 		} catch (Exception e) {
 			logger.error("submitApplicationForMotorVehicleInformation出错，错误="+ "applyType=" + applyType+"applyName=" + applyName+"identityCard=" + identityCard+"applyPhone=" + applyPhone+"sourceOfCertification=" + sourceOfCertification+"licensePlateNumber=" + licensePlateNumber+"plateType=" + plateType,e);
+			throw e;
 		}
 		
 		return map;
@@ -1831,7 +1835,7 @@ public class IAccountServiceImpl implements IAccountService {
 
 	@Override
 	public Map<String, Object> queryScheduleOfDriverInformationList(String applyType, String identityCard,
-			String sourceOfCertification) {
+			String sourceOfCertification)  throws Exception{
 		Map<String, Object> map = new HashMap<>();
 		try {
 			
@@ -1844,6 +1848,7 @@ public class IAccountServiceImpl implements IAccountService {
 			 
 		} catch (Exception e) {
 			logger.error("queryScheduleOfDriverInformationList出错，错误="+ "applyType=" + applyType+"identityCard=" + identityCard+"sourceOfCertification=" + sourceOfCertification,e);
+			throw e;
 		}
 		
 		return map;
@@ -1852,7 +1857,7 @@ public class IAccountServiceImpl implements IAccountService {
 
 	@Override
 	public Map<String, Object> queryScheduleOfMotorVehicleInformationList(String applyType, String identityCard,
-			String sourceOfCertification) {
+			String sourceOfCertification)  throws Exception{
 		Map<String, Object> map = new HashMap<>();
 		try {
 			
@@ -1865,6 +1870,7 @@ public class IAccountServiceImpl implements IAccountService {
 			 
 		} catch (Exception e) {
 			logger.error("queryScheduleOfMotorVehicleInformationList出错，错误="+ "applyType=" + applyType+"identityCard=" + identityCard+"sourceOfCertification=" + sourceOfCertification,e);
+			throw e;
 		}
 		
 		return map;
@@ -1955,7 +1961,7 @@ public class IAccountServiceImpl implements IAccountService {
 	
 
 	@Override
-	public Map<String, String> unbindVehicle(UnbindVehicleVo unbindVehicleVo) {
+	public Map<String, String> unbindVehicle(UnbindVehicleVo unbindVehicleVo) throws Exception{
 		Map<String, String> map = new HashMap<>();
 		try {
 			
@@ -1968,6 +1974,79 @@ public class IAccountServiceImpl implements IAccountService {
 			 
 		} catch (Exception e) {
 			logger.error("unbindVehicle出错，错误="+ "unbindVehicleVo=" + unbindVehicleVo,e);
+			throw e;
+		}
+		
+		return map;
+	}
+
+
+	@Override
+	public Map<String, Object> getBindTheOtherDriversUseMyCar(String identityCard, String numberPlateNumber,
+			String plateType, String sourceOfCertification) throws Exception{
+		Map<String, Object> map = new HashMap<>();
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 map = TransferThirdParty.getBindTheOtherDriversUseMyCar(identityCard,numberPlateNumber,
+						plateType,sourceOfCertification, url, method, userId, userPwd, key);
+			 
+		} catch (Exception e) {
+			logger.error("getBindTheOtherDriversUseMyCar出错，错误="+ "identityCard=" + identityCard+ "numberPlateNumber=" + numberPlateNumber+ "plateType=" + plateType+ "sourceOfCertification=" + sourceOfCertification,e);
+			throw e;
+		}
+		
+		return map;
+	}
+
+
+	@Override
+	public Map<String, Object> trafficQuery(String sourceOfCertification) throws Exception{
+		Map<String, Object> map = new HashMap<>();
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 String comUserId = iAccountCached.getUserid();
+			 String comUserPwd = iAccountCached.getUserpwd();
+			 String jkId = "event_list";
+			 map = TransferThirdParty.trafficQuery(comUserId,comUserPwd,
+					 jkId,sourceOfCertification, url, method, userId, userPwd, key);
+			 
+		} catch (Exception e) {
+			logger.error("trafficQuery出错，错误="+ "sourceOfCertification=" + sourceOfCertification,e);
+			throw e;
+		}
+		
+		return map;
+	}
+
+
+	@Override
+	public Map<String, String> detailsTrafficQuery(String zjz, String sourceOfCertification) throws Exception{
+		Map<String, String> map = new HashMap<>();
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 String comUserId = iAccountCached.getUserid();
+			 String comUserPwd = iAccountCached.getUserpwd();
+			 String jkId = "event_msg";
+			 map = TransferThirdParty.detailsTrafficQuery(comUserId,comUserPwd,
+					 jkId,zjz ,sourceOfCertification, url, method, userId, userPwd, key);
+		} catch (Exception e) {
+			logger.error("trafficQuery出错，错误="+ "sourceOfCertification=" + sourceOfCertification,e);
+			throw e;
 		}
 		
 		return map;
