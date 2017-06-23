@@ -2,6 +2,7 @@ package cn.account.service;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.dom4j.DocumentHelper;
@@ -20,6 +21,7 @@ import cn.account.bean.ResultOfReadilyShoot;
 import cn.account.bean.WechatUserInfoBean;
 import cn.account.bean.vo.BindCarVo;
 import cn.account.bean.vo.BindDriverLicenseVo;
+import cn.account.bean.vo.BindTheVehicleVo;
 import cn.account.bean.vo.LoginReturnBeanVo;
 import cn.account.bean.vo.MyDriverLicenseVo;
 import cn.account.bean.vo.ResultOfBIndDriverLicenseVo;
