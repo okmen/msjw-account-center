@@ -7,12 +7,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
-
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-
 import cn.account.bean.ElectronicPolicyBean;
 import cn.account.bean.ResultOfReadilyShoot;
 import cn.account.bean.vo.AuthenticationBasicInformationVo;
@@ -28,10 +26,14 @@ import cn.account.bean.vo.MotorVehicleBusiness;
 import cn.account.bean.vo.MyDriverLicenseVo;
 import cn.account.bean.vo.ResultOfBIndDriverLicenseVo;
 import cn.account.bean.vo.TrafficQueryVo;
+import cn.account.bean.vo.UnbindTheOtherDriverUseMyCarVo;
 import cn.account.bean.vo.UnbindVehicleVo;
 import cn.account.bean.vo.ZT_STATUS;
 import cn.sdk.util.DateUtil;
 import cn.sdk.util.DateUtil2;
+import cn.account.bean.vo.UnbindVehicleVo;
+import cn.account.bean.vo.ZT_STATUS;
+import cn.sdk.util.Base64Decoder;
 import cn.sdk.webservice.WebServiceClient;
 /**
  * 调用第三方封装
@@ -1192,21 +1194,15 @@ public class TransferThirdParty {
 		return resultOfBIndDriverLicenseVo;
 	}
 	
-	
-	
-	
-	
 	/**
 	 * 车辆解绑
 	 * @param args
 	 * @throws Exception 
-	 * 
 	 */
 	public static Map<String, String> unbindVehicle(UnbindVehicleVo unbindVehicleVo, String url,String method,String userId,String userPwd,String key) throws Exception{
 		Map<String , String> map = new HashMap<>();
 		String xxcj16 = "xxcj16";
-		String xxcj16RepXml = "<?xml version=\"1.0\"encoding=\"utf-8\"?><REQUEST><LOGIN_USER>"+unbindVehicleVo.getLoginUser()+"</LOGIN_USER><HPHM>"+unbindVehicleVo.getLicensePlateNumber()+"</HPHM><HPZL>"+unbindVehicleVo.getLicensePlateType()+"</HPZL><SFZMMC>"+unbindVehicleVo.getIdentificationNO()+"</SFZMMC><SFZMHM>"+unbindVehicleVo.getIDcard()+"</SFZMHM><RZLY>"+unbindVehicleVo.getSourceOfCertification()+"</RZLY><JBLX>"+unbindVehicleVo.getJblx()+"</JBLX></REQUEST>";		
-//		String xxcj16RepXml = "<?xmlversion=\"1.0\"encoding=\"utf-8\"?><REQUEST><LOGIN_USER>"+unbindVehicleVo.getLoginUser()+"</LOGIN_USER><HPHM>"+unbindVehicleVo.getLicensePlateNumber()+"</HPHM><HPZL>"+unbindVehicleVo.getLicensePlateType()+"</HPZL><RZLY>"+unbindVehicleVo.getUserSource()+"</RZLY><BIND_DEPARTMENT>"+unbindVehicleVo.getSourceOfCertification()+"</BIND_DEPARTMENT><JBLX>"+unbindVehicleVo.getJblx()+"</JBLX></REQUEST>";		
+		String xxcj16RepXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><LOGIN_USER>"+unbindVehicleVo.getLoginUser()+"</LOGIN_USER><HPHM>"+unbindVehicleVo.getLicensePlateNumber()+"</HPHM><HPZL>"+unbindVehicleVo.getLicensePlateType()+"</HPZL><SFZMMC>"+unbindVehicleVo.getIdentificationNO()+"</SFZMMC><SFZMHM>"+unbindVehicleVo.getIDcard()+"</SFZMHM><RZLY>"+unbindVehicleVo.getSourceOfCertification()+"</RZLY><JBLX>"+unbindVehicleVo.getJblx()+"</JBLX></REQUEST>";		
 		JSONObject xxcj16RepJson = WebServiceClient.getInstance().requestWebService(url, method, xxcj16, xxcj16RepXml, userId, userPwd, key);
 		String code = xxcj16RepJson.getString("CODE");
 		String msg = xxcj16RepJson.getString("MSG");
@@ -1215,6 +1211,28 @@ public class TransferThirdParty {
 		return map;
 	
 	}
+	
+	
+	/**
+	 * 车主解绑车辆其他驾驶人
+	 * @param args
+	 * @throws Exception 
+	 */
+	public static Map<String, String> unbindTheOtherDriverUseMyCar(UnbindTheOtherDriverUseMyCarVo unbindTheOtherDriverUseMyCarVo, String url,String method,String userId,String userPwd,String key) throws Exception{
+		Map<String , String> map = new HashMap<>();
+		String xxcj19 = "xxcj19";
+		String xxcj19RepXml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?><REQUEST><LOGIN_USER>"+unbindTheOtherDriverUseMyCarVo.getLoginUser()+"</LOGIN_USER><HPHM>"+unbindTheOtherDriverUseMyCarVo.getNumberPlateNumber()+"</HPHM><HPZL>"+unbindTheOtherDriverUseMyCarVo.getPlateType()+"</HPZL><SYRSFZMHM>"+unbindTheOtherDriverUseMyCarVo.getIDcard()+"</SYRSFZMHM><RZJS>"+unbindTheOtherDriverUseMyCarVo.getUserSource()+"</RZJS><BIND_DEPARTMENT>"+unbindTheOtherDriverUseMyCarVo.getSourceOfCertification()+"</BIND_DEPARTMENT></REQUEST>";		
+		JSONObject xxcj19RepJson = WebServiceClient.getInstance().requestWebService(url, method, xxcj19, xxcj19RepXml, userId, userPwd, key);
+		String code = xxcj19RepJson.getString("CODE");
+		String msg = xxcj19RepJson.getString("MSG");
+		map.put("code", code);
+		map.put("msg", msg);
+		return map;
+	
+	}
+	
+	
+	
 
 	public static void main(String[] args) throws Exception {
 //		getBindTheOtherDriversUseMyCar("622822198502074110", "粤B6F7M1", "02", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
@@ -1225,6 +1243,14 @@ public class TransferThirdParty {
 //		unbindVehicleVo.setLicensePlateNumber("445222199209020034");
 //		unbindVehicleVo.setLicensePlateType("02");
 //		unbindVehicleVo.setLoginUser("445222199209020034");
+//		UnbindVehicleVo unbindVehicleVo = new UnbindVehicleVo();
+//		unbindVehicleVo.setJblx("2");
+//		unbindVehicleVo.setLicensePlateNumber("445222199209020034");
+//		unbindVehicleVo.setLicensePlateType("02");
+//		unbindVehicleVo.setLoginUser("445222199209020034");
+//		unbindVehicleVo.setSourceOfCertification("C");
+//		unbindVehicleVo.setUserSource("C");
+//		unbindVehicle(unbindVehicleVo, "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 //		driverLicenseInto("Z", "张雨帆", "A", "445222199209020034", "440304166612", "藏A:拉萨市公安局", "111", "111", "111", "深圳市宝安区", "C", "445222199209020034", "11", "11", "22", "33", "44", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 //		renewalDriverLicense("Y", "张宇帆", "A", "445222199209020034", "445222199209020034", "20170712", "01", "C", "445222199209020034", "11", "11", "22", "33", "44", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 //		renewalDriverLicense("Y", "王玉璞", "A", "622822198502074110", "111", "20170712", "服兵役", "C", "", "11", "11", "22", "33", "44", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
