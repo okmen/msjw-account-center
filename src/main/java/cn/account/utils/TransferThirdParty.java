@@ -1202,7 +1202,7 @@ public class TransferThirdParty {
 	public static Map<String, String> unbindVehicle(UnbindVehicleVo unbindVehicleVo, String url,String method,String userId,String userPwd,String key) throws Exception{
 		Map<String , String> map = new HashMap<>();
 		String xxcj16 = "xxcj16";
-		String xxcj16RepXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><LOGIN_USER>"+unbindVehicleVo.getLoginUser()+"</LOGIN_USER><HPHM>"+unbindVehicleVo.getLicensePlateNumber()+"</HPHM><HPZL>"+unbindVehicleVo.getLicensePlateType()+"</HPZL><SFZMMC>"+unbindVehicleVo.getIdentificationNO()+"</SFZMMC><SFZMHM>"+unbindVehicleVo.getIDcard()+"</SFZMHM><RZLY>"+unbindVehicleVo.getSourceOfCertification()+"</RZLY><JBLX>"+unbindVehicleVo.getJblx()+"</JBLX></REQUEST>";		
+		String xxcj16RepXml = "<?xml version=\"1.0\" encoding=\"utf-8\" ?><REQUEST><LOGIN_USER>"+unbindVehicleVo.getLoginUser()+"</LOGIN_USER><HPHM>"+unbindVehicleVo.getLicensePlateNumber()+"</HPHM><HPZL>"+unbindVehicleVo.getLicensePlateType()+"</HPZL><SFZMMC>"+unbindVehicleVo.getIdentificationNO()+"</SFZMMC><SFZMHM>"+unbindVehicleVo.getIDcard()+"</SFZMHM><RZLY>"+unbindVehicleVo.getSourceOfCertification()+"</RZLY><JBLX>"+unbindVehicleVo.getJblx()+"</JBLX></REQUEST>";		
 		JSONObject xxcj16RepJson = WebServiceClient.getInstance().requestWebService(url, method, xxcj16, xxcj16RepXml, userId, userPwd, key);
 		String code = xxcj16RepJson.getString("CODE");
 		String msg = xxcj16RepJson.getString("MSG");
@@ -1414,15 +1414,57 @@ public class TransferThirdParty {
 				while (iterator.hasNext()) {
 					TrafficQueryVo trafficQueryVo = new TrafficQueryVo();
 					JSONObject jsonObject = (JSONObject) iterator.next();
+					String gpsX = jsonObject.getString("gps_x");
+					String gpsY = jsonObject.getString("gps_y");
+					if ("0 ".equals(gpsX)||"0 ".equals(gpsY)) {
+						
+					}else{
+						String endUnitName = jsonObject.getString("end_unit_name");
+						String eventLevel = jsonObject.getString("event_level");
+						String eventReason = jsonObject.getString("event_reason");
+						String id = jsonObject.getString("id");
+						String modifyDate1 = jsonObject.getString("modify_date");
+						Date date = DateUtil2.str2date(modifyDate1);
+						String modifyDate = DateUtil2.date2shortTime(date);
+						String roadName = jsonObject.getString("road_name");
+						String sectionName = jsonObject.getString("section_name");
+						String startDate1 = jsonObject.getString("start_date");
+						Date date2 = DateUtil2.str2date(startDate1);
+						String startDate = DateUtil2.date2shortTime(date2);
+						String startUnitName = jsonObject.getString("start_unit_name");
+						String summary = jsonObject.getString("summary");
+						trafficQueryVo.setEndUnitName(endUnitName);
+						trafficQueryVo.setEventLevel(eventLevel);
+						trafficQueryVo.setEventReason(eventReason);
+						trafficQueryVo.setGpsX(gpsX);
+						trafficQueryVo.setGpsY(gpsY);
+						trafficQueryVo.setId(id);
+						trafficQueryVo.setModifyDate(modifyDate);
+						trafficQueryVo.setRoadName(roadName);
+						trafficQueryVo.setSectionName(sectionName);
+						trafficQueryVo.setStartDate(startDate);
+						trafficQueryVo.setStartUnitName(startUnitName);
+						trafficQueryVo.setSummary(summary);
+						trafficQueryVos.add(trafficQueryVo);
+					}
+					
+				}
+				
+			}else{
+				TrafficQueryVo trafficQueryVo = new TrafficQueryVo();
+				JSONObject jsonObject = eventListRespJson.getJSONObject("ret");
+				String gpsX = jsonObject.getString("gps_x");
+				String gpsY = jsonObject.getString("gps_y");
+				if ("0 ".equals(gpsX)||"0 ".equals(gpsY)) {
+					
+				}else{
 					String endUnitName = jsonObject.getString("end_unit_name");
 					String eventLevel = jsonObject.getString("event_level");
 					String eventReason = jsonObject.getString("event_reason");
-					String gpsX = jsonObject.getString("gps_x");
-					String gpsY = jsonObject.getString("gps_y");
 					String id = jsonObject.getString("id");
 					String modifyDate1 = jsonObject.getString("modify_date");
 					Date date = DateUtil2.str2date(modifyDate1);
-					String modifyDate = DateUtil2.date2shortTime(date);
+					String modifyDate = DateUtil2.date2shortTime(date);	
 					String roadName = jsonObject.getString("road_name");
 					String sectionName = jsonObject.getString("section_name");
 					String startDate1 = jsonObject.getString("start_date");
@@ -1443,40 +1485,7 @@ public class TransferThirdParty {
 					trafficQueryVo.setStartUnitName(startUnitName);
 					trafficQueryVo.setSummary(summary);
 					trafficQueryVos.add(trafficQueryVo);
-				}
-				
-			}else{
-				TrafficQueryVo trafficQueryVo = new TrafficQueryVo();
-				JSONObject jsonObject = eventListRespJson.getJSONObject("ret");
-				String endUnitName = jsonObject.getString("end_unit_name");
-				String eventLevel = jsonObject.getString("event_level");
-				String eventReason = jsonObject.getString("event_reason");
-				String gpsX = jsonObject.getString("gps_x");
-				String gpsY = jsonObject.getString("gps_y");
-				String id = jsonObject.getString("id");
-				String modifyDate1 = jsonObject.getString("modify_date");
-				Date date = DateUtil2.str2date(modifyDate1);
-				String modifyDate = DateUtil2.date2shortTime(date);
-				String roadName = jsonObject.getString("road_name");
-				String sectionName = jsonObject.getString("section_name");
-				String startDate1 = jsonObject.getString("start_date");
-				Date date2 = DateUtil2.str2date(startDate1);
-				String startDate = DateUtil2.date2shortTime(date2);
-				String startUnitName = jsonObject.getString("start_unit_name");
-				String summary = jsonObject.getString("summary");
-				trafficQueryVo.setEndUnitName(endUnitName);
-				trafficQueryVo.setEventLevel(eventLevel);
-				trafficQueryVo.setEventReason(eventReason);
-				trafficQueryVo.setGpsX(gpsX);
-				trafficQueryVo.setGpsY(gpsY);
-				trafficQueryVo.setId(id);
-				trafficQueryVo.setModifyDate(modifyDate);
-				trafficQueryVo.setRoadName(roadName);
-				trafficQueryVo.setSectionName(sectionName);
-				trafficQueryVo.setStartDate(startDate);
-				trafficQueryVo.setStartUnitName(startUnitName);
-				trafficQueryVo.setSummary(summary);
-				trafficQueryVos.add(trafficQueryVo);
+			}
 			}
 			map.put("code", code);
 			map.put("data", trafficQueryVos);

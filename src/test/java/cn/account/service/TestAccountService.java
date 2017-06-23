@@ -37,8 +37,6 @@ public class TestAccountService {
 	@Autowired
 	@Qualifier("accountService")
 	private IAccountService accountService;
-	
-	
 	/**
 	 * 车主解绑车辆其他驾驶人
 	 * @throws Exception 
@@ -96,7 +94,7 @@ public class TestAccountService {
 	 */
 	@Test
 	public void testgetBndTheVehicles() throws Exception{
-		String IDcard = "445222199209020034";
+		String IDcard = "622822198502074110";
 		String sourceOfCertification = "C";
 		String mobilephone = "15920071829";
 		List<BindTheVehicleVo> map = accountService.getBndTheVehicles(IDcard, mobilephone, sourceOfCertification);
