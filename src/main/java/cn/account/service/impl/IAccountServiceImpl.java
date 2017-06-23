@@ -39,6 +39,7 @@ import cn.account.bean.vo.MyDriverLicenseVo;
 import cn.account.bean.vo.ReadilyShootVo;
 import cn.account.bean.vo.RegisterVo;
 import cn.account.bean.vo.ResultOfBIndDriverLicenseVo;
+import cn.account.bean.vo.UnbindTheOtherDriverUseMyCarVo;
 import cn.account.bean.vo.UnbindVehicleVo;
 import cn.account.bean.vo.UserBasicVo;
 import cn.account.bean.vo.queryclassservice.CertificationProgressQueryVo;
@@ -1958,10 +1959,8 @@ public class IAccountServiceImpl implements IAccountService {
 	}
 
 
-	
-
 	@Override
-	public Map<String, String> unbindVehicle(UnbindVehicleVo unbindVehicleVo) throws Exception{
+	public Map<String, String> unbindVehicle(UnbindVehicleVo unbindVehicleVo) throws Exception {
 		Map<String, String> map = new HashMap<>();
 		try {
 			
@@ -1977,8 +1976,10 @@ public class IAccountServiceImpl implements IAccountService {
 			throw e;
 		}
 		
+	
 		return map;
 	}
+
 
 
 	@Override
@@ -2051,5 +2052,29 @@ public class IAccountServiceImpl implements IAccountService {
 		
 		return map;
 	}
+
+
+	@Override
+	public Map<String, String> unbindTheOtherDriverUseMyCar(
+			UnbindTheOtherDriverUseMyCarVo unbindTheOtherDriverUseMyCarVo) throws Exception {
+		Map<String, String> map = new HashMap<>();
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 map = TransferThirdParty.unbindTheOtherDriverUseMyCar(unbindTheOtherDriverUseMyCarVo, url, method, userId, userPwd, key);
+			 
+		} catch (Exception e) {
+			logger.error("unbindTheOtherDriverUseMyCar出错，错误="+ "unbindTheOtherDriverUseMyCarVo=" + unbindTheOtherDriverUseMyCarVo,e);
+			throw e;
+		}
+		
+	
+		return map;
+	}
 	
 }
+	
