@@ -9,7 +9,7 @@ public class DBHelper {
 	//相对Oracle的批量处理，MySQL需要JDBC参数显式开启,并且对于JDBC驱动的版本也有要求
 	//参数useServerPrepStmts=false，如果不开启(useServerPrepStmts=false)，
 	//使用com.mysql.jdbc.PreparedStatement进行本地SQL拼装，最后送到db上就是已经替换了?后的最终SQL
-    public static final String url = "jdbc:mysql://192.168.1.121/service?useServerPrepStmts=false&rewriteBatchedStatements=true";  
+    public static final String url = "jdbc:mysql://192.168.1.121/test?useServerPrepStmts=false&rewriteBatchedStatements=true";  
     public static final String name = "com.mysql.jdbc.Driver";  
     public static final String user = "root";  
     public static final String password = "123456";  
