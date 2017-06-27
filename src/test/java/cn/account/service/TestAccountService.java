@@ -37,6 +37,19 @@ public class TestAccountService {
 	@Autowired
 	@Qualifier("accountService")
 	private IAccountService accountService;
+	
+	@Test
+	public void bindsTheMotorVehicleQuery() throws Exception{
+		accountService.getBndTheVehicles("44022319900518184X", "13632744667", "Z");
+	}
+	/**
+	 * 车主解绑车辆其他驾驶人
+	 * @throws Exception 
+	 */
+	@Test
+	public void loginTest() throws Exception{
+		accountService.login("13502899383", "189981", "C", "==", "C");
+	}
 	/**
 	 * 车主解绑车辆其他驾驶人
 	 * @throws Exception 
@@ -94,9 +107,9 @@ public class TestAccountService {
 	 */
 	@Test
 	public void testgetBndTheVehicles() throws Exception{
-		String IDcard = "622822198502074110";
+		String IDcard = "445222197912152216";
 		String sourceOfCertification = "C";
-		String mobilephone = "15920071829";
+		String mobilephone = "13502899383";
 		List<BindTheVehicleVo> map = accountService.getBndTheVehicles(IDcard, mobilephone, sourceOfCertification);
 		System.out.println(map);
 	}

@@ -347,7 +347,6 @@ public class TransferThirdParty {
 			xxcj06RespJson = (JSONObject) xxcj06RespJson.get("BODY");
 			String DZZ = xxcj06RespJson.getString("DZZ");
 			String EWM = xxcj06RespJson.getString("EWM");
-			System.out.println(DZZ);
 			electronicDriverLicenseVo.setElectronicDriverLicense(DZZ);
 			electronicDriverLicenseVo.setElectronicDriverLicenseQRCode(EWM);
 		}
@@ -1236,7 +1235,7 @@ public class TransferThirdParty {
 
 	public static void main(String[] args) throws Exception {
 //		getBindTheOtherDriversUseMyCar("622822198502074110", "粤B6F7M1", "02", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
-		trafficQuery("WX02", "WX02@168", "event_list","C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+		//trafficQuery("WX02", "WX02@168", "event_list","C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 //		detailsTrafficQuery("WX02", "WX02@168", "event_msg", "537418","C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 //		UnbindVehicleVo unbindVehicleVo = new UnbindVehicleVo();
 //		unbindVehicleVo.setJblx("2");
@@ -1296,7 +1295,7 @@ public class TransferThirdParty {
 		//bindsTheMotorVehicleQuery("13809613859", "350582197810012622", "C",  "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//getElectronicDriverLicense("440301198010052332", "xxx", "xxx", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//getDrivingLicense("粤B6F7M1", "02", "15920071829", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
-		//login("13902455233", "886957", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610", "C");
+		login("13502899383", "189981", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610", "C");
 		
 	}
 	
