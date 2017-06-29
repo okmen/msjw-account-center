@@ -147,7 +147,7 @@ public class TestAccountService {
 	 */
 	@Test
 	public void testMyDriverLicense() throws Exception{
-		String IDcard = "622822198502074110";
+		String IDcard = "71272119880226103";
 		String userSource = "C";
 		MyDriverLicenseVo myDriverLicense = accountService.getMyDriverLicense(IDcard, userSource);
 		System.out.println(myDriverLicense);
