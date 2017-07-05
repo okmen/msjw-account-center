@@ -107,9 +107,9 @@ public class TestAccountService {
 	 */
 	@Test
 	public void testgetBndTheVehicles() throws Exception{
-		String IDcard = "445222197912152216";
+		String IDcard = "440102197611104047";
 		String sourceOfCertification = "C";
-		String mobilephone = "13502899383";
+		String mobilephone = "18682386948";
 		List<BindTheVehicleVo> map = accountService.getBndTheVehicles(IDcard, mobilephone, sourceOfCertification);
 		System.out.println(map);
 	}
