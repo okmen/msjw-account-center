@@ -273,7 +273,11 @@ public class IAccountServiceImpl implements IAccountService {
 						String identityCardv = bindTheVehicleVo.getIdentityCard();
 						AuthenticationBasicInformationVo authenticationBasicInformationVo2 = TransferThirdParty.authenticationBasicInformationQuery(identityCardv, sourceOfCertification, url, method, userId, userPwd, key);
 						car.setIdentityCard(identityCardv);
-						car.setMobilephone(authenticationBasicInformationVo2.getMobilephone());
+						if(null != authenticationBasicInformationVo2 && StringUtils.isNotBlank(authenticationBasicInformationVo2.getMobilephone()) ){
+							car.setMobilephone(authenticationBasicInformationVo2.getMobilephone());
+						}else{
+							car.setMobilephone("");
+						}
 						cars.add(car);
 					}
 				}
