@@ -161,12 +161,12 @@ public class TestAccountService {
 		BindCarVo vo = new BindCarVo();
 		vo.setBindType(1);
 		vo.setCertifiedSource("C");
-		vo.setInputIP("192.168.1.245");
-		vo.setLicensePlateNumber("B6F7M1");
+		vo.setInputIP("192.168.1.243");
+		vo.setLicensePlateNumber("B601NR");
 		vo.setLicensePlateType("02");
 		vo.setProvinceAbbreviation("粤");
 		vo.setUserSource("C");
-		vo.setUserIdCard("622822198502074110");
+		vo.setUserIdCard("440301199002101119");
 		JSONObject addVehicle = accountService.addVehicle(vo);
 		System.out.println(addVehicle);
 	}
@@ -278,7 +278,7 @@ public class TestAccountService {
 		bindDriverLicenseVo.setLoginName("42138119910422133X");
 		bindDriverLicenseVo.setUserSource("C");
 		bindDriverLicenseVo.setIdentityCard("42138119910422133X");
-		bindDriverLicenseVo.setDriverLicenseIssuedAddress("3");
+		bindDriverLicenseVo.setDriverLicenseIssuedAddress("2");
 		bindDriverLicenseVo.setSourceOfCertification("C");
 		bindDriverLicenseVo.setName("吴帆");
 		JSONObject json = accountService.bindDriverLicense(bindDriverLicenseVo);
