@@ -37,6 +37,7 @@ import cn.account.bean.vo.MotorVehicleInformationSheetVo;
 import cn.account.bean.vo.MyBusinessVo;
 import cn.account.bean.vo.MyDriverLicenseVo;
 import cn.account.bean.vo.ReadilyShootVo;
+import cn.account.bean.vo.ReauthenticationVo;
 import cn.account.bean.vo.RegisterVo;
 import cn.account.bean.vo.ResultOfBIndDriverLicenseVo;
 import cn.account.bean.vo.UnbindTheOtherDriverUseMyCarVo;
@@ -2073,6 +2074,28 @@ public class IAccountServiceImpl implements IAccountService {
 			 
 		} catch (Exception e) {
 			logger.error("unbindTheOtherDriverUseMyCar出错，错误="+ "unbindTheOtherDriverUseMyCarVo=" + unbindTheOtherDriverUseMyCarVo,e);
+			throw e;
+		}
+		
+	
+		return map;
+	}
+
+
+	@Override
+	public Map<String, String> reauthentication(ReauthenticationVo reauthenticationVo) throws Exception {
+		Map<String, String> map = new HashMap<>();
+		try {
+			
+			 String url = iAccountCached.getUrl(); //webservice请求url
+			 String method = iAccountCached.getMethod(); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			 String key = iAccountCached.getKey(); //秘钥
+			 map = TransferThirdParty.reauthentication(reauthenticationVo, url, method, userId, userPwd, key);
+			 
+		} catch (Exception e) {
+			logger.error("reauthentication出错，错误="+ "reauthenticationVo=" + reauthenticationVo,e);
 			throw e;
 		}
 		

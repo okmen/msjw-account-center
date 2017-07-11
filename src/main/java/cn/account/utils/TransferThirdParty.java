@@ -24,6 +24,7 @@ import cn.account.bean.vo.IdentificationOfAuditResultsVo;
 import cn.account.bean.vo.InformationSheetVo;
 import cn.account.bean.vo.MotorVehicleBusiness;
 import cn.account.bean.vo.MyDriverLicenseVo;
+import cn.account.bean.vo.ReauthenticationVo;
 import cn.account.bean.vo.ResultOfBIndDriverLicenseVo;
 import cn.account.bean.vo.TrafficQueryVo;
 import cn.account.bean.vo.UnbindTheOtherDriverUseMyCarVo;
@@ -1494,6 +1495,18 @@ public class TransferThirdParty {
 			map.put("msg", msg);
 			map.put("data", null);
 		}
+		return map;
+	}
+	public static Map<String, String> reauthentication(ReauthenticationVo reauthenticationVo, String url, String method,
+			String userId, String userPwd, String key) throws Exception {
+		Map<String , String> map = new HashMap<>();
+		String xxcj15 = "xxcj15";
+		String xxcj15RepXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+reauthenticationVo.getIdentityCard()+"</SFZMHM><LXDH>"+reauthenticationVo.getMobilephone()+"</LXDH>RZLX>"+reauthenticationVo.getAuthenticationType()+"</RZLX><RZLY>"+reauthenticationVo.getSourceOfCertification()+"C</RZLY><PHOTO6>"+reauthenticationVo.getPhoto6()+"</PHOTO6><PHOTO9>"+reauthenticationVo.getPhoto9()+"222</PHOTO9></REQUEST>";		
+		JSONObject xxcj15RepJson = WebServiceClient.getInstance().requestWebService(url, method, xxcj15, xxcj15RepXml, userId, userPwd, key);
+		String code = xxcj15RepJson.getString("CODE");
+		String msg = xxcj15RepJson.getString("MSG");
+		map.put("code", code);
+		map.put("msg", msg);
 		return map;
 	}
 	
