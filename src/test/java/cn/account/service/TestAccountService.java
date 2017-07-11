@@ -24,6 +24,7 @@ import cn.account.bean.vo.BindDriverLicenseVo;
 import cn.account.bean.vo.BindTheVehicleVo;
 import cn.account.bean.vo.LoginReturnBeanVo;
 import cn.account.bean.vo.MyDriverLicenseVo;
+import cn.account.bean.vo.ReauthenticationVo;
 import cn.account.bean.vo.ResultOfBIndDriverLicenseVo;
 import cn.account.bean.vo.UnbindTheOtherDriverUseMyCarVo;
 import cn.account.bean.vo.UnbindVehicleVo;
@@ -37,6 +38,23 @@ public class TestAccountService {
 	@Autowired
 	@Qualifier("accountService")
 	private IAccountService accountService;
+	/**
+	 * 重新认证
+	 * @throws Exception
+	 */
+	@Test
+	public void testreauthentication() throws Exception{
+		ReauthenticationVo rv = new ReauthenticationVo();
+		rv.setAuthenticationType("5");
+		rv.setIdentityCard("42138119910422133X");
+		rv.setMobilephone("18627174748");
+		rv.setPhoto6("111");
+		rv.setPhoto9("222");
+		rv.setSourceOfCertification("C");
+		Map<String, String> map = accountService.reauthentication(rv);
+		System.out.println(map);
+	}
+	
 	
 	@Test
 	public void bindsTheMotorVehicleQuery() throws Exception{

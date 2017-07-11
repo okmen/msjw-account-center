@@ -1505,6 +1505,11 @@ public class TransferThirdParty {
 		JSONObject xxcj15RepJson = WebServiceClient.getInstance().requestWebService(url, method, xxcj15, xxcj15RepXml, userId, userPwd, key);
 		String code = xxcj15RepJson.getString("CODE");
 		String msg = xxcj15RepJson.getString("MSG");
+		if ("0000".equals(code)) {
+			xxcj15RepJson = xxcj15RepJson.getJSONObject("BODY");
+			String cid = xxcj15RepJson.getString("CID");
+			map.put("data", cid);
+		}
 		map.put("code", code);
 		map.put("msg", msg);
 		return map;
