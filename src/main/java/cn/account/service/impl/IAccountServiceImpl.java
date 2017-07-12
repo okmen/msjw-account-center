@@ -30,6 +30,7 @@ import cn.account.bean.vo.DriverLicenseInformationSheetVo;
 import cn.account.bean.vo.DriverLicenseToSupplementThePermitBusinessVo;
 import cn.account.bean.vo.DrivingLicenseVo;
 import cn.account.bean.vo.ElectronicDriverLicenseVo;
+import cn.account.bean.vo.IdentificationOfAuditResultsVo;
 import cn.account.bean.vo.InformationSheetVo;
 import cn.account.bean.vo.LoginReturnBeanVo;
 import cn.account.bean.vo.MotorVehicleBusiness;
@@ -2107,5 +2108,20 @@ public class IAccountServiceImpl implements IAccountService {
 		return map;
 	}
 	
+	public IdentificationOfAuditResultsVo getIdentificationOfAuditResults(String idCard,String sourceOfCertification)throws Exception{
+		IdentificationOfAuditResultsVo identificationOfAuditResultsVo = null;
+		try {
+			String url = iAccountCached.getUrl(); //webservice请求url
+			String method = iAccountCached.getMethod(); //webservice请求方法名称
+			String userId = iAccountCached.getUserid(); //webservice登录账号
+			String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
+			String key = iAccountCached.getKey(); //秘钥
+			identificationOfAuditResultsVo = (IdentificationOfAuditResultsVo) TransferThirdParty.identificationOfAuditResults("", idCard, sourceOfCertification, url, method, userId, userPwd, key);
+		} catch (Exception e) {
+			logger.error("getIdentificationOfAuditResults出错，idCard="+ idCard + "sourceOfCertification=" + sourceOfCertification,e);
+			throw e;
+		}
+		return identificationOfAuditResultsVo;
+	}
 }
 	
