@@ -606,7 +606,7 @@ public class TransferThirdParty {
 	 * @param key 秘钥
 	 * @throws Exception
 	 */
-	public static Object identificationOfAuditResults(String collectingSerialNumber,String idCard,String sourceOfCertification,String url,String method,String userId,String userPwd,String key) throws Exception{
+	public static List<IdentificationOfAuditResultsVo> identificationOfAuditResults(String collectingSerialNumber,String idCard,String sourceOfCertification,String url,String method,String userId,String userPwd,String key) throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
 		String xxcj14 = "xxcj14";
 		String xxcj14ReqXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><CID>"+collectingSerialNumber+"</CID><SFZMHM>"+idCard+"</SFZMHM></REQUEST>";
@@ -614,11 +614,18 @@ public class TransferThirdParty {
 		String code = xxcj14RespJson.getString("CODE");
 		String msg = xxcj14RespJson.getString("MSG");
 		IdentificationOfAuditResultsVo identificationOfAuditResultsVo = null;
+		List<IdentificationOfAuditResultsVo> identificationOfAuditResultsVos = null;
 		if("0000".equals(code)){
 			xxcj14RespJson = xxcj14RespJson.getJSONObject("BODY");
-			xxcj14RespJson = xxcj14RespJson.getJSONObject("ROW");
-			identificationOfAuditResultsVo = new IdentificationOfAuditResultsVo();
-			//认证  1车主本人2非车主本人3驾驶人
+			String xxcj14RespJson1 = xxcj14RespJson.getString("ROW");
+			if(xxcj14RespJson1.toString().contains("[")){
+				identificationOfAuditResultsVos = JSON.parseArray(xxcj14RespJson1, IdentificationOfAuditResultsVo.class);
+			}else{
+				identificationOfAuditResultsVos = new ArrayList<IdentificationOfAuditResultsVo>();
+				identificationOfAuditResultsVo = JSON.parseObject(xxcj14RespJson1, IdentificationOfAuditResultsVo.class);
+				identificationOfAuditResultsVos.add(identificationOfAuditResultsVo);
+			}
+			/*//认证  1车主本人2非车主本人3驾驶人
 			String RZLX = xxcj14RespJson.getString("RZLX");
 			//信息登记时间
 			String SHSJ = xxcj14RespJson.getString("SHSJ");
@@ -629,9 +636,9 @@ public class TransferThirdParty {
 			identificationOfAuditResultsVo.setRZLX(RZLX);
 			identificationOfAuditResultsVo.setSHSJ(SHSJ);
 			identificationOfAuditResultsVo.setSHZT(SHZT);
-			identificationOfAuditResultsVo.setTBYY(TBYY);
+			identificationOfAuditResultsVo.setTBYY(TBYY);*/
 		}
-		return identificationOfAuditResultsVo;
+		return identificationOfAuditResultsVos;
 	}
 	/**
 	 * 自然人身份认证审核结果查询
@@ -1303,7 +1310,7 @@ public class TransferThirdParty {
 		//getElectronicDriverLicense("FD615421(3)", "吴岷", "13902315540", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//getDrivingLicense("粤B6F7M1", "02", "15920071829", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//login("13502899383", "189981", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610", "C");
-		identificationOfAuditResults("", "440301199002101119", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+		identificationOfAuditResults("", "445222197912152216", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 	}
 	
 	/**

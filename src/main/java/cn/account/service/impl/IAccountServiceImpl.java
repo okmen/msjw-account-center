@@ -62,9 +62,6 @@ import cn.account.service.IAccountService;
 import cn.account.utils.NozzleMeans;
 import cn.account.utils.TransferThirdParty;
 import cn.sdk.bean.BaseBean;
-import cn.sdk.util.MsgCode;
-import cn.sdk.util.StringUtil;
-import cn.sdk.webservice.WebServiceClient;
 
 /**
  * 个人中心
@@ -2116,20 +2113,20 @@ public class IAccountServiceImpl implements IAccountService {
 		return map;
 	}
 	
-	public IdentificationOfAuditResultsVo getIdentificationOfAuditResults(String idCard,String sourceOfCertification)throws Exception{
-		IdentificationOfAuditResultsVo identificationOfAuditResultsVo = null;
+	public List<IdentificationOfAuditResultsVo> getIdentificationOfAuditResults(String idCard,String sourceOfCertification)throws Exception{
+		List<IdentificationOfAuditResultsVo> identificationOfAuditResultsVos = null;
 		try {
 			String url = iAccountCached.getUrl(); //webservice请求url
 			String method = iAccountCached.getMethod(); //webservice请求方法名称
 			String userId = iAccountCached.getUserid(); //webservice登录账号
 			String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
 			String key = iAccountCached.getKey(); //秘钥
-			identificationOfAuditResultsVo = (IdentificationOfAuditResultsVo) TransferThirdParty.identificationOfAuditResults("", idCard, sourceOfCertification, url, method, userId, userPwd, key);
+			identificationOfAuditResultsVos = TransferThirdParty.identificationOfAuditResults("", idCard, sourceOfCertification, url, method, userId, userPwd, key);
 		} catch (Exception e) {
 			logger.error("getIdentificationOfAuditResults出错，idCard="+ idCard + "sourceOfCertification=" + sourceOfCertification,e);
 			throw e;
 		}
-		return identificationOfAuditResultsVo;
+		return identificationOfAuditResultsVos;
 	}
 }
 	
