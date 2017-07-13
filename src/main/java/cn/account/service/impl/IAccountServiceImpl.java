@@ -467,7 +467,7 @@ public class IAccountServiceImpl implements IAccountService {
 		List<MyBusinessVo> returnMyBusinessVo = new ArrayList<MyBusinessVo>();
 		try {
 			for(MyBusinessVo myBusinessVo : myBusinessVos){
-				if(status == myBusinessVo.getStatus()){
+				if(null != myBusinessVo.getStatus() && status == myBusinessVo.getStatus()){
 					returnMyBusinessVo.add(myBusinessVo);
 				}
 			}

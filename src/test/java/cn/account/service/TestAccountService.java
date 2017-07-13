@@ -23,6 +23,7 @@ import cn.account.bean.vo.BindCarVo;
 import cn.account.bean.vo.BindDriverLicenseVo;
 import cn.account.bean.vo.BindTheVehicleVo;
 import cn.account.bean.vo.LoginReturnBeanVo;
+import cn.account.bean.vo.MyBusinessVo;
 import cn.account.bean.vo.MyDriverLicenseVo;
 import cn.account.bean.vo.ReauthenticationVo;
 import cn.account.bean.vo.ResultOfBIndDriverLicenseVo;
@@ -417,6 +418,13 @@ public class TestAccountService {
 	public void testAllWechatUserInfoBeanList() {
 		String mobilephone = "13888888888";
 		accountService.sendSMSVerificatioCode(mobilephone, "123456");
+	}
+	
+	@Test
+	public void getMyBusiness() throws Exception {
+		String mobilephone = "13888888888";
+		List<MyBusinessVo> myBusinessVos = accountService.getMyBusiness(0, 1, "445222199209020034", "C");
+		System.out.println(myBusinessVos);
 	}
 	
 
