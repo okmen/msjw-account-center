@@ -429,7 +429,15 @@ public class IAccountServiceImpl implements IAccountService {
 						car.setBehindTheFrame4Digits(bindTheVehicleVo.getBehindTheFrame4Digits());
 						car.setMyNumberPlate(bindTheVehicleVo.getNumberPlateNumber());
 						car.setPlateType(bindTheVehicleVo.getPlateType());
-						car.setMobilephone(mobilephone);
+						car.setName(bindTheVehicleVo.getName());
+						String identityCardv = bindTheVehicleVo.getIdentityCard();
+						AuthenticationBasicInformationVo authenticationBasicInformationVo2 = TransferThirdParty.authenticationBasicInformationQuery(identityCardv, sourceOfCertification, url, method, userId, userPwd, key);
+						car.setIdentityCard(identityCardv);
+						if(null != authenticationBasicInformationVo2 && StringUtils.isNotBlank(authenticationBasicInformationVo2.getMobilephone()) ){
+							car.setMobilephone(authenticationBasicInformationVo2.getMobilephone());
+						}else{
+							car.setMobilephone("");
+						}
 						cars.add(car);
 					}
 				}
