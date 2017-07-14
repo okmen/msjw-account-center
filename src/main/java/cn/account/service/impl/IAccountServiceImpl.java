@@ -752,11 +752,23 @@ public class IAccountServiceImpl implements IAccountService {
 				 myBusinessVo.setApplicationTime(driverLicenseToSupplementThePermitBusinessVo.getWSLRSJ());//申请时间
 				 myBusinessVo.setDetailedBusiness(6);
 				 // B：补证 H换证
+				 if("N".equals(driverLicenseToSupplementThePermitBusinessVo.getHBLX())){
+					 myBusinessVo.setBusinessTitle("驾驶证年审");//业务名称
+				 }
+				 if("H".equals(driverLicenseToSupplementThePermitBusinessVo.getHBLX())){
+					 myBusinessVo.setBusinessTitle("驾驶证换证");//业务名称
+				 }
 				 if("B".equals(driverLicenseToSupplementThePermitBusinessVo.getHBLX())){
 					 myBusinessVo.setBusinessTitle("驾驶证补证");//业务名称
 				 }
 				 if("Z".equals(driverLicenseToSupplementThePermitBusinessVo.getHBLX())){
 					 myBusinessVo.setBusinessTitle("驾驶证转入");//业务名称
+				 }
+				 if("Y".equals(driverLicenseToSupplementThePermitBusinessVo.getHBLX())){
+					 myBusinessVo.setBusinessTitle("驾驶证延期换证");//业务名称
+				 }
+				 if("L".equals(driverLicenseToSupplementThePermitBusinessVo.getHBLX())){
+					 myBusinessVo.setBusinessTitle("驾驶证联系方式变更");//业务名称
 				 }
 				 myBusinessVo.setIdentityCard(driverLicenseToSupplementThePermitBusinessVo.getSFZMHM()); //身份证
 				//myBusinessVo.setPlateType(plateType);//号牌种类例如 蓝牌
@@ -809,11 +821,25 @@ public class IAccountServiceImpl implements IAccountService {
 				 myBusinessVo.setDetailedBusiness(5);
 				 //YWLX=1换  YWLX=5 补 
 				 if("1".equals(motorVehicleBusiness.getYWLX())){
-					 myBusinessVo.setBusinessTitle("换领机动车行驶证");//业务名称
-				 }
-				 if("5".equals(motorVehicleBusiness.getYWLX())){
 					 myBusinessVo.setBusinessTitle("补领机动车行驶证");//业务名称
 				 }
+				 if("2".equals(motorVehicleBusiness.getYWLX())){
+					 myBusinessVo.setBusinessTitle("检验合格标志");//业务名称
+				 }
+				 
+				 if("3".equals(motorVehicleBusiness.getYWLX())){
+					 myBusinessVo.setBusinessTitle("补领机动车牌号码");//业务名称
+				 }
+				 if("4".equals(motorVehicleBusiness.getYWLX())){
+					 myBusinessVo.setBusinessTitle("申请机动车临牌");//业务名称
+				 }
+				 if("5".equals(motorVehicleBusiness.getYWLX())){
+					 myBusinessVo.setBusinessTitle("换领机动车行驶证");//业务名称
+				 }
+				 if("6".equals(motorVehicleBusiness.getYWLX())){
+					 myBusinessVo.setBusinessTitle("机动车变更联系方式");//业务名称
+				 }
+				 
 				 if("0".equals(motorVehicleBusiness.getZHCLZT())){
 					 //0待初审  -->办理中
 					 myBusinessVo.setStatus(1); //0-全部，1-办理中，2-已完结

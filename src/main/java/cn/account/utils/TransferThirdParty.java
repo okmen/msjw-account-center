@@ -553,6 +553,7 @@ public class TransferThirdParty {
 		}else {
 			//无数据
 		}
+		System.out.println(driverLicenseToSupplementThePermitBusinessVos);
 		return driverLicenseToSupplementThePermitBusinessVos;
 	}
 	/**
