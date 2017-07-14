@@ -819,6 +819,7 @@ public class IAccountServiceImpl implements IAccountService {
 				MyBusinessVo myBusinessVo = new MyBusinessVo();
 				 myBusinessVo.setVehicleNumber(motorVehicleBusiness.getHPHM());
 				 myBusinessVo.setDetailedBusiness(5);
+				 myBusinessVo.setReceptionTime(motorVehicleBusiness.getZHCLSJ()); //受理时间
 				 //YWLX=1换  YWLX=5 补 
 				 if("1".equals(motorVehicleBusiness.getYWLX())){
 					 myBusinessVo.setBusinessTitle("补领机动车行驶证");//业务名称
