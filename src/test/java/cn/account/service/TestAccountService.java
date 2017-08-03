@@ -59,7 +59,7 @@ public class TestAccountService {
 	
 	@Test
 	public void bindsTheMotorVehicleQuery() throws Exception{
-		accountService.getBndTheVehicles("44022319900518184X", "13632744667", "Z");
+		accountService.getBndTheVehicles("445222197912152216", "13502899383", "Z");
 	}
 	/**
 	 * 车主解绑车辆其他驾驶人
@@ -166,7 +166,7 @@ public class TestAccountService {
 	 */
 	@Test
 	public void testMyDriverLicense() throws Exception{
-		String IDcard = "71272119880226103";
+		String IDcard = "500233198902044217";
 		String userSource = "C";
 		MyDriverLicenseVo myDriverLicense = accountService.getMyDriverLicense(IDcard, userSource);
 		System.out.println(myDriverLicense);
@@ -393,7 +393,7 @@ public class TestAccountService {
 	@Test
 	public void testAlipayLogin() {
 		try {
-			LoginReturnBeanVo loginReturnBeanVo = accountService.alipayLogin("13902930139", "C", "cccc");
+			LoginReturnBeanVo loginReturnBeanVo = accountService.alipayLogin("15920026012", "C", "cccc");
 			System.out.println(loginReturnBeanVo);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -423,7 +423,7 @@ public class TestAccountService {
 	@Test
 	public void getMyBusiness() throws Exception {
 		String mobilephone = "13888888888";
-		List<MyBusinessVo> myBusinessVos = accountService.getMyBusiness(0, 1, "445222199209020034", "C");
+		List<MyBusinessVo> myBusinessVos = accountService.getMyBusiness(2, 0, "440301199002101119", "C");
 		System.out.println(myBusinessVos);
 	}
 	

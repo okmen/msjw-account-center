@@ -749,7 +749,8 @@ public class IAccountServiceImpl implements IAccountService {
 		try {
 			for(DriverLicenseToSupplementThePermitBusinessVo driverLicenseToSupplementThePermitBusinessVo : driverLicenseToSupplementThePermitBusinessVos){
 				 MyBusinessVo myBusinessVo = new MyBusinessVo();
-				 myBusinessVo.setApplicationTime(driverLicenseToSupplementThePermitBusinessVo.getWSLRSJ());//申请时间
+				 //去掉申请时间
+				 //myBusinessVo.setApplicationTime(driverLicenseToSupplementThePermitBusinessVo.getWSLRSJ());//申请时间
 				 myBusinessVo.setDetailedBusiness(6);
 				 // B：补证 H换证
 				 if("N".equals(driverLicenseToSupplementThePermitBusinessVo.getHBLX())){
@@ -944,6 +945,11 @@ public class IAccountServiceImpl implements IAccountService {
 						myBusinessVo.setStatus(2);
 						myBusinessVo.setStatusStr("已制证");
 					}
+					if("TB".equals(informationSheetVo.getStatusCode())){
+						 //TB退办  -->办理中
+						 myBusinessVo.setStatus(1); //0-全部，1-办理中，2-已完结
+						 myBusinessVo.setStatusStr("退办");
+					 }
 					myBusinessVo.setApplicationTime(informationSheetVo.getApplicationTime());
 					//具体业务 1、驾驶人信息单；2、机动车信息单；3、无车证明申请；4、驾驶人安全事故信用表；5、机动车行驶证；6、驾驶证
 					myBusinessVo.setDetailedBusiness(3);
