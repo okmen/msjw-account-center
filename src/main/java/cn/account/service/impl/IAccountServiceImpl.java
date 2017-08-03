@@ -956,7 +956,7 @@ public class IAccountServiceImpl implements IAccountService {
 					}
 					if("TB".equals(informationSheetVo.getStatusCode())){
 						 //TB退办  -->办理中
-						 myBusinessVo.setStatus(1); //0-全部，1-办理中，2-已完结
+						 myBusinessVo.setStatus(2); //0-全部，1-办理中，2-已完结
 						 myBusinessVo.setStatusStr("退办");
 					 }
 					myBusinessVo.setApplicationTime(informationSheetVo.getApplicationTime());
