@@ -423,7 +423,7 @@ public class TestAccountService {
 	@Test
 	public void getMyBusiness() throws Exception {
 		String mobilephone = "13888888888";
-		List<MyBusinessVo> myBusinessVos = accountService.getMyBusiness(2, 0, "440301199002101119", "C");
+		List<MyBusinessVo> myBusinessVos = accountService.getMyBusiness(2, 0, "445222199209020034", "C");
 		System.out.println(myBusinessVos);
 	}
 	

@@ -783,25 +783,30 @@ public class IAccountServiceImpl implements IAccountService {
 					 //1初审通过，待制证  -->办理中
 					 myBusinessVo.setStatus(1); //0-全部，1-办理中，2-已完结
 					 myBusinessVo.setStatusStr("初审通过，待制证");
-					 myBusinessVo.setReceptionTime(driverLicenseToSupplementThePermitBusinessVo.getWSLRSJ()); //受理时间
+					 //myBusinessVo.setReceptionTime(driverLicenseToSupplementThePermitBusinessVo.getWSLRSJ()); //申请时间
+					myBusinessVo.setReceptionTime(driverLicenseToSupplementThePermitBusinessVo.getZHCLSJ()); //受理时间
 				 }
 				 if("2".equals(driverLicenseToSupplementThePermitBusinessVo.getZHCLZT())){
 					 //2车管已制证  -->办理中
 					 myBusinessVo.setStatus(2); //0-全部，1-办理中，2-已完结
 					 myBusinessVo.setStatusStr("车管已制证");
-					 myBusinessVo.setReceptionTime(driverLicenseToSupplementThePermitBusinessVo.getWSLRSJ()); //受理时间
+					 // myBusinessVo.setReceptionTime(driverLicenseToSupplementThePermitBusinessVo.getWSLRSJ()); //申请时间
+					 myBusinessVo.setReceptionTime(driverLicenseToSupplementThePermitBusinessVo.getZHCLSJ()); //受理时间
+					 
 				 }
 				 if("3".equals(driverLicenseToSupplementThePermitBusinessVo.getZHCLZT())){
 					 //3待初审  -->办理中
 					 myBusinessVo.setStatus(1); //0-全部，1-办理中，2-已完结
 					 myBusinessVo.setStatusStr("待初审");
-					 myBusinessVo.setReceptionTime(driverLicenseToSupplementThePermitBusinessVo.getWSLRSJ()); //受理时间
+					 // myBusinessVo.setReceptionTime(driverLicenseToSupplementThePermitBusinessVo.getWSLRSJ()); //申请时间
+					 myBusinessVo.setReceptionTime(driverLicenseToSupplementThePermitBusinessVo.getZHCLSJ()); //受理时间
 				 }
 				 if("TB".equals(driverLicenseToSupplementThePermitBusinessVo.getZHCLZT())){
 					 //TB退办  -->办理中
 					 myBusinessVo.setStatus(2); //0-全部，1-办理中，2-已完结
 					 myBusinessVo.setStatusStr("退办");
-					 myBusinessVo.setReceptionTime(driverLicenseToSupplementThePermitBusinessVo.getWSLRSJ()); //受理时间
+					 // myBusinessVo.setReceptionTime(driverLicenseToSupplementThePermitBusinessVo.getWSLRSJ()); //申请时间
+					 myBusinessVo.setReceptionTime(driverLicenseToSupplementThePermitBusinessVo.getZHCLSJ()); //受理时间
 				 }
 				 myBusinessVo.setUserName(driverLicenseToSupplementThePermitBusinessVo.getXM());//姓名
 				//myBusinessVo.setVehicleNumber(vehicleNumber);//车辆号码 例如 粤B701NR
