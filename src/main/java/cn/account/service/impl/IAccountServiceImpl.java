@@ -302,6 +302,17 @@ public class IAccountServiceImpl implements IAccountService {
 				}else{
 					accountDao.updateUserBind(identityCard,openId,loginClient);
 				}*/
+				MyDriverLicenseVo myDriverLicenseVo = getMyDriverLicense(identityCard, sourceOfCertification);
+				if(null != myDriverLicenseVo){
+					String fileNumber = myDriverLicenseVo.getFileNumber();
+					if(StringUtils.isNotBlank(fileNumber)){
+						loginReturnBean.setFileNumber("");
+					}else{
+						loginReturnBean.setFileNumber(fileNumber);
+					}
+				}else{
+					loginReturnBean.setFileNumber("");
+				}
 			}else {
 				//登录失败
 				loginReturnBean.setCode(code);
@@ -375,6 +386,17 @@ public class IAccountServiceImpl implements IAccountService {
 					userBind.setUserId(openId);
 					userBindAlipayDao.addOrUpdateLoginInfo(userBind);
 				}
+				MyDriverLicenseVo myDriverLicenseVo = getMyDriverLicense(identityCard, sourceOfCertification);
+				if(null != myDriverLicenseVo){
+					String fileNumber = myDriverLicenseVo.getFileNumber();
+					if(StringUtils.isNotBlank(fileNumber)){
+						loginReturnBean.setFileNumber("");
+					}else{
+						loginReturnBean.setFileNumber(fileNumber);
+					}
+				}else{
+					loginReturnBean.setFileNumber("");
+				}
 				loginReturnBean.setAuthenticationBasicInformation(authenticationBasicInformationVo);
 				loginReturnBean.setCars(cars);
 			}else{
@@ -440,7 +462,17 @@ public class IAccountServiceImpl implements IAccountService {
 				}
 				loginReturnBean.setCode("0000");
 				loginReturnBean.setMsg("登录成功");
-				
+				MyDriverLicenseVo myDriverLicenseVo = getMyDriverLicense(identityCard, sourceOfCertification);
+				if(null != myDriverLicenseVo){
+					String fileNumber = myDriverLicenseVo.getFileNumber();
+					if(StringUtils.isNotBlank(fileNumber)){
+						loginReturnBean.setFileNumber("");
+					}else{
+						loginReturnBean.setFileNumber(fileNumber);
+					}
+				}else{
+					loginReturnBean.setFileNumber("");
+				}
 				loginReturnBean.setAuthenticationBasicInformation(authenticationBasicInformationVo);
 				loginReturnBean.setCars(cars);
 			}else{
