@@ -305,7 +305,7 @@ public class IAccountServiceImpl implements IAccountService {
 				MyDriverLicenseVo myDriverLicenseVo = getMyDriverLicense(identityCard, sourceOfCertification);
 				if(null != myDriverLicenseVo){
 					String fileNumber = myDriverLicenseVo.getFileNumber();
-					if(StringUtils.isNotBlank(fileNumber)){
+					if(StringUtils.isBlank(fileNumber)){
 						loginReturnBean.setFileNumber("");
 					}else{
 						loginReturnBean.setFileNumber(fileNumber);
@@ -389,7 +389,7 @@ public class IAccountServiceImpl implements IAccountService {
 				MyDriverLicenseVo myDriverLicenseVo = getMyDriverLicense(identityCard, sourceOfCertification);
 				if(null != myDriverLicenseVo){
 					String fileNumber = myDriverLicenseVo.getFileNumber();
-					if(StringUtils.isNotBlank(fileNumber)){
+					if(StringUtils.isBlank(fileNumber)){
 						loginReturnBean.setFileNumber("");
 					}else{
 						loginReturnBean.setFileNumber(fileNumber);
@@ -465,7 +465,7 @@ public class IAccountServiceImpl implements IAccountService {
 				MyDriverLicenseVo myDriverLicenseVo = getMyDriverLicense(identityCard, sourceOfCertification);
 				if(null != myDriverLicenseVo){
 					String fileNumber = myDriverLicenseVo.getFileNumber();
-					if(StringUtils.isNotBlank(fileNumber)){
+					if(StringUtils.isBlank(fileNumber)){
 						loginReturnBean.setFileNumber("");
 					}else{
 						loginReturnBean.setFileNumber(fileNumber);
