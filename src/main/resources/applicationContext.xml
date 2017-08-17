@@ -16,7 +16,7 @@
     http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
     <bean id="serializeManager" class="cn.sdk.serialization.KryoUtil"></bean>
-    
+    <aop:aspectj-autoproxy />
     <context:annotation-config />
 	<context:component-scan base-package="cn.account" />
 	

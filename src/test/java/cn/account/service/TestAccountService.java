@@ -47,11 +47,11 @@ public class TestAccountService {
 	public void testreauthentication() throws Exception{
 		ReauthenticationVo rv = new ReauthenticationVo();
 		rv.setAuthenticationType("5");
-		rv.setIdentityCard("42138119910422133X");
-		rv.setMobilephone("18627174748");
+		rv.setIdentityCard("362426199303075211");
+		rv.setMobilephone("13760727820");
 		rv.setPhoto6("111");
 		rv.setPhoto9("222");
-		rv.setSourceOfCertification("C");
+		rv.setSourceOfCertification("Z");
 		Map<String, String> map = accountService.reauthentication(rv);
 		System.out.println(map);
 	}
@@ -59,7 +59,8 @@ public class TestAccountService {
 	
 	@Test
 	public void bindsTheMotorVehicleQuery() throws Exception{
-		accountService.getBndTheVehicles("445222197912152216", "13502899383", "Z");
+		List<BindTheVehicleVo> bindTheVehicleVos = accountService.getBndTheVehicles("440301199002101119", "18603017278", "Z");
+		System.out.println(bindTheVehicleVos);
 	}
 	/**
 	 * 车主解绑车辆其他驾驶人
@@ -67,7 +68,7 @@ public class TestAccountService {
 	 */
 	@Test
 	public void loginTest() throws Exception{
-		accountService.login("13502899383", "189981", "C", "==", "C");
+		accountService.login("18603017278", "123456", "Z", "==", "Z");
 	}
 	/**
 	 * 车主解绑车辆其他驾驶人
@@ -126,9 +127,9 @@ public class TestAccountService {
 	 */
 	@Test
 	public void testgetBndTheVehicles() throws Exception{
-		String IDcard = "440102197611104047";
-		String sourceOfCertification = "C";
-		String mobilephone = "18682386948";
+		String IDcard = "622822198502074110";
+		String sourceOfCertification = "Z";
+		String mobilephone = "15920071829";
 		List<BindTheVehicleVo> map = accountService.getBndTheVehicles(IDcard, mobilephone, sourceOfCertification);
 		System.out.println(map);
 	}
@@ -393,7 +394,7 @@ public class TestAccountService {
 	@Test
 	public void testAlipayLogin() {
 		try {
-			LoginReturnBeanVo loginReturnBeanVo = accountService.alipayLogin("15920026012", "C", "cccc");
+			LoginReturnBeanVo loginReturnBeanVo = accountService.alipayLogin("18923796661", "C", "cccc");
 			System.out.println(loginReturnBeanVo);
 		} catch (Exception e) {
 			e.printStackTrace();

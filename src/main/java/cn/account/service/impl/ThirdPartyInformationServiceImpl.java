@@ -28,11 +28,12 @@ public class ThirdPartyInformationServiceImpl implements IThirdPartyInformationS
 	public JSONObject readilyShoot(ReadilyShootVo readilyShootVo) throws Exception {
 		JSONObject json= null;
 		try {
-			 String url = iAccountCached.getUrl(); //webservice请求url
-			 String method = iAccountCached.getMethod(); //webservice请求方法名称
-			 String userId = iAccountCached.getUserid(); //webservice登录账号
-			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
-			 String key = iAccountCached.getKey(); //秘钥
+			String string = readilyShootVo.getUserSource();
+			 String url = iAccountCached.getUrl(string); //webservice请求url
+			 String method = iAccountCached.getMethod(string); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(string); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(string); //webservice登录密码
+			 String key = iAccountCached.getKey(string); //秘钥
 			 json = NozzleMeans.readilyShoot(readilyShootVo, url, method, userId, userPwd, key);
 		} catch (Exception e) {
 			logger.error("ReadilyShootVo出错，错误="+ readilyShootVo.toString(),e);
@@ -45,11 +46,12 @@ public class ThirdPartyInformationServiceImpl implements IThirdPartyInformationS
 	public JSONObject getPositioningAddress(String keyword) throws Exception {
 		JSONObject json= null;
 		try {
-			 String url = iAccountCached.getUrl(); //webservice请求url
-			 String method = iAccountCached.getMethod(); //webservice请求方法名称
-			 String userId = iAccountCached.getUserid(); //webservice登录账号
-			 String userPwd = iAccountCached.getUserpwd(); //webservice登录密码
-			 String key = iAccountCached.getKey(); //秘钥
+			String string = "";
+			 String url = iAccountCached.getUrl(string); //webservice请求url
+			 String method = iAccountCached.getMethod(string); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(string); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(string); //webservice登录密码
+			 String key = iAccountCached.getKey(string); //秘钥
 			 json = NozzleMeans.getPositioningAddress(keyword, url, method, userId, userPwd, key);
 		} catch (Exception e) {
 			logger.error("getPositioningAddress出错，错误="+ keyword,e);
