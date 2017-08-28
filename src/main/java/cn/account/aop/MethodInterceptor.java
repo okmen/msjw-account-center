@@ -29,7 +29,7 @@ public class MethodInterceptor {
 	
 	@Pointcut("execution(public * cn.account.service.impl.*.*(..))")
 	public void cmdMethod() {
-		System.out.println("cmdMethod");
+		//System.out.println("cmdMethod");
 		logger.info("cmdMethod");
 	};
 
