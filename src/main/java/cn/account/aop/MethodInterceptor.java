@@ -35,13 +35,13 @@ public class MethodInterceptor {
 
 	@Before("cmdMethod()")
 	public void before(JoinPoint joinPoint) {
-		System.out.println("before");
+		//System.out.println("before");
 		logger.debug("add method before   " + joinPoint);
 	}
 
 	@After("cmdMethod()")
 	public void after(JoinPoint joinPoint) {
-		System.out.println("after");
+		//System.out.println("after");
 		logger.debug("add method after   " + joinPoint);
 	}
 
