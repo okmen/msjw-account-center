@@ -2213,5 +2213,23 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		return identificationOfAuditResultsVos;
 	}
+
+
+	@Override
+	public Map<String, Object> alipayAKeyRegister(String userName, String identityCard, String mobilephone,String sourceOfCertification) throws Exception {
+		Map<String, Object> map = null;
+		try {
+			String url = iAccountCached.getUrl(sourceOfCertification); //webservice请求url
+			String method = iAccountCached.getMethod(sourceOfCertification); //webservice请求方法名称
+			String userId = iAccountCached.getUserid(sourceOfCertification); //webservice登录账号
+			String userPwd = iAccountCached.getUserpwd(sourceOfCertification); //webservice登录密码
+			String key = iAccountCached.getKey(sourceOfCertification); //秘钥
+			map = TransferThirdParty.alipayAKeyRegister(userName, identityCard, mobilephone, sourceOfCertification, url, method, userId, userPwd, key);
+		} catch (Exception e) {
+			logger.error("alipayAKeyRegister出错，userName="+ userName + "identityCard=" + identityCard + "mobilephone=" + mobilephone + "sourceOfCertification=" + sourceOfCertification,e);
+			throw e;
+		}
+		return map;
+	}
 }
 	

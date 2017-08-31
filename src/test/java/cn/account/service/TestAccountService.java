@@ -25,6 +25,7 @@ import cn.account.bean.vo.BindTheVehicleVo;
 import cn.account.bean.vo.LoginReturnBeanVo;
 import cn.account.bean.vo.MyBusinessVo;
 import cn.account.bean.vo.MyDriverLicenseVo;
+import cn.account.bean.vo.ReadilyShootVo;
 import cn.account.bean.vo.ReauthenticationVo;
 import cn.account.bean.vo.ResultOfBIndDriverLicenseVo;
 import cn.account.bean.vo.UnbindTheOtherDriverUseMyCarVo;
@@ -180,13 +181,13 @@ public class TestAccountService {
 	public void testBindVehicle() throws Exception{
 		BindCarVo vo = new BindCarVo();
 		vo.setBindType(1);
-		vo.setCertifiedSource("C");
+		vo.setCertifiedSource("Z");
 		vo.setInputIP("192.168.1.243");
-		vo.setLicensePlateNumber("B601NR");
+		vo.setLicensePlateNumber("A12345");
 		vo.setLicensePlateType("02");
 		vo.setProvinceAbbreviation("粤");
-		vo.setUserSource("C");
-		vo.setUserIdCard("440301199002101119");
+		vo.setUserSource("Z");
+		vo.setUserIdCard("360428199308071413");
 		JSONObject addVehicle = accountService.addVehicle(vo);
 		System.out.println(addVehicle);
 	}
@@ -426,6 +427,28 @@ public class TestAccountService {
 		String mobilephone = "13888888888";
 		List<MyBusinessVo> myBusinessVos = accountService.getMyBusiness(2, 0, "445222199209020034", "C");
 		System.out.println(myBusinessVos);
+	}
+	
+	@Test
+	public void readilyShoot() throws Exception {
+		ReadilyShootVo readilyShootVo = new ReadilyShootVo();
+		readilyShootVo.setIllegalTime("2017-08-31 09:27");
+		readilyShootVo.setIllegalSections("62000-4044---深南路-深南大道岗厦路段");
+		readilyShootVo.setReportImgOne("1111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+		readilyShootVo.setReportImgTwo("222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222");
+		readilyShootVo.setReportImgThree("33333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333");
+		readilyShootVo.setLicensePlateType("02");
+		readilyShootVo.setLicensePlateNumber("粤B12345");
+		readilyShootVo.setIllegalActivitieOne("测试，请忽略");
+		readilyShootVo.setInputManName("测试");
+		readilyShootVo.setUserIdCard("362426199303075211");
+		readilyShootVo.setInputManPhone("17779607572");
+		readilyShootVo.setInputMan("测试");
+		readilyShootVo.setShsm("1");
+		readilyShootVo.setUserSource("Z");
+		readilyShootVo.setOpenId("2088112111655412");
+		Map<String, Object> map = accountService.readilyShoot(readilyShootVo);
+		System.out.println(map);
 	}
 	
 

@@ -34,6 +34,7 @@ import cn.sdk.util.DateUtil;
 import cn.sdk.util.DateUtil2;
 import cn.account.bean.vo.UnbindVehicleVo;
 import cn.account.bean.vo.ZT_STATUS;
+import cn.sdk.bean.BaseBean;
 import cn.sdk.util.Base64Decoder;
 import cn.sdk.webservice.WebServiceClient;
 /**
@@ -125,9 +126,11 @@ public class TransferThirdParty {
 			String identityCard = (String) jsonObject.get("SFZMHM");
 			//手机号
 			String mobilephone = (String) jsonObject.get("YDDH");
+			String zt = (String) jsonObject.get("ZT");
 			authenticationBasicInformationVo.setTrueName(trueName);
 			authenticationBasicInformationVo.setIdentityCard(identityCard);
 			authenticationBasicInformationVo.setMobilephone(mobilephone);
+			authenticationBasicInformationVo.setZt(zt);
 			//authenticationBasicInformationVo.setMyAvatar("等微信开发获取");
 		}
 		return authenticationBasicInformationVo;
@@ -640,6 +643,28 @@ public class TransferThirdParty {
 		}
 		return identificationOfAuditResultsVos;
 	}
+	
+	public static Map<String, Object> alipayAKeyRegister(String userName, String identityCard, String mobilephone,String sourceOfCertification,String url,String method,String userId,String userPwd,String key) throws Exception{
+		Map<String, Object> map = new HashMap<String, Object>();
+		String xxcj14 = "HM_ZFBYJZC";
+		String xxcj14ReqXml = "<REQUEST><XM>"+userName+"</XM><SFZMHM>"+identityCard+"</SFZMHM><LXDH>"+mobilephone+"</LXDH><RZLY>Z</RZLY><RZLX>4</RZLX></REQUEST>";
+		JSONObject xxcj14RespJson = WebServiceClient.getInstance().requestWebService(url, method, xxcj14,xxcj14ReqXml,userId,userPwd,key);
+		String code = xxcj14RespJson.getString("CODE");
+		String msg = xxcj14RespJson.getString("MSG");
+		if("0000".equals(code)){
+			xxcj14RespJson = xxcj14RespJson.getJSONObject("BODY");
+			String cid = xxcj14RespJson.getString("CID");
+			map.put("code", code);
+			map.put("msg", msg);
+			map.put("cid", cid);
+		}else{
+			map.put("code", code);
+			map.put("msg", msg);
+		}
+		return map;
+	}
+	
+	
 	/**
 	 * 自然人身份认证审核结果查询
 	 * @param collectingSerialNumber 采集流水号（非必填）
@@ -1311,6 +1336,7 @@ public class TransferThirdParty {
 		//getDrivingLicense("粤B6F7M1", "02", "15920071829", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
 		//login("13502899383", "189981", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610", "C");
 		//identificationOfAuditResults("", "445222197912152216", "C", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "WX02", "WX02@168", "94D863D9BE7FB032E6A19430CC892610");
+		//alipayAKeyRegister("小玉璞", "622822197502074210", "15920072229", "Z", "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice", "xxptSchuding", "zfb", "zfb!201506", "HyjjsQEU7RKMUL71ziH7Pni5");
 	}
 	
 	/**
