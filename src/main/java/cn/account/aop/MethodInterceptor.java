@@ -1,4 +1,4 @@
-package cn.account.aop;
+/*package cn.account.aop;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -17,11 +17,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.dubbo.rpc.RpcContext;
-/**
+*//**
  * 用于统计方法调用次数，成功次数，失败次数
  * @author Mbenben
  *
- */
+ *//*
 @Aspect
 @Component
 public class MethodInterceptor {
@@ -74,3 +74,4 @@ public class MethodInterceptor {
 	}
 
 }
+*/
