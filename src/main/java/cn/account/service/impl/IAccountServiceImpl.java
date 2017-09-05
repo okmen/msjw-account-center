@@ -62,6 +62,7 @@ import cn.account.service.IAccountService;
 import cn.account.utils.NozzleMeans;
 import cn.account.utils.TransferThirdParty;
 import cn.sdk.bean.BaseBean;
+import cn.sdk.webservice.WebServiceClient;
 
 /**
  * 个人中心
@@ -2215,6 +2216,7 @@ public class IAccountServiceImpl implements IAccountService {
 	}
 
 
+
 	@Override
 	public Map<String, Object> alipayAKeyRegister(String userName, String identityCard, String mobilephone,String sourceOfCertification) throws Exception {
 		Map<String, Object> map = null;
@@ -2231,5 +2233,24 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		return map;
 	}
+
+	@Override
+	public BaseBean accessAuthorization(String mobilephone, String identityCard, String userSource) throws Exception {
+		BaseBean baseBean = new BaseBean();
+		String jkId = "cgzxbl";
+		try{
+			String url = iAccountCached.getUrl(userSource); //webservice请求url
+			String method = iAccountCached.getMethod(userSource); //webservice请求方法名称
+			String userId = iAccountCached.getUserid(userSource); //webservice登录账号
+			String userPwd = iAccountCached.getUserpwd(userSource); //webservice登录密码
+			String key = iAccountCached.getKey(userSource); //秘钥
+			baseBean = TransferThirdParty.accessAuthorization(mobilephone, identityCard, userSource, url, method, userId, userPwd, key);
+		}catch(Exception e){
+			logger.error("接入授权异常 ， mobilephone = " + mobilephone +"identityCard = "+identityCard +"userSource = "+userSource);
+			throw e;
+		}
+		return baseBean;
+	}
+	
 }
 	

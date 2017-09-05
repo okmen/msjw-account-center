@@ -1554,4 +1554,31 @@ public class TransferThirdParty {
 		return map;
 	}
 	
+	
+	public static BaseBean accessAuthorization(String mobilephone, String identityCard, String userSource , String url, String method,
+			String userId, String userPwd, String keys) throws Exception {
+		BaseBean baseBean = new BaseBean();
+		String jkId = "cgzxbl";
+		try{
+			StringBuffer sb = new StringBuffer();
+			sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><request>")
+			.append("<sjhm>").append(mobilephone).append("</sjhm>")				
+			.append("<sfzmhm>").append(identityCard).append("</sfzmhm>")						
+			.append("<qqly>").append(userSource).append("</qqly>")				
+			.append("</request>");
+			JSONObject jsonObject = WebServiceClient.getInstance().requestWebService(url, method, jkId, sb.toString(), userId, userPwd, keys);
+			String code = jsonObject.getString("code");
+			String msg = jsonObject.getString("msg");
+			baseBean.setCode(code);
+			baseBean.setMsg(msg);
+			if ("0000".equals(code)) {
+				String sqm = jsonObject.getString("sqm");
+				baseBean.setData(sqm);
+			}
+		}catch(Exception e){
+			throw e;
+		}
+		return baseBean;
+	}
+	
 }

@@ -31,6 +31,7 @@ import cn.account.bean.vo.ResultOfBIndDriverLicenseVo;
 import cn.account.bean.vo.UnbindTheOtherDriverUseMyCarVo;
 import cn.account.bean.vo.UnbindVehicleVo;
 import cn.account.bean.vo.UserBasicVo;
+import cn.sdk.bean.BaseBean;
 import cn.sdk.webservice.Xml2Json;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -40,6 +41,12 @@ public class TestAccountService {
 	@Autowired
 	@Qualifier("accountService")
 	private IAccountService accountService;
+	@Test
+	public void testAccessAuthorization()throws Exception{
+		BaseBean baseBean = accountService.accessAuthorization("13627267056", "42138119910422133X", "C");
+		System.out.println(baseBean);
+	}
+	
 	/**
 	 * 重新认证
 	 * @throws Exception
