@@ -397,12 +397,12 @@ public class TestAccountService {
 	}
 
 	/**
-	 * 测试getWechatUserInfoById
+	 * 支付宝登录测试
 	 */
 	@Test
 	public void testAlipayLogin() {
 		try {
-			LoginReturnBeanVo loginReturnBeanVo = accountService.alipayLogin("18923796661", "C", "cccc");
+			LoginReturnBeanVo loginReturnBeanVo = accountService.alipayLogin("13652311206", "Z", "cccc");
 			System.out.println(loginReturnBeanVo);
 		} catch (Exception e) {
 			e.printStackTrace();

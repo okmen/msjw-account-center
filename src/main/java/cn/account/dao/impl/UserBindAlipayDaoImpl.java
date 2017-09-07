@@ -18,16 +18,16 @@ public class UserBindAlipayDaoImpl implements IUserBindAlipayDao {
 	private UserBindAlipayMapper userBindAlipayMapper;
 	
 	@Override
-	public int addOrUpdateLoginInfo(UserBind userBind) {
-		return userBindAlipayMapper.addOrUpdateLoginInfo(userBind);
+	public int addOrUpdateLoginInfo(UserBindAlipay userBindAlipay) {
+		return userBindAlipayMapper.addOrUpdateLoginInfo(userBindAlipay);
 	}
 	/**
 	 * 解绑支付宝
 	 * @param userBind
 	 * @return
 	 */
-	public int unbindVehicle(UserBind userBind){
-		return userBindAlipayMapper.unbindVehicle(userBind);
+	public int unbindVehicle(UserBindAlipay userBindAlipay){
+		return userBindAlipayMapper.unbindVehicle(userBindAlipay);
 	}
 	
 }

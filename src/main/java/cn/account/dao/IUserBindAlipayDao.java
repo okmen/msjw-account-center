@@ -1,8 +1,5 @@
 package cn.account.dao;
 
-import java.util.List;
-
-import cn.account.bean.UserBind;
 import cn.account.bean.UserBindAlipay;
 /**
  * 用户中心-支付宝
@@ -15,11 +12,11 @@ public interface IUserBindAlipayDao {
 	 * @param userBind
 	 * @return
 	 */
-	public int addOrUpdateLoginInfo(UserBind userBind);
+	public int addOrUpdateLoginInfo(UserBindAlipay userBindAlipay);
 	/**
 	 * 解绑支付宝
 	 * @param userBind
 	 * @return
 	 */
-	public int unbindVehicle(UserBind userBind);
+	public int unbindVehicle(UserBindAlipay userBindAlipay);
 }

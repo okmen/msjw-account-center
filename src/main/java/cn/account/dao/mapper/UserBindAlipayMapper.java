@@ -18,11 +18,11 @@ public interface UserBindAlipayMapper {
 	 * @param userBind
 	 * @return
 	 */
-	public int addOrUpdateLoginInfo(UserBind userBind);
+	public int addOrUpdateLoginInfo(UserBindAlipay userBindAlipay);
 	/**
 	 * 解绑支付宝
 	 * @param userBind
 	 * @return
 	 */
-	public int unbindVehicle(UserBind userBind);
+	public int unbindVehicle(UserBindAlipay userBindAlipay);
 }

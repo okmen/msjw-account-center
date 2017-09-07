@@ -3,18 +3,18 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.account.dao.mapper.UserBindAlipayMapper">
 	
-	<update id="addOrUpdateLoginInfo" parameterType="cn.account.bean.UserBind">
+	<update id="addOrUpdateLoginInfo" parameterType="cn.account.bean.UserBindAlipay">
 		insert into t_user_bind_alipay (
-			user_id,id_card,mobile_number,bind_date,unbind_date,is_bind,client_type
+			user_id,id_card,mobile_number,bind_date,unbind_date,is_bind,client_type,real_name
 		)
 		values(
-			#{userId}, #{idCard}, #{mobileNumber}, #{bindDate}, #{unbindDate},#{isBind}, #{clientType} 
+			#{userId}, #{idCard}, #{mobileNumber}, #{bindDate}, #{unbindDate},#{isBind}, #{clientType},#{realName}
 		)
 		ON DUPLICATE KEY UPDATE id_card = #{idCard},mobile_number = #{mobileNumber},bind_date = #{bindDate}, is_bind = #{isBind}
 	</update>
 	
 	<!-- 取消绑定支付宝 -->
-	<update id="unbindVehicle" parameterType="cn.account.bean.UserBind" >
+	<update id="unbindVehicle" parameterType="cn.account.bean.UserBindAlipay" >
 		UPDATE t_user_bind_alipay SET `is_bind`=1,unbind_date=sysdate() where id_card =#{idCard} and user_id =#{userId}
 	</update>
 	

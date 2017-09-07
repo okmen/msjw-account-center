@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.NestedNullException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,7 @@ import cn.account.bean.Documentation;
 import cn.account.bean.ReadilyShoot;
 import cn.account.bean.ResultOfReadilyShoot;
 import cn.account.bean.UserBind;
+import cn.account.bean.UserBindAlipay;
 import cn.account.bean.WechatUserInfoBean;
 import cn.account.bean.vo.AuthenticationBasicInformationVo;
 import cn.account.bean.vo.BindCarVo;
@@ -294,7 +296,7 @@ public class IAccountServiceImpl implements IAccountService {
 					accountDao.addOrUpdateLoginInfo(userBind);
 				}else if("Z".equals(sourceOfCertification)){
 					userBind.setUserId(openId);
-					userBindAlipayDao.addOrUpdateLoginInfo(userBind);
+					userBindAlipayDao.addOrUpdateLoginInfo(null);
 				}
 				//登录成功绑定，已经绑定就改下状态为isBind=1,没有则绑定
 				//UserBind userBind = accountDao.getLoginInfo(identityCard, openId, sourceOfCertification);
@@ -338,6 +340,7 @@ public class IAccountServiceImpl implements IAccountService {
 		String userId = iAccountCached.getUserid(sourceOfCertification); //webservice登录账号
 		String userPwd = iAccountCached.getUserpwd(sourceOfCertification); //webservice登录密码
 		String key = iAccountCached.getKey(sourceOfCertification); //秘钥
+		
 		String identityCard = "";
 		String mobilephone = "";
 		AuthenticationBasicInformationVo authenticationBasicInformationVo = null;
@@ -349,7 +352,25 @@ public class IAccountServiceImpl implements IAccountService {
 			authenticationBasicInformationVo = TransferThirdParty.authenticationBasicInformationQuery(loginName,sourceOfCertification, url, method,userId,userPwd,key);
 			if(null != authenticationBasicInformationVo){
 				identityCard = authenticationBasicInformationVo.getIdentityCard();
+				
+				if("Z".equals(sourceOfCertification)){
+					List<IdentificationOfAuditResultsVo> identificationOfAuditResultsVos = null;
+					if(StringUtils.isNotBlank(identityCard)){
+						identificationOfAuditResultsVos = getIdentificationOfAuditResults(identityCard, sourceOfCertification);
+						if(null != identificationOfAuditResultsVos && identificationOfAuditResultsVos.size() > 0){
+							IdentificationOfAuditResultsVo identificationOfAuditResultsVo = identificationOfAuditResultsVos.get(0);
+							String SHZT = identificationOfAuditResultsVo.getSHZT();
+							if(!"1".equals(SHZT) || !"-1".equals(SHZT)){
+								return null;
+							}
+						}else{
+							return null;
+						}
+					}
+				}
+				
 				mobilephone = authenticationBasicInformationVo.getMobilephone();
+				String trueName = authenticationBasicInformationVo.getTrueName();
 				//我绑定的车辆信息
 				bindTheVehicleVos = TransferThirdParty.bindsTheMotorVehicleQuery(mobilephone,identityCard, sourceOfCertification, url, method, userId, userPwd, key);
 				if(null != bindTheVehicleVos && bindTheVehicleVos.size() > 0){
@@ -374,19 +395,17 @@ public class IAccountServiceImpl implements IAccountService {
 				}
 				loginReturnBean.setCode("0000");
 				loginReturnBean.setMsg("登录成功");
-				UserBind userBind = new UserBind();
-				userBind.setBindDate(new Date());
-				userBind.setIdCard(identityCard);
-				userBind.setMobileNumber(mobilephone);
-				userBind.setIsBind(0);
-				userBind.setClientType(sourceOfCertification);
-				if("C".equals(sourceOfCertification)){
-					userBind.setOpenId(openId);
-					accountDao.addOrUpdateLoginInfo(userBind);
-				}else if("Z".equals(sourceOfCertification)){
-					userBind.setUserId(openId);
-					userBindAlipayDao.addOrUpdateLoginInfo(userBind);
-				}
+				
+				UserBindAlipay userBindAlipay = new UserBindAlipay();
+				userBindAlipay.setBindDate(new Date());
+				userBindAlipay.setIdCard(identityCard);
+				userBindAlipay.setMobileNumber(mobilephone);
+				userBindAlipay.setIsBind(0);
+				userBindAlipay.setClientType(sourceOfCertification);
+				userBindAlipay.setUserId(openId);
+				userBindAlipay.setRealName(trueName);
+				userBindAlipayDao.addOrUpdateLoginInfo(userBindAlipay);
+				
 				MyDriverLicenseVo myDriverLicenseVo = getMyDriverLicense(identityCard, sourceOfCertification);
 				if(null != myDriverLicenseVo){
 					String fileNumber = myDriverLicenseVo.getFileNumber();
@@ -1226,7 +1245,8 @@ public class IAccountServiceImpl implements IAccountService {
 	    	  if("C".equalsIgnoreCase(userBind.getClientType())){
 	    		  cancelSuccess = accountDao.unbindVehicle(userBind);
 	    	  }else if("Z".equalsIgnoreCase(userBind.getClientType())){
-	    		  cancelSuccess = userBindAlipayDao.unbindVehicle(userBind);
+	    		  //支付宝没有解绑操作
+	    		  //cancelSuccess = userBindAlipayDao.unbindVehicle(null);
 	    	  }
 	      } catch (Exception e) {
 	          logger.error("unbindVehicle出错，错误="+ userBind.toString(),e);
