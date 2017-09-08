@@ -28,6 +28,7 @@ import cn.account.bean.vo.AuthenticationBasicInformationVo;
 import cn.account.bean.vo.BindCarVo;
 import cn.account.bean.vo.BindDriverLicenseVo;
 import cn.account.bean.vo.BindTheVehicleVo;
+import cn.account.bean.vo.BrushFaceVo;
 import cn.account.bean.vo.DriverLicenseInformationSheetVo;
 import cn.account.bean.vo.DriverLicenseToSupplementThePermitBusinessVo;
 import cn.account.bean.vo.DrivingLicenseVo;
@@ -2257,7 +2258,6 @@ public class IAccountServiceImpl implements IAccountService {
 	@Override
 	public BaseBean accessAuthorization(String mobilephone, String identityCard, String userSource) throws Exception {
 		BaseBean baseBean = new BaseBean();
-		String jkId = "cgzxbl";
 		try{
 			String url = iAccountCached.getUrl(userSource); //webservice请求url
 			String method = iAccountCached.getMethod(userSource); //webservice请求方法名称
@@ -2267,6 +2267,24 @@ public class IAccountServiceImpl implements IAccountService {
 			baseBean = TransferThirdParty.accessAuthorization(mobilephone, identityCard, userSource, url, method, userId, userPwd, key);
 		}catch(Exception e){
 			logger.error("接入授权异常 ， mobilephone = " + mobilephone +"identityCard = "+identityCard +"userSource = "+userSource);
+			throw e;
+		}
+		return baseBean;
+	}
+
+
+	@Override
+	public BaseBean weChatBrushFaceAuthentication(BrushFaceVo brushFaceVo) throws Exception {
+		BaseBean baseBean = new BaseBean();
+		try{
+			String url = iAccountCached.getUrl(brushFaceVo.getUserSource()); //webservice请求url
+			String method = iAccountCached.getMethod(brushFaceVo.getUserSource()); //webservice请求方法名称
+			String userId = iAccountCached.getUserid(brushFaceVo.getUserSource()); //webservice登录账号
+			String userPwd = iAccountCached.getUserpwd(brushFaceVo.getUserSource()); //webservice登录密码
+			String key = iAccountCached.getKey(brushFaceVo.getUserSource()); //秘钥
+			baseBean = TransferThirdParty.weChatBrushFaceAuthentication(brushFaceVo, url, method, userId, userPwd, key);
+		}catch(Exception e){
+			logger.error("接入授权异常 ， brushFaceVo = " + brushFaceVo);
 			throw e;
 		}
 		return baseBean;

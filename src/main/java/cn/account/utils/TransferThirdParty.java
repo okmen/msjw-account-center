@@ -17,6 +17,7 @@ import cn.account.bean.vo.AuthenticationBasicInformationVo;
 import cn.account.bean.vo.BindDriverLicenseVo;
 import cn.account.bean.vo.BindTheOtherDriversUseMyCarVo;
 import cn.account.bean.vo.BindTheVehicleVo;
+import cn.account.bean.vo.BrushFaceVo;
 import cn.account.bean.vo.DriverLicenseToSupplementThePermitBusinessVo;
 import cn.account.bean.vo.DrivingLicenseVo;
 import cn.account.bean.vo.ElectronicDriverLicenseVo;
@@ -1581,4 +1582,34 @@ public class TransferThirdParty {
 		return baseBean;
 	}
 	
+	public static BaseBean weChatBrushFaceAuthentication(BrushFaceVo brushFaceVo, String url, String method,
+			String userId, String userPwd, String keys) throws Exception {
+		BaseBean baseBean = new BaseBean();
+		String jkId = "test_slrz";
+		try{
+			StringBuffer sb = new StringBuffer();
+			sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST>")
+			.append("<XM>").append(brushFaceVo.getName()).append("</XM>")				
+			.append("<SFZMHM>").append(brushFaceVo.getIdentityCard()).append("</SFZMHM>")						
+			.append("<LXDH>").append(brushFaceVo.getMobilephone()).append("</LXDH>")
+			.append("<RZLY>").append(brushFaceVo.getUserSource()).append("</RZLY>")				
+			.append("<RZLX>").append(brushFaceVo.getCertificationType()).append("</RZLX>")						
+			.append("<PHOTO6>").append(brushFaceVo.getPhoto6()).append("</PHOTO6>")
+			.append("<OPENID>").append(brushFaceVo.getOpenId()).append("</OPENID>")
+			.append("</REQUEST>");
+			JSONObject jsonObject = WebServiceClient.getInstance().requestWebService(url, method, jkId, sb.toString(), userId, userPwd, keys);
+			String code = jsonObject.getString("CODE");
+			String msg = jsonObject.getString("MSG");
+			baseBean.setCode(code);
+			baseBean.setMsg(msg);
+			if ("0000".equals(code)) {
+				JSONObject body = jsonObject.getJSONObject("BODY");
+				String cid = body.getString("CID");
+				baseBean.setData(cid);
+			}
+		}catch(Exception e){
+			throw e;
+		}
+		return baseBean;
+	}
 }

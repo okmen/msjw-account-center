@@ -22,6 +22,7 @@ import cn.account.bean.WechatUserInfoBean;
 import cn.account.bean.vo.BindCarVo;
 import cn.account.bean.vo.BindDriverLicenseVo;
 import cn.account.bean.vo.BindTheVehicleVo;
+import cn.account.bean.vo.BrushFaceVo;
 import cn.account.bean.vo.LoginReturnBeanVo;
 import cn.account.bean.vo.MyBusinessVo;
 import cn.account.bean.vo.MyDriverLicenseVo;
@@ -41,6 +42,20 @@ public class TestAccountService {
 	@Autowired
 	@Qualifier("accountService")
 	private IAccountService accountService;
+	
+	@Test
+	public void testweChatBrushFaceAuthentication()throws Exception{
+		BrushFaceVo bf = new BrushFaceVo();
+		bf.setCertificationType("4");
+		bf.setIdentityCard("362429199112305319");
+		bf.setMobilephone("18682100915");
+		bf.setName("开发测试");
+		bf.setOpenId("124");
+		bf.setPhoto6("1111");
+		bf.setUserSource("C");
+		BaseBean baseBean = accountService.weChatBrushFaceAuthentication(bf);
+		System.out.println(baseBean);
+	}
 	@Test
 	public void testAccessAuthorization()throws Exception{
 		BaseBean baseBean = accountService.accessAuthorization("13627267056", "42138119910422133X", "C");
