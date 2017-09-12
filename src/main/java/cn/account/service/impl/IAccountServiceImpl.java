@@ -390,10 +390,38 @@ public class IAccountServiceImpl implements IAccountService {
 						car.setBehindTheFrame4Digits(bindTheVehicleVo.getBehindTheFrame4Digits());
 						car.setMyNumberPlate(bindTheVehicleVo.getNumberPlateNumber());
 						car.setPlateType(bindTheVehicleVo.getPlateType());
-						car.setMobilephone(mobilephone);
+						car.setName(bindTheVehicleVo.getName());
+						String identityCardv = bindTheVehicleVo.getIdentityCard();
+						AuthenticationBasicInformationVo authenticationBasicInformationVo2 = TransferThirdParty.authenticationBasicInformationQuery(identityCardv, sourceOfCertification, url, method, userId, userPwd, key);
+						car.setIdentityCard(identityCardv);
+						if(null != authenticationBasicInformationVo2 && StringUtils.isNotBlank(authenticationBasicInformationVo2.getMobilephone()) ){
+							car.setMobilephone(authenticationBasicInformationVo2.getMobilephone());
+						}else{
+							car.setMobilephone("");
+						}
 						cars.add(car);
 					}
 				}
+				/*if(null != bindTheVehicleVos && bindTheVehicleVos.size() > 0){
+					for(BindTheVehicleVo bindTheVehicleVo : bindTheVehicleVos){
+						String isMyself = bindTheVehicleVo.getIsMyself();
+						//绑定的车的信息
+						Car car = new Car();
+						if("本人".equals(isMyself)){
+							authenticationBasicInformationVo.setMyNumberPlate(bindTheVehicleVo.getNumberPlateNumber());
+							authenticationBasicInformationVo.setBehindTheFrame4Digits(bindTheVehicleVo.getBehindTheFrame4Digits());
+							authenticationBasicInformationVo.setPlateType(bindTheVehicleVo.getPlateType());
+							car.setIsMySelf(0);
+						}else{
+							car.setIsMySelf(1);
+						}
+						car.setBehindTheFrame4Digits(bindTheVehicleVo.getBehindTheFrame4Digits());
+						car.setMyNumberPlate(bindTheVehicleVo.getNumberPlateNumber());
+						car.setPlateType(bindTheVehicleVo.getPlateType());
+						car.setMobilephone(mobilephone);
+						cars.add(car);
+					}
+				}*/
 				loginReturnBean.setCode("0000");
 				loginReturnBean.setMsg("登录成功");
 				
