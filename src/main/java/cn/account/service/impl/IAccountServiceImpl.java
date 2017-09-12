@@ -361,7 +361,7 @@ public class IAccountServiceImpl implements IAccountService {
 						if(null != identificationOfAuditResultsVos && identificationOfAuditResultsVos.size() > 0){
 							IdentificationOfAuditResultsVo identificationOfAuditResultsVo = identificationOfAuditResultsVos.get(0);
 							String SHZT = identificationOfAuditResultsVo.getSHZT();
-							if(!"1".equals(SHZT) || !"-1".equals(SHZT)){
+							if(!"1".equals(SHZT) && !"-1".equals(SHZT)){
 								return null;
 							}
 						}else{
