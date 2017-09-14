@@ -359,9 +359,12 @@ public class IAccountServiceImpl implements IAccountService {
 					if(StringUtils.isNotBlank(identityCard)){
 						identificationOfAuditResultsVos = getIdentificationOfAuditResults(identityCard, sourceOfCertification);
 						if(null != identificationOfAuditResultsVos && identificationOfAuditResultsVos.size() > 0){
-							IdentificationOfAuditResultsVo identificationOfAuditResultsVo = identificationOfAuditResultsVos.get(0);
-							String SHZT = identificationOfAuditResultsVo.getSHZT();
-							if(!"1".equals(SHZT) && !"-1".equals(SHZT)){
+							List<String> shzts = new ArrayList<>();
+							for(IdentificationOfAuditResultsVo identificationOfAuditResultsVo : identificationOfAuditResultsVos){
+								String SHZT = identificationOfAuditResultsVo.getSHZT();
+								shzts.add(SHZT);
+							}
+							if(!shzts.contains("1") && !shzts.contains("-1")){
 								return null;
 							}
 						}else{
@@ -478,6 +481,26 @@ public class IAccountServiceImpl implements IAccountService {
 			authenticationBasicInformationVo = TransferThirdParty.authenticationBasicInformationQuery(loginName,sourceOfCertification, url, method,userId,userPwd,key);
 			if(null != authenticationBasicInformationVo){
 				identityCard = authenticationBasicInformationVo.getIdentityCard();
+				
+				if("Z".equals(sourceOfCertification)){
+					List<IdentificationOfAuditResultsVo> identificationOfAuditResultsVos = null;
+					if(StringUtils.isNotBlank(identityCard)){
+						identificationOfAuditResultsVos = getIdentificationOfAuditResults(identityCard, sourceOfCertification);
+						if(null != identificationOfAuditResultsVos && identificationOfAuditResultsVos.size() > 0){
+							List<String> shzts = new ArrayList<>();
+							for(IdentificationOfAuditResultsVo identificationOfAuditResultsVo : identificationOfAuditResultsVos){
+								String SHZT = identificationOfAuditResultsVo.getSHZT();
+								shzts.add(SHZT);
+							}
+							if(!shzts.contains("1") && !shzts.contains("-1")){
+								return null;
+							}
+						}else{
+							return null;
+						}
+					}
+				}
+				
 				mobilephone = authenticationBasicInformationVo.getMobilephone();
 				//我绑定的车辆信息
 				bindTheVehicleVos = TransferThirdParty.bindsTheMotorVehicleQuery(mobilephone,identityCard, sourceOfCertification, url, method, userId, userPwd, key);

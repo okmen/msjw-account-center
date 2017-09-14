@@ -417,12 +417,25 @@ public class TestAccountService {
 	@Test
 	public void testAlipayLogin() {
 		try {
-			LoginReturnBeanVo loginReturnBeanVo = accountService.alipayLogin("13652311206", "Z", "cccc");
+			LoginReturnBeanVo loginReturnBeanVo = accountService.alipayLogin("441622198711154197", "Z", "cccc");
 			System.out.println(loginReturnBeanVo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * 支付宝登录测试
+	 */
+	@Test
+	public void getLoginInfoByLoginName() {
+		try {
+			LoginReturnBeanVo loginReturnBeanVo = accountService.getLoginInfoByLoginName("441622198711154197", "Z");
+			System.out.println(loginReturnBeanVo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * 测试getWechatUserInfoById
 	 */
