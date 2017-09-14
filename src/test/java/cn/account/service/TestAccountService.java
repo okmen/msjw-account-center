@@ -42,7 +42,7 @@ public class TestAccountService {
 	@Autowired
 	@Qualifier("accountService")
 	private IAccountService accountService;
-	
+
 	@Test
 	public void testweChatBrushFaceAuthentication()throws Exception{
 		BrushFaceVo bf = new BrushFaceVo();
@@ -202,14 +202,19 @@ public class TestAccountService {
 	@Test
 	public void testBindVehicle() throws Exception{
 		BindCarVo vo = new BindCarVo();
-		vo.setBindType(1);
-		vo.setCertifiedSource("Z");
-		vo.setInputIP("192.168.1.243");
-		vo.setLicensePlateNumber("A12345");
+		vo.setBindType(0);
+		vo.setCertifiedSource("C");
+		vo.setInputIP("192.168.1.247");
+		vo.setLicensePlateNumber("B6F7M3");
 		vo.setLicensePlateType("02");
 		vo.setProvinceAbbreviation("粤");
-		vo.setUserSource("Z");
-		vo.setUserIdCard("360428199308071413");
+		vo.setUserSource("C");
+		vo.setUserIdCard("445222199209020034");
+//		vo.setOwnerIdCard("622822198502074110");
+//		vo.setOwnerName("测试");
+//		vo.setIdCardImgHandHeld("11");
+//		vo.setIdCardImgPositive("11");
+//		vo.setFrameNumber("1234");
 		JSONObject addVehicle = accountService.addVehicle(vo);
 		System.out.println(addVehicle);
 	}
@@ -222,11 +227,11 @@ public class TestAccountService {
 	public void testUnbindVehicle() throws Exception{
 		UnbindVehicleVo unbindVehicleVo = new UnbindVehicleVo();
 		unbindVehicleVo.setJblx("1");
-		unbindVehicleVo.setLicensePlateNumber("B6F7M1");
+		unbindVehicleVo.setLicensePlateNumber("B6F7M3");
 		unbindVehicleVo.setLicensePlateType("02");
-		unbindVehicleVo.setLoginUser("622822198502074110");
+		unbindVehicleVo.setLoginUser("445222199209020034");
 		unbindVehicleVo.setIdentificationNO("A");
-		unbindVehicleVo.setIDcard("622822198502074110");
+		unbindVehicleVo.setIDcard("445222199209020034");
 		unbindVehicleVo.setSourceOfCertification("C");
 		Map<String, String> map = accountService.unbindVehicle(unbindVehicleVo);
 		System.out.println(map);
