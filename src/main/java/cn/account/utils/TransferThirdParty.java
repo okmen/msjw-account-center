@@ -1585,7 +1585,7 @@ public class TransferThirdParty {
 	public static BaseBean weChatBrushFaceAuthentication(BrushFaceVo brushFaceVo, String url, String method,
 			String userId, String userPwd, String keys) throws Exception {
 		BaseBean baseBean = new BaseBean();
-		String jkId = "test_slrz";
+		String jkId = "HM_ZFBYJZC";
 		try{
 			StringBuffer sb = new StringBuffer();
 			sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST>")
