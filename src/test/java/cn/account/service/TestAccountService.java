@@ -422,7 +422,7 @@ public class TestAccountService {
 	@Test
 	public void testAlipayLogin() {
 		try {
-			LoginReturnBeanVo loginReturnBeanVo = accountService.alipayLogin("13652311206", "Z", "cccc");
+			LoginReturnBeanVo loginReturnBeanVo = accountService.alipayLogin("18503058616", "Z", "cccc");
 			System.out.println(loginReturnBeanVo);
 		} catch (Exception e) {
 			e.printStackTrace();

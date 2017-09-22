@@ -355,7 +355,7 @@ public class IAccountServiceImpl implements IAccountService {
 				if(!"已激活".equals(authenticationBasicInformationVo.getZt())){
 					return null;
 				}
-				//identityCard = authenticationBasicInformationVo.getIdentityCard();
+				identityCard = authenticationBasicInformationVo.getIdentityCard();
 				/*if("Z".equals(sourceOfCertification)){
 					List<IdentificationOfAuditResultsVo> identificationOfAuditResultsVos = null;
 					if(StringUtils.isNotBlank(identityCard)){
