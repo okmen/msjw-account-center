@@ -352,9 +352,11 @@ public class IAccountServiceImpl implements IAccountService {
 				//认证基本信息查询接口
 			authenticationBasicInformationVo = TransferThirdParty.authenticationBasicInformationQuery(loginName,sourceOfCertification, url, method,userId,userPwd,key);
 			if(null != authenticationBasicInformationVo){
-				identityCard = authenticationBasicInformationVo.getIdentityCard();
-				
-				if("Z".equals(sourceOfCertification)){
+				if(!"已激活".equals(authenticationBasicInformationVo.getZt())){
+					return null;
+				}
+				//identityCard = authenticationBasicInformationVo.getIdentityCard();
+				/*if("Z".equals(sourceOfCertification)){
 					List<IdentificationOfAuditResultsVo> identificationOfAuditResultsVos = null;
 					if(StringUtils.isNotBlank(identityCard)){
 						identificationOfAuditResultsVos = getIdentificationOfAuditResults(identityCard, sourceOfCertification);
@@ -371,7 +373,7 @@ public class IAccountServiceImpl implements IAccountService {
 							return null;
 						}
 					}
-				}
+				}*/
 				
 				mobilephone = authenticationBasicInformationVo.getMobilephone();
 				String trueName = authenticationBasicInformationVo.getTrueName();

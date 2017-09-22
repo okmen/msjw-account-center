@@ -422,7 +422,7 @@ public class TestAccountService {
 	@Test
 	public void testAlipayLogin() {
 		try {
-			LoginReturnBeanVo loginReturnBeanVo = accountService.alipayLogin("441622198711154197", "Z", "cccc");
+			LoginReturnBeanVo loginReturnBeanVo = accountService.alipayLogin("13652311206", "Z", "cccc");
 			System.out.println(loginReturnBeanVo);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -434,7 +434,7 @@ public class TestAccountService {
 	@Test
 	public void getLoginInfoByLoginName() {
 		try {
-			LoginReturnBeanVo loginReturnBeanVo = accountService.getLoginInfoByLoginName("441622198711154197", "Z");
+			LoginReturnBeanVo loginReturnBeanVo = accountService.getLoginInfoByLoginName("18603065950", "C");
 			System.out.println(loginReturnBeanVo);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -485,7 +485,7 @@ public class TestAccountService {
 		readilyShootVo.setInputManPhone("17779607572");
 		readilyShootVo.setInputMan("测试");
 		readilyShootVo.setShsm("1");
-		readilyShootVo.setUserSource("Z");
+		readilyShootVo.setUserSource("C");
 		readilyShootVo.setOpenId("2088112111655412");
 		Map<String, Object> map = accountService.readilyShoot(readilyShootVo);
 		System.out.println(map);
