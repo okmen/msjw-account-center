@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.account.bean.ReadilyShoot;
@@ -43,6 +44,15 @@ public class TestAccountService {
 	@Qualifier("accountService")
 	private IAccountService accountService;
 
+	@Test
+	public void testqueryVehicleBindAuditResult() throws Exception{
+		//BaseBean baseBean = accountService.queryVehicleBindAuditResult("622822198502074110", "Z");
+		//BaseBean baseBean = accountService.queryVehicleBindAuditResult("440301199002101119", "Z");
+		BaseBean baseBean = accountService.queryVehicleBindAuditResult("445222199209020034", "Z");
+		//BaseBean baseBean = accountService.queryVehicleBindAuditResult("422424197301241882", "Z");
+		System.out.println(JSON.toJSONString(baseBean));
+	}
+	
 	@Test
 	public void testweChatBrushFaceAuthentication()throws Exception{
 		BrushFaceVo bf = new BrushFaceVo();

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.account.bean.Car;
@@ -47,6 +48,7 @@ import cn.account.bean.vo.ResultOfBIndDriverLicenseVo;
 import cn.account.bean.vo.UnbindTheOtherDriverUseMyCarVo;
 import cn.account.bean.vo.UnbindVehicleVo;
 import cn.account.bean.vo.UserBasicVo;
+import cn.account.bean.vo.VehicleBindAuditResultVo;
 import cn.account.bean.vo.queryclassservice.CertificationProgressQueryVo;
 import cn.account.bean.vo.queryclassservice.DriverLicenseBusinessVo;
 import cn.account.bean.vo.queryclassservice.MakeAnAppointmentVo;
@@ -65,6 +67,7 @@ import cn.account.service.IAccountService;
 import cn.account.utils.NozzleMeans;
 import cn.account.utils.TransferThirdParty;
 import cn.sdk.bean.BaseBean;
+import cn.sdk.util.MsgCode;
 import cn.sdk.webservice.WebServiceClient;
 
 /**
@@ -2338,6 +2341,64 @@ public class IAccountServiceImpl implements IAccountService {
 			baseBean = TransferThirdParty.weChatBrushFaceAuthentication(brushFaceVo, url, method, userId, userPwd, key);
 		}catch(Exception e){
 			logger.error("接入授权异常 ， brushFaceVo = " + brushFaceVo);
+			throw e;
+		}
+		return baseBean;
+	}
+
+
+	/**
+	 * 车辆绑定审核结果查询
+	 * @param identityCardNo
+	 * @param sourceOfCertification
+	 * @return
+	 * @throws Exception
+	 */
+	public BaseBean queryVehicleBindAuditResult(String identityCardNo, String sourceOfCertification) throws Exception {
+		BaseBean baseBean = new BaseBean();
+		List<VehicleBindAuditResultVo> list = new ArrayList<>();
+		try{
+			String url = iAccountCached.getUrl(sourceOfCertification); //webservice请求url
+			String method = iAccountCached.getMethod(sourceOfCertification); //webservice请求方法名称
+			String userId = iAccountCached.getUserid(sourceOfCertification); //webservice登录账号
+			String userPwd = iAccountCached.getUserpwd(sourceOfCertification); //webservice登录密码
+			String key = iAccountCached.getKey(sourceOfCertification); //秘钥
+			
+			JSONObject jsonObject = TransferThirdParty.queryVehicleBindAuditResult(identityCardNo, sourceOfCertification, url, method, userId, userPwd, key);
+			String code = jsonObject.getString("CODE");
+			String msg = jsonObject.getString("MSG");
+			baseBean.setCode(code);
+			baseBean.setMsg(msg);
+			if (MsgCode.success.equals(code)) {
+				JSONObject body = jsonObject.getJSONObject("BODY");
+				Object rowObj = body.get("ROW");
+				if(rowObj instanceof JSONArray){
+					JSONArray jsonArray = (JSONArray) rowObj;
+					for(int i = 0; i < jsonArray.size(); i++){
+						VehicleBindAuditResultVo vo = new VehicleBindAuditResultVo();
+						JSONObject jsonObj = jsonArray.getJSONObject(i);
+						vo.setSerialNo(jsonObj.getString("CID"));
+						vo.setPlateNo(jsonObj.getString("HPHM"));
+						vo.setPlateType(jsonObj.getString("HPZL"));
+						vo.setAuditStatus(jsonObj.getString("SHZT"));
+						vo.setCancelReason(jsonObj.getString("TBYY"));
+						list.add(vo);
+					}
+				}else if(rowObj instanceof JSONObject){
+					JSONObject jsonObj = (JSONObject) rowObj;
+					VehicleBindAuditResultVo vo = new VehicleBindAuditResultVo();
+					vo.setSerialNo(jsonObj.getString("CID"));
+					vo.setPlateNo(jsonObj.getString("HPHM"));
+					vo.setPlateType(jsonObj.getString("HPZL"));
+					vo.setAuditStatus(jsonObj.getString("SHZT"));
+					vo.setCancelReason(jsonObj.getString("TBYY"));
+					list.add(vo);
+				}
+				baseBean.setData(list);
+			}
+			logger.info("车辆绑定审核结果查询结果：" + JSON.toJSONString(baseBean));
+		}catch(Exception e){
+			logger.error("车辆绑定审核结果查询异常 ， identityCardNo = " + identityCardNo + " ， sourceOfCertification = " + sourceOfCertification);
 			throw e;
 		}
 		return baseBean;

@@ -30,9 +30,11 @@ import cn.account.bean.vo.ResultOfBIndDriverLicenseVo;
 import cn.account.bean.vo.TrafficQueryVo;
 import cn.account.bean.vo.UnbindTheOtherDriverUseMyCarVo;
 import cn.account.bean.vo.UnbindVehicleVo;
+import cn.account.bean.vo.VehicleBindAuditResultVo;
 import cn.account.bean.vo.ZT_STATUS;
 import cn.sdk.util.DateUtil;
 import cn.sdk.util.DateUtil2;
+import cn.sdk.util.MsgCode;
 import cn.account.bean.vo.UnbindVehicleVo;
 import cn.account.bean.vo.ZT_STATUS;
 import cn.sdk.bean.BaseBean;
@@ -1611,5 +1613,29 @@ public class TransferThirdParty {
 			throw e;
 		}
 		return baseBean;
+	}
+	
+	/**
+	 * 车辆绑定审核结果查询
+	 * @param identityCardNo
+	 * @param sourceOfCertification
+	 * @return
+	 * @throws Exception
+	 */
+	public static JSONObject queryVehicleBindAuditResult(String identityCardNo, String sourceOfCertification, String url, String method,
+			String userId, String userPwd, String key) throws Exception {
+		JSONObject jsonObject = null;
+		String jkId = "xxcj11";
+		try{
+			StringBuffer sb = new StringBuffer();
+			sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST>")
+			.append("<LOGIN_NAME>").append(identityCardNo).append("</LOGIN_NAME>")	//身份证明号码
+			.append("<YHLY>").append(sourceOfCertification).append("</YHLY>")		//用户来源
+			.append("</REQUEST>");
+			jsonObject = WebServiceClient.getInstance().requestWebService(url, method, jkId, sb.toString(), userId, userPwd, key);
+		}catch(Exception e){
+			throw e;
+		}
+		return jsonObject;
 	}
 }
