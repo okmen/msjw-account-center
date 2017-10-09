@@ -131,6 +131,11 @@
 		select * from t_user_bind where id_card = #{idCard} and open_id = #{openId} and client_type = #{clientType}
 	</select>
 	
+	<select id="getUserBinds" resultType="cn.account.bean.UserBind">
+		select * from t_user_bind where 1=1 limit #{page},#{pageSize}
+	</select>
+	
+	
 	<!-- 修改登录绑定 -->
 	<update id="updateUserBind">
 		update t_user_bind set is_bind = 0 where id_card = #{idCard} and open_id = #{openId} and client_type = #{clientType}

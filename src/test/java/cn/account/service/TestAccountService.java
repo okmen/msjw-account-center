@@ -19,6 +19,8 @@ import com.alibaba.fastjson.JSONObject;
 
 import cn.account.bean.ReadilyShoot;
 import cn.account.bean.ResultOfReadilyShoot;
+import cn.account.bean.UserBind;
+import cn.account.bean.UserBindAlipay;
 import cn.account.bean.WechatUserInfoBean;
 import cn.account.bean.vo.BindCarVo;
 import cn.account.bean.vo.BindDriverLicenseVo;
@@ -70,6 +72,17 @@ public class TestAccountService {
 	public void testAccessAuthorization()throws Exception{
 		BaseBean baseBean = accountService.accessAuthorization("13627267056", "42138119910422133X", "C");
 		System.out.println(baseBean);
+	}
+	@Test
+	public void testGetUserBindAlipays()throws Exception{
+		List<UserBindAlipay> userBindAlipays = accountService.getUserBindAlipays(1, 3);
+		System.out.println(userBindAlipays);
+	}
+	
+	@Test
+	public void testGetUserBinds()throws Exception{
+		List<UserBind> userBinds = accountService.getUserBinds(2, 10);
+		System.out.println(userBinds);
 	}
 	
 	/**
@@ -432,7 +445,7 @@ public class TestAccountService {
 	@Test
 	public void testAlipayLogin() {
 		try {
-			LoginReturnBeanVo loginReturnBeanVo = accountService.alipayLogin("18503058616", "Z", "cccc");
+			LoginReturnBeanVo loginReturnBeanVo = accountService.alipayLogin("18603017278", "Z", "cccc");
 			System.out.println(loginReturnBeanVo);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -444,7 +457,7 @@ public class TestAccountService {
 	@Test
 	public void getLoginInfoByLoginName() {
 		try {
-			LoginReturnBeanVo loginReturnBeanVo = accountService.getLoginInfoByLoginName("18603065950", "C");
+			LoginReturnBeanVo loginReturnBeanVo = accountService.getLoginInfoByLoginName("18818967458", "C");
 			System.out.println(loginReturnBeanVo);
 		} catch (Exception e) {
 			e.printStackTrace();

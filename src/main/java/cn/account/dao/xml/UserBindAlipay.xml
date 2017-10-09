@@ -18,4 +18,7 @@
 		UPDATE t_user_bind_alipay SET `is_bind`=1,unbind_date=sysdate() where id_card =#{idCard} and user_id =#{userId}
 	</update>
 	
+	<select id="getUserBindAlipays" resultType="cn.account.bean.UserBindAlipay">
+		select * from t_user_bind_alipay where 1=1 limit #{page},#{pageSize}
+	</select>
 </mapper>

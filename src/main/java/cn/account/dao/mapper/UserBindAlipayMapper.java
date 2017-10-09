@@ -2,9 +2,9 @@ package cn.account.dao.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import cn.account.bean.UserBind;
 /**
  * 用户中心-支付宝
  * @author Mbenben
@@ -25,4 +25,11 @@ public interface UserBindAlipayMapper {
 	 * @return
 	 */
 	public int unbindVehicle(UserBindAlipay userBindAlipay);
+	/**
+	 * 查询
+	 * @param page
+	 * @param pageSize
+	 * @return
+	 */
+	public List<UserBindAlipay> getUserBindAlipays(@Param("page") int page,@Param("pageSize") int pageSize);
 }

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import cn.account.bean.UserBind;
+import cn.account.bean.UserBindAlipay;
 import cn.account.bean.UserOpenidBean;
 import cn.account.bean.UserRegInfo;
 import cn.account.bean.WechatUserInfoBean;
@@ -85,6 +86,14 @@ public interface AccountMapper {
 	 * @return
 	 */
 	public List<UserBind> getBetweenAndBindDate(@Param("startDate") String startDate,@Param("endDate") String endDate);
+	
+	/**
+	 * 查询
+	 * @param page
+	 * @param pageSize
+	 * @return
+	 */
+	public List<UserBind> getUserBinds(@Param("page") int page,@Param("pageSize") int pageSize);
 	
 	
     public Long getUserIdByOpenid(String openid);

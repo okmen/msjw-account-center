@@ -60,6 +60,7 @@ import cn.account.dao.IDocumentDao;
 import cn.account.dao.IReadilyShootDao;
 import cn.account.dao.IUserBindAlipayDao;
 import cn.account.dao.IUserValidateCodeDao;
+import cn.account.dao.mapper.AccountMapper;
 import cn.account.dao.mapper.UserBindAlipayMapper;
 import cn.account.orm.DocumentationORM;
 import cn.account.orm.UserValidateCodeORM;
@@ -100,6 +101,10 @@ public class IAccountServiceImpl implements IAccountService {
 	
 	@Autowired
 	private UserBindAlipayMapper userBindAlipayMapper;
+	
+	@Autowired
+	private AccountMapper accountMapper;
+	
 	
 	@Override
 	public int insertWechatUserInfo(WechatUserInfoBean wechatUserInfo) {
@@ -2402,6 +2407,20 @@ public class IAccountServiceImpl implements IAccountService {
 			throw e;
 		}
 		return baseBean;
+	}
+	
+
+	@Override
+	public List<UserBindAlipay> getUserBindAlipays(int page, int pageSize) {
+		page = (page - 1) * pageSize;
+		return userBindAlipayMapper.getUserBindAlipays(page, pageSize);
+	}
+
+
+	@Override
+	public List<UserBind> getUserBinds(int page, int pageSize) {
+		page = (page - 1) * pageSize;
+		return accountMapper.getUserBinds(page, pageSize);
 	}
 	
 }
