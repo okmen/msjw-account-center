@@ -14,23 +14,29 @@ import com.alibaba.fastjson.JSONObject;
 import cn.account.bean.ElectronicPolicyBean;
 import cn.account.bean.ResultOfReadilyShoot;
 import cn.account.bean.vo.AuthenticationBasicInformationVo;
+import cn.account.bean.vo.BindCompanyCarVo;
 import cn.account.bean.vo.BindDriverLicenseVo;
 import cn.account.bean.vo.BindTheOtherDriversUseMyCarVo;
 import cn.account.bean.vo.BindTheVehicleVo;
 import cn.account.bean.vo.BrushFaceVo;
+import cn.account.bean.vo.CompanyRegisterVo;
+import cn.account.bean.vo.CompanyUserLoginVo;
 import cn.account.bean.vo.DriverLicenseToSupplementThePermitBusinessVo;
 import cn.account.bean.vo.DrivingLicenseVo;
 import cn.account.bean.vo.ElectronicDriverLicenseVo;
 import cn.account.bean.vo.IdentificationOfAuditResultsVo;
+import cn.account.bean.vo.InformationCollectionVo;
 import cn.account.bean.vo.InformationSheetVo;
 import cn.account.bean.vo.MotorVehicleBusiness;
+import cn.account.bean.vo.MyCompanyCarsVo;
 import cn.account.bean.vo.MyDriverLicenseVo;
+import cn.account.bean.vo.QueryInformationCollectionVo;
 import cn.account.bean.vo.ReauthenticationVo;
 import cn.account.bean.vo.ResultOfBIndDriverLicenseVo;
+import cn.account.bean.vo.ResultOfCompanyRegister;
 import cn.account.bean.vo.TrafficQueryVo;
 import cn.account.bean.vo.UnbindTheOtherDriverUseMyCarVo;
 import cn.account.bean.vo.UnbindVehicleVo;
-import cn.account.bean.vo.VehicleBindAuditResultVo;
 import cn.account.bean.vo.ZT_STATUS;
 import cn.sdk.util.DateUtil;
 import cn.sdk.util.DateUtil2;
@@ -1605,7 +1611,8 @@ public class TransferThirdParty {
 			baseBean.setCode(code);
 			baseBean.setMsg(msg);
 			if ("0000".equals(code)) {
-				JSONObject body = jsonObject.getJSONObject("BODY");
+//				JSONObject body = jsonObject.getJSONObject("BODY");
+				JSONObject body = null;
 				String cid = body.getString("CID");
 				baseBean.setData(cid);
 			}
@@ -1637,5 +1644,335 @@ public class TransferThirdParty {
 			throw e;
 		}
 		return jsonObject;
+	}
+	public static BaseBean companyRegister(CompanyRegisterVo companyRegisterVo, String url, String method,
+			String userId, String userPwd, String keys) throws Exception {
+		BaseBean baseBean = new BaseBean();
+		String jkId = "dwc01";
+		try{
+			StringBuffer sb = new StringBuffer();
+			sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><request>")
+			.append("<zzjgdmzh>").append(companyRegisterVo.getOrganizationCodeNumber()).append("</zzjgdmzh>")				
+			.append("<gsmc>").append(companyRegisterVo.getCompanyName()).append("</gsmc>")						
+			.append("<sqrsfzmhm>").append(companyRegisterVo.getApplicantIdentityCard()).append("</sqrsfzmhm>")
+			.append("<sqrxm>").append(companyRegisterVo.getApplicantName()).append("</sqrxm>")				
+			.append("<sqrlxdh>").append(companyRegisterVo.getApplicantMobilephone()).append("</sqrlxdh>")						
+			.append("<sqrlxdz>").append(companyRegisterVo.getApplicantAddress()).append("</sqrlxdz>")
+			.append("<sqrlxdz>").append(companyRegisterVo.getApplicantAddress()).append("</sqrlxdz>")
+			.append("<photo9>").append(companyRegisterVo.getPhoto9()).append("</photo9>")
+			.append("<photo32>").append(companyRegisterVo.getPhoto32()).append("</photo32>")						
+			.append("<photo33>").append(companyRegisterVo.getPhoto33()).append("</photo33>")
+			.append("<zcly>").append(companyRegisterVo.getSourceOfCertification()).append("</zcly>")
+			.append("</request>");
+			JSONObject jsonObject = WebServiceClient.getInstance().requestWebService(url, method, jkId, sb.toString(), userId, userPwd, keys);
+			String code = jsonObject.getString("code");
+			String msg = jsonObject.getString("msg");
+			baseBean.setCode(code);
+			baseBean.setMsg(msg);
+			if ("0000".equals(code)) {
+				String body = jsonObject.getString("body");
+				baseBean.setData(body);
+			}
+		}catch(Exception e){
+			throw e;
+		}
+		return baseBean;
+	}
+	
+	public static BaseBean queryCompanyRegister(String organizationCodeNumber,String sourceOfCertification,  String url, String method,
+			String userId, String userPwd, String keys) throws Exception {
+		BaseBean baseBean = new BaseBean();
+		String jkId = "dwc02";
+		try{
+			StringBuffer sb = new StringBuffer();
+			sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><request>")
+			.append("<zzjgdmzh>").append(organizationCodeNumber).append("</zzjgdmzh>")				
+			.append("<cxly>").append(sourceOfCertification).append("</cxly>")
+			.append("</request>");
+			JSONObject jsonObject = WebServiceClient.getInstance().requestWebService(url, method, jkId, sb.toString(), userId, userPwd, keys);
+			String code = jsonObject.getString("code");
+			String msg = jsonObject.getString("msg");
+			baseBean.setCode(code);
+			baseBean.setMsg(msg);
+			if ("0000".equals(code)) {
+				JSONObject body = jsonObject.getJSONObject("body");
+				JSONObject row = body.getJSONObject("row");
+				String inputTime = row.getString("lrsj");
+				String serialNumber = row.getString("lsh");
+				String status = row.getString("shzt");
+				String applicantName = row.getString("sqrxm");
+				ResultOfCompanyRegister resultOfCompanyRegister = new ResultOfCompanyRegister();
+				resultOfCompanyRegister.setApplicantName(applicantName);
+				resultOfCompanyRegister.setInputTime(inputTime);
+				resultOfCompanyRegister.setSerialNumber(serialNumber);
+				resultOfCompanyRegister.setStatus(status);
+				baseBean.setData(resultOfCompanyRegister);
+			}
+		}catch(Exception e){
+			throw e;
+		}
+		return baseBean;
+	}
+	
+	public static BaseBean companyUserLogin(String loginUser,String loginPwd ,String sourceOfCertification,  String url, String method,
+			String userId, String userPwd, String keys) throws Exception {
+		BaseBean baseBean = new BaseBean();
+		String jkId = "dwc03";
+		try{
+			StringBuffer sb = new StringBuffer();
+			sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><request>")
+			.append("<login_user>").append(loginUser).append("</login_user>")				
+			.append("<login_pwd>").append(loginPwd).append("</login_pwd>")
+			.append("<cxly>").append(sourceOfCertification).append("</cxly>")
+			.append("</request>");
+			JSONObject jsonObject = WebServiceClient.getInstance().requestWebService(url, method, jkId, sb.toString(), userId, userPwd, keys);
+			String code = jsonObject.getString("code");
+			String msg = jsonObject.getString("msg");
+			baseBean.setCode(code);
+			baseBean.setMsg(msg);
+			if ("0000".equals(code)) {
+				JSONObject body = jsonObject.getJSONObject("body");
+				JSONObject row = body.getJSONObject("row");
+				String companyName = row.getString("dwmc");
+				String managerIdentityCard = row.getString("glrsfzmhm");
+				String managerMobilephone = row.getString("glrlxdh");
+				String managerName = row.getString("glrxm");
+				String organizationCodeNumber = row.getString("dwzzjgdmzh");
+				String status = row.getString("zt");
+				CompanyUserLoginVo companyUserLoginVo = new CompanyUserLoginVo();
+				companyUserLoginVo.setCompanyName(companyName);
+				companyUserLoginVo.setManagerIdentityCard(managerIdentityCard);
+				companyUserLoginVo.setManagerMobilephone(managerMobilephone);
+				companyUserLoginVo.setManagerName(managerName);
+				companyUserLoginVo.setOrganizationCodeNumber(organizationCodeNumber);
+				companyUserLoginVo.setStatus(status);
+				baseBean.setData(companyUserLoginVo);
+			}
+		}catch(Exception e){
+			throw e;
+		}
+		return baseBean;
+	}
+	
+	public static BaseBean companyUserChangePwd(String loginUser,String oldPwd ,String newPwd ,String sourceOfCertification,  String url, String method,
+			String userId, String userPwd, String keys) throws Exception {
+		BaseBean baseBean = new BaseBean();
+		String jkId = "dwc04";
+		try{
+			StringBuffer sb = new StringBuffer();
+			sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><request>")
+			.append("<login_user>").append(loginUser).append("</login_user>")				
+			.append("<oldpassword>").append(oldPwd).append("</oldpassword>")
+			.append("<newpassword>").append(newPwd).append("</newpassword>")
+			.append("<xgly>").append(sourceOfCertification).append("</xgly>")
+			.append("</request>");
+			JSONObject jsonObject = WebServiceClient.getInstance().requestWebService(url, method, jkId, sb.toString(), userId, userPwd, keys);
+			String code = jsonObject.getString("code");
+			String msg = jsonObject.getString("msg");
+			baseBean.setCode(code);
+			baseBean.setMsg(msg);
+		}catch(Exception e){
+			throw e;
+		}
+		return baseBean;
+	}
+	
+	public static BaseBean bindCompanyCar(BindCompanyCarVo bindCompanyCarVo,  String url, String method,
+			String userId, String userPwd, String keys) throws Exception {
+		BaseBean baseBean = new BaseBean();
+		String jkId = "dwc05";
+		try{
+			StringBuffer sb = new StringBuffer();
+			sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><request>")
+			.append("<sfzmhm>").append(bindCompanyCarVo.getLoginUser()).append("</sfzmhm>")				
+			.append("<bdly>").append(bindCompanyCarVo.getSourceOfCertification()).append("</bdly>")
+			.append("<sfjc>").append(bindCompanyCarVo.getProvinceCode()).append("</sfjc>")
+			.append("<hphm>").append(bindCompanyCarVo.getLicenseNumber()).append("</hphm>")
+			.append("<hpzl>").append(bindCompanyCarVo.getNumberPlate()).append("</hpzl>")
+			.append("</request>");
+			JSONObject jsonObject = WebServiceClient.getInstance().requestWebService(url, method, jkId, sb.toString(), userId, userPwd, keys);
+			String code = jsonObject.getString("code");
+			String msg = jsonObject.getString("msg");
+			baseBean.setCode(code);
+			baseBean.setMsg(msg);
+			if ("0000".equals(code)) {
+				String serialNumber = jsonObject.getString("body");
+				baseBean.setData(serialNumber);
+			}
+		}catch(Exception e){
+			throw e;
+		}
+		return baseBean;
+	}
+	
+	public static BaseBean getMyCompanyCars(String loginUser, String sourceOfCertification , String url, String method,
+			String userId, String userPwd, String keys) throws Exception {
+		BaseBean baseBean = new BaseBean();
+		String jkId = "dwc06";
+		try{
+			StringBuffer sb = new StringBuffer();
+			sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><request>")
+			.append("<sfzmhm>").append(loginUser).append("</sfzmhm>")				
+			.append("<cxly>").append(sourceOfCertification).append("</cxly>")
+			.append("</request>");
+			JSONObject jsonObject = WebServiceClient.getInstance().requestWebService(url, method, jkId, sb.toString(), userId, userPwd, keys);
+			String code = jsonObject.getString("code");
+			String msg = jsonObject.getString("msg");
+			baseBean.setCode(code);
+			baseBean.setMsg(msg);
+			if ("0000".equals(code)) {
+				//成功
+				JSONObject body = jsonObject.getJSONObject("body");			
+				List<MyCompanyCarsVo> carsVos = new ArrayList<>();
+				if(body.toJSONString().contains("[")){
+					//多条
+					JSONArray jsonArray = body.getJSONArray("list");
+					Iterator iterator = jsonArray.iterator();
+					while (iterator.hasNext()) {
+						JSONObject json = (JSONObject) iterator.next();
+						String bindTime = json.getString("bdsj");            
+						String source = json.getString("cjly");               
+						String licenseNumber = json.getString("hphm");       
+						String numberPlate = json.getString("hpzl");         
+						String compulsoryScrapTime = json.getString("qzbfqz"); 
+						String status = json.getString("shzt");               
+						String inspectionDate = json.getString("syrq");       
+						String serialNumber = json.getString("xh");         
+						MyCompanyCarsVo companyCarsVo = new MyCompanyCarsVo();
+						companyCarsVo.setBindTime(bindTime);
+						companyCarsVo.setCompulsoryScrapTime(compulsoryScrapTime);
+						companyCarsVo.setInspectionDate(inspectionDate);
+						companyCarsVo.setLicenseNumber(licenseNumber);
+						companyCarsVo.setNumberPlate(numberPlate);
+						companyCarsVo.setSerialNumber(serialNumber);
+						companyCarsVo.setSource(source);
+						companyCarsVo.setStatus(status);
+						carsVos.add(companyCarsVo);
+					}
+				}else{
+					JSONObject json = jsonObject.getJSONObject("list");
+					String bindTime = json.getString("bdsj");            
+					String source = json.getString("cjly");               
+					String licenseNumber = json.getString("hphm");       
+					String numberPlate = json.getString("hpzl");         
+					String compulsoryScrapTime = json.getString("qzbfqz"); 
+					String status = json.getString("shzt");               
+					String inspectionDate = json.getString("syrq");       
+					String serialNumber = json.getString("xh");         
+					MyCompanyCarsVo companyCarsVo = new MyCompanyCarsVo();
+					companyCarsVo.setBindTime(bindTime);
+					companyCarsVo.setCompulsoryScrapTime(compulsoryScrapTime);
+					companyCarsVo.setInspectionDate(inspectionDate);
+					companyCarsVo.setLicenseNumber(licenseNumber);
+					companyCarsVo.setNumberPlate(numberPlate);
+					companyCarsVo.setSerialNumber(serialNumber);
+					companyCarsVo.setSource(source);
+					companyCarsVo.setStatus(status);
+					carsVos.add(companyCarsVo);
+				}
+				baseBean.setData(carsVos);
+			}
+		}catch(Exception e){
+			throw e;
+		}
+		return baseBean;
+	}
+	
+	
+	public static BaseBean informationCollection(InformationCollectionVo informationCollectionVo,  String url, String method,
+			String userId, String userPwd, String keys) throws Exception {
+		BaseBean baseBean = new BaseBean();
+		String jkId = "CYQHC001";
+		informationCollectionVo.setJkId(jkId);
+		try{
+			StringBuffer sb = new StringBuffer();
+			sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><request>")
+			.append("<com_userid>").append(informationCollectionVo.getUserId()).append("</com_userid>")				
+			.append("<com_userpwd>").append(informationCollectionVo.getPassword()).append("</com_userpwd>")
+			.append("<com_jkid>").append(informationCollectionVo.getJkId()).append("</com_jkid>")
+			.append("<hphm>").append(informationCollectionVo.getLicenseNumber()).append("</hphm>")				
+			.append("<hpzl>").append(informationCollectionVo.getNumberPlate()).append("</hpzl>")
+			.append("<cllx>").append(informationCollectionVo.getCarType()).append("</cllx>")
+			.append("<fdjh>").append(informationCollectionVo.getEngineNumber()).append("</fdjh>")
+			.append("<cjh>").append(informationCollectionVo.getVehicleIdentificationNumber()).append("</cjh>")
+			.append("<nsyxq>").append(informationCollectionVo.getValidityOfAnnualAudit()).append("</nsyxq>")				
+			.append("<czsfzmhm>").append(informationCollectionVo.getOwnerIdentityCard()).append("</czsfzmhm>")
+			.append("<czlxdh>").append(informationCollectionVo.getOwnerMobilephone()).append("</czlxdh>")
+			.append("<czzz>").append(informationCollectionVo.getOwnerAddress()).append("</czzz>")
+			.append("<sfzmhm>").append(informationCollectionVo.getIdentityCard()).append("</sfzmhm>")
+			.append("<lxdh>").append(informationCollectionVo.getMobilephone()).append("</lxdh>")				
+			.append("<zz>").append(informationCollectionVo.getAddress()).append("</zz>")
+			.append("<base64><czsfzfyj>").append(informationCollectionVo.getCopyOfOwnerIdentityCard()).append("</czsfzfyj></base64>")
+			.append("<base64><jszfyj>").append(informationCollectionVo.getCopyOfDriverLicense()).append("</jszfyj></base64>")
+			.append("<base64><xszfyj>").append(informationCollectionVo.getCopyOfVehicleTravelLicense()).append("</xszfyj></base64>")
+			.append("<base64><dwfrfyj>").append(informationCollectionVo.getCopyOfLegalEntity()).append("</dwfrfyj></base64>")				
+			.append("<base64><sqrscfyj>").append(informationCollectionVo.getCopyOfApplicant()).append("</sqrscfyj></base64>")
+			.append("<u_sfzmhm>").append(informationCollectionVo.getLoginUser()).append("</u_sfzmhm>")
+			.append("<u_sjhm>").append(informationCollectionVo.getUserMobilepbone()).append("</u_sjhm>")
+			.append("<rzlx>").append(informationCollectionVo.getCertificationType()).append("</rzlx>")
+			.append("<rzly>").append(informationCollectionVo.getSourceOfCertification()).append("</rzly>")
+			.append("</request>");
+			JSONObject jsonObject = WebServiceClient.getInstance().changed2WebService(url, method, jkId, sb.toString(), userId, userPwd, keys);
+			String code = jsonObject.getString("code");
+			String msg = jsonObject.getString("msg");
+			baseBean.setCode(code);
+			baseBean.setMsg(msg);
+			if ("0000".equals(code)) {
+				JSONObject body = jsonObject.getJSONObject("body");
+				String cid = body.getString("cid");
+				baseBean.setData(cid);
+			}
+		}catch(Exception e){
+			throw e;
+		}
+		return baseBean;
+	}
+	
+	
+	public static BaseBean queryInformationCollection(InformationCollectionVo informationCollectionVo,  String url, String method,
+			String userId, String userPwd, String keys) throws Exception {
+		BaseBean baseBean = new BaseBean();
+		String jkId = "CYQHC002";
+		informationCollectionVo.setJkId(jkId);
+		try{
+			StringBuffer sb = new StringBuffer();
+			sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><request>")
+			.append("<com_userid>").append(informationCollectionVo.getUserId()).append("</com_userid>")				
+			.append("<com_userpwd>").append(informationCollectionVo.getPassword()).append("</com_userpwd>")
+			.append("<com_jkid>").append(informationCollectionVo.getJkId()).append("</com_jkid>")
+			.append("<hphm>").append(informationCollectionVo.getLicenseNumber()).append("</hphm>")				
+			.append("<hpzl>").append(informationCollectionVo.getNumberPlate()).append("</hpzl>")
+			.append("<u_sfzmhm>").append(informationCollectionVo.getLoginUser()).append("</u_sfzmhm>")
+			.append("</request>");
+			JSONObject jsonObject = WebServiceClient.getInstance().changed2WebService(url, method, jkId, sb.toString(), userId, userPwd, keys);
+			String code = jsonObject.getString("code");
+			String msg = jsonObject.getString("msg");
+			baseBean.setCode(code);
+			baseBean.setMsg(msg);
+			if ("0000".equals(code)) {
+				JSONObject body = jsonObject.getJSONObject("body");
+				String licenseNumber = body.getString("hphm");        
+				String numberPlate = body.getString("hpzl");          
+				String status = body.getString("shzt");               
+				String auditDescription = body.getString("shtbyy");     
+				String rfStatus = body.getString("rfzt");             
+				String rfDescription = body.getString("rfms");        
+				String rfId = body.getString("rfid");                 
+				String rfTime = body.getString("rfsj");               
+				QueryInformationCollectionVo queryInformationCollectionVo = new QueryInformationCollectionVo();
+				queryInformationCollectionVo.setAuditDescription(auditDescription);
+				queryInformationCollectionVo.setLicenseNumber(licenseNumber);
+				queryInformationCollectionVo.setNumberPlate(numberPlate);
+				queryInformationCollectionVo.setRfDescription(rfDescription);
+				queryInformationCollectionVo.setRfId(rfId);
+				queryInformationCollectionVo.setRfStatus(rfStatus);
+				queryInformationCollectionVo.setRfTime(rfTime);
+				queryInformationCollectionVo.setStatus(status);
+				baseBean.setData(queryInformationCollectionVo);
+			}
+		}catch(Exception e){
+			throw e;
+		}
+		return baseBean;
 	}
 }

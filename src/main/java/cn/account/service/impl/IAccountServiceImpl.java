@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.NestedNullException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,14 +26,17 @@ import cn.account.bean.UserBindAlipay;
 import cn.account.bean.WechatUserInfoBean;
 import cn.account.bean.vo.AuthenticationBasicInformationVo;
 import cn.account.bean.vo.BindCarVo;
+import cn.account.bean.vo.BindCompanyCarVo;
 import cn.account.bean.vo.BindDriverLicenseVo;
 import cn.account.bean.vo.BindTheVehicleVo;
 import cn.account.bean.vo.BrushFaceVo;
+import cn.account.bean.vo.CompanyRegisterVo;
 import cn.account.bean.vo.DriverLicenseInformationSheetVo;
 import cn.account.bean.vo.DriverLicenseToSupplementThePermitBusinessVo;
 import cn.account.bean.vo.DrivingLicenseVo;
 import cn.account.bean.vo.ElectronicDriverLicenseVo;
 import cn.account.bean.vo.IdentificationOfAuditResultsVo;
+import cn.account.bean.vo.InformationCollectionVo;
 import cn.account.bean.vo.InformationSheetVo;
 import cn.account.bean.vo.LoginReturnBeanVo;
 import cn.account.bean.vo.MotorVehicleBusiness;
@@ -69,8 +71,6 @@ import cn.account.utils.NozzleMeans;
 import cn.account.utils.TransferThirdParty;
 import cn.sdk.bean.BaseBean;
 import cn.sdk.util.MsgCode;
-import cn.sdk.webservice.WebServiceClient;
-
 /**
  * 个人中心
  * @author Mbenben
@@ -81,7 +81,6 @@ import cn.sdk.webservice.WebServiceClient;
 public class IAccountServiceImpl implements IAccountService {
 	
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
 	@Autowired
 	private IAccountDao accountDao;
 	
@@ -90,7 +89,6 @@ public class IAccountServiceImpl implements IAccountService {
 	
 	@Autowired
 	private IUserBindAlipayDao userBindAlipayDao;
-
 	@Autowired
 	private IAccountCachedImpl iAccountCached;
 	
@@ -119,8 +117,6 @@ public class IAccountServiceImpl implements IAccountService {
 		
 		return result;
 	}
-
-
 	@Override
 	public WechatUserInfoBean getWechatUserInfoById(int id) {
 		WechatUserInfoBean result = null;
@@ -711,44 +707,32 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		return map;
 	}
-
-
 	@Override
 	public MakeAnAppointmentVo getMakeAnAppointment(int businessType, String reservationNumber, String identityCard) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
 	@Override
 	public void bookingCancellation(int businessType, String reservationNumber, String identityCard) {
 		// TODO Auto-generated method stub
 		
 	}
-
-
 	@Override
 	public CertificationProgressQueryVo getCertificationProgressQuery(int businessType, String identityCard,
 			String serialNumber, String agencyCode) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
 	@Override
 	public List<DriverLicenseBusinessVo> getDriverLicenseBusiness(String identityCard) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
 	@Override
 	public List<MotorVehicleBusinessVo> getMotorVehicleBusiness(String identityCard) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
 	@Override
 	public ElectronicDriverLicenseVo getElectronicDriverLicense(String driverLicenseNumber, String userName,String mobileNumber,String sourceOfCertification) throws Exception {
 		ElectronicDriverLicenseVo electronicDriverLicenseVo = new ElectronicDriverLicenseVo();
@@ -765,8 +749,6 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		return electronicDriverLicenseVo;
 	}
-
-
 	@Override
 	public DrivingLicenseVo getDrivingLicense(String numberPlatenumber, String plateType, String mobileNumber,String sourceOfCertification)throws Exception {
 		 DrivingLicenseVo drivingLicenseVo = new DrivingLicenseVo();
@@ -783,8 +765,6 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		return drivingLicenseVo;
 	}
-
-
 	@Override
 	public MyDriverLicenseVo getMyDriverLicense(String identityCard,String sourceOfCertification) throws Exception {
 		MyDriverLicenseVo myDriverLicenseVo = new MyDriverLicenseVo();
@@ -801,8 +781,6 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		return myDriverLicenseVo;
 	}
-
-
 	@Override
 	public List<BindTheVehicleVo> getBndTheVehicles(String identityCard,String mobilephone,String sourceOfCertification) throws Exception {
 		 List<BindTheVehicleVo> bindTheVehicleVos = new ArrayList<BindTheVehicleVo>();
@@ -812,7 +790,6 @@ public class IAccountServiceImpl implements IAccountService {
 			 String userId = iAccountCached.getUserid(sourceOfCertification); //webservice登录账号
 			 String userPwd = iAccountCached.getUserpwd(sourceOfCertification); //webservice登录密码
 			 String key = iAccountCached.getKey(sourceOfCertification); //秘钥
-
 			 bindTheVehicleVos = TransferThirdParty.bindsTheMotorVehicleQuery(mobilephone, identityCard, sourceOfCertification, url, method, userId, userPwd, key);
 		} catch (Exception e) {
 			logger.error("查询已绑车辆错误,identityCard="+identityCard+",sourceOfCertification="+sourceOfCertification, e);
@@ -1260,8 +1237,6 @@ public class IAccountServiceImpl implements IAccountService {
 			throw e;
 		}
 	}
-
-
 	@Override
 	public int verificatioCode(String mobilephone, String validateCode) {
 		// 0-验证成功，1-验证失败，2-验证码失效
@@ -1284,7 +1259,6 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		return result;
 	}
-
 	/**
 	 * 手机号码在redis是否存在
 	 * @param mobile
@@ -1318,8 +1292,6 @@ public class IAccountServiceImpl implements IAccountService {
 	      }
 	      return cancelSuccess;
 	}
-
-
 	@Override
 	public JSONObject addVehicle(BindCarVo bindCarVo) throws Exception{
 		JSONObject json= null;
@@ -1337,8 +1309,6 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		return json;
 	}
-
-
 	@Override
 	public JSONObject updateUser(UserBasicVo userBasicVo)throws Exception {
 		JSONObject json= null;
@@ -1357,8 +1327,6 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		return json;
 	}
-
-
 	@Override
 	public JSONObject updateMobile(UserBasicVo userBasicVo)throws Exception {		
 			JSONObject json= null;
@@ -1413,7 +1381,6 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		return json;
 	}
-
 	
 	@Override
 	public JSONObject iAmTheOwner(RegisterVo registerVo) throws Exception{
@@ -1495,8 +1462,6 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		return json;
 	}
-
-
 	@Override
 	public JSONObject getPositioningAddress(String keyword) throws Exception {
 		JSONObject json= null;
@@ -1514,7 +1479,6 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		return json;
 	}
-
 	@Override
 	public JSONObject getTheChoiceOfIllegalActivities(String keyword) throws Exception {
 		JSONObject json= null;
@@ -1549,8 +1513,6 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		return map;
 	}
-
-
 	@Override
 	public void sendSmsFreqLimit(String mobilephone) {
 		try {
@@ -1560,16 +1522,11 @@ public class IAccountServiceImpl implements IAccountService {
 			throw e;
 		}
 	}
-
-
 	@Override
 	public String getSendSmsFreqLimit(String mobilephone) {
 		String key = iAccountCached.getSendSmsFreqLimit(mobilephone);
 		return key;
 	}
-
-
-
 	@Override
 	public ResultOfReadilyShoot queryResultOfReadilyShoot(String reportSerialNumber, String password) throws Exception {
 		ResultOfReadilyShoot resultOfReadilyShoot = null;
@@ -1620,14 +1577,10 @@ public class IAccountServiceImpl implements IAccountService {
 		
 		return resultOfReadilyShoot;
 	}
-
-
 	@Override
 	public int saveReadilyShoot(ReadilyShoot readilyShoot) {
 		return readilyShootDao.saveReadilyShoot(readilyShoot);
 	}
-
-
 	
 //	@Override
 //	public UserRegInfo addNewUser(UserRegInfo userRegInfo) {
@@ -1883,24 +1836,17 @@ public class IAccountServiceImpl implements IAccountService {
 //        }
 //        return updateSuccess;
 //    }
-
-
-
 	@Override
 	public Map<String, Object> cancelReservation(String sourceOfCertification, String reservationNo) throws Exception {
 		
 		return null;
 	}
-
-
 	@Override
 	public Map<String, Object> getReservation(String sourceOfCertification, String mobilephone, String validateCode)
 			throws Exception {
 		
 		return null;
 	}
-
-
 	@Override
 	public Map<String, Object> Reservation(String sourceOfCertification, String mobilephone, String validateCode,
 			String plateNumber, String plateType, String vehicleType, String fourDigitsAfterTheEngine, String time,
@@ -1908,8 +1854,6 @@ public class IAccountServiceImpl implements IAccountService {
 		
 		return null;
 	}
-
-
 	@Override
 	public List<UserBind> getBetweenAndId(String startId, String endId) {
 		List<UserBind> userBinds = null;
@@ -1921,8 +1865,6 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		return userBinds;
 	}
-
-
 	@Override
 	public List<UserBind> getBetweenAndBindDate(String startDate, String endDate) {
 		List<UserBind> userBinds = null;
@@ -1952,8 +1894,6 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		return json;
 	}
-
-
 	@Override
 	public ResultOfBIndDriverLicenseVo queryResultOfBindDriverLicense(String identityCard, String userSource)  throws Exception{
 		ResultOfBIndDriverLicenseVo resultOfBIndDriverLicenseVo= null;
@@ -1973,8 +1913,6 @@ public class IAccountServiceImpl implements IAccountService {
 		
 		return resultOfBIndDriverLicenseVo;
 	}
-
-
 	@Override
 	public Map<String, String> submitApplicationForDriverInformation(String applyType, String applyName,
 			String identityCard, String applyPhone, String sourceOfCertification)  throws Exception{
@@ -1994,8 +1932,6 @@ public class IAccountServiceImpl implements IAccountService {
 		
 		return map;
 	}
-
-
 	@Override
 	public Map<String, String> submitApplicationForMotorVehicleInformation(String applyType, String applyName,
 			String identityCard, String applyPhone, String licensePlateNumber,
@@ -2017,8 +1953,6 @@ public class IAccountServiceImpl implements IAccountService {
 		
 		return map;
 	}
-
-
 	@Override
 	public Map<String, Object> queryScheduleOfDriverInformationList(String applyType, String identityCard,
 			String sourceOfCertification)  throws Exception{
@@ -2039,8 +1973,6 @@ public class IAccountServiceImpl implements IAccountService {
 		
 		return map;
 	}
-
-
 	@Override
 	public Map<String, Object> queryScheduleOfMotorVehicleInformationList(String applyType, String identityCard,
 			String sourceOfCertification)  throws Exception{
@@ -2101,7 +2033,6 @@ public class IAccountServiceImpl implements IAccountService {
 		
 		return baseBean;
 	}
-
 	/**
 	 * 提交驾驶人安全事故信用表申请
 	 * @Description: TODO(提交驾驶人安全事故信用表申请)
@@ -2142,8 +2073,6 @@ public class IAccountServiceImpl implements IAccountService {
 		
 		return baseBean;
 	}
-
-
 	@Override
 	public Map<String, String> unbindVehicle(UnbindVehicleVo unbindVehicleVo) throws Exception {
 		Map<String, String> map = new HashMap<>();
@@ -2164,9 +2093,6 @@ public class IAccountServiceImpl implements IAccountService {
 	
 		return map;
 	}
-
-
-
 	@Override
 	public Map<String, Object> getBindTheOtherDriversUseMyCar(String identityCard, String numberPlateNumber,
 			String plateType, String sourceOfCertification) throws Exception{
@@ -2186,8 +2112,6 @@ public class IAccountServiceImpl implements IAccountService {
 		
 		return map;
 	}
-
-
 	@Override
 	public Map<String, Object> trafficQuery(String sourceOfCertification) throws Exception{
 		Map<String, Object> map = new HashMap<>();
@@ -2211,8 +2135,6 @@ public class IAccountServiceImpl implements IAccountService {
 		
 		return map;
 	}
-
-
 	@Override
 	public Map<String, String> detailsTrafficQuery(String zjz, String sourceOfCertification) throws Exception{
 		Map<String, String> map = new HashMap<>();
@@ -2235,8 +2157,6 @@ public class IAccountServiceImpl implements IAccountService {
 		
 		return map;
 	}
-
-
 	@Override
 	public Map<String, String> unbindTheOtherDriverUseMyCar(
 			UnbindTheOtherDriverUseMyCarVo unbindTheOtherDriverUseMyCarVo) throws Exception {
@@ -2258,8 +2178,6 @@ public class IAccountServiceImpl implements IAccountService {
 	
 		return map;
 	}
-
-
 	@Override
 	public Map<String, String> reauthentication(ReauthenticationVo reauthenticationVo) throws Exception {
 		Map<String, String> map = new HashMap<>();
@@ -2296,9 +2214,6 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		return identificationOfAuditResultsVos;
 	}
-
-
-
 	@Override
 	public Map<String, Object> alipayAKeyRegister(String userName, String identityCard, String mobilephone,String sourceOfCertification) throws Exception {
 		Map<String, Object> map = null;
@@ -2315,7 +2230,6 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		return map;
 	}
-
 	@Override
 	public BaseBean accessAuthorization(String mobilephone, String identityCard, String userSource) throws Exception {
 		BaseBean baseBean = new BaseBean();
@@ -2332,8 +2246,6 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		return baseBean;
 	}
-
-
 	@Override
 	public BaseBean weChatBrushFaceAuthentication(BrushFaceVo brushFaceVo) throws Exception {
 		BaseBean baseBean = new BaseBean();
@@ -2350,8 +2262,6 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		return baseBean;
 	}
-
-
 	/**
 	 * 车辆绑定审核结果查询
 	 * @param identityCardNo
@@ -2409,18 +2319,163 @@ public class IAccountServiceImpl implements IAccountService {
 		return baseBean;
 	}
 	
-
 	@Override
 	public List<UserBindAlipay> getUserBindAlipays(int page, int pageSize) {
 		page = (page - 1) * pageSize;
 		return userBindAlipayMapper.getUserBindAlipays(page, pageSize);
 	}
-
-
 	@Override
 	public List<UserBind> getUserBinds(int page, int pageSize) {
 		page = (page - 1) * pageSize;
 		return accountMapper.getUserBinds(page, pageSize);
+	}
+	
+	@Override
+	public BaseBean companyRegister(CompanyRegisterVo companyRegisterVo) throws Exception {
+		BaseBean baseBean = new BaseBean();
+		try{
+			String url = iAccountCached.getUrl(companyRegisterVo.getSourceOfCertification()); //webservice请求url
+			String method = iAccountCached.getMethod(companyRegisterVo.getSourceOfCertification()); //webservice请求方法名称
+			String userId = iAccountCached.getUserid(companyRegisterVo.getSourceOfCertification()); //webservice登录账号
+			String userPwd = iAccountCached.getUserpwd(companyRegisterVo.getSourceOfCertification()); //webservice登录密码
+			String key = iAccountCached.getKey(companyRegisterVo.getSourceOfCertification()); //秘钥
+			baseBean = TransferThirdParty.companyRegister(companyRegisterVo, url, method, userId, userPwd, key);
+		}catch(Exception e){
+			logger.error("公车注册异常 ， companyRegisterVo = " + companyRegisterVo);
+			throw e;
+		}
+		return baseBean;
+	}
+
+
+	@Override
+	public BaseBean queryCompanyRegister(String organizationCodeNumber, String sourceOfCertification) throws Exception {
+		BaseBean baseBean = new BaseBean();
+		try{
+			String url = iAccountCached.getUrl(sourceOfCertification); //webservice请求url
+			String method = iAccountCached.getMethod(sourceOfCertification); //webservice请求方法名称
+			String userId = iAccountCached.getUserid(sourceOfCertification); //webservice登录账号
+			String userPwd = iAccountCached.getUserpwd(sourceOfCertification); //webservice登录密码
+			String key = iAccountCached.getKey(sourceOfCertification); //秘钥
+			baseBean = TransferThirdParty.queryCompanyRegister(organizationCodeNumber,sourceOfCertification , url, method, userId, userPwd, key);
+		}catch(Exception e){
+			logger.error("公车注册查询异常 ， organizationCodeNumber = " + organizationCodeNumber +", sourceOfCertification = " +sourceOfCertification);
+			throw e;
+		}
+		return baseBean;
+	}
+
+
+	@Override
+	public BaseBean companyUserLogin(String loginUser, String loginPwd, String sourceOfCertification) throws Exception {
+		BaseBean baseBean = new BaseBean();
+		try{
+			String url = iAccountCached.getUrl(sourceOfCertification); //webservice请求url
+			String method = iAccountCached.getMethod(sourceOfCertification); //webservice请求方法名称
+			String userId = iAccountCached.getUserid(sourceOfCertification); //webservice登录账号
+			String userPwd = iAccountCached.getUserpwd(sourceOfCertification); //webservice登录密码
+			String key = iAccountCached.getKey(sourceOfCertification); //秘钥			
+			baseBean = TransferThirdParty.companyUserLogin(loginUser, loginPwd, sourceOfCertification, url, method, userId, userPwd, key);
+		}catch(Exception e){
+			logger.error("单位用户登录异常 ， loginUser = " + loginUser +", loginPwd = " + loginPwd + ", sourceOfCertification = " +sourceOfCertification);
+			throw e;
+		}
+		return baseBean;
+	}
+
+
+	@Override
+	public BaseBean companyUserChangePwd (String loginUser, String oldPwd, String newPwd, String sourceOfCertification)
+			throws Exception {
+		BaseBean baseBean = new BaseBean();
+		try{
+			String url = iAccountCached.getUrl(sourceOfCertification); //webservice请求url
+			String method = iAccountCached.getMethod(sourceOfCertification); //webservice请求方法名称
+			String userId = iAccountCached.getUserid(sourceOfCertification); //webservice登录账号
+			String userPwd = iAccountCached.getUserpwd(sourceOfCertification); //webservice登录密码
+			String key = iAccountCached.getKey(sourceOfCertification); //秘钥
+			baseBean = TransferThirdParty.companyUserChangePwd(loginUser, oldPwd, newPwd, sourceOfCertification, url, method, userId, userPwd, key);
+		}catch(Exception e){
+			logger.error("单位用户修改密码异常 ， loginUser = " + loginUser +", oldPwd = " +oldPwd + ", newPwd = " + newPwd + ", sourceOfCertification = " + sourceOfCertification);
+			throw e;
+		}
+		return baseBean;
+	}
+
+
+	@Override
+	public BaseBean bindCompanyCar(BindCompanyCarVo bindCompanyCarVo) throws Exception {
+		BaseBean baseBean = new BaseBean();
+		try{
+			String url = iAccountCached.getUrl(bindCompanyCarVo.getSourceOfCertification()); //webservice请求url
+			String method = iAccountCached.getMethod(bindCompanyCarVo.getSourceOfCertification()); //webservice请求方法名称
+			String userId = iAccountCached.getUserid(bindCompanyCarVo.getSourceOfCertification()); //webservice登录账号
+			String userPwd = iAccountCached.getUserpwd(bindCompanyCarVo.getSourceOfCertification()); //webservice登录密码
+			String key = iAccountCached.getKey(bindCompanyCarVo.getSourceOfCertification()); //秘钥
+			baseBean = TransferThirdParty.bindCompanyCar(bindCompanyCarVo, url, method, userId, userPwd, key);
+		}catch(Exception e){
+			logger.error("公车绑定异常 ， bindCompanyCarVo = " + bindCompanyCarVo);
+			throw e;
+		}
+		return baseBean;
+	}
+
+
+	@Override
+	public BaseBean getMyCompanyCars(String loginUser, String sourceOfCertification) throws Exception {
+		BaseBean baseBean = new BaseBean();
+		try{
+			String url = iAccountCached.getUrl(sourceOfCertification); //webservice请求url
+			String method = iAccountCached.getMethod(sourceOfCertification); //webservice请求方法名称
+			String userId = iAccountCached.getUserid(sourceOfCertification); //webservice登录账号
+			String userPwd = iAccountCached.getUserpwd(sourceOfCertification); //webservice登录密码
+			String key = iAccountCached.getKey(sourceOfCertification); //秘钥
+			baseBean = TransferThirdParty.getMyCompanyCars(loginUser, sourceOfCertification, url, method, userId, userPwd, key);
+		}catch(Exception e){
+			logger.error("个人名下所有车辆查询异常 ， loginUser = " + loginUser +", sourceOfCertification = " +sourceOfCertification);
+			throw e;
+		}
+		return baseBean;
+	}
+
+
+	@Override
+	public BaseBean informationCollection(InformationCollectionVo informationCollectionVo) throws Exception {
+		BaseBean baseBean = new BaseBean();
+		try{
+			String url = iAccountCached.getUrl(informationCollectionVo.getSourceOfCertification()); //webservice请求url
+			String method = iAccountCached.getMethod(informationCollectionVo.getSourceOfCertification()); //webservice请求方法名称
+			String userId = iAccountCached.getUserid(informationCollectionVo.getSourceOfCertification()); //webservice登录账号
+			String userPwd = iAccountCached.getUserpwd(informationCollectionVo.getSourceOfCertification()); //webservice登录密码
+			String key = iAccountCached.getKey(informationCollectionVo.getSourceOfCertification()); //秘钥
+			informationCollectionVo.setUserId(userId);
+			informationCollectionVo.setPassword(userPwd);
+			baseBean = TransferThirdParty.informationCollection(informationCollectionVo, url, method, userId, userPwd, key);
+		}catch(Exception e){
+			logger.error("信息采集异常 ， informationCollectionVo = " + informationCollectionVo );
+			throw e;
+		}
+		return baseBean;
+	}
+
+
+	@Override
+	public BaseBean queryInformationCollection(InformationCollectionVo informationCollectionVo) throws Exception {
+		BaseBean baseBean = new BaseBean();
+		try{
+			String url = iAccountCached.getUrl(informationCollectionVo.getSourceOfCertification()); //webservice请求url
+			String method = iAccountCached.getMethod(informationCollectionVo.getSourceOfCertification()); //webservice请求方法名称
+			String userId = iAccountCached.getUserid(informationCollectionVo.getSourceOfCertification()); //webservice登录账号
+			String userPwd = iAccountCached.getUserpwd(informationCollectionVo.getSourceOfCertification()); //webservice登录密码
+			String key = iAccountCached.getKey(informationCollectionVo.getSourceOfCertification()); //秘钥
+			informationCollectionVo.setUserId(userId);
+			informationCollectionVo.setPassword(userPwd);
+			baseBean = TransferThirdParty.queryInformationCollection(informationCollectionVo, url, method, userId, userPwd, key);
+		}catch(Exception e){
+			logger.error("信息采集查询异常 ， informationCollectionVo = " + informationCollectionVo );
+			throw e;
+		}
+		return baseBean;
 	}
 	
 }
