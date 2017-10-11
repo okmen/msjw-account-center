@@ -173,6 +173,7 @@
 				<jiaojing.url.alipay>http://123.56.180.216:19002/xxfbpt/services/xxfbptservice</jiaojing.url.alipay>
 				<jiaojing.method.alipay>xxptSchuding</jiaojing.method.alipay>
 				<jiaojing.key.alipay>HyjjsQEU7RKMUL71ziH7Pni5</jiaojing.key.alipay>
+				<jiaojing.url.alipay2>http://123.56.180.216:19002/xxfbpt/services/xxfbptservice</jiaojing.url.alipay2>
 			</properties>
 		</profile>
 
@@ -236,6 +237,7 @@
 				<jiaojing.url.alipay>http://123.56.180.216:19002/xxfbpt/services/xxfbptservice</jiaojing.url.alipay>
 				<jiaojing.method.alipay>xxptSchuding</jiaojing.method.alipay>
 				<jiaojing.key.alipay>HyjjsQEU7RKMUL71ziH7Pni5</jiaojing.key.alipay>
+				<jiaojing.url.alipay2>http://123.56.180.216:19002/xxfbpt/services/xxfbptservice</jiaojing.url.alipay2>
 			</properties>
 		</profile>
 		
@@ -300,7 +302,7 @@
 				<jiaojing.url.alipay>http://api.szjj.me:9080/xxfbpt/services/xxfbptservice</jiaojing.url.alipay>
 				<jiaojing.method.alipay>xxptSchuding</jiaojing.method.alipay>
 				<jiaojing.key.alipay>HyjjsQEU7RKMUL71ziH7Pni5</jiaojing.key.alipay>
-				
+				<jiaojing.url.alipay2>http://192.168.2.145:9080/xxfbpt/services/xxfbptservice</jiaojing.url.alipay2>
 			</properties>
 		</profile>
 	</profiles>

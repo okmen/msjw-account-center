@@ -1902,6 +1902,7 @@ public class TransferThirdParty {
 			.append("<sfzmhm>").append(informationCollectionVo.getIdentityCard()).append("</sfzmhm>")
 			.append("<lxdh>").append(informationCollectionVo.getMobilephone()).append("</lxdh>")				
 			.append("<zz>").append(informationCollectionVo.getAddress()).append("</zz>")
+			.append("<fkdd>").append(informationCollectionVo.getIssuingBrigade()).append("</fkdd>")
 			.append("<base64><czsfzfyj>").append(informationCollectionVo.getCopyOfOwnerIdentityCard()).append("</czsfzfyj></base64>")
 			.append("<base64><jszfyj>").append(informationCollectionVo.getCopyOfDriverLicense()).append("</jszfyj></base64>")
 			.append("<base64><xszfyj>").append(informationCollectionVo.getCopyOfVehicleTravelLicense()).append("</xszfyj></base64>")

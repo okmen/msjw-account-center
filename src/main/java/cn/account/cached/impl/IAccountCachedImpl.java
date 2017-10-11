@@ -22,6 +22,11 @@ import cn.sdk.serialization.ISerializeManager;
 @Service
 public class IAccountCachedImpl implements IAccountCached{
 	protected Logger log = Logger.getLogger(this.getClass());
+	 /**
+     * 请求地址
+     */
+    @Value("${urlAlipay2}")
+    private String urlAlipay2;
 	/**
 	 * 用户id
 	 */
@@ -241,7 +246,17 @@ public class IAccountCachedImpl implements IAccountCached{
 		}
 		return string;
 	}
-
+	public String getUrl2(String sourceOfCertification) {
+		String string = "";
+		if("C".equals(sourceOfCertification)){
+			string = url;
+		}else if("Z".equals(sourceOfCertification)){
+			string = urlAlipay2;
+		}else {
+			string = url;
+		}
+		return string;
+	}
 
 	public String getMethod(String sourceOfCertification) {
 		String string = "";

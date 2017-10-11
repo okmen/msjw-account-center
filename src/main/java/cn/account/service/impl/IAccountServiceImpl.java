@@ -2443,7 +2443,7 @@ public class IAccountServiceImpl implements IAccountService {
 	public BaseBean informationCollection(InformationCollectionVo informationCollectionVo) throws Exception {
 		BaseBean baseBean = new BaseBean();
 		try{
-			String url = iAccountCached.getUrl(informationCollectionVo.getSourceOfCertification()); //webservice请求url
+			String url = iAccountCached.getUrl2(informationCollectionVo.getSourceOfCertification()); //webservice请求url
 			String method = iAccountCached.getMethod(informationCollectionVo.getSourceOfCertification()); //webservice请求方法名称
 			String userId = iAccountCached.getUserid(informationCollectionVo.getSourceOfCertification()); //webservice登录账号
 			String userPwd = iAccountCached.getUserpwd(informationCollectionVo.getSourceOfCertification()); //webservice登录密码
@@ -2463,7 +2463,7 @@ public class IAccountServiceImpl implements IAccountService {
 	public BaseBean queryInformationCollection(InformationCollectionVo informationCollectionVo) throws Exception {
 		BaseBean baseBean = new BaseBean();
 		try{
-			String url = iAccountCached.getUrl(informationCollectionVo.getSourceOfCertification()); //webservice请求url
+			String url = iAccountCached.getUrl2(informationCollectionVo.getSourceOfCertification()); //webservice请求url
 			String method = iAccountCached.getMethod(informationCollectionVo.getSourceOfCertification()); //webservice请求方法名称
 			String userId = iAccountCached.getUserid(informationCollectionVo.getSourceOfCertification()); //webservice登录账号
 			String userPwd = iAccountCached.getUserpwd(informationCollectionVo.getSourceOfCertification()); //webservice登录密码
