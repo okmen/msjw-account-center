@@ -7,7 +7,12 @@
      <resultMap type="cn.account.bean.UserBind" id="resultUserBind">
      	<id property="id" column="id"/>
 		<result property="openId" column="open_id" />
+		<result property="idCard" column="id_card" />
 		<result property="mobileNumber" column="mobile_number" />
+		<result property="bindDate" column="bind_date" />
+		<result property="unbindDate" column="unbind_date" />
+		<result property="isBind" column="is_bind" />
+		<result property="clientType" column="client_type" />
 		
 	</resultMap>
     
@@ -131,7 +136,7 @@
 		select * from t_user_bind where id_card = #{idCard} and open_id = #{openId} and client_type = #{clientType}
 	</select>
 	
-	<select id="getUserBinds" resultType="cn.account.bean.UserBind">
+	<select id="getUserBinds" resultMap="resultUserBind">
 		select * from t_user_bind where 1=1 limit #{page},#{pageSize}
 	</select>
 	

@@ -3,6 +3,18 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.account.dao.mapper.UserBindAlipayMapper">
 	
+	<resultMap type="cn.account.bean.UserBindAlipay" id="resultUserBind">
+     	<id property="id" column="id"/>
+		<result property="userId" column="user_id" />
+		<result property="idCard" column="id_card" />
+		<result property="mobileNumber" column="mobile_number" />
+		<result property="bindDate" column="bind_date" />
+		<result property="unbindDate" column="unbind_date" />
+		<result property="isBind" column="is_bind" />
+		<result property="clientType" column="client_type" />
+		<result property="realName" column="real_name" />
+	</resultMap>
+	
 	<update id="addOrUpdateLoginInfo" parameterType="cn.account.bean.UserBindAlipay">
 		insert into t_user_bind_alipay (
 			user_id,id_card,mobile_number,bind_date,unbind_date,is_bind,client_type,real_name
@@ -18,7 +30,7 @@
 		UPDATE t_user_bind_alipay SET `is_bind`=1,unbind_date=sysdate() where id_card =#{idCard} and user_id =#{userId}
 	</update>
 	
-	<select id="getUserBindAlipays" resultType="cn.account.bean.UserBindAlipay">
+	<select id="getUserBindAlipays" resultMap="resultUserBind">
 		select * from t_user_bind_alipay where 1=1 limit #{page},#{pageSize}
 	</select>
 </mapper>
