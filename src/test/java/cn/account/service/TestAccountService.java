@@ -66,7 +66,7 @@ public class TestAccountService {
 		ic.setNumberPlate("02");
 		ic.setSourceOfCertification("Z");
 		for (int i = 0; i < 100; i++) {
-			String s = "粤B222"+i;
+			String s = "粤Bkkk"+i;
 			ic.setLicenseNumber(s);
 			BaseBean baseBean = accountService.queryInformationCollection(ic);
 			System.out.println(baseBean.toJson());
@@ -121,7 +121,7 @@ public class TestAccountService {
 		ic.setVehicleIdentificationNumber("123");
 		ic.setIssuingBrigade("測試");
 		for (int i = 0; i < 100; i++) {
-			String s = "粤B333"+i;
+			String s = "粤Bkkk"+i;
 			ic.setLicenseNumber(s);
 			BaseBean baseBean = accountService.informationCollection(ic);
 			System.out.println(baseBean.toJson());
@@ -184,7 +184,7 @@ public class TestAccountService {
 		ic.setVehicleIdentificationNumber("123");
 		ic.setIssuingBrigade("测试");
 		for (int i = 0; i < 100; i++) {
-			String s = "粤B444"+i;
+			String s = "粤B000"+i;
 			ic.setLicenseNumber(s);
 			BaseBean baseBean = accountService.informationCollection(ic);
 			System.out.println(baseBean.toJson());

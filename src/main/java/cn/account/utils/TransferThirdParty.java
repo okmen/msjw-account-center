@@ -1611,8 +1611,7 @@ public class TransferThirdParty {
 			baseBean.setCode(code);
 			baseBean.setMsg(msg);
 			if ("0000".equals(code)) {
-//				JSONObject body = jsonObject.getJSONObject("BODY");
-				JSONObject body = null;
+				JSONObject body = jsonObject.getJSONObject("BODY");
 				String cid = body.getString("CID");
 				baseBean.setData(cid);
 			}
