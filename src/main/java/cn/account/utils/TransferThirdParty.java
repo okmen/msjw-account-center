@@ -1958,7 +1958,9 @@ public class TransferThirdParty {
 				String rfStatus = body.getString("rfzt");             
 				String rfDescription = body.getString("rfms");        
 				String rfId = body.getString("rfid");                 
-				String rfTime = body.getString("rfsj");               
+				String rfTime = body.getString("rfsj");
+				String address = body.getString("zz");
+				String issuingBrigade = body.getString("fkdd");
 				QueryInformationCollectionVo queryInformationCollectionVo = new QueryInformationCollectionVo();
 				queryInformationCollectionVo.setAuditDescription(auditDescription);
 				queryInformationCollectionVo.setLicenseNumber(licenseNumber);
@@ -1968,6 +1970,8 @@ public class TransferThirdParty {
 				queryInformationCollectionVo.setRfStatus(rfStatus);
 				queryInformationCollectionVo.setRfTime(rfTime);
 				queryInformationCollectionVo.setStatus(status);
+				queryInformationCollectionVo.setAddress(address);
+				queryInformationCollectionVo.setIssuingBrigade(issuingBrigade);
 				baseBean.setData(queryInformationCollectionVo);
 			}
 		}catch(Exception e){
