@@ -1893,6 +1893,7 @@ public class TransferThirdParty {
 			.append("<hpzl>").append(informationCollectionVo.getNumberPlate()).append("</hpzl>")
 			.append("<cllx>").append(informationCollectionVo.getCarType()).append("</cllx>")
 			.append("<cjh>").append(informationCollectionVo.getVehicleIdentificationNumber()).append("</cjh>")
+			.append("<czxm>").append(informationCollectionVo.getLegalEntityName()).append("</czxm>")
 			.append("<czsfzmhm>").append(informationCollectionVo.getOwnerIdentityCard()).append("</czsfzmhm>")
 			.append("<czlxdh>").append(informationCollectionVo.getOwnerMobilephone()).append("</czlxdh>")
 			.append("<czzz>").append(informationCollectionVo.getOwnerAddress()).append("</czzz>")

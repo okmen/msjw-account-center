@@ -206,6 +206,37 @@ public class TestAccountService {
 		
 	}
 	@Test
+	public void testZinformationCollection5() throws Exception{
+		InformationCollectionVo ic = new InformationCollectionVo();
+		ic.setAddress("开发测试");
+		ic.setCarType("H37");
+		ic.setCertificationType("1");
+		ic.setCopyOfApplicant("/9j/4AAQSkZJRgABAQAAAQABAAD…Ra9lyu9yvEj0q6T5Et4jbnecKyB7Bv4D3V46AUpSgFKUoD//Z");
+		ic.setCopyOfDriverLicense("/9j/4AAQSkZJRgABAQAAAQABAAD…Ra9lyu9yvEj0q6T5Et4jbnecKyB7Bv4D3V46AUpSgFKUoD//Z");
+//		ic.setCopyOfLegalEntity("/9j/4AAQSkZJRgABAQAAAQABAAD…Ra9lyu9yvEj0q6T5Et4jbnecKyB7Bv4D3V46AUpSgFKUoD//Z");
+		ic.setCopyOfOwnerIdentityCard("/9j/4AAQSkZJRgABAQAAAQABAAD…Ra9lyu9yvEj0q6T5Et4jbnecKyB7Bv4D3V46AUpSgFKUoD//Z");
+		ic.setCopyOfVehicleTravelLicense("/9j/4AAQSkZJRgABAQAAAQABAAD…Ra9lyu9yvEj0q6T5Et4jbnecKyB7Bv4D3V46AUpSgFKUoD//Z");
+//		ic.setCopyOfLegalEntityA("/9j/4AAQSkZJRgABAQAAAQABAAD…Ra9lyu9yvEj0q6T5Et4jbnecKyB7Bv4D3V46AUpSgFKUoD//Z");
+//		ic.setEngineNumber("");
+		ic.setIdentityCard("445222199209020034");
+		ic.setLoginUser("445222199209020034");
+		ic.setMobilephone("13627267056");
+		ic.setNumberPlate("02");
+		ic.setOwnerAddress("开发测试");
+		ic.setOwnerIdentityCard("445222199209020034");
+		ic.setOwnerMobilephone("13627267056");
+		ic.setSourceOfCertification("C");
+		ic.setUserMobilepbone("13627267056");
+		ic.setValidityOfAnnualAudit("");
+		ic.setVehicleIdentificationNumber("5563");
+		ic.setIssuingBrigade("测试");
+		ic.setLicenseNumber("粤B6A42E");
+		ic.setIsAttached("1");
+		BaseBean baseBean = accountService.informationCollection(ic);
+		System.out.println(baseBean.toJson());
+		
+	}
+	@Test
 	public void testCinformationCollection() throws Exception{
 		InformationCollectionVo ic = new InformationCollectionVo();
 		ic.setAddress("开发测试");
