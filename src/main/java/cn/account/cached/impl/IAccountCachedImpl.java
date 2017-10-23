@@ -22,6 +22,31 @@ import cn.sdk.serialization.ISerializeManager;
 @Service
 public class IAccountCachedImpl implements IAccountCached{
 	protected Logger log = Logger.getLogger(this.getClass());
+	/**
+	 * 用户id
+	 */
+	@Value("${useridApp}")
+    private String useridApp;
+	/**
+	 * 用户密码
+	 */
+    @Value("${userpwdApp}")
+    private String userpwdApp;
+    /**
+     * 请求地址
+     */
+    @Value("${urlApp}")
+    private String urlApp;
+    /**
+     * 方法
+     */
+    @Value("${methodApp}")
+    private String methodApp;
+    /**
+     * 秘钥
+     */
+    @Value("${keyApp}")
+    private String keyApp;
 	 /**
      * 请求地址
      */
@@ -215,6 +240,8 @@ public class IAccountCachedImpl implements IAccountCached{
 			string = userid;
 		}else if("Z".equals(sourceOfCertification)){
 			string = useridAlipay;
+		}else if("A".equals(sourceOfCertification)){
+			string = useridApp;
 		}else {
 			string = userid;
 		}
@@ -228,6 +255,8 @@ public class IAccountCachedImpl implements IAccountCached{
 			string = userpwd;
 		}else if("Z".equals(sourceOfCertification)){
 			string = userpwdAlipay;
+		}else if("A".equals(sourceOfCertification)){
+			string = userpwdApp;
 		}else {
 			string = userpwd;
 		}
@@ -241,6 +270,8 @@ public class IAccountCachedImpl implements IAccountCached{
 			string = url;
 		}else if("Z".equals(sourceOfCertification)){
 			string = urlAlipay;
+		}else if("A".equals(sourceOfCertification)){
+			string = urlApp;
 		}else {
 			string = url;
 		}
@@ -264,6 +295,8 @@ public class IAccountCachedImpl implements IAccountCached{
 			string = method;
 		}else  if("Z".equals(sourceOfCertification)){
 			string = methodAlipay;
+		}else  if("A".equals(sourceOfCertification)){
+			string = methodApp;
 		}else {
 			string = method;
 		}
@@ -277,6 +310,8 @@ public class IAccountCachedImpl implements IAccountCached{
 			string = key;
 		}else if("Z".equals(sourceOfCertification)){
 			string = keyAlipay;
+		}else if("A".equals(sourceOfCertification)){
+			string = keyApp;
 		}else {
 			string = key;
 		}

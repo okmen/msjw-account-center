@@ -167,6 +167,13 @@
 				<jiaojing.method>xxptSchuding</jiaojing.method>
 				<jiaojing.key>94D863D9BE7FB032E6A19430CC892610</jiaojing.key>
 				
+				<!-- 警司通参数-APP -->
+				<jiaojing.userid.app>YD02</jiaojing.userid.app>
+				<jiaojing.userpwd.app>YD02</jiaojing.userpwd.app>
+				<jiaojing.url.app>http://123.56.180.216:19002/xxfbpt/services/xxfbptservice</jiaojing.url.app>
+				<jiaojing.method.app>xxptSchuding</jiaojing.method.app>
+				<jiaojing.key.app>VUCr6YKOFdaPpQcOtLgRETCV</jiaojing.key.app>
+				
 				<!-- 警司通参数-支付宝 -->
 				<jiaojing.userid.alipay>zfb</jiaojing.userid.alipay>
 				<jiaojing.userpwd.alipay>zfb!201506</jiaojing.userpwd.alipay>
@@ -230,6 +237,13 @@
 				<jiaojing.url>http://123.56.180.216:19002/xxfbpt/services/xxfbptservice</jiaojing.url>
 				<jiaojing.method>xxptSchuding</jiaojing.method>
 				<jiaojing.key>94D863D9BE7FB032E6A19430CC892610</jiaojing.key>
+				
+				<!-- 警司通参数-APP -->
+				<jiaojing.userid.app>YD02</jiaojing.userid.app>
+				<jiaojing.userpwd.app>YD02</jiaojing.userpwd.app>
+				<jiaojing.url.app>http://123.56.180.216:19002/xxfbpt/services/xxfbptservice</jiaojing.url.app>
+				<jiaojing.method.app>xxptSchuding</jiaojing.method.app>
+				<jiaojing.key.app>VUCr6YKOFdaPpQcOtLgRETCV</jiaojing.key.app>
 
 				<!-- 警司通参数-支付宝 -->
 				<jiaojing.userid.alipay>zfb</jiaojing.userid.alipay>
@@ -295,6 +309,13 @@
 				<jiaojing.url>http://api.szjj.me:9080/xxfbpt/services/xxfbptservice</jiaojing.url>
 				<jiaojing.method>xxptSchuding</jiaojing.method>
 				<jiaojing.key>94D863D9BE7FB032E6A19430CC892610</jiaojing.key>
+				
+				<!-- 警司通参数-APP -->
+				<jiaojing.userid.app>YD02</jiaojing.userid.app>
+				<jiaojing.userpwd.app>YD02</jiaojing.userpwd.app>
+				<jiaojing.url.app>http://api.szjj.me:9080/xxfbpt/services/xxfbptservice</jiaojing.url.app>
+				<jiaojing.method.app>xxptSchuding</jiaojing.method.app>
+				<jiaojing.key.app>VUCr6YKOFdaPpQcOtLgRETCV</jiaojing.key.app>
 				
 				<!-- 警司通参数-支付宝 -->
 				<jiaojing.userid.alipay>zfb</jiaojing.userid.alipay>

@@ -37,6 +37,7 @@ import cn.account.bean.vo.MyBusinessVo;
 import cn.account.bean.vo.MyDriverLicenseVo;
 import cn.account.bean.vo.ReadilyShootVo;
 import cn.account.bean.vo.ReauthenticationVo;
+import cn.account.bean.vo.RegisterVo;
 import cn.account.bean.vo.ResultOfBIndDriverLicenseVo;
 import cn.account.bean.vo.UnbindTheOtherDriverUseMyCarVo;
 import cn.account.bean.vo.UnbindVehicleVo;
@@ -52,13 +53,49 @@ public class TestAccountService {
 	@Autowired
 	@Qualifier("accountService")
 	private IAccountService accountService;
+	/**
+	 * 有驾驶证没车
+	 * @throws Exception
+	 */
+	@Test
+	public void testhaveDriverLicenseNotCar()throws Exception{
+		RegisterVo rv = new RegisterVo();
+		rv.setUserIdCard("42138119910422133X");
+		rv.setLinkAddress("开发测试");
+		rv.setMobilephone("13627267056");
+		rv.setDriverLicenseIssuedAddress("3");
+		rv.setIdCardImgPositive("1234");
+		rv.setIdCardImgHandHeld("1234");
+		rv.setCertifiedType("3"); 
+		rv.setCallAccount("YD02");
+		rv.setCertifiedRole("1");
+		rv.setCertifiedSource("A");
+		JSONObject json = accountService.haveDriverLicenseNotCar(rv);
+		System.out.println(json);
+	}
+	/**
+	 * 自然人注册
+	 * @throws Exception
+	 */
+	@Test
+	public void testisPedestrianNotDriver() throws Exception{
+		RegisterVo rv = new RegisterVo();
+		rv.setUserIdCard("12345678987654323");
+		rv.setMobilephone("18670812220");
+		rv.setOpenId("123");
+		rv.setIdCardImgHandHeld("1234");
+		rv.setIdCardImgPositive("4321");
+		rv.setCertifiedSource("A");
+		JSONObject json = accountService.isPedestrianNotDriver(rv);
+		System.out.println(json);
+	}
 	@Test
 	public void testSendMsg() throws Exception{
-		String a = "2017-10-10";
-		String b = "10:10:10";
-		Date str2date = DateUtil2.str2date(a+" "+b);
-		System.out.println("");
-//		accountService.sendSMSVerificatioCode("13627267056", "szjj");
+//		String a = "2017-10-10";
+//		String b = "10:10:10";
+//		Date str2date = DateUtil2.str2date(a+" "+b);
+//		System.out.println("");
+		 accountService.sendSMSVerificatioCode("13627267056", "app");
 	}
 	@Test
 	public void testKK() throws Exception{
@@ -352,7 +389,7 @@ public class TestAccountService {
 	}
 	@Test
 	public void testcompanyUserLogin() throws Exception{
-		BaseBean baseBean = accountService.companyUserLogin("1", "5BSB0Q", "A");
+		BaseBean baseBean = accountService.companyUserLogin("42138119910422133X", "123456", "A");
 		System.out.println(baseBean.toJson());
 	}
 	@Test
