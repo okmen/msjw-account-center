@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -16,6 +17,10 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.antgroup.zmxy.openplatform.api.DefaultZhimaClient;
+import com.antgroup.zmxy.openplatform.api.ZhimaApiException;
+import com.antgroup.zmxy.openplatform.api.request.ZhimaCustomerCertificationInitializeRequest;
+import com.antgroup.zmxy.openplatform.api.response.ZhimaCustomerCertificationInitializeResponse;
 
 import cn.account.bean.Car;
 import cn.account.bean.Documentation;
@@ -70,6 +75,7 @@ import cn.account.service.IAccountService;
 import cn.account.utils.NozzleMeans;
 import cn.account.utils.TransferThirdParty;
 import cn.sdk.bean.BaseBean;
+import cn.sdk.util.DateUtil;
 import cn.sdk.util.MsgCode;
 /**
  * 个人中心
@@ -2476,6 +2482,51 @@ public class IAccountServiceImpl implements IAccountService {
 			throw e;
 		}
 		return baseBean;
+	}
+
+
+	/**
+	 * 获取芝麻信用biz_no
+	 */
+	public BaseBean getBizNo(String certName, String certNo) throws Exception {
+		BaseBean baseBean = new BaseBean();
+		
+    	String gatewayUrl     = iAccountCached.getGatewayUrl();//芝麻开放平台地址
+    	String appId          = iAccountCached.getAppId();//商户应用 Id
+    	String privateKey     = iAccountCached.getPrivateKey();//商户 RSA 私钥
+    	String zhimaPublicKey = iAccountCached.getZhimaPublicKey();//芝麻 RSA 公钥
+    	
+    	String transactionId = "CDKJ"+DateUtil.formatDateTimeWithSec(new Date())+System.currentTimeMillis()+new Random().nextInt(10);
+    	logger.info("certNo="+certNo+",transactionId="+transactionId);
+    	
+        ZhimaCustomerCertificationInitializeRequest req = new ZhimaCustomerCertificationInitializeRequest();
+        req.setChannel("apppc");
+        req.setPlatform("zmop");
+        req.setTransactionId(transactionId);// 必要参数 
+        req.setProductCode("w1010100000000002978");// 必要参数 
+        req.setBizCode("FACE_SDK");// 必要参数 
+        req.setIdentityParam("{\"identity_type\": \"CERT_INFO\", \"cert_type\": \"IDENTITY_CARD\", \"cert_name\": \""+certName+"\", \"cert_no\":\""+certNo+"\"}");// 必要参数 
+        req.setMerchantConfig("{\"need_user_authorization\":\"false\"}");// 
+        req.setExtBizParam("{}");// 必要参数 
+        DefaultZhimaClient client = new DefaultZhimaClient(gatewayUrl, appId, privateKey, zhimaPublicKey);
+        try {
+            ZhimaCustomerCertificationInitializeResponse response = client.execute(req);
+            boolean isSuccess = response.isSuccess();
+            if(isSuccess){
+            	String bizNo = response.getBizNo();
+            	baseBean.setCode(MsgCode.success);
+            	baseBean.setMsg("ok");
+            	baseBean.setData(bizNo);
+            }else{
+            	baseBean.setCode(MsgCode.paramsError);
+            	baseBean.setMsg(response.getErrorMessage());
+            	baseBean.setData(response.getBody());
+            }
+        } catch (ZhimaApiException e) {
+        	logger.error("获取芝麻信用biz_no异常，certName=" +certName + "，certNo=" + certNo);
+			throw e;
+        }
+        return baseBean;
 	}
 	
 }

@@ -113,6 +113,32 @@ public class IAccountCachedImpl implements IAccountCached{
     @Value("${accessTokentime}")
     private int accessTokenTime;
     
+    /**
+     * 芝麻信用参数
+     */
+    @Value("${zmxygatewayUrl}")
+    private String gatewayUrl;
+    @Value("${zmxyappId}")
+    private String appId;
+    @Value("${zmxyprivateKey}")
+    private String privateKey;
+    @Value("${zmxyzhimaPublicKey}")
+    private String zhimaPublicKey;
+    
+	public String getGatewayUrl() {
+		return gatewayUrl;
+	}
+	public String getAppId() {
+		return appId;
+	}
+	public String getPrivateKey() {
+		return privateKey;
+	}
+	public String getZhimaPublicKey() {
+		return zhimaPublicKey;
+	}
+
+
 	@Autowired
 	@Qualifier("jedisCacheManagerImpl")
 	private ICacheManger<String> cacheManger;

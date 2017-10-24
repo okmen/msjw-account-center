@@ -53,6 +53,7 @@ public class TestAccountService {
 	@Autowired
 	@Qualifier("accountService")
 	private IAccountService accountService;
+	
 	/**
 	 * 有驾驶证没车
 	 * @throws Exception
@@ -89,6 +90,17 @@ public class TestAccountService {
 		JSONObject json = accountService.isPedestrianNotDriver(rv);
 		System.out.println(json);
 	}
+	
+	
+	@Test
+	public void testzmxy() throws Exception{
+		String certName = "收委";
+        String certNo = "260104197909275964";
+		BaseBean baseBean = accountService.getBizNo(certName, certNo);
+		System.out.println(JSON.toJSONString(baseBean));
+	}
+	
+	
 	@Test
 	public void testSendMsg() throws Exception{
 //		String a = "2017-10-10";
@@ -541,9 +553,9 @@ public class TestAccountService {
 	 */
 	@Test
 	public void testgetBndTheVehicles() throws Exception{
-		String IDcard = "622822198502074110";
-		String sourceOfCertification = "Z";
-		String mobilephone = "15920071829";
+		String IDcard = "413029197405281335";
+		String sourceOfCertification = "C";
+		String mobilephone = "13825200266";
 		List<BindTheVehicleVo> map = accountService.getBndTheVehicles(IDcard, mobilephone, sourceOfCertification);
 		System.out.println(map);
 	}
