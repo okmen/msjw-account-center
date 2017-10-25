@@ -186,7 +186,7 @@ public class TestAccountService {
 		InformationCollectionVo ic = new InformationCollectionVo();
 		ic.setLoginUser("445222199209020034");
 		ic.setNumberPlate("02");
-		ic.setSourceOfCertification("C");
+		ic.setSourceOfCertification("Z");
 		ic.setLicenseNumber("粤B6A42E");
 		BaseBean baseBean = accountService.queryInformationCollection(ic);
 		System.out.println(baseBean.toJson());
@@ -494,7 +494,7 @@ public class TestAccountService {
 	 */
 	@Test
 	public void loginTest() throws Exception{
-		accountService.login("18603017278", "123456", "Z", "==", "Z");
+		accountService.login("13627267056", "654321", "A", null, "A");
 	}
 	/**
 	 * 车主解绑车辆其他驾驶人
@@ -740,8 +740,8 @@ public class TestAccountService {
 	 */
 	@Test
 	public void testReadilyShoot(){
-		String reportSerialNumber = "W20170522881675";
-		String password = "090551";
+		String reportSerialNumber = "W20171025454783";
+		String password = "095007";
 		try {
 			ResultOfReadilyShoot shoot = accountService.queryResultOfReadilyShoot(reportSerialNumber, password);
 			System.out.println(shoot.getStatus());
@@ -888,7 +888,7 @@ public class TestAccountService {
 		readilyShootVo.setInputManPhone("17779607572");
 		readilyShootVo.setInputMan("测试");
 		readilyShootVo.setShsm("1");
-		readilyShootVo.setUserSource("C");
+		readilyShootVo.setUserSource("A");
 		readilyShootVo.setOpenId("2088112111655412");
 		Map<String, Object> map = accountService.readilyShoot(readilyShootVo);
 		System.out.println(map);

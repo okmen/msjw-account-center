@@ -302,7 +302,7 @@ public class IAccountServiceImpl implements IAccountService {
 				userBind.setMobileNumber(mobilephone);
 				userBind.setIsBind(0);
 				userBind.setClientType(sourceOfCertification);
-				if("C".equals(sourceOfCertification)){
+				if("C".equals(sourceOfCertification) || "A".equals(sourceOfCertification)){
 					userBind.setOpenId(openId);
 					accountDao.addOrUpdateLoginInfo(userBind);
 				}else if("Z".equals(sourceOfCertification)){
