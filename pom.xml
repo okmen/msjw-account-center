@@ -336,6 +336,13 @@
 				<jiaojing.method.alipay>xxptSchuding</jiaojing.method.alipay>
 				<jiaojing.key.alipay>HyjjsQEU7RKMUL71ziH7Pni5</jiaojing.key.alipay>
 				<jiaojing.url.alipay2>http://192.168.2.145:9080/xxfbpt/services/xxfbptservice</jiaojing.url.alipay2>
+				
+				
+				<!-- 芝麻信用参数 -->
+				<zmxy.gatewayUrl>https://zmopenapi.zmxy.com.cn/sandbox.do</zmxy.gatewayUrl>
+				<zmxy.appId>300000424</zmxy.appId>
+				<zmxy.privateKey>MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAIjfNWUXqCNtlaBFpv4KrBTVQb4btX9Gi+UPuz7AMvwbSXmtIxV2awkz4Rg0Q3PtTkuAUpuW958u3uNxypcsCJD3o4qphgqSMVpe33bJ1bZaeL/h8WT9KNBiIxGsYQco44JbJkjrHTAI3Wt+RNhHyn+nKI9wCaeYPCY7ZipVpmL3AgMBAAECgYBn/BxWx1hIQjMQ5pnuGzGNSk9+HRMQtQoHZqI9FEwn2JtDw9QJtEOxZCa4+svcQQfguIcKCfHqj/NqHMNrglqmmJhKrut+ilUt8rqJCmvRSh8AdG7ZnqzxQYdTrrEEKgO932WqPOI98X2H+2cPzLfIOgxN7FhCDg+lVi4CBdfJ8QJBANosNf2b4f50AgAkstAKX1Hqqsb+k5L5reoF9e6eQufPXIpSrbME3cETyRMMLKX+YfhHpv66fpfg0X4JiHZIpdsCQQCgmmPNWs2nbvHY3Eo3xuYs/KJRIltgYaAd9+CCjpCTbU21afqyGkK7zibHfLADh+m5GOkOZ5IFn5Alhg1NQNgVAkBTX/PeEDVEPWcKUPv4nw4gSvKqi10wHLSGq3J5lwdweQEfZ0s0D5cDEyGTYuKpKNadwBwkWnbIacUFSnVY5phjAkAt4Ix73+F5X77kROFKl52u4if350mU+a5EgUd35AO2qXWWSgTcFZZUkaoQODULfSqtvkjs3Xcf9hm2LlnkZI6VAkEAl8+0+a6Rjz119mxJXy9JWKTbWirhja+ijyndLVEAmxTYjWTuNKbRdTYe59ekRYhmMWkiKzggP+PKjXHCHV6eRQ==</zmxy.privateKey>
+				<zmxy.zhimaPublicKey>MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCXJXXyC4Am4OxSPgEh1bD3YpOG7HbMZbLvrgt3GaO3RVaXMJp4+Qjh1Wmh46zEWL/3RfPoABJgtgSvpXssUBIPorH0+mWnpBlmeKzXYPSX0/QVT9c84hicLMtHam3iAlb2MLoM4Oxb598r/NDEtBAxjwsRjxrrOUaBvSEu6CDG2QIDAQAB</zmxy.zhimaPublicKey>
 			</properties>
 		</profile>
 	</profiles>
