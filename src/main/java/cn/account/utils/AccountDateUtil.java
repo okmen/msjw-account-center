@@ -36,8 +36,8 @@ public class AccountDateUtil {
      * @return
      */
     public static int differentDaysByMillisecond(Date date1,Date date2){
-        int days = (int) ((date2.getTime() - date1.getTime()) / (1000*3600*24));
-        return Math.abs(days);
+        int days = (int) ((date1.getTime() - date2.getTime()) / (1000*3600*24));
+        return days;
     }
     
     public static void main(String[] args) throws ParseException {
