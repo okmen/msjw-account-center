@@ -53,6 +53,11 @@ public class TestAccountService {
 	@Autowired
 	@Qualifier("accountService")
 	private IAccountService accountService;
+	@Test
+	public void testmydriverLicense()throws Exception{
+		MyDriverLicenseVo myDriverLicense = accountService.getMyDriverLicense("42138119910422133X", "A");
+		System.out.println(myDriverLicense);
+	}
 	
 	/**
 	 * 有驾驶证没车
@@ -81,8 +86,8 @@ public class TestAccountService {
 	@Test
 	public void testisPedestrianNotDriver() throws Exception{
 		RegisterVo rv = new RegisterVo();
-		rv.setUserIdCard("12345678987654323");
-		rv.setMobilephone("18670812220");
+		rv.setUserIdCard("12345678987654321");
+		rv.setMobilephone("13987654321");
 		rv.setOpenId("123");
 		rv.setIdCardImgHandHeld("1234");
 		rv.setIdCardImgPositive("4321");
@@ -96,8 +101,8 @@ public class TestAccountService {
 	public void testzmxy() throws Exception{
 		String certName = "收委";
         String certNo = "260104197909275964";
-		BaseBean baseBean = accountService.getBizNo(certName, certNo);
-		System.out.println(JSON.toJSONString(baseBean));
+//		BaseBean baseBean = accountService.getBizNo(certName, certNo);
+//		System.out.println(JSON.toJSONString(baseBean));
 	}
 	
 	
@@ -246,9 +251,9 @@ public class TestAccountService {
 		ic.setSourceOfCertification("C");
 		ic.setUserMobilepbone("13627267056");
 		ic.setValidityOfAnnualAudit("");
-		ic.setVehicleIdentificationNumber("5563");
+		ic.setVehicleIdentificationNumber("5057");
 		ic.setIssuingBrigade("测试");
-		ic.setLicenseNumber("粤B6A42E");
+		ic.setLicenseNumber("粤B8728C");
 		ic.setIsAttached("1");
 		BaseBean baseBean = accountService.informationCollection(ic);
 		System.out.println(baseBean.toJson());
@@ -277,9 +282,9 @@ public class TestAccountService {
 		ic.setSourceOfCertification("C");
 		ic.setUserMobilepbone("13627267056");
 		ic.setValidityOfAnnualAudit("");
-		ic.setVehicleIdentificationNumber("5563");
+		ic.setVehicleIdentificationNumber("5057");
 		ic.setIssuingBrigade("测试");
-		ic.setLicenseNumber("粤B6A42E");
+		ic.setLicenseNumber("粤B8728C");
 		ic.setIsAttached("1");
 		BaseBean baseBean = accountService.informationCollection(ic);
 		System.out.println(baseBean.toJson());
@@ -442,15 +447,15 @@ public class TestAccountService {
 		bf.setIdentityCard("362429199112305319");
 		bf.setMobilephone("18682100915");
 		bf.setName("开发测试");
-		bf.setOpenId("124");
-		bf.setPhoto6("1111");
-		bf.setUserSource("C");
+//		bf.setOpenId("124");
+//		bf.setPhoto6("1111");
+		bf.setUserSource("A");
 		BaseBean baseBean = accountService.weChatBrushFaceAuthentication(bf);
 		System.out.println(baseBean);
 	}
 	@Test
 	public void testAccessAuthorization()throws Exception{
-		BaseBean baseBean = accountService.accessAuthorization("13627267056", "42138119910422133X", "C");
+		BaseBean baseBean = accountService.accessAuthorization("13627267056", "42138119910422133X", "A");
 		System.out.println(baseBean);
 	}
 	@Test
@@ -728,7 +733,7 @@ public class TestAccountService {
 		BindDriverLicenseVo bindDriverLicenseVo = new BindDriverLicenseVo();
 		bindDriverLicenseVo.setLoginName("42138119910422133X");
 		bindDriverLicenseVo.setUserSource("C");
-		bindDriverLicenseVo.setIdentityCard("42138119910422133X");
+		bindDriverLicenseVo.setIdentityCard("421381199104221331");
 		bindDriverLicenseVo.setDriverLicenseIssuedAddress("2");
 		bindDriverLicenseVo.setSourceOfCertification("C");
 		bindDriverLicenseVo.setName("测试");
@@ -868,7 +873,7 @@ public class TestAccountService {
 	@Test
 	public void getMyBusiness() throws Exception {
 		String mobilephone = "13888888888";
-		List<MyBusinessVo> myBusinessVos = accountService.getMyBusiness(2, 0, "445222199209020034", "C");
+		List<MyBusinessVo> myBusinessVos = accountService.getMyBusiness(0, 0, "42138119910422133X", "A");
 		System.out.println(myBusinessVos);
 	}
 	
