@@ -271,8 +271,8 @@ public class NozzleMeans {
 	 */
 	public static JSONObject isPedestrianNotDriver(RegisterVo registerVo,String url,String method,String userId,String userPwd,String key)throws Exception {
 		String xml ="<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+ registerVo.getUserIdCard()+"</SFZMHM><LXDH>"+registerVo.getMobilephone()+"</LXDH>"
-				+ "<RZLX>"+registerVo.getCertifiedType()+"</RZLX><RZLY>C</RZLY><PHOTO6>"+registerVo.getIdCardImgHandHeld()+"</PHOTO6>"
-				+ "<PHOTO9>"+registerVo.getIdCardImgPositive()+"</PHOTO9><OPENID>"+registerVo.getOpenId()+"</OPENID></REQUEST>";
+		+ "<RZLX>"+registerVo.getCertifiedType()+"</RZLX><RZLY>C</RZLY><PHOTO6>"+registerVo.getIdCardImgHandHeld()+"</PHOTO6>"
+		+ "<PHOTO9>"+registerVo.getIdCardImgPositive()+"</PHOTO9><OPENID>"+registerVo.getOpenId()+"</OPENID></REQUEST>";
 		String interfaceNumber = "xxcjzrr";
 		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
 		return json;

@@ -1534,13 +1534,12 @@ public class IAccountServiceImpl implements IAccountService {
 		return key;
 	}
 	@Override
-	public ResultOfReadilyShoot queryResultOfReadilyShoot(String reportSerialNumber, String password) throws Exception {
+	public ResultOfReadilyShoot queryResultOfReadilyShoot(String reportSerialNumber, String password, String string) throws Exception {
 		ResultOfReadilyShoot resultOfReadilyShoot = null;
 		try {
 			ReadilyShoot readilyShoot = readilyShootDao.queryByReportSerialNumberAndPassword(reportSerialNumber, password);
 			
 			if (null != readilyShoot ) {
-				String string = "";
 				String url = iAccountCached.getUrl(string); //webservice请求url
 				String method = iAccountCached.getMethod(string); //webservice请求方法名称
 				String userId = iAccountCached.getUserid(string); //webservice登录账号

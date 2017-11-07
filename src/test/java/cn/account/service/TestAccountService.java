@@ -112,7 +112,7 @@ public class TestAccountService {
 //		String b = "10:10:10";
 //		Date str2date = DateUtil2.str2date(a+" "+b);
 //		System.out.println("");
-		 accountService.sendSMSVerificatioCode("13627267056", "app");
+		 accountService.sendSMSVerificatioCode("17779607572", "app");
 	}
 	@Test
 	public void testKK() throws Exception{
@@ -191,8 +191,8 @@ public class TestAccountService {
 		InformationCollectionVo ic = new InformationCollectionVo();
 		ic.setLoginUser("445222199209020034");
 		ic.setNumberPlate("02");
-		ic.setSourceOfCertification("Z");
-		ic.setLicenseNumber("粤B6A42E");
+		ic.setSourceOfCertification("C");
+		ic.setLicenseNumber("粤B8728C");
 		BaseBean baseBean = accountService.queryInformationCollection(ic);
 		System.out.println(baseBean.toJson());
 	}
@@ -558,9 +558,9 @@ public class TestAccountService {
 	 */
 	@Test
 	public void testgetBndTheVehicles() throws Exception{
-		String IDcard = "413029197405281335";
+		String IDcard = "445222199209020034";
 		String sourceOfCertification = "C";
-		String mobilephone = "13825200266";
+		String mobilephone = "15920050177";
 		List<BindTheVehicleVo> map = accountService.getBndTheVehicles(IDcard, mobilephone, sourceOfCertification);
 		System.out.println(map);
 	}
@@ -745,10 +745,10 @@ public class TestAccountService {
 	 */
 	@Test
 	public void testReadilyShoot(){
-		String reportSerialNumber = "W20171025454783";
-		String password = "095007";
+		String reportSerialNumber = "W20171107496059";
+		String password = "154158";
 		try {
-			ResultOfReadilyShoot shoot = accountService.queryResultOfReadilyShoot(reportSerialNumber, password);
+			ResultOfReadilyShoot shoot = accountService.queryResultOfReadilyShoot(reportSerialNumber, password,"C");
 			System.out.println(shoot.getStatus());
 		} catch (Exception e) {
 			e.printStackTrace();
