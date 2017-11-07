@@ -170,7 +170,8 @@ public class NozzleMeans {
 					+ "<lrrlxdh>"+readilyShootVo.getInputManPhone()+"</lrrlxdh><lrly>"+"YD02"+"</lrly><jbtp1>"+readilyShootVo.getReportImgOne()+"</jbtp1><jbtp2>"+readilyShootVo.getReportImgTwo()+"</jbtp2><jbtp3>"+readilyShootVo.getReportImgThree()+"</jbtp3></body></request>";
 		}
 		String interfaceNumber = "1003";
-		JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, interfaceNumber,xml,userId,userPwd,key);
+		int timeout = 55000;//设置超时时间，55秒
+		JSONObject json = WebServiceClient.getInstance().requestWebServiceWithTimeout(url, method, interfaceNumber,xml,userId,userPwd,key,timeout);
 		return json;
 	}
 
