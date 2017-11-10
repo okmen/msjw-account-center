@@ -25,6 +25,7 @@ import cn.account.bean.ResultOfReadilyShoot;
 import cn.account.bean.UserBind;
 import cn.account.bean.UserBindAlipay;
 import cn.account.bean.WechatUserInfoBean;
+import cn.account.bean.vo.AuthenticationBasicInformationVo;
 import cn.account.bean.vo.BindCarVo;
 import cn.account.bean.vo.BindCompanyCarVo;
 import cn.account.bean.vo.BindDriverLicenseVo;
@@ -43,7 +44,6 @@ import cn.account.bean.vo.UnbindTheOtherDriverUseMyCarVo;
 import cn.account.bean.vo.UnbindVehicleVo;
 import cn.account.bean.vo.UserBasicVo;
 import cn.sdk.bean.BaseBean;
-import cn.sdk.util.DateUtil2;
 import cn.sdk.webservice.Xml2Json;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -55,8 +55,13 @@ public class TestAccountService {
 	private IAccountService accountService;
 	@Test
 	public void testmydriverLicense()throws Exception{
-		MyDriverLicenseVo myDriverLicense = accountService.getMyDriverLicense("42138119910422133X", "A");
+		MyDriverLicenseVo myDriverLicense = accountService.getMyDriverLicense("430181198908072275", "Z");
 		System.out.println(myDriverLicense);
+	}
+	@Test
+	public void testauthenticationBasicInformationQuery()throws Exception{
+		AuthenticationBasicInformationVo query = accountService.authenticationBasicInformationQuery("445281199607183760", "C");
+		System.out.println(query);
 	}
 	
 	/**
@@ -558,9 +563,9 @@ public class TestAccountService {
 	 */
 	@Test
 	public void testgetBndTheVehicles() throws Exception{
-		String IDcard = "445222199209020034";
-		String sourceOfCertification = "C";
-		String mobilephone = "15920050177";
+		String IDcard = "440307197209181936";
+		String sourceOfCertification = "Z";
+		String mobilephone = "18603075041";
 		List<BindTheVehicleVo> map = accountService.getBndTheVehicles(IDcard, mobilephone, sourceOfCertification);
 		System.out.println(map);
 	}
@@ -890,7 +895,7 @@ public class TestAccountService {
 		readilyShootVo.setIllegalActivitieOne("测试，请忽略");
 		readilyShootVo.setInputManName("测试");
 		readilyShootVo.setUserIdCard("362426199303075211");
-		readilyShootVo.setInputManPhone("17779607572");
+		readilyShootVo.setInputManPhone("15818534918");
 		readilyShootVo.setInputMan("测试");
 		readilyShootVo.setShsm("1");
 		readilyShootVo.setUserSource("A");
