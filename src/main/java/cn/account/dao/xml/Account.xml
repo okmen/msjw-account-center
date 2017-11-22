@@ -203,4 +203,9 @@
 		update cm_devices set user_id=#{userId} where device_uuid=#{deviceUuid} and os_type=#{osType}
 	</update>
 	
+	<!-- 根据openid获取UserBind信息 -->
+	<select id="queryUserBindByOpenid" resultMap="resultUserBind">
+		SELECT * FROM t_user_bind WHERE open_id = #{openId}
+	</select>
+	
 </mapper>

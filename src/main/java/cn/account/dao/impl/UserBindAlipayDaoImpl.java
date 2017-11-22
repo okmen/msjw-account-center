@@ -29,5 +29,9 @@ public class UserBindAlipayDaoImpl implements IUserBindAlipayDao {
 	public int unbindVehicle(UserBindAlipay userBindAlipay){
 		return userBindAlipayMapper.unbindVehicle(userBindAlipay);
 	}
+	@Override
+	public UserBindAlipay queryUserBindAlipayByUserid(String userId) {
+		return userBindAlipayMapper.queryUserBindAlipayByUserid(userId);
+	}
 	
 }

@@ -155,5 +155,10 @@ public interface IAccountDao {
 	 */
 	public List<UserBind> getBetweenAndBindDate(String startDate,String endDate);
     
-
+	/**
+	 * 根据openid获取UserBind信息
+	 * @param openId
+	 * @return
+	 */
+	public UserBind queryUserBindByOpenid(String openId);
 }

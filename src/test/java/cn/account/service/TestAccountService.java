@@ -53,14 +53,28 @@ public class TestAccountService {
 	@Autowired
 	@Qualifier("accountService")
 	private IAccountService accountService;
+	
+	
+	@Test
+	public void testqueryUserBindAlipayByUserid()throws Exception{
+		UserBindAlipay userBindAlipay = accountService.queryUserBindAlipayByUserid("2088802703985570");
+		System.out.println(userBindAlipay);
+	}
+	
+	@Test
+	public void testqueryUserBindByOpenid()throws Exception{
+		UserBind userBind = accountService.queryUserBindByOpenid("oPyqQjq3-waIy5gx74mdLf-IzM9M");
+		System.out.println(userBind);
+	}
+	
 	@Test
 	public void testmydriverLicense()throws Exception{
-		MyDriverLicenseVo myDriverLicense = accountService.getMyDriverLicense("430181198908072275", "Z");
+		MyDriverLicenseVo myDriverLicense = accountService.getMyDriverLicense("360726198909157318", "C");
 		System.out.println(myDriverLicense);
 	}
 	@Test
 	public void testauthenticationBasicInformationQuery()throws Exception{
-		AuthenticationBasicInformationVo query = accountService.authenticationBasicInformationQuery("445281199607183760", "C");
+		AuthenticationBasicInformationVo query = accountService.authenticationBasicInformationQuery("411224197606234217", "C");
 		System.out.println(query);
 	}
 	

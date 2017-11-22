@@ -33,4 +33,9 @@
 	<select id="getUserBindAlipays" resultMap="resultUserBind">
 		select * from t_user_bind_alipay where 1=1 limit #{page},#{pageSize}
 	</select>
+	
+	<!-- 根据Userid获取UserBindAlipay信息 -->
+	<select id="queryUserBindAlipayByUserid" resultMap="resultUserBind">
+		SELECT * FROM t_user_bind_alipay WHERE user_id = #{userId}
+	</select>
 </mapper>

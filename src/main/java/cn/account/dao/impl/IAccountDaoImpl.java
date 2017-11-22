@@ -152,4 +152,9 @@ public class IAccountDaoImpl implements IAccountDao {
 		return userMapper.getBetweenAndBindDate(startDate, endDate);
 	}
 
+	@Override
+	public UserBind queryUserBindByOpenid(String openId) {
+		return userMapper.queryUserBindByOpenid(openId);
+	}
+
 }

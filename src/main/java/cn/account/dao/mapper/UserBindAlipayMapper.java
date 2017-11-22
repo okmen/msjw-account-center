@@ -32,4 +32,11 @@ public interface UserBindAlipayMapper {
 	 * @return
 	 */
 	public List<UserBindAlipay> getUserBindAlipays(@Param("page") int page,@Param("pageSize") int pageSize);
+	
+	/**
+	 * 根据Userid获取UserBindAlipay信息
+	 * @param userId
+	 * @return
+	 */
+    public UserBindAlipay queryUserBindAlipayByUserid(String userId);
 }

@@ -2527,6 +2527,28 @@ public class IAccountServiceImpl implements IAccountService {
         }
         return baseBean;
 	}
+	@Override
+	public UserBind queryUserBindByOpenid(String openId) {
+		UserBind userBind = null;
+		try {
+			userBind = accountDao.queryUserBindByOpenid(openId);
+		} catch (Exception e) {
+			logger.error("queryUserBindByOpenid 错误", e);
+			throw e;
+		}
+		return userBind;
+	}
+	@Override
+	public UserBindAlipay queryUserBindAlipayByUserid(String userId) {
+		UserBindAlipay userBindAlipay = null;
+		try {
+			userBindAlipay = userBindAlipayDao.queryUserBindAlipayByUserid(userId);
+		} catch (Exception e) {
+			logger.error("queryUserBindAlipayByUserid 错误", e);
+			throw e;
+		}
+		return userBindAlipay;
+	}
 	
 }
 	

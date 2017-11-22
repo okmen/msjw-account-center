@@ -19,4 +19,10 @@ public interface IUserBindAlipayDao {
 	 * @return
 	 */
 	public int unbindVehicle(UserBindAlipay userBindAlipay);
+	/**
+	 * 根据Userid获取UserBindAlipay信息
+	 * @param userId
+	 * @return
+	 */
+    public UserBindAlipay queryUserBindAlipayByUserid(String userId);
 }

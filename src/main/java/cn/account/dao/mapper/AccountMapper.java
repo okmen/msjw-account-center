@@ -106,4 +106,6 @@ public interface AccountMapper {
     
     public boolean updateDevice(DeviceORM deviceORM);
     
+    public UserBind queryUserBindByOpenid(String openId);
+    
 }
