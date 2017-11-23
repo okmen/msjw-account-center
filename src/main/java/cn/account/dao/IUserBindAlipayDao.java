@@ -25,4 +25,10 @@ public interface IUserBindAlipayDao {
 	 * @return
 	 */
     public UserBindAlipay queryUserBindAlipayByUserid(String userId);
+    /**
+     * 根据mobileNumber获取UserBindAlipay信息
+     * @param userId
+     * @return
+     */
+    public UserBindAlipay getUserBindAlipayByPhone(String mobileNumber);
 }

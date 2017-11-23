@@ -2549,6 +2549,28 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		return userBindAlipay;
 	}
+	@Override
+	public UserBind getUserBindByPhone(String mobileNumber) {
+		UserBind userBind = null;
+		try {
+			userBind = accountDao.getUserBindByPhone(mobileNumber);
+		} catch (Exception e) {
+			logger.error("getUserBindByPhone 错误", e);
+			throw e;
+		}
+		return userBind;
+	}
+	@Override
+	public UserBindAlipay getUserBindAlipayByPhone(String mobileNumber) {
+		UserBindAlipay userBindAlipay = null;
+		try {
+			userBindAlipay = userBindAlipayDao.getUserBindAlipayByPhone(mobileNumber);
+		} catch (Exception e) {
+			logger.error("getUserBindAlipayByPhone 错误", e);
+			throw e;
+		}
+		return userBindAlipay;
+	}
 	
 }
 	

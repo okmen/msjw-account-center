@@ -108,4 +108,6 @@ public interface AccountMapper {
     
     public UserBind queryUserBindByOpenid(String openId);
     
+    public UserBind getUserBindByPhone(String mobileNumber);
+    
 }

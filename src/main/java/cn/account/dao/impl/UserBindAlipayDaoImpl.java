@@ -33,5 +33,9 @@ public class UserBindAlipayDaoImpl implements IUserBindAlipayDao {
 	public UserBindAlipay queryUserBindAlipayByUserid(String userId) {
 		return userBindAlipayMapper.queryUserBindAlipayByUserid(userId);
 	}
+	@Override
+	public UserBindAlipay getUserBindAlipayByPhone(String mobileNumber) {
+		return userBindAlipayMapper.getUserBindAlipayByPhone(mobileNumber);
+	}
 	
 }

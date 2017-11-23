@@ -38,4 +38,9 @@
 	<select id="queryUserBindAlipayByUserid" resultMap="resultUserBind">
 		SELECT * FROM t_user_bind_alipay WHERE user_id = #{userId}
 	</select>
+	
+	<!-- 根据手机号获取UserBindAlipay信息 -->
+	<select id="getUserBindAlipayByPhone" resultMap="resultUserBind">
+		SELECT * FROM t_user_bind_alipay WHERE mobile_number = #{mobileNumber}
+	</select>
 </mapper>

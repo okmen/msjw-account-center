@@ -208,4 +208,13 @@
 		SELECT * FROM t_user_bind WHERE open_id = #{openId}
 	</select>
 	
+	<!-- 根据手机号查询 -->
+	<select id="getUserBindByPhone" resultMap="resultUserBind" >
+		SELECT
+			*
+		FROM
+			`t_user_bind`
+		WHERE mobile_number = #{mobileNumber}
+	</select>
+	
 </mapper>

@@ -161,4 +161,11 @@ public interface IAccountDao {
 	 * @return
 	 */
 	public UserBind queryUserBindByOpenid(String openId);
+	
+	/**
+	 * 根据mobileNumber获取UserBind信息
+	 * @param mobileNumber
+	 * @return
+	 */
+	public UserBind getUserBindByPhone(String mobileNumber);
 }
