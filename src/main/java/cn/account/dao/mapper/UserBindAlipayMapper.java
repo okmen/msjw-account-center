@@ -45,5 +45,5 @@ public interface UserBindAlipayMapper {
      * @param userId
      * @return
      */
-    public UserBindAlipay getUserBindAlipayByPhone(String mobileNumber);
+    public List<UserBindAlipay> getUserBindAlipayByPhone(String mobileNumber);
 }

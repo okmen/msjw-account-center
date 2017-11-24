@@ -167,5 +167,5 @@ public interface IAccountDao {
 	 * @param mobileNumber
 	 * @return
 	 */
-	public UserBind getUserBindByPhone(String mobileNumber);
+	public List<UserBind> getUserBindByPhone(String mobileNumber);
 }

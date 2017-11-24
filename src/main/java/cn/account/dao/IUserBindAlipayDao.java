@@ -1,5 +1,7 @@
 package cn.account.dao;
 
+import java.util.List;
+
 import cn.account.bean.UserBindAlipay;
 /**
  * 用户中心-支付宝
@@ -30,5 +32,5 @@ public interface IUserBindAlipayDao {
      * @param userId
      * @return
      */
-    public UserBindAlipay getUserBindAlipayByPhone(String mobileNumber);
+    public List<UserBindAlipay> getUserBindAlipayByPhone(String mobileNumber);
 }

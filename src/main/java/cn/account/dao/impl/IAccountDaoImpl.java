@@ -158,7 +158,7 @@ public class IAccountDaoImpl implements IAccountDao {
 	}
 
 	@Override
-	public UserBind getUserBindByPhone(String mobileNumber) {
+	public List<UserBind> getUserBindByPhone(String mobileNumber) {
 		return userMapper.getUserBindByPhone(mobileNumber);
 	}
 
