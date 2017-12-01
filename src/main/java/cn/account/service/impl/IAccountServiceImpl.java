@@ -2503,7 +2503,7 @@ public class IAccountServiceImpl implements IAccountService {
         req.setPlatform("zmop");
         req.setTransactionId(transactionId);// 必要参数 
         req.setProductCode("w1010100000000002978");// 必要参数 
-        req.setBizCode("FACE");// 必要参数 
+        req.setBizCode("FACE_SDK");// 必要参数 
         req.setIdentityParam("{\"identity_type\": \"CERT_INFO\", \"cert_type\": \"IDENTITY_CARD\", \"cert_name\": \""+certName+"\", \"cert_no\":\""+certNo+"\"}");// 必要参数 
         req.setMerchantConfig("{\"need_user_authorization\":\"false\"}");// 
         req.setExtBizParam("{}");// 必要参数 
