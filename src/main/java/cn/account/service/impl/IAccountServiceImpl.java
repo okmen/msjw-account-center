@@ -28,6 +28,8 @@ import cn.account.bean.ReadilyShoot;
 import cn.account.bean.ResultOfReadilyShoot;
 import cn.account.bean.UserBind;
 import cn.account.bean.UserBindAlipay;
+import cn.account.bean.UserBindApp;
+import cn.account.bean.UserBindGd;
 import cn.account.bean.WechatUserInfoBean;
 import cn.account.bean.vo.AuthenticationBasicInformationVo;
 import cn.account.bean.vo.BindCarVo;
@@ -66,6 +68,8 @@ import cn.account.dao.IAccountDao;
 import cn.account.dao.IDocumentDao;
 import cn.account.dao.IReadilyShootDao;
 import cn.account.dao.IUserBindAlipayDao;
+import cn.account.dao.IUserBindAppDao;
+import cn.account.dao.IUserBindGdDao;
 import cn.account.dao.IUserValidateCodeDao;
 import cn.account.dao.mapper.AccountMapper;
 import cn.account.dao.mapper.UserBindAlipayMapper;
@@ -87,6 +91,13 @@ import cn.sdk.util.MsgCode;
 public class IAccountServiceImpl implements IAccountService {
 	
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    
+    @Autowired
+   	private IUserBindAppDao userBindAppDao;
+    
+    @Autowired
+	private IUserBindGdDao userBindGdDao;
+    
 	@Autowired
 	private IAccountDao accountDao;
 	
@@ -296,18 +307,23 @@ public class IAccountServiceImpl implements IAccountService {
 				loginReturnBean.setCode(code);
 				loginReturnBean.setMsg(msg);
 				
-				UserBind userBind = new UserBind();
-				userBind.setBindDate(new Date());
-				userBind.setIdCard(identityCard);
-				userBind.setMobileNumber(mobilephone);
-				userBind.setIsBind(0);
-				userBind.setClientType(sourceOfCertification);
-				if("C".equals(sourceOfCertification) || "A".equals(sourceOfCertification)){
+				if("C".equals(sourceOfCertification) ){
+					UserBind userBind = new UserBind();
+					userBind.setBindDate(new Date());
+					userBind.setIdCard(identityCard);
+					userBind.setMobileNumber(mobilephone);
+					userBind.setIsBind(0);
+					userBind.setClientType(sourceOfCertification);
 					userBind.setOpenId(openId);
 					accountDao.addOrUpdateLoginInfo(userBind);
-				}else if("Z".equals(sourceOfCertification)){
-					userBind.setUserId(openId);
-					userBindAlipayDao.addOrUpdateLoginInfo(null);
+				}else if("A".equals(sourceOfCertification)){
+					UserBindApp userBind = new UserBindApp();
+					userBind.setBindDate(new Date());
+					userBind.setIdCard(identityCard);
+					userBind.setMobileNumber(mobilephone);
+					userBind.setIsBind(0);
+					userBind.setClientType(sourceOfCertification);
+					userBindAppDao.addOrUpdateLoginInfo(userBind);
 				}
 				//登录成功绑定，已经绑定就改下状态为isBind=1,没有则绑定
 				//UserBind userBind = accountDao.getLoginInfo(identityCard, openId, sourceOfCertification);
@@ -341,7 +357,103 @@ public class IAccountServiceImpl implements IAccountService {
     	//登录信息入库
     	return loginReturnBean;
 	}
-	
+	/**
+	 * 登录
+	 * @return
+	 * @throws Exception 
+	 */
+	@Override
+	public LoginReturnBeanVo gdLogin(String loginName,String password,String sourceOfCertification) throws Exception {
+		LoginReturnBeanVo loginReturnBean = new LoginReturnBeanVo();
+		
+		String url = iAccountCached.getUrl(sourceOfCertification); //webservice请求url
+		String method = iAccountCached.getMethod(sourceOfCertification); //webservice请求方法名称
+		String userId = iAccountCached.getUserid(sourceOfCertification); //webservice登录账号
+		String userPwd = iAccountCached.getUserpwd(sourceOfCertification); //webservice登录密码
+		String key = iAccountCached.getKey(sourceOfCertification); //秘钥
+		String identityCard = "";
+		String mobilephone = "";
+		AuthenticationBasicInformationVo authenticationBasicInformationVo = null;
+		List<Car> cars = new ArrayList<Car>();
+		try {
+			//用户登录接口
+			Map<String, String> map = TransferThirdParty.login(loginName, password, url, method, userId, userPwd, key,sourceOfCertification);
+			String code = map.get("code");
+			String msg = map.get("msg");
+			//已绑定机动车查询接口
+			List<BindTheVehicleVo> bindTheVehicleVos = null;
+			if(null != map && "0000".equals(map.get("code"))){
+				//认证基本信息查询接口
+				authenticationBasicInformationVo = TransferThirdParty.authenticationBasicInformationQuery(loginName,sourceOfCertification, url, method,userId,userPwd,key);
+				identityCard = authenticationBasicInformationVo.getIdentityCard();
+				mobilephone = authenticationBasicInformationVo.getMobilephone();
+				//我绑定的车辆信息
+				bindTheVehicleVos = TransferThirdParty.bindsTheMotorVehicleQuery(mobilephone,identityCard, sourceOfCertification, url, method, userId, userPwd, key);
+				if(null != bindTheVehicleVos && bindTheVehicleVos.size() > 0){
+					for(BindTheVehicleVo bindTheVehicleVo : bindTheVehicleVos){
+						String isMyself = bindTheVehicleVo.getIsMyself();
+						//绑定的车的信息
+						Car car = new Car();
+						if("本人".equals(isMyself)){
+							authenticationBasicInformationVo.setMyNumberPlate(bindTheVehicleVo.getNumberPlateNumber());
+							authenticationBasicInformationVo.setBehindTheFrame4Digits(bindTheVehicleVo.getBehindTheFrame4Digits());
+							authenticationBasicInformationVo.setPlateType(bindTheVehicleVo.getPlateType());
+							car.setIsMySelf(0);
+						}else{
+							car.setIsMySelf(1);
+						}
+						car.setBehindTheFrame4Digits(bindTheVehicleVo.getBehindTheFrame4Digits());
+						car.setMyNumberPlate(bindTheVehicleVo.getNumberPlateNumber());
+						car.setPlateType(bindTheVehicleVo.getPlateType());
+						car.setName(bindTheVehicleVo.getName());
+						String identityCardv = bindTheVehicleVo.getIdentityCard();
+						AuthenticationBasicInformationVo authenticationBasicInformationVo2 = TransferThirdParty.authenticationBasicInformationQuery(identityCardv, sourceOfCertification, url, method, userId, userPwd, key);
+						car.setIdentityCard(identityCardv);
+						if(null != authenticationBasicInformationVo2 && StringUtils.isNotBlank(authenticationBasicInformationVo2.getMobilephone()) ){
+							car.setMobilephone(authenticationBasicInformationVo2.getMobilephone());
+						}else{
+							car.setMobilephone("");
+						}
+						cars.add(car);
+					}
+				}
+				loginReturnBean.setCode(code);
+				loginReturnBean.setMsg(msg);
+				
+				UserBindGd userBind = new UserBindGd();
+				userBind.setBindDate(new Date());
+				userBind.setIdCard(identityCard);
+				userBind.setMobileNumber(mobilephone);
+				userBind.setIsBind(0);
+				userBind.setClientType(sourceOfCertification);
+				if("G".equals(sourceOfCertification)){
+					userBindGdDao.addOrUpdateLoginInfo(userBind);
+				}
+				MyDriverLicenseVo myDriverLicenseVo = getMyDriverLicense(identityCard, sourceOfCertification);
+				if(null != myDriverLicenseVo){
+					String fileNumber = myDriverLicenseVo.getFileNumber();
+					if(StringUtils.isBlank(fileNumber)){
+						loginReturnBean.setFileNumber("");
+					}else{
+						loginReturnBean.setFileNumber(fileNumber);
+					}
+				}else{
+					loginReturnBean.setFileNumber("");
+				}
+			}else {
+				//登录失败
+				loginReturnBean.setCode(code);
+				loginReturnBean.setMsg(msg);
+			}
+	    	loginReturnBean.setAuthenticationBasicInformation(authenticationBasicInformationVo);
+	    	loginReturnBean.setCars(cars);
+		} catch (Exception e) {
+			logger.error("login 错误,  loginName=" + loginName + ",password=" + password + ",sourceOfCertification=" + sourceOfCertification +   e);
+			throw e;
+		}
+    	//登录信息入库
+    	return loginReturnBean;
+	}
 	@Override
 	public LoginReturnBeanVo alipayLogin(String loginName, String sourceOfCertification, String openId) throws Exception {
 		LoginReturnBeanVo loginReturnBean = new LoginReturnBeanVo();

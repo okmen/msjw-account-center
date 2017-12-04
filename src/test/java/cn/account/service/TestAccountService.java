@@ -54,7 +54,12 @@ public class TestAccountService {
 	@Qualifier("accountService")
 	private IAccountService accountService;
 	
-	
+	@Test
+	public void testgdLogin() throws Exception{
+//		LoginReturnBeanVo gdLogin = accountService.gdLogin("13627267056", "123456", "G");
+		LoginReturnBeanVo gdLogin = accountService.login("13627267056", "123456", "A", "", "A");
+		System.out.println(gdLogin);
+	}
 	@Test
 	public void testqueryUserBindAlipayByUserid()throws Exception{
 		UserBindAlipay userBindAlipay = accountService.queryUserBindAlipayByUserid("2088802703985570");

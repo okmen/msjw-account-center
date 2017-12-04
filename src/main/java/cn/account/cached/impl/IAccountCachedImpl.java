@@ -25,6 +25,31 @@ public class IAccountCachedImpl implements IAccountCached{
 	/**
 	 * 用户id
 	 */
+	@Value("${useridGd}")
+    private String useridGd;
+	/**
+	 * 用户密码
+	 */
+    @Value("${userpwdGd}")
+    private String userpwdGd;
+    /**
+     * 请求地址
+     */
+    @Value("${urlGd}")
+    private String urlGd;
+    /**
+     * 方法
+     */
+    @Value("${methodGd}")
+    private String methodGd;
+    /**
+     * 秘钥
+     */
+    @Value("${keyGd}")
+    private String keyGd;
+	/**
+	 * 用户id
+	 */
 	@Value("${useridApp}")
     private String useridApp;
 	/**
@@ -268,6 +293,8 @@ public class IAccountCachedImpl implements IAccountCached{
 			string = useridAlipay;
 		}else if("A".equals(sourceOfCertification)){
 			string = useridApp;
+		}else if("G".equals(sourceOfCertification)){
+			string = useridGd;
 		}else {
 			string = userid;
 		}
@@ -283,6 +310,8 @@ public class IAccountCachedImpl implements IAccountCached{
 			string = userpwdAlipay;
 		}else if("A".equals(sourceOfCertification)){
 			string = userpwdApp;
+		}else if("G".equals(sourceOfCertification)){
+			string = userpwdGd;
 		}else {
 			string = userpwd;
 		}
@@ -298,6 +327,8 @@ public class IAccountCachedImpl implements IAccountCached{
 			string = urlAlipay;
 		}else if("A".equals(sourceOfCertification)){
 			string = urlApp;
+		}else if("A".equals(sourceOfCertification)){
+			string = urlGd;
 		}else {
 			string = url;
 		}
@@ -323,6 +354,8 @@ public class IAccountCachedImpl implements IAccountCached{
 			string = methodAlipay;
 		}else  if("A".equals(sourceOfCertification)){
 			string = methodApp;
+		}else  if("G".equals(sourceOfCertification)){
+			string = methodGd;
 		}else {
 			string = method;
 		}
@@ -338,6 +371,8 @@ public class IAccountCachedImpl implements IAccountCached{
 			string = keyAlipay;
 		}else if("A".equals(sourceOfCertification)){
 			string = keyApp;
+		}else if("G".equals(sourceOfCertification)){
+			string = keyGd;
 		}else {
 			string = key;
 		}
