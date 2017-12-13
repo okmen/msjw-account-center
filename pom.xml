@@ -160,6 +160,13 @@
 				<log4j.socket.port><![CDATA[10005]]></log4j.socket.port>
 				<isMWuserResultsTaskNeed>0</isMWuserResultsTaskNeed>
 				
+				<!-- 警司通参数-民生警务 -->
+				<jiaojing.userid.msjw>msjwpt</jiaojing.userid.msjw>
+				<jiaojing.userpwd.msjw>msjw@2017</jiaojing.userpwd.msjw>
+				<jiaojing.url.msjw>http://123.56.180.216:19002/xxfbpt/services/xxfbptservice</jiaojing.url.msjw>
+				<jiaojing.method.msjw>xxptSchuding</jiaojing.method.msjw>
+				<jiaojing.key.msjw>ZG20YD14WFJB2013XXLRJK89</jiaojing.key.msjw>
+				
 				<!-- 警司通参数-高德 -->
 				<jiaojing.userid.gd>GDDH</jiaojing.userid.gd>
 				<jiaojing.userpwd.gd>GDDH2017</jiaojing.userpwd.gd>
@@ -244,6 +251,13 @@
 				<log4j.socket.port><![CDATA[10003]]></log4j.socket.port>
 				<isMWuserResultsTaskNeed>0</isMWuserResultsTaskNeed>
 				
+				<!-- 警司通参数-民生警务 -->
+				<jiaojing.userid.msjw>msjwpt</jiaojing.userid.msjw>
+				<jiaojing.userpwd.msjw>msjw@2017</jiaojing.userpwd.msjw>
+				<jiaojing.url.msjw>http://123.56.180.216:19002/xxfbpt/services/xxfbptservice</jiaojing.url.msjw>
+				<jiaojing.method.msjw>xxptSchuding</jiaojing.method.msjw>
+				<jiaojing.key.msjw>ZG20YD14WFJB2013XXLRJK89</jiaojing.key.msjw>
+				
 				<!-- 警司通参数-高德 -->
 				<jiaojing.userid.gd>GDDH</jiaojing.userid.gd>
 				<jiaojing.userpwd.gd>GDDH2017</jiaojing.userpwd.gd>
@@ -327,6 +341,13 @@
 				<log4j.socket.host><![CDATA[logserver.choumei.cn]]></log4j.socket.host>
 				<log4j.socket.port><![CDATA[10003]]></log4j.socket.port>
 				<isMWuserResultsTaskNeed>1</isMWuserResultsTaskNeed>
+				
+				<!-- 警司通参数-民生警务 -->
+				<jiaojing.userid.msjw>msjwpt</jiaojing.userid.msjw>
+				<jiaojing.userpwd.msjw>msjw@2017</jiaojing.userpwd.msjw>
+				<jiaojing.url.msjw>http://api.szjj.me:9080/xxfbpt/services/xxfbptservice</jiaojing.url.msjw>
+				<jiaojing.method.msjw>xxptSchuding</jiaojing.method.msjw>
+				<jiaojing.key.msjw>ZG20YD14WFJB2013XXLRJK89</jiaojing.key.msjw>
 				
 				<!-- 警司通参数-高德 -->
 				<jiaojing.userid.gd>GDDH</jiaojing.userid.gd>

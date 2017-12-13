@@ -3,6 +3,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -2684,6 +2685,65 @@ public class IAccountServiceImpl implements IAccountService {
 			throw e;
 		}
 		return userBindAlipays;
+	}
+	
+	
+	
+	@Override
+	public List<DriverLicenseToSupplementThePermitBusinessVo> getDriverLicenseBusiness(String identityCard,String sourceOfCertification) throws Exception {
+		List<DriverLicenseToSupplementThePermitBusinessVo> list = null;
+		try {
+			String url = iAccountCached.getUrl(sourceOfCertification); //webservice请求url
+			String method = iAccountCached.getMethod(sourceOfCertification); //webservice请求方法名称
+			String userId = iAccountCached.getUserid(sourceOfCertification); //webservice登录账号
+			String userPwd = iAccountCached.getUserpwd(sourceOfCertification); //webservice登录密码
+			String key = iAccountCached.getKey(sourceOfCertification); //秘钥
+			 
+			//驾驶证业务查询
+			list = (List<DriverLicenseToSupplementThePermitBusinessVo>) TransferThirdParty.getDriverLicenseToReplenishBusinessInquiriesInterface(identityCard, sourceOfCertification, url, method, userId, userPwd, key);
+			
+			//过滤出对应“来源”的业务数据
+			Iterator<DriverLicenseToSupplementThePermitBusinessVo> it = list.iterator();
+			while(it.hasNext()){
+				DriverLicenseToSupplementThePermitBusinessVo vo = it.next();
+				if(!sourceOfCertification.equals(vo.getLYBZ())){//LYBY-来源标志
+					it.remove();//从集合中移除
+				}
+			}
+			
+		} catch (Exception e) {
+			logger.error("getDriverLicenseBusiness4Msjw 错误", e);
+			throw e;
+		}
+		return list;
+	}
+	@Override
+	public List<MotorVehicleBusiness> getMotorVehicleBusiness(String identityCard, String sourceOfCertification)throws Exception {
+		List<MotorVehicleBusiness> list = null;
+		try {
+			String url = iAccountCached.getUrl(sourceOfCertification); //webservice请求url
+			String method = iAccountCached.getMethod(sourceOfCertification); //webservice请求方法名称
+			String userId = iAccountCached.getUserid(sourceOfCertification); //webservice登录账号
+			String userPwd = iAccountCached.getUserpwd(sourceOfCertification); //webservice登录密码
+			String key = iAccountCached.getKey(sourceOfCertification); //秘钥
+			
+			//机动车业务查询接口
+			list = (List<MotorVehicleBusiness>) TransferThirdParty.getMotorVehicleBusiness(identityCard, sourceOfCertification, url, method, userId, userPwd, key);
+			
+			//过滤出对应“来源”的业务数据
+			Iterator<MotorVehicleBusiness> it = list.iterator();
+			while(it.hasNext()){
+				MotorVehicleBusiness vo = it.next();
+				if(!sourceOfCertification.equals(vo.getLYBZ())){//LYBY-来源标志
+					it.remove();//从集合中移除
+				}
+			}
+			
+		} catch (Exception e) {
+			logger.error("getMotorVehicleBusiness4Msjw 错误", e);
+			throw e;
+		}
+		return list;
 	}
 	
 }

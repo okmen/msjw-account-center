@@ -32,8 +32,10 @@ import cn.account.bean.vo.BindDriverLicenseVo;
 import cn.account.bean.vo.BindTheVehicleVo;
 import cn.account.bean.vo.BrushFaceVo;
 import cn.account.bean.vo.CompanyRegisterVo;
+import cn.account.bean.vo.DriverLicenseToSupplementThePermitBusinessVo;
 import cn.account.bean.vo.InformationCollectionVo;
 import cn.account.bean.vo.LoginReturnBeanVo;
+import cn.account.bean.vo.MotorVehicleBusiness;
 import cn.account.bean.vo.MyBusinessVo;
 import cn.account.bean.vo.MyDriverLicenseVo;
 import cn.account.bean.vo.ReadilyShootVo;
@@ -55,6 +57,22 @@ public class TestAccountService {
 	private IAccountService accountService;
 	
 	@Test
+	public void testgetDriverLicenseBusiness() throws Exception{
+		String identityCard = "622822198502074110";
+		String sourceOfCertification = "M";
+		List<DriverLicenseToSupplementThePermitBusinessVo> list = accountService.getDriverLicenseBusiness(identityCard, sourceOfCertification);
+		System.out.println(JSON.toJSONString(list));
+	}
+	
+	@Test
+	public void testgetMotorVehicleBusiness() throws Exception{
+		String identityCard = "622822198502074110";
+		String sourceOfCertification = "M";
+		List<MotorVehicleBusiness> list = accountService.getMotorVehicleBusiness(identityCard, sourceOfCertification);
+		System.out.println(JSON.toJSONString(list));
+	}
+	
+	@Test
 	public void testgdLogin() throws Exception{
 //		LoginReturnBeanVo gdLogin = accountService.gdLogin("13627267056", "123456", "G");
 		LoginReturnBeanVo gdLogin = accountService.login("13627267056", "123456", "A", "", "A");
@@ -74,12 +92,12 @@ public class TestAccountService {
 	
 	@Test
 	public void testmydriverLicense()throws Exception{
-		MyDriverLicenseVo myDriverLicense = accountService.getMyDriverLicense("360726198909157318", "C");
+		MyDriverLicenseVo myDriverLicense = accountService.getMyDriverLicense("445222199209020034", "C");
 		System.out.println(myDriverLicense);
 	}
 	@Test
 	public void testauthenticationBasicInformationQuery()throws Exception{
-		AuthenticationBasicInformationVo query = accountService.authenticationBasicInformationQuery("411224197606234217", "C");
+		AuthenticationBasicInformationVo query = accountService.authenticationBasicInformationQuery("440301198412218016", "C");
 		System.out.println(query);
 	}
 	
@@ -125,8 +143,8 @@ public class TestAccountService {
 	public void testzmxy() throws Exception{
 		String certName = "收委";
         String certNo = "260104197909275964";
-//		BaseBean baseBean = accountService.getBizNo(certName, certNo);
-//		System.out.println(JSON.toJSONString(baseBean));
+		BaseBean baseBean = accountService.getBizNo(certName, certNo);
+		System.out.println(JSON.toJSONString(baseBean));
 	}
 	
 	
@@ -514,7 +532,7 @@ public class TestAccountService {
 	
 	@Test
 	public void bindsTheMotorVehicleQuery() throws Exception{
-		List<BindTheVehicleVo> bindTheVehicleVos = accountService.getBndTheVehicles("440301199002101119", "18603017278", "Z");
+		List<BindTheVehicleVo> bindTheVehicleVos = accountService.getBndTheVehicles("210803198307132517", "15818534918", "Z");
 		System.out.println(bindTheVehicleVos);
 	}
 	/**
