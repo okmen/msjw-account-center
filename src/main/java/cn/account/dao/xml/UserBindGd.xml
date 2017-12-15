@@ -14,7 +14,7 @@
 		<result property="clientType" column="client_type" />
 		<result property="realName" column="real_name" />
 	</resultMap>
-	
+	<!--添加或者修改gd绑定  -->
 	<update id="addOrUpdateLoginInfo" parameterType="cn.account.bean.UserBindGd">
 		insert into t_user_bind_gd (
 			gd_id,id_card,mobile_number,bind_date,unbind_date,is_bind,client_type,real_name
@@ -24,4 +24,12 @@
 		)
 		ON DUPLICATE KEY UPDATE id_card = #{idCard},mobile_number = #{mobileNumber},bind_date = #{bindDate}, is_bind = #{isBind}
 	</update>
+	<!--根据idCard解绑高德-->
+	<update id="unBindGdByIdCard" parameterType="java.lang.String">
+		UPDATE t_user_bind_gd SET `is_bind`=1,unbind_date=sysdate() where id_card =#{idCard}
+	</update>
+	<!-- 根据手机号获取UserBindGd信息 -->
+	<select id="getUserBindGdByPhone" parameterType="java.lang.String" resultMap="resultUserBind">
+		SELECT * FROM t_user_bind_gd WHERE mobile_number = #{mobileNumber}
+	</select>
 </mapper>

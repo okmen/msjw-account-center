@@ -261,6 +261,7 @@ public class IAccountServiceImpl implements IAccountService {
 		String key = iAccountCached.getKey(sourceOfCertification); //秘钥
 		String identityCard = "";
 		String mobilephone = "";
+		String trueName = "";
 		AuthenticationBasicInformationVo authenticationBasicInformationVo = null;
 		List<Car> cars = new ArrayList<Car>();
 		try {
@@ -275,6 +276,7 @@ public class IAccountServiceImpl implements IAccountService {
 				authenticationBasicInformationVo = TransferThirdParty.authenticationBasicInformationQuery(loginName,sourceOfCertification, url, method,userId,userPwd,key);
 				identityCard = authenticationBasicInformationVo.getIdentityCard();
 				mobilephone = authenticationBasicInformationVo.getMobilephone();
+				trueName = authenticationBasicInformationVo.getTrueName();
 				//我绑定的车辆信息
 				bindTheVehicleVos = TransferThirdParty.bindsTheMotorVehicleQuery(mobilephone,identityCard, sourceOfCertification, url, method, userId, userPwd, key);
 				if(null != bindTheVehicleVos && bindTheVehicleVos.size() > 0){
@@ -324,6 +326,7 @@ public class IAccountServiceImpl implements IAccountService {
 					userBind.setMobileNumber(mobilephone);
 					userBind.setIsBind(0);
 					userBind.setClientType(sourceOfCertification);
+					userBind.setRealName(trueName); 
 					userBindAppDao.addOrUpdateLoginInfo(userBind);
 				}
 				//登录成功绑定，已经绑定就改下状态为isBind=1,没有则绑定
@@ -374,6 +377,7 @@ public class IAccountServiceImpl implements IAccountService {
 		String key = iAccountCached.getKey(sourceOfCertification); //秘钥
 		String identityCard = "";
 		String mobilephone = "";
+		String trueName = "";
 		AuthenticationBasicInformationVo authenticationBasicInformationVo = null;
 		List<Car> cars = new ArrayList<Car>();
 		try {
@@ -388,6 +392,7 @@ public class IAccountServiceImpl implements IAccountService {
 				authenticationBasicInformationVo = TransferThirdParty.authenticationBasicInformationQuery(loginName,sourceOfCertification, url, method,userId,userPwd,key);
 				identityCard = authenticationBasicInformationVo.getIdentityCard();
 				mobilephone = authenticationBasicInformationVo.getMobilephone();
+				trueName = authenticationBasicInformationVo.getTrueName();
 				//我绑定的车辆信息
 				bindTheVehicleVos = TransferThirdParty.bindsTheMotorVehicleQuery(mobilephone,identityCard, sourceOfCertification, url, method, userId, userPwd, key);
 				if(null != bindTheVehicleVos && bindTheVehicleVos.size() > 0){
@@ -427,6 +432,7 @@ public class IAccountServiceImpl implements IAccountService {
 				userBind.setMobileNumber(mobilephone);
 				userBind.setIsBind(0);
 				userBind.setClientType(sourceOfCertification);
+				userBind.setRealName(trueName);
 				if("G".equals(sourceOfCertification)){
 					userBindGdDao.addOrUpdateLoginInfo(userBind);
 				}
@@ -2685,6 +2691,50 @@ public class IAccountServiceImpl implements IAccountService {
 			throw e;
 		}
 		return userBindAlipays;
+	}
+	@Override
+	public UserBindGd getUserBindGdByPhone(String mobileNumber) {
+		UserBindGd userBindGd = null;
+		try{
+			userBindGd = userBindGdDao.getUserBindGdByPhone(mobileNumber);
+		}catch(Exception e){
+			logger.error("getUserBindGdByPhone 错误",e);
+			throw e;
+		}
+		return userBindGd;
+	}
+	@Override
+	public int unBindGdByIdCard(String idCard) {
+		int result = 0;
+		try{
+			result = userBindGdDao.unBindGdByIdCard(idCard);
+		}catch(Exception e){
+			logger.error("unBindGdByIdCard 错误",e);
+			throw e;
+		}
+		return result;
+	}
+	@Override
+	public UserBindApp getUserBindAppByPhone(String mobileNumber) {
+		UserBindApp userBindApp = null;
+		try{
+			userBindApp = userBindAppDao.getUserBindAppByPhone(mobileNumber);
+		}catch(Exception e){
+			logger.error("getUserBindAppByPhone 错误" , e);
+			throw e;
+		}
+		return userBindApp;
+	}
+	@Override
+	public int unBindAppByIdCard(String idCard) {
+		int result = 0;
+		try{
+			result = userBindAppDao.unBindAppByIdCard(idCard);
+		}catch(Exception e){
+			logger.error("unBindAppByIdCard 错误",e);
+			throw e;
+		}
+		return result;
 	}
 	
 	

@@ -18,5 +18,15 @@ public class UserBindGdDaoImpl implements IUserBindGdDao {
 	public int addOrUpdateLoginInfo(UserBindGd userBindGd) {
 		return userBindGdMapper.addOrUpdateLoginInfo(userBindGd);
 	}
+
+	@Override
+	public UserBindGd getUserBindGdByPhone(String mobileNumber) {
+		return userBindGdMapper.getUserBindGdByPhone(mobileNumber);
+	}
+
+	@Override
+	public int unBindGdByIdCard(String idCard) {
+		return userBindGdMapper.unBindGdByIdCard(idCard);
+	}
 	
 }

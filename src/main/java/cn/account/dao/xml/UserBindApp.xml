@@ -24,4 +24,12 @@
 		)
 		ON DUPLICATE KEY UPDATE id_card = #{idCard},mobile_number = #{mobileNumber},bind_date = #{bindDate}, is_bind = #{isBind}
 	</update>
+	<!--根据idCard解绑APP-->
+	<update id="unBindAppByIdCard" parameterType="java.lang.String">
+		UPDATE t_user_bind_app SET `is_bind`=1,unbind_date=sysdate() where id_card =#{idCard}
+	</update>
+	<!-- 根据手机号获取UserBindApp信息 -->
+	<select id="getUserBindAppByPhone" parameterType="java.lang.String" resultMap="resultUserBind">
+		SELECT * FROM t_user_bind_app WHERE mobile_number = #{mobileNumber}
+	</select>
 </mapper>

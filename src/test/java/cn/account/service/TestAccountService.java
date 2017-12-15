@@ -640,7 +640,7 @@ public class TestAccountService {
 	 */
 	@Test
 	public void testMyDriverLicense() throws Exception{
-		String IDcard = "500233198902044217";
+		String IDcard = "445222199209020034";
 		String userSource = "C";
 		MyDriverLicenseVo myDriverLicense = accountService.getMyDriverLicense(IDcard, userSource);
 		System.out.println(myDriverLicense);
@@ -757,7 +757,7 @@ public class TestAccountService {
 	 * @throws Exception 
 	 */
 	@Test
-	public void  testqueryResultOfBindDriverLicense() throws Exception{
+	public void  testqueryResultOfBindDriverLicensee() throws Exception{
 		String identityCard = "42138119910422133X";
 		String userSource = "C";
 		ResultOfBIndDriverLicenseVo resultOfBIndDriverLicenseVo = null;
@@ -770,12 +770,12 @@ public class TestAccountService {
 	 * @throws Exception 
 	 */
 	@Test
-	public void testBindDriverLicense() throws Exception{
+	public void testBindDriverLicensee() throws Exception{
 		
 		BindDriverLicenseVo bindDriverLicenseVo = new BindDriverLicenseVo();
-		bindDriverLicenseVo.setLoginName("42138119910422133X");
+		bindDriverLicenseVo.setLoginName("360429197908061013");
 		bindDriverLicenseVo.setUserSource("C");
-		bindDriverLicenseVo.setIdentityCard("421381199104221331");
+		bindDriverLicenseVo.setIdentityCard("360429197908061013");
 		bindDriverLicenseVo.setDriverLicenseIssuedAddress("2");
 		bindDriverLicenseVo.setSourceOfCertification("C");
 		bindDriverLicenseVo.setName("测试");

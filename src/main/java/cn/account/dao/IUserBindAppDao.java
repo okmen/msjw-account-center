@@ -13,4 +13,16 @@ public interface IUserBindAppDao {
 	 * @return
 	 */
 	public int addOrUpdateLoginInfo(UserBindApp userBindApp);
+	/**
+	 * 根据手机号获取UserBindApp
+	 * @param mobileNumber
+	 * @return
+	 */
+	public UserBindApp getUserBindAppByPhone(String mobileNumber);
+	/**
+	 * 根据身份证号解绑app
+	 * @param idCard
+	 * @return
+	 */
+	public int unBindAppByIdCard(String idCard);
 }

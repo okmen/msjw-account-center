@@ -18,5 +18,15 @@ public class UserBindAppDaoImpl implements IUserBindAppDao {
 	public int addOrUpdateLoginInfo(UserBindApp userBindApp) {
 		return userBindAppMapper.addOrUpdateLoginInfo(userBindApp);
 	}
+
+	@Override
+	public UserBindApp getUserBindAppByPhone(String mobileNumber) {
+		return userBindAppMapper.getUserBindAppByPhone(mobileNumber);
+	}
+
+	@Override
+	public int unBindAppByIdCard(String idCard) {
+		return userBindAppMapper.unBindAppByIdCard(idCard);
+	}
 	
 }
