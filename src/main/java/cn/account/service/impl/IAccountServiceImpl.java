@@ -2380,8 +2380,9 @@ public class IAccountServiceImpl implements IAccountService {
 			String userPwd = iAccountCached.getUserpwd(brushFaceVo.getUserSource()); //webservice登录密码
 			String key = iAccountCached.getKey(brushFaceVo.getUserSource()); //秘钥
 			baseBean = TransferThirdParty.weChatBrushFaceAuthentication(brushFaceVo, url, method, userId, userPwd, key);
+			logger.info("扫脸一键注册结果：" + net.sf.json.JSONObject.fromObject(baseBean));
 		}catch(Exception e){
-			logger.error("接入授权异常 ， brushFaceVo = " + brushFaceVo);
+			logger.error("扫脸一键注册异常 ， brushFaceVo = " + brushFaceVo);
 			throw e;
 		}
 		return baseBean;
