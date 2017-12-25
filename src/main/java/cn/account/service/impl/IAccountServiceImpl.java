@@ -25,6 +25,7 @@ import com.antgroup.zmxy.openplatform.api.response.ZhimaCustomerCertificationIni
 
 import cn.account.bean.Car;
 import cn.account.bean.Documentation;
+import cn.account.bean.InformationCollection;
 import cn.account.bean.ReadilyShoot;
 import cn.account.bean.ResultOfReadilyShoot;
 import cn.account.bean.UserBind;
@@ -2598,6 +2599,46 @@ public class IAccountServiceImpl implements IAccountService {
 			baseBean = TransferThirdParty.queryInformationCollection(informationCollectionVo, url, method, userId, userPwd, key);
 		}catch(Exception e){
 			logger.error("信息采集查询异常 ， informationCollectionVo = " + informationCollectionVo );
+			throw e;
+		}
+		return baseBean;
+	}
+	
+	
+	@Override
+	public BaseBean informationCollection2(InformationCollection informationCollection) throws Exception {
+		BaseBean baseBean = new BaseBean();
+		try{
+			String url = iAccountCached.getUrl2(informationCollection.getSourceOfCertification()); //webservice请求url
+			String method = iAccountCached.getMethod(informationCollection.getSourceOfCertification()); //webservice请求方法名称
+			String userId = iAccountCached.getUserid(informationCollection.getSourceOfCertification()); //webservice登录账号
+			String userPwd = iAccountCached.getUserpwd(informationCollection.getSourceOfCertification()); //webservice登录密码
+			String key = iAccountCached.getKey(informationCollection.getSourceOfCertification()); //秘钥
+			informationCollection.setUserId(userId);
+			informationCollection.setPassword(userPwd);
+			baseBean = TransferThirdParty.informationCollection2(informationCollection, url, method, userId, userPwd, key);
+		}catch(Exception e){
+			logger.error("信息采集二期异常 ， informationCollection = " + informationCollection );
+			throw e;
+		}
+		return baseBean;
+	}
+
+
+	@Override
+	public BaseBean queryInformationCollection2(InformationCollection informationCollection) throws Exception {
+		BaseBean baseBean = new BaseBean();
+		try{
+			String url = iAccountCached.getUrl2(informationCollection.getSourceOfCertification()); //webservice请求url
+			String method = iAccountCached.getMethod(informationCollection.getSourceOfCertification()); //webservice请求方法名称
+			String userId = iAccountCached.getUserid(informationCollection.getSourceOfCertification()); //webservice登录账号
+			String userPwd = iAccountCached.getUserpwd(informationCollection.getSourceOfCertification()); //webservice登录密码
+			String key = iAccountCached.getKey(informationCollection.getSourceOfCertification()); //秘钥
+			informationCollection.setUserId(userId);
+			informationCollection.setPassword(userPwd);
+			baseBean = TransferThirdParty.queryInformationCollection2(informationCollection, url, method, userId, userPwd, key);
+		}catch(Exception e){
+			logger.error("信息采集查询二期异常 ， informationCollection = " + informationCollection );
 			throw e;
 		}
 		return baseBean;

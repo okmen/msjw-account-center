@@ -12,6 +12,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import cn.account.bean.ElectronicPolicyBean;
+import cn.account.bean.InformationCollection;
 import cn.account.bean.ResultOfReadilyShoot;
 import cn.account.bean.vo.AuthenticationBasicInformationVo;
 import cn.account.bean.vo.BindCompanyCarVo;
@@ -1974,6 +1975,79 @@ public class TransferThirdParty {
 				queryInformationCollectionVo.setAddress(address);
 				queryInformationCollectionVo.setIssuingBrigade(issuingBrigade);
 				baseBean.setData(queryInformationCollectionVo);
+			}
+		}catch(Exception e){
+			throw e;
+		}
+		return baseBean;
+	}
+	
+	public static BaseBean informationCollection2(InformationCollection informationCollection,  String url, String method,
+			String userId, String userPwd, String keys) throws Exception {
+		BaseBean baseBean = new BaseBean();
+		String jkId = "CYQHC003";
+		informationCollection.setJkId(jkId);
+		try{
+			StringBuffer sb = new StringBuffer();
+			sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><request>")
+			.append("<com_userid>").append(informationCollection.getUserId()).append("</com_userid>")				
+			.append("<com_userpwd>").append(informationCollection.getPassword()).append("</com_userpwd>")
+			.append("<com_jkid>").append(informationCollection.getJkId()).append("</com_jkid>")
+			.append("<hphm>").append(informationCollection.getLicenseNumber()).append("</hphm>")				
+			.append("<hpzl>").append(informationCollection.getNumberPlate()).append("</hpzl>")
+			.append("<rfid>").append(informationCollection.getRfId()).append("</rfid>")
+			.append("<rzly>").append(informationCollection.getSourceOfCertification()).append("</rzly>")
+			.append("</request>");
+			JSONObject jsonObject = WebServiceClient.getInstance().changed2WebService(url, method, jkId, sb.toString(), userId, userPwd, keys);
+			String code = jsonObject.getString("code");
+			String msg = jsonObject.getString("msg");
+			baseBean.setCode(code);
+			baseBean.setMsg(msg);
+			if ("0000".equals(code)) {
+				JSONObject body = jsonObject.getJSONObject("body");
+				String cid = body.getString("cid");
+				baseBean.setData(cid);
+			}
+		}catch(Exception e){
+			throw e;
+		}
+		return baseBean;
+	}
+	
+	
+	public static BaseBean queryInformationCollection2(InformationCollection informationCollection,  String url, String method,
+			String userId, String userPwd, String keys) throws Exception {
+		BaseBean baseBean = new BaseBean();
+		String jkId = "CYQHC004";
+		informationCollection.setJkId(jkId);
+		try{
+			StringBuffer sb = new StringBuffer();
+			sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><request>")
+			.append("<com_userid>").append(informationCollection.getUserId()).append("</com_userid>")				
+			.append("<com_userpwd>").append(informationCollection.getPassword()).append("</com_userpwd>")
+			.append("<com_jkid>").append(informationCollection.getJkId()).append("</com_jkid>")
+			.append("<u_sfzmhm>").append(informationCollection.getLoginUser()).append("</u_sfzmhm>")
+			.append("</request>");
+			JSONObject jsonObject = WebServiceClient.getInstance().changed2WebService(url, method, jkId, sb.toString(), userId, userPwd, keys);
+			String code = jsonObject.getString("code");
+			String msg = jsonObject.getString("msg");
+			baseBean.setCode(code);
+			baseBean.setMsg(msg);
+			List<InformationCollection> list = new ArrayList<>();
+			if ("0000".equals(code)) {
+				JSONObject body = jsonObject.getJSONObject("body");
+				 if(body!=null){
+				        String items=body.get("ret").toString();
+				 	    if(items.indexOf("[")!=-1){
+				 	    	list=(List<InformationCollection>) JSON.parseArray(items, InformationCollection.class); 
+				 	    }else{
+				 	    	InformationCollection bean=JSON.parseObject(items, InformationCollection.class);
+				 	    	list.add(bean);
+				 	    }  
+			        }
+			}
+			if (null != list && list.size() > 0) {
+				baseBean.setData(list);
 			}
 		}catch(Exception e){
 			throw e;

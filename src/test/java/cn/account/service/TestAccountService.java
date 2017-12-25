@@ -20,6 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
+import cn.account.bean.InformationCollection;
 import cn.account.bean.ReadilyShoot;
 import cn.account.bean.ResultOfReadilyShoot;
 import cn.account.bean.UserBind;
@@ -55,6 +56,32 @@ public class TestAccountService {
 	@Autowired
 	@Qualifier("accountService")
 	private IAccountService accountService;
+	/**
+	 * 小金刚二期
+	 * @throws Exception
+	 */
+	@Test
+	public void testInformationCollection22() throws Exception{
+		InformationCollection ic = new InformationCollection();
+		ic.setLicenseNumber("粤B6A42E");//BS78U2  02   440000637448
+		ic.setNumberPlate("H37");
+		ic.setSourceOfCertification("C");
+		ic.setRfId("440000637448");
+		BaseBean informationCollection2 = accountService.informationCollection2(ic);
+		System.out.println(informationCollection2);
+	}
+	/**
+	 * 小金刚二期查询
+	 * @throws Exception
+	 */
+	@Test
+	public void testqueryInformationCollection22() throws Exception{
+		InformationCollection ic = new InformationCollection();
+		ic.setSourceOfCertification("C");
+		ic.setLoginUser("622822198502074110");
+		BaseBean informationCollection2 = accountService.queryInformationCollection2(ic);
+		System.out.println(informationCollection2);
+	}
 	
 	@Test
 	public void testgetDriverLicenseBusiness() throws Exception{
