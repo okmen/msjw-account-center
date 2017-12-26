@@ -1996,6 +1996,9 @@ public class TransferThirdParty {
 			.append("<hphm>").append(informationCollection.getLicenseNumber()).append("</hphm>")				
 			.append("<hpzl>").append(informationCollection.getNumberPlate()).append("</hpzl>")
 			.append("<rfid>").append(informationCollection.getRfId()).append("</rfid>")
+			.append("<u_sfzmhm>").append(informationCollection.getLoginUser()).append("</u_sfzmhm>")
+			.append("<u_sjhm>").append(informationCollection.getLoginUser()).append("</u_sjhm>")
+			.append("<openid>").append(informationCollection.getLoginUser()).append("</openid>")
 			.append("<rzly>").append(informationCollection.getSourceOfCertification()).append("</rzly>")
 			.append("</request>");
 			JSONObject jsonObject = WebServiceClient.getInstance().changed2WebService(url, method, jkId, sb.toString(), userId, userPwd, keys);
@@ -2033,21 +2036,37 @@ public class TransferThirdParty {
 			String msg = jsonObject.getString("msg");
 			baseBean.setCode(code);
 			baseBean.setMsg(msg);
-			List<InformationCollection> list = new ArrayList<>();
-			if ("0000".equals(code)) {
-				JSONObject body = jsonObject.getJSONObject("body");
-				 if(body!=null){
-				        String items=body.get("ret").toString();
-				 	    if(items.indexOf("[")!=-1){
-				 	    	list=(List<InformationCollection>) JSON.parseArray(items, InformationCollection.class); 
-				 	    }else{
-				 	    	InformationCollection bean=JSON.parseObject(items, InformationCollection.class);
-				 	    	list.add(bean);
-				 	    }  
-			        }
-			}
-			if (null != list && list.size() > 0) {
-				baseBean.setData(list);
+			if("0000".equals(code)){
+				//成功
+				jsonObject = jsonObject.getJSONObject("body");
+				List<InformationCollection> list = new ArrayList<>();
+				if(jsonObject.toJSONString().contains("[")){
+					//多条
+					JSONArray jsonArray = jsonObject.getJSONArray("ret");
+					Iterator iterator = jsonArray.iterator();
+					
+					while (iterator.hasNext()) {
+						InformationCollection informationCollection2 = new InformationCollection();
+						JSONObject json = (JSONObject) iterator.next();
+						String hphm = jsonObject.getString("hphm"); //车牌号 例如  粤B701NR
+						String hpzl = jsonObject.getString("hpzl"); //号牌类型 02-黄牌
+						informationCollection2.setLicenseNumber(hphm);
+						informationCollection2.setNumberPlate(hpzl);
+						list.add(informationCollection2);
+					}
+					
+				}else{
+					InformationCollection informationCollection2 = new InformationCollection();
+					JSONObject json = jsonObject.getJSONObject("ret");
+					String hphm = json.getString("hphm"); //车牌号 例如  粤B701NR
+					String hpzl = json.getString("hpzl"); //号牌类型 02-黄牌
+					informationCollection2.setLicenseNumber(hphm);
+					informationCollection2.setNumberPlate(hpzl);
+					list.add(informationCollection2);
+				}
+				if (null != list && list.size() > 0) {
+					baseBean.setData(list);
+				}
 			}
 		}catch(Exception e){
 			throw e;

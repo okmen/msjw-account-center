@@ -63,10 +63,13 @@ public class TestAccountService {
 	@Test
 	public void testInformationCollection22() throws Exception{
 		InformationCollection ic = new InformationCollection();
-		ic.setLicenseNumber("粤B6A42E");//BS78U2  02   440000637448
-		ic.setNumberPlate("H37");
+		ic.setLicenseNumber("粤BS78U2");//BS78U2  02   440000637448
+		ic.setNumberPlate("02");
 		ic.setSourceOfCertification("C");
 		ic.setRfId("440000637448");
+		ic.setMobilePhone("13627267056");
+		ic.setLoginUser("42138119910422133X");
+		ic.setOpenId("123456");
 		BaseBean informationCollection2 = accountService.informationCollection2(ic);
 		System.out.println(informationCollection2);
 	}
@@ -78,7 +81,7 @@ public class TestAccountService {
 	public void testqueryInformationCollection22() throws Exception{
 		InformationCollection ic = new InformationCollection();
 		ic.setSourceOfCertification("C");
-		ic.setLoginUser("622822198502074110");
+		ic.setLoginUser("42138119910422133X");
 		BaseBean informationCollection2 = accountService.queryInformationCollection2(ic);
 		System.out.println(informationCollection2);
 	}
@@ -626,10 +629,10 @@ public class TestAccountService {
 	 * @throws Exception
 	 */
 	@Test
-	public void testgetBndTheVehicles() throws Exception{
-		String IDcard = "440307197209181936";
+	public void testgetBndTheVehicles2() throws Exception{
+		String IDcard = "32030419800319553X";
 		String sourceOfCertification = "Z";
-		String mobilephone = "18603075041";
+		String mobilephone = "17512009789";
 		List<BindTheVehicleVo> map = accountService.getBndTheVehicles(IDcard, mobilephone, sourceOfCertification);
 		System.out.println(map);
 	}
