@@ -70,6 +70,7 @@ public class TestAccountService {
 		ic.setMobilePhone("13627267056");
 		ic.setLoginUser("42138119910422133X");
 		ic.setOpenId("123456");
+		ic.setCarType("HB37");
 		BaseBean informationCollection2 = accountService.informationCollection2(ic);
 		System.out.println(informationCollection2);
 	}

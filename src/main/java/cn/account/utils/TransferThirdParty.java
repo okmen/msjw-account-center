@@ -2000,6 +2000,7 @@ public class TransferThirdParty {
 			.append("<u_sjhm>").append(informationCollection.getLoginUser()).append("</u_sjhm>")
 			.append("<openid>").append(informationCollection.getLoginUser()).append("</openid>")
 			.append("<rzly>").append(informationCollection.getSourceOfCertification()).append("</rzly>")
+			.append("<cllx>").append(informationCollection.getCarType()).append("</cllx>")
 			.append("</request>");
 			JSONObject jsonObject = WebServiceClient.getInstance().changed2WebService(url, method, jkId, sb.toString(), userId, userPwd, keys);
 			String code = jsonObject.getString("code");
@@ -2048,10 +2049,15 @@ public class TransferThirdParty {
 					while (iterator.hasNext()) {
 						InformationCollection informationCollection2 = new InformationCollection();
 						JSONObject json = (JSONObject) iterator.next();
-						String hphm = jsonObject.getString("hphm"); //车牌号 例如  粤B701NR
-						String hpzl = jsonObject.getString("hpzl"); //号牌类型 02-黄牌
+						String hphm = json.getString("hphm"); //车牌号 例如  粤B701NR
+						String hpzl = json.getString("hpzl"); //号牌类型 02-黄牌
+						String rfid = json.getString("rfid");
+						String cllx = json.getString("cllx");
+						
 						informationCollection2.setLicenseNumber(hphm);
 						informationCollection2.setNumberPlate(hpzl);
+						informationCollection2.setCarType(cllx);
+						informationCollection2.setRfId(rfid);
 						list.add(informationCollection2);
 					}
 					
@@ -2060,8 +2066,13 @@ public class TransferThirdParty {
 					JSONObject json = jsonObject.getJSONObject("ret");
 					String hphm = json.getString("hphm"); //车牌号 例如  粤B701NR
 					String hpzl = json.getString("hpzl"); //号牌类型 02-黄牌
+					String rfid = json.getString("rfid");
+					String cllx = json.getString("cllx");
+					
 					informationCollection2.setLicenseNumber(hphm);
 					informationCollection2.setNumberPlate(hpzl);
+					informationCollection2.setCarType(cllx);
+					informationCollection2.setRfId(rfid);
 					list.add(informationCollection2);
 				}
 				if (null != list && list.size() > 0) {
