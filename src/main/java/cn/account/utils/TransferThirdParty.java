@@ -2001,6 +2001,7 @@ public class TransferThirdParty {
 			.append("<openid>").append(informationCollection.getLoginUser()).append("</openid>")
 			.append("<rzly>").append(informationCollection.getSourceOfCertification()).append("</rzly>")
 			.append("<cllx>").append(informationCollection.getCarType()).append("</cllx>")
+			.append("<cjh4>").append(informationCollection.getCjh4()).append("</cjh4>")
 			.append("</request>");
 			JSONObject jsonObject = WebServiceClient.getInstance().changed2WebService(url, method, jkId, sb.toString(), userId, userPwd, keys);
 			String code = jsonObject.getString("code");

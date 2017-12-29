@@ -71,6 +71,7 @@ public class TestAccountService {
 		ic.setLoginUser("42138119910422133X");
 		ic.setOpenId("123456");
 		ic.setCarType("HB37");
+		ic.setCjh4("1234");
 		BaseBean informationCollection2 = accountService.informationCollection2(ic);
 		System.out.println(informationCollection2);
 	}
@@ -632,7 +633,7 @@ public class TestAccountService {
 	@Test
 	public void testgetBndTheVehicles2() throws Exception{
 		String IDcard = "32030419800319553X";
-		String sourceOfCertification = "Z";
+		String sourceOfCertification = "G";
 		String mobilephone = "17512009789";
 		List<BindTheVehicleVo> map = accountService.getBndTheVehicles(IDcard, mobilephone, sourceOfCertification);
 		System.out.println(map);
