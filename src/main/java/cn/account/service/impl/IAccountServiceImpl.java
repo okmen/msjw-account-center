@@ -2837,6 +2837,10 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		return list;
 	}
+	@Override
+	public String getTemplateSendUrl() {
+		return iAccountCached.getTemplateSendUrl();
+	}
 	
 }
 	

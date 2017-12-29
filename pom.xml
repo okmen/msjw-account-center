@@ -196,6 +196,9 @@
 				<jiaojing.key.alipay>HyjjsQEU7RKMUL71ziH7Pni5</jiaojing.key.alipay>
 				<jiaojing.url.alipay2>http://123.56.180.216:19002/xxfbpt/services/xxfbptservice</jiaojing.url.alipay2>
 				
+				<!-- 域名地址 -->
+				<templateSendUrl>http://testh5.chudaokeji.com/h5/#/submitSuccessCommon?</templateSendUrl>
+				
 				<!-- 芝麻信用参数 -->
 				<zmxy.gatewayUrl>https://zmopenapi.zmxy.com.cn/sandbox.do</zmxy.gatewayUrl>
 				<zmxy.appId>300000424</zmxy.appId>
@@ -250,6 +253,9 @@
 				<log4j.socket.host><![CDATA[test-logserver.choumei.me]]></log4j.socket.host>
 				<log4j.socket.port><![CDATA[10003]]></log4j.socket.port>
 				<isMWuserResultsTaskNeed>0</isMWuserResultsTaskNeed>
+				
+				<!-- 域名地址 -->
+				<templateSendUrl>http://testh5.chudaokeji.com/h5/#/submitSuccessCommon?</templateSendUrl>
 				
 				<!-- 警司通参数-民生警务 -->
 				<jiaojing.userid.msjw>msjwpt</jiaojing.userid.msjw>
@@ -341,6 +347,9 @@
 				<log4j.socket.host><![CDATA[logserver.choumei.cn]]></log4j.socket.host>
 				<log4j.socket.port><![CDATA[10003]]></log4j.socket.port>
 				<isMWuserResultsTaskNeed>1</isMWuserResultsTaskNeed>
+				
+				<!-- 域名地址 -->
+				<templateSendUrl>http://gzh.stc.gov.cn/h5/#/submitSuccessCommon?</templateSendUrl>
 				
 				<!-- 警司通参数-民生警务 -->
 				<jiaojing.userid.msjw>msjwpt</jiaojing.userid.msjw>

@@ -61,9 +61,9 @@ public class TestAccountService {
 	 * @throws Exception
 	 */
 	@Test
-	public void testInformationCollection22() throws Exception{
+	public void testInformationCollection222() throws Exception{
 		InformationCollection ic = new InformationCollection();
-		ic.setLicenseNumber("粤BS78U2");//BS78U2  02   440000637448
+		ic.setLicenseNumber("粤BR17X2");//BS78U2  02   440000637448
 		ic.setNumberPlate("02");
 		ic.setSourceOfCertification("C");
 		ic.setRfId("440000637448");
@@ -71,7 +71,7 @@ public class TestAccountService {
 		ic.setLoginUser("42138119910422133X");
 		ic.setOpenId("123456");
 		ic.setCarType("HB37");
-		ic.setCjh4("1234");
+		ic.setCjh4("1789");
 		BaseBean informationCollection2 = accountService.informationCollection2(ic);
 		System.out.println(informationCollection2);
 	}

@@ -23,6 +23,17 @@ import cn.sdk.serialization.ISerializeManager;
 public class IAccountCachedImpl implements IAccountCached{
 	protected Logger log = Logger.getLogger(this.getClass());
 	
+	 @Value("${templateSendUrl}")
+    private String templateSendUrl;
+	 
+	public String getTemplateSendUrl() {
+		return templateSendUrl;
+	}
+	public void setTemplateSendUrl(String templateSendUrl) {
+		this.templateSendUrl = templateSendUrl;
+	}
+
+
 	/**
      * 民生警务参数
      */
