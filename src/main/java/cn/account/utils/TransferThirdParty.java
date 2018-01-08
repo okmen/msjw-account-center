@@ -317,6 +317,8 @@ public class TransferThirdParty {
 			Integer jf = Integer.valueOf(LJJF);
 			jf = 12 - jf;
 			myDriverLicenseVo.setAvailableScore(jf + "分");
+			myDriverLicenseVo.setDeductScore(LJJF);//记分
+			myDriverLicenseVo.setCarType(ZJCX);//准驾车型
 			myDriverLicenseVo.setEffectiveDate(SYRQ);
 			myDriverLicenseVo.setFileNumber(DABH);
 			//myDriverLicenseVo.setIsReceive(0); //由于涉及到微信卡包是否领取判断，这版本微信卡包不开发，此字段无法获取
