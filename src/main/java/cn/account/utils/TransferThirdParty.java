@@ -290,7 +290,7 @@ public class TransferThirdParty {
 		String code = xxcj07RespJson.getString("CODE");
 		String msg = xxcj07RespJson.getString("MSG");
 		myDriverLicenseVo.setCode(code);
-		myDriverLicenseVo.setCode(msg);
+		myDriverLicenseVo.setMsg(msg);
 		if("0000".equals(code)){
 			xxcj07RespJson = (JSONObject) xxcj07RespJson.get("BODY");
 			//档案编号
@@ -365,6 +365,9 @@ public class TransferThirdParty {
 			String EWM = xxcj06RespJson.getString("EWM");
 			electronicDriverLicenseVo.setElectronicDriverLicense(DZZ);
 			electronicDriverLicenseVo.setElectronicDriverLicenseQRCode(EWM);
+		}else{
+			electronicDriverLicenseVo.setCode(code);
+			electronicDriverLicenseVo.setMsg(xxcj06RespJson.getString("MSG"));
 		}
 		return electronicDriverLicenseVo;
 	}
@@ -409,6 +412,9 @@ public class TransferThirdParty {
 			drivingLicenseVo.setIsOwnerName(SFBR);
 			drivingLicenseVo.setElectronicDrivingLicense(DZZ);
 			drivingLicenseVo.setElectronicDrivingLicenseQRCode(EWM);
+		}else{
+			drivingLicenseVo.setCode(code);
+			drivingLicenseVo.setMsg(DZXSZRespJson.getString("MSG"));
 		}
 		return drivingLicenseVo;
 	}
