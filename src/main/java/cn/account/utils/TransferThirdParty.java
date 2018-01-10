@@ -323,6 +323,9 @@ public class TransferThirdParty {
 			myDriverLicenseVo.setFileNumber(DABH);
 			//myDriverLicenseVo.setIsReceive(0); //由于涉及到微信卡包是否领取判断，这版本微信卡包不开发，此字段无法获取
 			myDriverLicenseVo.setPhysicalExaminationDate(SYRQ); //体检日期
+			myDriverLicenseVo.setDriverLicenseNumber(SFZMHM);//驾驶证号码
+			myDriverLicenseVo.setName(XM);//姓名
+			myDriverLicenseVo.setGender(XB);//性别
 			
 			//多个状态处理
 			char[] cs = ZT.toCharArray();
@@ -359,6 +362,7 @@ public class TransferThirdParty {
 		JSONObject xxcj06RespJson = WebServiceClient.getInstance().requestWebService(url, method, DZJSZ,DZJSZReqXml,userId,userPwd,key);
 		ElectronicDriverLicenseVo electronicDriverLicenseVo = new ElectronicDriverLicenseVo();
 		String code = xxcj06RespJson.getString("CODE");
+		electronicDriverLicenseVo.setCode(code);
 		if("0000".equals(code)){
 			xxcj06RespJson = (JSONObject) xxcj06RespJson.get("BODY");
 			String DZZ = xxcj06RespJson.getString("DZZ");
@@ -366,7 +370,6 @@ public class TransferThirdParty {
 			electronicDriverLicenseVo.setElectronicDriverLicense(DZZ);
 			electronicDriverLicenseVo.setElectronicDriverLicenseQRCode(EWM);
 		}else{
-			electronicDriverLicenseVo.setCode(code);
 			electronicDriverLicenseVo.setMsg(xxcj06RespJson.getString("MSG"));
 		}
 		return electronicDriverLicenseVo;
@@ -395,6 +398,7 @@ public class TransferThirdParty {
 		JSONObject DZXSZRespJson = WebServiceClient.getInstance().requestWebService(url, method, DZXSZ,DZXSZReqXml,userId,userPwd,key);
 		String code = DZXSZRespJson.getString("CODE");
 		DrivingLicenseVo drivingLicenseVo = new DrivingLicenseVo();
+		drivingLicenseVo.setCode(code);
 		if("0000".equals(code)){
 			DZXSZRespJson = (JSONObject) DZXSZRespJson.get("BODY");
 			//车主姓名
@@ -413,7 +417,6 @@ public class TransferThirdParty {
 			drivingLicenseVo.setElectronicDrivingLicense(DZZ);
 			drivingLicenseVo.setElectronicDrivingLicenseQRCode(EWM);
 		}else{
-			drivingLicenseVo.setCode(code);
 			drivingLicenseVo.setMsg(DZXSZRespJson.getString("MSG"));
 		}
 		return drivingLicenseVo;
