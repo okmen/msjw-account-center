@@ -271,6 +271,11 @@ public class TransferThirdParty {
 			}else{
 				//没有绑定车辆
 			}
+		}else{
+			BindTheVehicleVo vo = new BindTheVehicleVo();
+			vo.setCode(code);
+			vo.setMsg(xxcj06RespJson.getString("MSG"));
+			bindTheVehicleVos.add(vo);
 		}
 		return bindTheVehicleVos;
 	}
