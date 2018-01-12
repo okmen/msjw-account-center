@@ -150,24 +150,24 @@ public class NozzleMeans {
 			xml="<?xml version=\"1.0\" encoding=\"UTF-8\"?><request><body><hphm>"+readilyShootVo.getLicensePlateNumber()+"</hphm><hpzl>"+readilyShootVo.getLicensePlateType()+"</hpzl><wfxw1>"+readilyShootVo.getIllegalActivitieOne()+"</wfxw1><wfxw2></wfxw2>"
 					+ "<wfxw3></wfxw3><wfdd>"+readilyShootVo.getIllegalSections()+"</wfdd><wfsj>"+readilyShootVo.getIllegalTime()+"</wfsj><lrr>"+readilyShootVo.getInputMan()+"</lrr><lrrxm>"+readilyShootVo.getInputManName()+"</lrrxm>"
 					+ "<lrrlxdh>"+readilyShootVo.getInputManPhone()+"</lrrlxdh><lrly>"+"WX02"+"</lrly><jbtp1>"+readilyShootVo.getReportImgOne()+"</jbtp1><jbtp2>"+readilyShootVo.getReportImgTwo()+"</jbtp2><jbtp3>"+readilyShootVo.getReportImgThree()+"</jbtp3>"
-					+ "<sfzmhm>"+readilyShootVo.getUserIdCard()+"</sfzmhm><wxopenid>"+readilyShootVo.getOpenId()+"</wxopenid></body></request>";
+					+ "<sfzmhm>"+readilyShootVo.getUserIdCard()+"</sfzmhm><wxopenid>"+readilyShootVo.getOpenId()+"</wxopenid><gpsx>"+readilyShootVo.getGpsx()+"</gpsx><gpsy>"+readilyShootVo.getGpsy()+"</gpsy></body></request>";
 		}
 		if("Z".equals(readilyShootVo.getUserSource())){
 			xml="<?xml version=\"1.0\" encoding=\"UTF-8\"?><request><body><hphm>"+readilyShootVo.getLicensePlateNumber()+"</hphm><hpzl>"+readilyShootVo.getLicensePlateType()+"</hpzl><wfxw1>"+readilyShootVo.getIllegalActivitieOne()+"</wfxw1><wfxw2></wfxw2>"
 					+ "<wfxw3></wfxw3><wfdd>"+readilyShootVo.getIllegalSections()+"</wfdd><wfsj>"+readilyShootVo.getIllegalTime()+"</wfsj><lrr>"+readilyShootVo.getInputMan()+"</lrr><lrrxm>"+readilyShootVo.getInputManName()+"</lrrxm>"
 					+ "<lrrlxdh>"+readilyShootVo.getInputManPhone()+"</lrrlxdh><lrly>"+"Z"+"</lrly><jbtp1>"+readilyShootVo.getReportImgOne()+"</jbtp1><jbtp2>"+readilyShootVo.getReportImgTwo()+"</jbtp2><jbtp3>"+readilyShootVo.getReportImgThree()+"</jbtp3>"
-					+ "<sfzmhm>"+readilyShootVo.getUserIdCard()+"</sfzmhm><alipay_user_id>"+readilyShootVo.getOpenId()+"</alipay_user_id><shsm>"+readilyShootVo.getShsm()+"</shsm></body></request>";
+					+ "<sfzmhm>"+readilyShootVo.getUserIdCard()+"</sfzmhm><alipay_user_id>"+readilyShootVo.getOpenId()+"</alipay_user_id><shsm>"+readilyShootVo.getShsm()+"</shsm><gpsx>"+readilyShootVo.getGpsx()+"</gpsx><gpsy>"+readilyShootVo.getGpsy()+"</gpsy></body></request>";
 		}
 		if("CG".equals(readilyShootVo.getUserSource())){
 			xml="<?xml version=\"1.0\" encoding=\"UTF-8\"?><request><body><hphm>"+readilyShootVo.getLicensePlateNumber()+"</hphm><hpzl>"+readilyShootVo.getLicensePlateType()+"</hpzl><wfxw1>"+readilyShootVo.getIllegalActivitieOne()+"</wfxw1><wfxw2></wfxw2>"
 					+ "<wfxw3></wfxw3><wfdd>"+readilyShootVo.getIllegalSections()+"</wfdd><wfsj>"+readilyShootVo.getIllegalTime()+"</wfsj><lrr>"+readilyShootVo.getInputMan()+"</lrr><lrrxm>"+readilyShootVo.getInputManName()+"</lrrxm>"
 					+ "<lrrlxdh>"+readilyShootVo.getInputManPhone()+"</lrrlxdh><lrly>"+"CG"+"</lrly><jbtp1>"+readilyShootVo.getReportImgOne()+"</jbtp1><jbtp2>"+readilyShootVo.getReportImgTwo()+"</jbtp2><jbtp3>"+readilyShootVo.getReportImgThree()+"</jbtp3>"
-					+ "<sfzmhm>"+readilyShootVo.getUserIdCard()+"</sfzmhm><wxopenid>"+readilyShootVo.getOpenId()+"</wxopenid></body></request>";
+					+ "<sfzmhm>"+readilyShootVo.getUserIdCard()+"</sfzmhm><wxopenid>"+readilyShootVo.getOpenId()+"</wxopenid><gpsx>"+readilyShootVo.getGpsx()+"</gpsx><gpsy>"+readilyShootVo.getGpsy()+"</gpsy></body></request>";
 		}
 		if("A".equals(readilyShootVo.getUserSource())){
 			xml="<?xml version=\"1.0\" encoding=\"UTF-8\"?><request><body><hphm>"+readilyShootVo.getLicensePlateNumber()+"</hphm><hpzl>"+readilyShootVo.getLicensePlateType()+"</hpzl><wfxw1>"+readilyShootVo.getIllegalActivitieOne()+"</wfxw1><wfxw2></wfxw2>"
 					+ "<wfxw3></wfxw3><wfdd>"+readilyShootVo.getIllegalSections()+"</wfdd><wfsj>"+readilyShootVo.getIllegalTime()+"</wfsj><lrr>"+readilyShootVo.getInputMan()+"</lrr><lrrxm>"+readilyShootVo.getInputManName()+"</lrrxm>"
-					+ "<lrrlxdh>"+readilyShootVo.getInputManPhone()+"</lrrlxdh><lrly>"+"YD02"+"</lrly><jbtp1>"+readilyShootVo.getReportImgOne()+"</jbtp1><jbtp2>"+readilyShootVo.getReportImgTwo()+"</jbtp2><jbtp3>"+readilyShootVo.getReportImgThree()+"</jbtp3></body></request>";
+					+ "<lrrlxdh>"+readilyShootVo.getInputManPhone()+"</lrrlxdh><lrly>"+"YD02"+"</lrly><jbtp1>"+readilyShootVo.getReportImgOne()+"</jbtp1><jbtp2>"+readilyShootVo.getReportImgTwo()+"</jbtp2><jbtp3>"+readilyShootVo.getReportImgThree()+"</jbtp3><gpsx>"+readilyShootVo.getGpsx()+"</gpsx><gpsy>"+readilyShootVo.getGpsy()+"</gpsy></body></request>";
 		}
 		String interfaceNumber = "1003";
 		int timeout = 55000;//设置超时时间，55秒
