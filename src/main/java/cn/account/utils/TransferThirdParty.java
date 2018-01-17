@@ -859,7 +859,7 @@ public class TransferThirdParty {
 				}else{
 					//一条
 					JSONObject jsonObject = body.getJSONObject("ret");
-					ElectronicPolicyBean electronicPolicyBean = JSONObject.parseObject(body.toJSONString(), ElectronicPolicyBean.class);
+					ElectronicPolicyBean electronicPolicyBean = JSONObject.parseObject(jsonObject.toJSONString(), ElectronicPolicyBean.class);
 					electronicPolicyBeans.add(electronicPolicyBean);
 				}
 				map.put("code", code);
