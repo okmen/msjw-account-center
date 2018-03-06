@@ -557,6 +557,7 @@ public class TestAccountService {
 		rv.setPhoto6("111");
 		rv.setPhoto9("222");
 		rv.setSourceOfCertification("Z");
+		rv.setOpenId("123");
 		Map<String, String> map = accountService.reauthentication(rv);
 		System.out.println(map);
 	}
@@ -929,7 +930,8 @@ public class TestAccountService {
 	@Test
 	public void testGetElectronicPolicy() {
 		try {
-			Map<String, Object> map = accountService.getElectronicPolicy("440301196501254159", "13902930139", "粤B11L13", "02", "C");
+//			Map<String, Object> map = accountService.getElectronicPolicy("440301196501254159", "13902930139", "粤B11L13", "02", "C");
+			Map<String, Object> map = accountService.getElectronicPolicy("440182197509034515", "13543342633", "粤B02BW5", "02", "C");
 			System.out.println(map);
 		} catch (Exception e) {
 			e.printStackTrace();

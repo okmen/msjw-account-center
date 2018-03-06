@@ -1566,7 +1566,7 @@ public class TransferThirdParty {
 			String userId, String userPwd, String key) throws Exception {
 		Map<String , String> map = new HashMap<>();
 		String xxcj15 = "xxcj15";
-		String xxcj15RepXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+reauthenticationVo.getIdentityCard()+"</SFZMHM><LXDH>"+reauthenticationVo.getMobilephone()+"</LXDH><RZLX>"+reauthenticationVo.getAuthenticationType()+"</RZLX><RZLY>"+reauthenticationVo.getSourceOfCertification()+"</RZLY><PHOTO6>"+reauthenticationVo.getPhoto6()+"</PHOTO6><PHOTO9>"+reauthenticationVo.getPhoto9()+"</PHOTO9></REQUEST>";		
+		String xxcj15RepXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST><SFZMHM>"+reauthenticationVo.getIdentityCard()+"</SFZMHM><LXDH>"+reauthenticationVo.getMobilephone()+"</LXDH><RZLX>"+reauthenticationVo.getAuthenticationType()+"</RZLX><RZLY>"+reauthenticationVo.getSourceOfCertification()+"</RZLY><PHOTO6>"+reauthenticationVo.getPhoto6()+"</PHOTO6><PHOTO9>"+reauthenticationVo.getPhoto9()+"</PHOTO9><OPENID>"+reauthenticationVo.getOpenId()+"</OPENID></REQUEST>";		
 		JSONObject xxcj15RepJson = WebServiceClient.getInstance().requestWebService(url, method, xxcj15, xxcj15RepXml, userId, userPwd, key);
 		String code = xxcj15RepJson.getString("CODE");
 		String msg = xxcj15RepJson.getString("MSG");
