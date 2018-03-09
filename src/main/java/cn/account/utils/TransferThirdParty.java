@@ -1866,7 +1866,7 @@ public class TransferThirdParty {
 						carsVos.add(companyCarsVo);
 					}
 				}else{
-					JSONObject json = jsonObject.getJSONObject("list");
+					JSONObject json = body.getJSONObject("list");
 					String bindTime = json.getString("bdsj");            
 					String source = json.getString("cjly");               
 					String licenseNumber = json.getString("hphm");       
