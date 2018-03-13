@@ -68,7 +68,7 @@ public class ThirdPartyInformationServiceImpl implements IThirdPartyInformationS
 		 DrivingLicense drivingLicense3 = new DrivingLicense("06", "黑牌");
 		 DrivingLicense drivingLicense4 = new DrivingLicense("02", "个性牌");
 		 DrivingLicense drivingLicense5 = new DrivingLicense("02", "小型新能源车号牌");
-		 DrivingLicense drivingLicense6 = new DrivingLicense("02", "大型新能源车号牌");
+		 DrivingLicense drivingLicense6 = new DrivingLicense("51", "大型新能源车号牌");
 		 drivingLicenses.add(drivingLicense1);
 		 drivingLicenses.add(drivingLicense2);
 		 drivingLicenses.add(drivingLicense3);
