@@ -820,10 +820,10 @@ public class TestAccountService {
 	 */
 	@Test
 	public void testReadilyShoot(){
-		String reportSerialNumber = "W20171107496059";
-		String password = "154158";
+		String reportSerialNumber = "W20170703177";
+		String password = "093747";
 		try {
-			ResultOfReadilyShoot shoot = accountService.queryResultOfReadilyShoot(reportSerialNumber, password,"C");
+			ResultOfReadilyShoot shoot = accountService.queryResultOfReadilyShoot(reportSerialNumber, password,"M");
 			System.out.println(shoot.getStatus());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -969,7 +969,7 @@ public class TestAccountService {
 		readilyShootVo.setInputManPhone("15818534918");
 		readilyShootVo.setInputMan("测试");
 		readilyShootVo.setShsm("1");
-		readilyShootVo.setUserSource("A");
+		readilyShootVo.setUserSource("M");
 		readilyShootVo.setOpenId("2088112111655412");
 		Map<String, Object> map = accountService.readilyShoot(readilyShootVo);
 		System.out.println(map);

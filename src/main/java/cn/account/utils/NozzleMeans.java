@@ -146,7 +146,7 @@ public class NozzleMeans {
 	 */
 	public  static JSONObject readilyShoot(ReadilyShootVo readilyShootVo,String url,String method,String userId,String userPwd,String key) throws Exception {
 		String xml=null;	
-		if("C".equals(readilyShootVo.getUserSource())){
+		if("C".equals(readilyShootVo.getUserSource())||"M".equals(readilyShootVo.getUserSource())){
 			xml="<?xml version=\"1.0\" encoding=\"UTF-8\"?><request><body><hphm>"+readilyShootVo.getLicensePlateNumber()+"</hphm><hpzl>"+readilyShootVo.getLicensePlateType()+"</hpzl><wfxw1>"+readilyShootVo.getIllegalActivitieOne()+"</wfxw1><wfxw2></wfxw2>"
 					+ "<wfxw3></wfxw3><wfdd>"+readilyShootVo.getIllegalSections()+"</wfdd><wfsj>"+readilyShootVo.getIllegalTime()+"</wfsj><lrr>"+readilyShootVo.getInputMan()+"</lrr><lrrxm>"+readilyShootVo.getInputManName()+"</lrrxm>"
 					+ "<lrrlxdh>"+readilyShootVo.getInputManPhone()+"</lrrlxdh><lrly>"+"WX02"+"</lrly><jbtp1>"+readilyShootVo.getReportImgOne()+"</jbtp1><jbtp2>"+readilyShootVo.getReportImgTwo()+"</jbtp2><jbtp3>"+readilyShootVo.getReportImgThree()+"</jbtp3>"
