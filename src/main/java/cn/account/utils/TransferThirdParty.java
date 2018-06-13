@@ -42,6 +42,7 @@ import cn.account.bean.vo.ZT_STATUS;
 import cn.sdk.util.DateUtil;
 import cn.sdk.util.DateUtil2;
 import cn.sdk.util.MsgCode;
+import cn.sdk.util.StringUtil;
 import cn.account.bean.vo.UnbindVehicleVo;
 import cn.account.bean.vo.ZT_STATUS;
 import cn.sdk.bean.BaseBean;
@@ -333,6 +334,7 @@ public class TransferThirdParty {
 			myDriverLicenseVo.setGender(XB);//性别
 			
 			//多个状态处理
+			if(StringUtil.isNotEmpty(ZT)){
 			char[] cs = ZT.toCharArray();
 			StringBuffer sb = new StringBuffer();
 	    	for(char c : cs){
@@ -342,6 +344,7 @@ public class TransferThirdParty {
 	    	String zString = sb.toString();
 	    	zString = zString.substring(0, zString.length() - 1);
 			myDriverLicenseVo.setStatus(zString);
+			}
 		}
 		return myDriverLicenseVo;
 	}
