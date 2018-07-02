@@ -521,9 +521,10 @@ public class TestAccountService {
 		bf.setIdentityCard("362429199112305319");
 		bf.setMobilephone("18682100915");
 		bf.setName("开发测试");
-//		bf.setOpenId("124");
-//		bf.setPhoto6("1111");
-		bf.setUserSource("A");
+		bf.setOpenId("test");
+		bf.setPhoto6("1111");
+		bf.setUserSource("M");
+		bf.setToken("{098E1700-5538-431E-85C9-56D43AA5F8EE}");
 		BaseBean baseBean = accountService.weChatBrushFaceAuthentication(bf);
 		System.out.println(baseBean);
 	}

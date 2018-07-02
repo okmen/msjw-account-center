@@ -1624,6 +1624,7 @@ public class TransferThirdParty {
 			.append("<RZLX>").append(brushFaceVo.getCertificationType()).append("</RZLX>")						
 			.append("<PHOTO6>").append(brushFaceVo.getPhoto6()).append("</PHOTO6>")
 			.append("<OPENID>").append(brushFaceVo.getOpenId()).append("</OPENID>")
+			.append("<TOKEN>").append(brushFaceVo.getToken()).append("</TOKEN>")
 			.append("</REQUEST>");
 			JSONObject jsonObject = WebServiceClient.getInstance().requestWebService(url, method, jkId, sb.toString(), userId, userPwd, keys);
 			String code = jsonObject.getString("CODE");
