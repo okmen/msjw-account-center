@@ -225,16 +225,19 @@ public class IAccountServiceImpl implements IAccountService {
 			
 			//认证基本信息查询接口
 			authenticationBasicInformationVo = TransferThirdParty.authenticationBasicInformationQuery(identityCard,sourceOfCertification, url, method,userId,userPwd,key);
-			logger.info("认证基本信息查询接口 authenticationBasicInformationVo = " + authenticationBasicInformationVo.toString());
-			//我绑定的车辆信息
-			List<BindTheVehicleVo> bindTheVehicleVos = TransferThirdParty.bindsTheMotorVehicleQuery(mobilephone,identityCard, sourceOfCertification, url, method, userId, userPwd, key);
-			if(null != bindTheVehicleVos && bindTheVehicleVos.size() > 0){
-				for(BindTheVehicleVo bindTheVehicleVo : bindTheVehicleVos){
-					String isMyself = bindTheVehicleVo.getIsMyself();
-					if("本人".equals(isMyself)){
-						authenticationBasicInformationVo.setMyNumberPlate(bindTheVehicleVo.getNumberPlateNumber());
-						authenticationBasicInformationVo.setBehindTheFrame4Digits(bindTheVehicleVo.getBehindTheFrame4Digits());
-						authenticationBasicInformationVo.setPlateType(bindTheVehicleVo.getPlateType());
+			logger.info("------------------authenticationBasicInformationVo爲空--------------");
+			if (authenticationBasicInformationVo != null) {
+				logger.info("11111111111 authenticationBasicInformationVo不爲空  11111111111111111");
+				//我绑定的车辆信息
+				List<BindTheVehicleVo> bindTheVehicleVos = TransferThirdParty.bindsTheMotorVehicleQuery(mobilephone,identityCard, sourceOfCertification, url, method, userId, userPwd, key);
+				if(null != bindTheVehicleVos && bindTheVehicleVos.size() > 0){
+					for(BindTheVehicleVo bindTheVehicleVo : bindTheVehicleVos){
+						String isMyself = bindTheVehicleVo.getIsMyself();
+						if("本人".equals(isMyself)){
+							authenticationBasicInformationVo.setMyNumberPlate(bindTheVehicleVo.getNumberPlateNumber());
+							authenticationBasicInformationVo.setBehindTheFrame4Digits(bindTheVehicleVo.getBehindTheFrame4Digits());
+							authenticationBasicInformationVo.setPlateType(bindTheVehicleVo.getPlateType());
+						}
 					}
 				}
 			}
