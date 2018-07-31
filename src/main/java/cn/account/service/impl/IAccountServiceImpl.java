@@ -225,7 +225,7 @@ public class IAccountServiceImpl implements IAccountService {
 			
 			//认证基本信息查询接口
 			authenticationBasicInformationVo = TransferThirdParty.authenticationBasicInformationQuery(identityCard,sourceOfCertification, url, method,userId,userPwd,key);
-			logger.info("认证基本信息查询接口 真实姓名trueName = " + authenticationBasicInformationVo.getTrueName() + ",电话 mobilephone=" + authenticationBasicInformationVo.getMobilephone());
+			logger.info("认证基本信息查询接口 authenticationBasicInformationVo = " + authenticationBasicInformationVo.toString());
 			//我绑定的车辆信息
 			List<BindTheVehicleVo> bindTheVehicleVos = TransferThirdParty.bindsTheMotorVehicleQuery(mobilephone,identityCard, sourceOfCertification, url, method, userId, userPwd, key);
 			if(null != bindTheVehicleVos && bindTheVehicleVos.size() > 0){
