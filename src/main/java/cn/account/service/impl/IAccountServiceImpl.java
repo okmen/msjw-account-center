@@ -1354,6 +1354,8 @@ public class IAccountServiceImpl implements IAccountService {
 			userValidateCodePo.setGenDate(new Date());
 			userValidateCodePo.setMobilephone(mobilephone);
 			userValidateCodePo.setValidateCode(valideteCode);
+			
+			logger.info("-------------验证码" + valideteCode, mobilephone + "---------------");
 			int result = userValidateCodeDao.addUserValidateCode(userValidateCodePo);
 			if(1 == result){
 				//插入redis,为5分钟有效期
