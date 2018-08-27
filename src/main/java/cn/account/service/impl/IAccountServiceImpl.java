@@ -2192,7 +2192,7 @@ public class IAccountServiceImpl implements IAccountService {
 			
 			baseBean.setCode(code);		
 			baseBean.setMsg(msg);		
-			
+			baseBean.setData(respJson.get("cid")); 
 			logger.info("提交驾驶人安全事故信用表申请采集返回结果:" + respJson);
 		} catch (Exception e) {
 			logger.error("提交驾驶人安全事故信用表申请采集失败！", e);
