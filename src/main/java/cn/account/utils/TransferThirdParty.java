@@ -964,6 +964,9 @@ public class TransferThirdParty {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("code", code);
 		map.put("msg", msg);
+		if("0000".equals(code)){
+			map.put("cid", EZ1005RespJson.getString("cid")); 
+		}
 		return map;
 	}
 	
@@ -1077,9 +1080,13 @@ public class TransferThirdParty {
 			JSONObject EZ1006RespJson = WebServiceClient.getInstance().requestWebService(url, method, EZ1006,EZ1006ReqXml,userId,userPwd,key);
 			String code = EZ1006RespJson.getString("code");
 			String msg = EZ1006RespJson.getString("msg");
+			
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("code", code);
 			map.put("msg", msg);
+			if("0000".equals(code)){
+				map.put("cid", EZ1006RespJson.getString("cid")); 
+			}
 			return map;
 	}
 	
