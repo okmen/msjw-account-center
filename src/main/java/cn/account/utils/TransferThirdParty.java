@@ -482,7 +482,7 @@ public class TransferThirdParty {
 		String code = EZ1007RespJson.getString("code");
 		String msg = EZ1007RespJson.getString("msg");
 		
-		if("0000".equals(code)){
+		if("0000".equals(code)) {
 			//成功
 			EZ1007RespJson = EZ1007RespJson.getJSONObject("body");
 			List<InformationSheetVo> informationSheetVos = new ArrayList<InformationSheetVo>();

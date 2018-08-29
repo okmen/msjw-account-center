@@ -1346,6 +1346,35 @@ public class IAccountServiceImpl implements IAccountService {
 		}
 		return returnMyBusinessVo;
 	}
+	
+	/**
+	 * 
+	 * @author max
+	 * @date:   2018年8月29日
+	 * @Desc :
+	 * @param sourceOfCertification
+	 * @param identityCard
+	 * @param type 申请类型(1、驾驶人信息单；2、机动车信息单；3、无车证明申请；4、驾驶人安全事故信用表)
+	 * @return
+	 */
+	public Map<String, Object>  getMyBusiness(String sourceOfCertification ,String identityCard,int type){
+		 Map<String, Object> result=null;
+		try {
+			 String url = iAccountCached.getUrl(sourceOfCertification); //webservice请求url
+			 String method = iAccountCached.getMethod(sourceOfCertification); //webservice请求方法名称
+			 String userId = iAccountCached.getUserid(sourceOfCertification); //webservice登录账号
+			 String userPwd = iAccountCached.getUserpwd(sourceOfCertification); //webservice登录密码
+			 String key = iAccountCached.getKey(sourceOfCertification); //秘钥
+			 
+			 result = TransferThirdParty.queryMachineInformationSheet(String.valueOf(type), identityCard, sourceOfCertification, url, method, userId, userPwd, key);
+			 
+		}catch(Exception e){
+			logger.error("信息单据业务error:"+e);
+		}
+		return result;
+	}
+	
+	
 	@Override
 	public void sendSMSVerificatioCode(String mobilephone,String valideteCode) {
 		UserValidateCodeORM userValidateCodePo = new UserValidateCodeORM();
