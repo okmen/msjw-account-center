@@ -8,6 +8,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -55,6 +58,7 @@ import cn.sdk.webservice.WebServiceClient;
  */
 @SuppressWarnings(value="all")
 public class TransferThirdParty {
+	 protected static Logger logger = LoggerFactory.getLogger(TransferThirdParty.class);
 	/**
 	 * 重置密码
 	 * @param idCard 身份证
@@ -483,6 +487,7 @@ public class TransferThirdParty {
 		String msg = EZ1007RespJson.getString("msg");
 		
 		if("0000".equals(code)) {
+			logger.info("EZ1007查询结果:"+EZ1007RespJson+"。请求参数："+EZ1007ReqXml+";userId:"+userId+",userPwd:"+userPwd+",key:"+key); 
 			//成功
 			EZ1007RespJson = EZ1007RespJson.getJSONObject("body");
 			List<InformationSheetVo> informationSheetVos = new ArrayList<InformationSheetVo>();
