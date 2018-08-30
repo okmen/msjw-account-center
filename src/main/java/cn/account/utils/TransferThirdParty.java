@@ -485,9 +485,8 @@ public class TransferThirdParty {
 		JSONObject EZ1007RespJson = WebServiceClient.getInstance().requestWebService(url, method, EZ1007,EZ1007ReqXml,userId,userPwd,key);
 		String code = EZ1007RespJson.getString("code");
 		String msg = EZ1007RespJson.getString("msg");
-		
+		logger.info("EZ1007查询结果:"+EZ1007RespJson+"。请求参数："+EZ1007ReqXml+";userId:"+userId+",userPwd:"+userPwd+",key:"+key); 
 		if("0000".equals(code)) {
-			logger.info("EZ1007查询结果:"+EZ1007RespJson+"。请求参数："+EZ1007ReqXml+";userId:"+userId+",userPwd:"+userPwd+",key:"+key); 
 			//成功
 			EZ1007RespJson = EZ1007RespJson.getJSONObject("body");
 			List<InformationSheetVo> informationSheetVos = new ArrayList<InformationSheetVo>();
